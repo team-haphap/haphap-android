@@ -1,4 +1,4 @@
-package com.haphap.app.ui.theme
+package com.haphap.app.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
