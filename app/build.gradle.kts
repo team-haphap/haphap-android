@@ -10,6 +10,10 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
+val properties = Properties().apply {
+    load(project.rootProject.file("local.properties").inputStream())
+}
+
 android {
     namespace = "com.haphap.app"
     compileSdk {
@@ -26,6 +30,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
+
     }
 
     buildTypes {
