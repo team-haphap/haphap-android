@@ -1,4 +1,4 @@
-package com.haphap.app.data.remote.di
+package com.haphap.app.data.di.dummy
 
 import com.haphap.app.data.remote.datasource.api.DummyDataSource
 import com.haphap.app.data.remote.datasource.impl.DummyDataSourceImpl

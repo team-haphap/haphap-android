@@ -1,4 +1,4 @@
-package com.haphap.app.data.repository.di
+package com.haphap.app.data.di.dummy
 
 import com.haphap.app.data.repository.api.DummyRepository
 import com.haphap.app.data.repository.impl.DummyRepositoryImpl
@@ -11,6 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DummyRepositoryModule {
+
     @Binds
     @Singleton
     abstract fun bindDummyRepository(

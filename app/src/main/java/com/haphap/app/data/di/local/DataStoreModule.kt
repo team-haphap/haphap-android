@@ -1,4 +1,4 @@
-package com.haphap.app.data.local.di
+package com.haphap.app.data.di.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
