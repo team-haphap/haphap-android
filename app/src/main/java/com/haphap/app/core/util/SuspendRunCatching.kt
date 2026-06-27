@@ -17,7 +17,7 @@ import kotlin.coroutines.coroutineContext
  * @return 성공 시 [Result.success], 실패 시 [Result.failure]
  */
 
-suspend fun <R> suspendRunCatching(block: suspend () -> R): Result<R> {
+suspend inline fun <R> suspendRunCatching(block: suspend () -> R): Result<R> {
     return try {
         Result.success(block())
     } catch (t: TimeoutCancellationException) {
@@ -25,7 +25,7 @@ suspend fun <R> suspendRunCatching(block: suspend () -> R): Result<R> {
     } catch (c: CancellationException) {
         throw c
     } catch (e: Throwable) {
-        currentCoroutineContext().ensureActive()
+        coroutineContext.ensureActive()
         Result.failure(e)
     }
 }
