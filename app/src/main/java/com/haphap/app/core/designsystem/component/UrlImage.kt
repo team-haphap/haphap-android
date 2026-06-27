@@ -55,7 +55,7 @@ fun UrlImage(
                 painter = painterResource(drawableRes),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
-                modifier = Modifier,
+                modifier = modifier,
             )
         }
     }

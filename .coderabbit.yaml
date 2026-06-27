@@ -4,6 +4,7 @@ early_access: false
 
 reviews:
   profile: chill
+  request_changes_workflow: true
   high_level_summary: true
   collapse_walkthrough: true
   poem: false
@@ -45,6 +46,7 @@ reviews:
         Kotlin best practices: null safety(!! 금지), val 우선, structured concurrency,
         viewModelScope/lifecycleScope 사용, GlobalScope 금지, Result/sealed로 실패 표현,
         하드코딩 시크릿 금지, SecureRandom 사용.
+        문자열 리소스(strings.xml) 관련 지적은 하지 말 것. 이 프로젝트는 strings.xml을 사용하지 않음
 
     # Composable 화면
     - path: "**/*Screen.kt"
