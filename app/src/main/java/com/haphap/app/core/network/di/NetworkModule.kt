@@ -1,6 +1,7 @@
 package com.haphap.app.core.network.di
 
 import com.haphap.app.BuildConfig
+import com.haphap.app.BuildConfig.BASE_URL
 import com.haphap.app.core.extensions.isJsonArray
 import com.haphap.app.core.extensions.isJsonObject
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -31,6 +32,7 @@ object NetworkModule {
     fun provideJson(): Json = Json {
         encodeDefaults = true
         ignoreUnknownKeys = true
+        coerceInputValues = true
         prettyPrint = BuildConfig.DEBUG
     }
 
@@ -44,13 +46,13 @@ object NetworkModule {
     fun provideHttpLoggingInterceptor(): Interceptor = HttpLoggingInterceptor { message ->
         when {
             message.isJsonObject() ->
-                Timber.Forest.tag(LOGGING_TAG).d(JSONObject(message).toString(4))
+                Timber.tag(LOGGING_TAG).d(JSONObject(message).toString(4))
 
             message.isJsonArray() ->
-                Timber.Forest.tag(LOGGING_TAG).d(JSONArray(message).toString(4))
+                Timber.tag(LOGGING_TAG).d(JSONArray(message).toString(4))
 
             else -> {
-                Timber.Forest.tag(LOGGING_TAG).d("CONNECTION INFO -> $message")
+                Timber.tag(LOGGING_TAG).d("CONNECTION INFO -> $message")
             }
         }
     }.apply {
@@ -75,7 +77,7 @@ object NetworkModule {
         client: OkHttpClient,
         factory: Converter.Factory,
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(BASE_URL)
         .client(client)
         .addConverterFactory(factory)
         .build()
