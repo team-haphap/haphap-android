@@ -1,0 +1,46 @@
+name: PR CI Check
+
+on:
+  pull_request:
+    branches: [ develop, main ]
+
+jobs:
+
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gradle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant permission to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Create local.properties
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: |
+          if [ -n "$LOCAL_PROPERTIES" ]; then
+            echo "${LOCAL_PROPERTIES}" > local.properties
+          else
+            echo "base.url=\"https://temp.example.com\"" > local.properties
+          fi
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug
