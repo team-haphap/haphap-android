@@ -26,7 +26,7 @@ val Pretendard = FontFamily(
     Font(R.font.pretendard_bold, FontWeight.Bold),
 )
 
-private fun pretendard(
+private fun haphapTextStyle(
     weight: FontWeight,
     size: Int,
     lineHeight: TextUnit = 1.4.em,
@@ -45,42 +45,42 @@ private fun pretendard(
 
 @Immutable
 data class TitleStyle(
-    val b30: TextStyle = pretendard(weight = FontWeight.Bold, size = 30),
-    val b26: TextStyle = pretendard(weight = FontWeight.Bold, size = 26),
+    val b30: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 30),
+    val b26: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 26),
 )
 
 @Immutable
 data class SubtitleStyle(
-    val b24: TextStyle = pretendard(weight = FontWeight.Bold, size = 24, lineHeight = 1.3.em),
-    val sb24: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 24),
-    val b22: TextStyle = pretendard(weight = FontWeight.Bold, size = 22),
-    val b20: TextStyle = pretendard(weight = FontWeight.Bold, size = 20),
+    val b24: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 24, lineHeight = 1.3.em),
+    val sb24: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 24),
+    val b22: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 22),
+    val b20: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 20),
 )
 
 @Immutable
 data class BodyStyle(
-    val b18: TextStyle = pretendard(weight = FontWeight.Bold, size = 18),
-    val sb18: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 18),
-    val m18: TextStyle = pretendard(weight = FontWeight.Medium, size = 18),
-    val r18: TextStyle = pretendard(weight = FontWeight.Normal, size = 18),
-    val sb16: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 16),
-    val r16: TextStyle = pretendard(weight = FontWeight.Normal, size = 16),
-    val b14: TextStyle = pretendard(weight = FontWeight.Bold, size = 14, lineHeight = 1.3.em),
-    val sb14: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 14),
-    val m14: TextStyle = pretendard(weight = FontWeight.Medium, size = 14),
-    val r14: TextStyle = pretendard(weight = FontWeight.Normal, size = 14),
-    val sb13: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 13),
+    val b18: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 18),
+    val sb18: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 18),
+    val m18: TextStyle = haphapTextStyle(weight = FontWeight.Medium, size = 18),
+    val r18: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 18),
+    val sb16: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 16),
+    val r16: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 16),
+    val b14: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 14, lineHeight = 1.3.em),
+    val sb14: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 14),
+    val m14: TextStyle = haphapTextStyle(weight = FontWeight.Medium, size = 14),
+    val r14: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 14),
+    val sb13: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 13),
 )
 
 @Immutable
 data class CaptionStyle(
-    val b12: TextStyle = pretendard(weight = FontWeight.Bold, size = 12),
-    val sb12: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 12),
-    val m12: TextStyle = pretendard(weight = FontWeight.Medium, size = 12),
-    val r12: TextStyle = pretendard(weight = FontWeight.Normal, size = 12),
-    val r11: TextStyle = pretendard(weight = FontWeight.Normal, size = 11),
-    val sb10: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 10, lineHeight= 1.3.em),
-    val r10: TextStyle = pretendard(weight = FontWeight.Normal, size = 10),
+    val b12: TextStyle = haphapTextStyle(weight = FontWeight.Bold, size = 12),
+    val sb12: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 12),
+    val m12: TextStyle = haphapTextStyle(weight = FontWeight.Medium, size = 12),
+    val r12: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 12),
+    val r11: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 11),
+    val sb10: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 10, lineHeight= 1.3.em),
+    val r10: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 10),
 )
 
 @Immutable
