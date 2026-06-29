@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.haphap.app.R
@@ -21,12 +22,12 @@ val Pretendard = FontFamily(
 private fun pretendard(
     weight: FontWeight,
     size: Int,
-    lineHeightPercent: Float = 1.4f,
+    lineHeight: TextUnit = 1.4.em,
 ) = TextStyle(
     fontFamily = Pretendard,
     fontWeight = weight,
     fontSize = size.sp,
-    lineHeight = (size * lineHeightPercent).sp,
+    lineHeight = lineHeight,
     letterSpacing = 0.em,
     platformStyle = PlatformTextStyle(includeFontPadding = false),
     lineHeightStyle = LineHeightStyle(
@@ -43,7 +44,7 @@ data class TitleStyle(
 
 @Immutable
 data class SubtitleStyle(
-    val b24: TextStyle = pretendard(weight = FontWeight.Bold, size = 24, lineHeightPercent = 1.3f),
+    val b24: TextStyle = pretendard(weight = FontWeight.Bold, size = 24, lineHeight = 1.3.em),
     val sb24: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 24),
     val b22: TextStyle = pretendard(weight = FontWeight.Bold, size = 22),
     val b20: TextStyle = pretendard(weight = FontWeight.Bold, size = 20),
@@ -57,7 +58,7 @@ data class BodyStyle(
     val r18: TextStyle = pretendard(weight = FontWeight.Normal, size = 18),
     val sb16: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 16),
     val r16: TextStyle = pretendard(weight = FontWeight.Normal, size = 16),
-    val b14: TextStyle = pretendard(weight = FontWeight.Bold, size = 14, lineHeightPercent = 1.3f),
+    val b14: TextStyle = pretendard(weight = FontWeight.Bold, size = 14, lineHeight = 1.3.em),
     val sb14: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 14),
     val m14: TextStyle = pretendard(weight = FontWeight.Medium, size = 14),
     val r14: TextStyle = pretendard(weight = FontWeight.Normal, size = 14),
@@ -71,7 +72,7 @@ data class CaptionStyle(
     val m12: TextStyle = pretendard(weight = FontWeight.Medium, size = 12),
     val r12: TextStyle = pretendard(weight = FontWeight.Normal, size = 12),
     val r11: TextStyle = pretendard(weight = FontWeight.Normal, size = 11),
-    val sb10: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 10, lineHeightPercent = 1.3f),
+    val sb10: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 10, lineHeight= 1.3.em),
     val r10: TextStyle = pretendard(weight = FontWeight.Normal, size = 10),
 )
 
