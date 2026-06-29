@@ -71,7 +71,7 @@ data class CaptionStyle(
     val m12: TextStyle = pretendard(weight = FontWeight.Medium, size = 12),
     val r12: TextStyle = pretendard(weight = FontWeight.Normal, size = 12),
     val r11: TextStyle = pretendard(weight = FontWeight.Normal, size = 11),
-    val sb10: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 10),
+    val sb10: TextStyle = pretendard(weight = FontWeight.SemiBold, size = 10, lineHeightPercent = 1.3f),
     val r10: TextStyle = pretendard(weight = FontWeight.Normal, size = 10),
 )
 
