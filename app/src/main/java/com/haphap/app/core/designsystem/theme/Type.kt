@@ -1,13 +1,20 @@
 package com.haphap.app.core.designsystem.theme
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.haphap.app.R
@@ -85,3 +92,26 @@ data class HapHapTypography(
 )
 
 val defaultHapHapTypography = HapHapTypography()
+
+@Preview(showBackground = true)
+@Composable
+private fun TypographyPreview() {
+    HapHapTheme {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("Title b30", style = HapHapTheme.typography.title.b30)
+            Text("Title b26", style = HapHapTheme.typography.title.b26)
+            Text("Subtitle b24", style = HapHapTheme.typography.subtitle.b24)
+            Text("Subtitle sb24", style = HapHapTheme.typography.subtitle.sb24)
+            Text("Subtitle b22", style = HapHapTheme.typography.subtitle.b22)
+            Text("Subtitle b20", style = HapHapTheme.typography.subtitle.b20)
+            Text("Body b18", style = HapHapTheme.typography.body.b18)
+            Text("Body r16", style = HapHapTheme.typography.body.r16)
+            Text("Body b14", style = HapHapTheme.typography.body.b14)
+            Text("Body sb13", style = HapHapTheme.typography.body.sb13)
+            Text("Caption b12", style = HapHapTheme.typography.caption.b12)
+            Text("Caption r11", style = HapHapTheme.typography.caption.r11)
+            Text("Caption sb10", style = HapHapTheme.typography.caption.sb10)
+            Text("Caption r10", style = HapHapTheme.typography.caption.r10)
+        }
+    }
+}

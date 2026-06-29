@@ -1,7 +1,17 @@
 package com.haphap.app.core.designsystem.theme
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 val Primary500 = Color(0xFF0065FF)
 val Primary100 = Color(0xFF4A8EFF)
@@ -70,3 +80,46 @@ val defaultHapHapColors = HapHapColors(
     white = White,
     black = Black,
 )
+
+@Preview(showBackground = true)
+@Composable
+private fun ColorPreview() {
+    HapHapTheme {
+        Column {
+            listOf(
+                HapHapTheme.colors.primary500,
+                HapHapTheme.colors.primary100,
+
+                HapHapTheme.colors.sub100,
+                HapHapTheme.colors.sub200,
+                HapHapTheme.colors.sub300,
+                HapHapTheme.colors.sub400,
+                HapHapTheme.colors.yellow,
+
+                HapHapTheme.colors.gray50,
+                HapHapTheme.colors.gray100,
+                HapHapTheme.colors.gray200,
+                HapHapTheme.colors.gray300,
+                HapHapTheme.colors.gray400,
+                HapHapTheme.colors.gray500,
+                HapHapTheme.colors.gray600,
+                HapHapTheme.colors.gray700,
+                HapHapTheme.colors.gray800,
+                HapHapTheme.colors.gray900,
+
+                HapHapTheme.colors.white,
+                HapHapTheme.colors.black,
+            ).chunked(6).forEach { rowColors ->
+                Row(modifier = Modifier.padding(vertical = 4.dp)) {
+                    rowColors.forEach { color ->
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .background(color),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
