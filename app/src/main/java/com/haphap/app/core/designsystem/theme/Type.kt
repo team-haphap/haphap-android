@@ -77,11 +77,11 @@ data class CaptionStyle(
 )
 
 @Immutable
-data class HaphapTypography(
+data class HapHapTypography(
     val title: TitleStyle = TitleStyle(),
     val subtitle: SubtitleStyle = SubtitleStyle(),
     val body: BodyStyle = BodyStyle(),
     val caption: CaptionStyle = CaptionStyle(),
 )
 
-val defaultHaphapTypography = HaphapTypography()
+val defaultHapHapTypography = HapHapTypography()

@@ -6,19 +6,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 
-private val LocalHaphapColors = staticCompositionLocalOf { defaultHaphapColors }
-private val LocalHaphapTypography = staticCompositionLocalOf { defaultHaphapTypography }
+private val LocalHapHapColors = staticCompositionLocalOf { defaultHapHapColors }
+private val LocalHapHapTypography = staticCompositionLocalOf { defaultHapHapTypography }
 
 object HapHapTheme {
-    val colors: HaphapColors
+    val colors: HapHapColors
         @Composable
         @ReadOnlyComposable
-        get() = LocalHaphapColors.current
+        get() = LocalHapHapColors.current
 
-    val typography: HaphapTypography
+    val typography: HapHapTypography
         @Composable
         @ReadOnlyComposable
-        get() = LocalHaphapTypography.current
+        get() = LocalHapHapTypography.current
 }
 
 @Composable
@@ -26,8 +26,8 @@ fun HapHapTheme(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalHaphapColors provides defaultHaphapColors,
-        LocalHaphapTypography provides defaultHaphapTypography,
+        LocalHapHapColors provides defaultHapHapColors,
+        LocalHapHapTypography provides defaultHapHapTypography,
     ) {
         MaterialTheme(content = content)
     }

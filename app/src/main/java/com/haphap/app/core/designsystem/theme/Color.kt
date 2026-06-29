@@ -27,7 +27,7 @@ val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
 
 @Immutable
-data class HaphapColors(
+data class HapHapColors(
     val primary500: Color,
     val primary100: Color,
     val sub100: Color,
@@ -49,7 +49,7 @@ data class HaphapColors(
     val black: Color,
 )
 
-val defaultHaphapColors = HaphapColors(
+val defaultHapHapColors = HapHapColors(
     primary500 = Primary500,
     primary100 = Primary100,
     sub100 = Sub100,
