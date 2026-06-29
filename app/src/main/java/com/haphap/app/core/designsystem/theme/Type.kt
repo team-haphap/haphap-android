@@ -1,10 +1,12 @@
 package com.haphap.app.core.designsystem.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.haphap.app.R
@@ -26,6 +28,11 @@ private fun pretendard(
     fontSize = size.sp,
     lineHeight = (size * lineHeightPercent).sp,
     letterSpacing = 0.em,
+    platformStyle = PlatformTextStyle(includeFontPadding = false),
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None,
+    ),
 )
 
 @Immutable
