@@ -1,5 +1,6 @@
 package com.haphap.app.core.designsystem.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -130,6 +131,7 @@ fun HapHapTheme(
     CompositionLocalProvider(
         LocalHaphapColors provides defaultHaphapColors,
         LocalHaphapTypography provides defaultHaphapTypography,
-        content = content,
-    )
+    ) {
+        MaterialTheme(content = content)
+    }
 }
