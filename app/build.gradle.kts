@@ -14,6 +14,8 @@ val properties = Properties().apply {
     load(project.rootProject.file("local.properties").inputStream())
 }
 
+val nativeAppKey = properties.getProperty("native.app.key").removeSurrounding("\"")
+
 android {
     namespace = "com.haphap.app"
     compileSdk {
@@ -34,6 +36,7 @@ android {
         buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
         buildConfigField("String", "NATIVE_APP_KEY", properties.getProperty("native.app.key"))
 
+        manifestPlaceholders["nativeAppKey"] = nativeAppKey
     }
 
     buildTypes {
