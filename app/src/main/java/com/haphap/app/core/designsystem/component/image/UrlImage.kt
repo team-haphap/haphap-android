@@ -1,4 +1,4 @@
-package com.haphap.app.core.designsystem.component
+package com.haphap.app.core.designsystem.component.image
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
