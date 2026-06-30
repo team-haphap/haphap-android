@@ -89,4 +89,7 @@ dependencies {
     // Logging
     implementation(libs.timber)
     implementation(libs.lottie.compose)
+
+    // Auth
+    implementation("com.kakao.sdk:v2-user:2.20.6")
 }
