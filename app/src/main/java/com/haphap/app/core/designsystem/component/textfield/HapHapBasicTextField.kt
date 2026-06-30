@@ -61,7 +61,7 @@ fun HapHapBasicTextField(
     isReadOnly: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onKeyboardAction: KeyboardActionHandler? = null,
-    lineLimits: TextFieldLineLimits = TextFieldLineLimits.SingleLine,
+    lineLimits: TextFieldLineLimits = TextFieldLineLimits.Default,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
     interactionSource: MutableInteractionSource? = null,
