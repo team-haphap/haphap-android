@@ -64,9 +64,14 @@ class LoginViewModel @Inject constructor(
 
     private fun saveTokenAndUpdateState(token: OAuthToken) {
         viewModelScope.launch {
-            localTokenDataSource.setAccessToken(token.accessToken)
-            token.refreshToken?.let { localTokenDataSource.setRefreshToken(it) }
-            _loginState.value = UiState.Success(token)
+            runCatching {
+                localTokenDataSource.setAccessToken(token.accessToken)
+                token.refreshToken?.let { localTokenDataSource.setRefreshToken(it) }
+            }.onSuccess {
+                _loginState.value = UiState.Success(token)
+            }.onFailure {
+                _loginState.value = UiState.Failure("로그인 처리 중 오류가 발생했습니다.")
+            }
         }
     }
 
