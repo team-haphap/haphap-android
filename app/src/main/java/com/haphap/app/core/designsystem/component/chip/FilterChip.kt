@@ -77,7 +77,7 @@ fun FilterChip(
 
 @Preview
 @Composable
-fun FilterChipPreview() {
+private fun FilterChipPreview() {
     HapHapTheme {
         Row(
             modifier = Modifier.padding(16.dp),
