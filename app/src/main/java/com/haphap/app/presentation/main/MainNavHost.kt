@@ -8,6 +8,7 @@ import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.Login
 import com.haphap.app.presentation.auth.navigation.SignUpComplete
 import com.haphap.app.presentation.auth.navigation.authGraph
+import com.haphap.app.presentation.auth.navigation.navigateToSignUpComplete
 import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
@@ -32,6 +33,15 @@ fun MainNavHost(
             innerPadding = innerPadding,
             onLoginSuccess = {
                 navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<Login> {inclusive = true}
+                        launchSingleTop = true
+                    }
+                )
+            },
+            onSignUpComplete = { userName ->
+                navController.navigateToSignUpComplete(
+                    userName = userName,
                     navOptions = navOptions {
                         popUpTo<Login> {inclusive = true}
                         launchSingleTop = true

@@ -14,6 +14,7 @@ import com.haphap.app.core.state.UiState
 fun LoginRoute(
     modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit,
+    onSignUpComplete: (userName: String) -> Unit, // 추가
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -26,7 +27,8 @@ fun LoginRoute(
                 viewModel.consumeFailure()
             }
             is UiState.Success -> {
-                onLoginSuccess()
+                // onLoginSuccess()
+                onSignUpComplete("박연수")
             }
             else -> Unit
         }

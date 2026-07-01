@@ -25,11 +25,13 @@ fun NavController.navigateToSignUpComplete(
 fun NavGraphBuilder.authGraph(
     innerPadding: PaddingValues,
     onLoginSuccess: () -> Unit,
+    onSignUpComplete: (userName: String) -> Unit,
 ) {
     composable<Login> {
         LoginRoute(
             modifier = Modifier.padding(innerPadding),
             onLoginSuccess = onLoginSuccess,
+            onSignUpComplete = onSignUpComplete
         )
     }
 }
