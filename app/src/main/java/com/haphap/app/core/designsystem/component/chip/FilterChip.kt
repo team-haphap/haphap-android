@@ -21,14 +21,19 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
+
+sealed class FilterChipContent {
+    data class IconContent(@DrawableRes val iconRes: Int) : FilterChipContent()
+    data class TextContent(val text: String) : FilterChipContent()
+}
+
 /**
  * 필터칩 공통 컴포넌트입니다.
  *
  * 아이콘 또는 텍스트 중 하나를 표시하며,
  * 선택 상태에 따라 배경색과 텍스트 스타일이 변경됩니다.
  *
- * @param iconRes 표시할 아이콘 리소스 ID
- * @param text 표시할 텍스트
+ * @param content 표시할 아이콘 또는 텍스트
  * @param isFilterSelected 필터칩 선택 여부 (true: 배경색 primary100, 텍스트 sb14)
  * @param onFilterClick 필터칩 클릭 시 동작
  *
@@ -36,9 +41,8 @@ import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun FilterChip(
+    content: FilterChipContent,
     modifier: Modifier = Modifier,
-    @DrawableRes iconRes: Int? = null,
-    text: String? = null,
     isFilterSelected: Boolean = false,
     onFilterClick: () -> Unit = {},
 ) {
@@ -58,16 +62,16 @@ fun FilterChip(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        when {
-            iconRes != null -> Icon(
-                imageVector = ImageVector.vectorResource(id = iconRes),
+        when (content) {
+            is FilterChipContent.IconContent -> Icon(
+                imageVector = ImageVector.vectorResource(id = content.iconRes),
                 contentDescription = null,
                 tint = contentColor,
                 modifier = Modifier.size(20.dp),
             )
 
-            text != null -> Text(
-                text = text,
+            is FilterChipContent.TextContent -> Text(
+                text = content.text,
                 style = textStyle,
                 color = contentColor,
             )
@@ -84,14 +88,14 @@ private fun FilterChipPreview() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilterChip(
-                iconRes = R.drawable.ic_filter_20,
+                content = FilterChipContent.IconContent(R.drawable.ic_filter_20),
             )
             FilterChip(
-                text = "전체",
+                content = FilterChipContent.TextContent("전체"),
                 isFilterSelected = true,
             )
             FilterChip(
-                text = "개발",
+                content = FilterChipContent.TextContent("개발"),
             )
         }
     }
