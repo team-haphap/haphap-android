@@ -20,6 +20,19 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
+/**
+ * 필터칩 공통 컴포넌트입니다.
+ *
+ * 아이콘 또는 텍스트 중 하나를 표시하며,
+ * 선택 상태에 따라 배경색과 텍스트 스타일이 변경됩니다.
+ *
+ * @param iconRes 표시할 아이콘 리소스 ID
+ * @param text 표시할 텍스트
+ * @param isFilterSelected 필터칩 선택 여부 (true: 배경색 primary100, 텍스트 sb14)
+ * @param onFilterClick 필터칩 클릭 시 동작
+ *
+ */
+
 @Composable
 fun FilterChip(
     modifier: Modifier = Modifier,
