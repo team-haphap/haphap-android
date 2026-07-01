@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.state.UiState
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,11 +40,20 @@ class LoginViewModel @Inject constructor(
 
     private fun handleKakaoTalkResult(context: Context, token: OAuthToken?, error: Throwable?) {
         if (error != null) {
-            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                _loginState.value = UiState.Idle
-                return
+            when {
+                error is ClientError && error.reason == ClientErrorCause.Cancelled -> {
+                    _loginState.value = UiState.Idle
+                }
+                isNetworkError(error) -> {
+                    _loginState.value = UiState.Failure("네트워크 연결을 확인해 주세요.")
+                }
+                else -> {
+                    UserApiClient.instance.loginWithKakaoAccount(
+                        context,
+                        callback = ::handleResult,
+                    )
+                }
             }
-            UserApiClient.instance.loginWithKakaoAccount(context, callback = ::handleResult)
         } else if (token != null) {
             saveTokenAndUpdateState(token)
         }
@@ -53,13 +64,34 @@ class LoginViewModel @Inject constructor(
             error is ClientError && error.reason == ClientErrorCause.Cancelled -> {
                 _loginState.value = UiState.Idle
             }
+            error != null && isNetworkError(error) -> {
+                _loginState.value = UiState.Failure("네트워크 연결을 확인해 주세요.")
+            }
             error != null -> {
-                _loginState.value = UiState.Failure(error.message ?: "로그인에 실패했습니다.")
+                _loginState.value = UiState.Failure("잠시 후 다시 시도해 주세요.")
             }
             token != null -> {
                 saveTokenAndUpdateState(token)
             }
         }
+    }
+
+    private fun isNetworkError(error: Throwable): Boolean {
+        if (error is AuthError) {
+            val description = error.response?.errorDescription ?: ""
+            return description.contains("ERR_INTERNET_DISCONNECTED")
+                    || description.contains("ERR_NAME_NOT_RESOLVED")
+                    || description.contains("ERR_CONNECTION_REFUSED")
+                    || description.contains("ERR_NETWORK_CHANGED")
+                    || description.contains("net::")
+        }
+
+        return error is java.net.UnknownHostException
+                || error is java.net.SocketTimeoutException
+                || error is java.io.IOException
+                || error.cause is java.net.UnknownHostException
+                || error.cause is java.net.SocketTimeoutException
+                || error.cause is java.io.IOException
     }
 
     private fun saveTokenAndUpdateState(token: OAuthToken) {
