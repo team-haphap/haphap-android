@@ -56,4 +56,8 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             }
         }
     }
+
+    fun consumeFailure() {
+        _loginState.value= UiState.Idle
+    }
 }
