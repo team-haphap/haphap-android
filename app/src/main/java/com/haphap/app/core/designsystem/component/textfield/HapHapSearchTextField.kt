@@ -36,6 +36,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 @Composable
 fun HapHapSearchTextField(
     state: TextFieldState,
+    placeholder: String,
     onSearch: () -> Unit,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions =  KeyboardOptions(imeAction = ImeAction.Search),
@@ -56,7 +57,7 @@ fun HapHapSearchTextField(
             state = state,
             textColor = HapHapTheme.colors.gray800,
             textStyle = HapHapTheme.typography.body.m14,
-            placeholder = "공고명을 검색해보세요!",
+            placeholder = placeholder,
             placeholderColor = HapHapTheme.colors.gray400,
             placeholderStyle = HapHapTheme.typography.caption.m12,
             modifier = Modifier.weight(1f),
@@ -86,6 +87,7 @@ private fun HapHapSearchTextFieldPreview() {
     HapHapTheme {
         HapHapSearchTextField(
             state = state,
+            placeholder = "공고명을 검색해보세요!",
             onSearch = {},
             modifier = Modifier.padding(20.dp)
         )
