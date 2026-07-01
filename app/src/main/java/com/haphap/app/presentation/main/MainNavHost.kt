@@ -6,7 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.Login
+import com.haphap.app.presentation.auth.navigation.SignUpComplete
 import com.haphap.app.presentation.auth.navigation.authGraph
+import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.home.navigation.navigateToHome
@@ -32,6 +34,18 @@ fun MainNavHost(
                 navController.navigateToHome(
                     navOptions = navOptions {
                         popUpTo<Login> {inclusive = true}
+                        launchSingleTop = true
+                    }
+                )
+            }
+        )
+
+        signUpCompleteGraph(
+            innerPadding = innerPadding,
+            onStartClick = {
+                navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<SignUpComplete> { inclusive = true }
                         launchSingleTop = true
                     }
                 )
