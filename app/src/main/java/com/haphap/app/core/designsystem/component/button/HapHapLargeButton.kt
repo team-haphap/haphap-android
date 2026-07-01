@@ -1,4 +1,4 @@
-package com.haphap.app.core.designsystem.component
+package com.haphap.app.core.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
