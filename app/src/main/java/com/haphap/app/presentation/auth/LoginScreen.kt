@@ -1,6 +1,7 @@
 package com.haphap.app.presentation.auth
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,8 @@ fun LoginScreen(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(HapHapTheme.colors.white),
     ) {
         Spacer(modifier = Modifier.height(10.dp))
 
