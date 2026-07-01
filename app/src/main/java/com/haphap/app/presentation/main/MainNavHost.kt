@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
+import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.Login
 import com.haphap.app.presentation.auth.navigation.authGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
@@ -16,13 +17,14 @@ import com.haphap.app.presentation.register.navigation.registerGraph
 @Composable
 fun MainNavHost(
     appState: MainAppState,
+    startDestination: Route,
     innerPadding: PaddingValues,
 ) {
     val navController = appState.navController
 
     NavHost(
         navController = navController,
-        startDestination = appState.startDestination,
+        startDestination = startDestination,
     ) {
         authGraph(
             innerPadding = innerPadding,
