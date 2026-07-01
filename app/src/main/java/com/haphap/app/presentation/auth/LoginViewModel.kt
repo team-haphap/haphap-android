@@ -41,7 +41,7 @@ class LoginViewModel @Inject constructor(
     private fun handleKakaoTalkResult(context: Context, token: OAuthToken?, error: Throwable?) {
         if (error != null) {
             when {
-                error is ClientError && error.reason == ClientErrorCause.Cancelled -> {
+                isCancelledByUser(error) -> {
                     _loginState.value = UiState.Idle
                 }
                 isNetworkError(error) -> {
@@ -61,7 +61,7 @@ class LoginViewModel @Inject constructor(
 
     private fun handleResult(token: OAuthToken?, error: Throwable?) {
         when {
-            error is ClientError && error.reason == ClientErrorCause.Cancelled -> {
+            isCancelledByUser(error) -> {
                 _loginState.value = UiState.Idle
             }
             error != null && isNetworkError(error) -> {
@@ -74,6 +74,15 @@ class LoginViewModel @Inject constructor(
                 saveTokenAndUpdateState(token)
             }
         }
+    }
+
+    private fun isCancelledByUser(error: Throwable?): Boolean {
+        if (error == null) return false
+        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) return true
+        if (error is com.kakao.sdk.common.model.AuthError) {
+            return error.response?.error == "access_denied"
+        }
+        return false
     }
 
     private fun isNetworkError(error: Throwable): Boolean {
