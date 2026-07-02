@@ -44,7 +44,7 @@ fun HapHapFilterChip(
     content: FilterChipContent,
     modifier: Modifier = Modifier,
     isFilterSelected: Boolean = false,
-    onFilterClick: () -> Unit = {},
+    onFilterClick: () -> Unit,
 ) {
     val backgroundColor =
         if (isFilterSelected) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray100
@@ -89,13 +89,16 @@ private fun HapHapFilterChipPreview() {
         ) {
             HapHapFilterChip(
                 content = FilterChipContent.IconContent(R.drawable.ic_filter_20),
+                onFilterClick = {}
             )
             HapHapFilterChip(
                 content = FilterChipContent.TextContent("전체"),
                 isFilterSelected = true,
+                onFilterClick = {}
             )
             HapHapFilterChip(
                 content = FilterChipContent.TextContent("개발"),
+                onFilterClick = {}
             )
         }
     }
