@@ -17,13 +17,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
-enum class HapHapCardType { BIG, SMALL }
+enum class HapHapCardType(
+    val imageRatio: Float,
+    val cardRadius: Dp,
+    val imageToChipHeight: Dp,
+) {
+    BIG(
+        imageRatio = 170f / 82f,
+        cardRadius = 8.dp,
+        imageToChipHeight = 12.dp,
+    ),
+    SMALL(
+        imageRatio = 131f / 82f,
+        cardRadius = 12.dp,
+        imageToChipHeight = 6.dp,
+    )
+}
 
 /**
  * 공고 카드 공통 컴포넌트입니다.
@@ -45,18 +61,6 @@ fun HapHapCard(
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val imageRatio = when (type) {
-        HapHapCardType.BIG -> 170f / 82f
-        HapHapCardType.SMALL -> 131f / 82f
-    }
-    val cardRadius = when (type) {
-        HapHapCardType.BIG -> 8.dp
-        HapHapCardType.SMALL -> 12.dp
-    }
-    val imageToChipHeight = when (type) {
-        HapHapCardType.BIG -> 12.dp
-        HapHapCardType.SMALL -> 6.dp
-    }
     val companyStyle = when (type) {
         HapHapCardType.BIG -> HapHapTheme.typography.body.sb16
         HapHapCardType.SMALL -> HapHapTheme.typography.body.sb14
@@ -65,7 +69,7 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(cardRadius))
+            .clip(shape = RoundedCornerShape(type.cardRadius))
             .background(HapHapTheme.colors.gray100)
             .noRippleClickable(onClick = onCardClick)
             .padding(all = 12.dp),
@@ -77,11 +81,11 @@ fun HapHapCard(
             contentDescription = company,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(imageRatio)
+                .aspectRatio(type.imageRatio)
                 .clip(RoundedCornerShape(8.dp)),
         )
 
-        Spacer(modifier = Modifier.height(imageToChipHeight))
+        Spacer(modifier = Modifier.height(type.imageToChipHeight))
 
         //Todo: 추후 status chip 추가
         Spacer(modifier = Modifier.height(17.dp))
