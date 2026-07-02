@@ -22,9 +22,9 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
 
-sealed class FilterChipContent {
-    data class IconContent(@param:DrawableRes val iconRes: Int) : FilterChipContent()
-    data class TextContent(val text: String) : FilterChipContent()
+sealed interface FilterChipContent {
+    data class IconContent(@param:DrawableRes val iconRes: Int) : FilterChipContent
+    data class TextContent(val text: String) : FilterChipContent
 }
 
 /**
