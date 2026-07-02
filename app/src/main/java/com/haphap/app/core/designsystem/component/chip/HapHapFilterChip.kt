@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +41,7 @@ sealed class FilterChipContent {
  */
 
 @Composable
-fun FilterChip(
+fun HapHapFilterChip(
     content: FilterChipContent,
     modifier: Modifier = Modifier,
     isFilterSelected: Boolean = false,
@@ -81,20 +82,20 @@ fun FilterChip(
 
 @Preview
 @Composable
-private fun FilterChipPreview() {
+private fun HapHapFilterChipPreview() {
     HapHapTheme {
         Row(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            FilterChip(
+            HapHapFilterChip(
                 content = FilterChipContent.IconContent(R.drawable.ic_filter_20),
             )
-            FilterChip(
+            HapHapFilterChip(
                 content = FilterChipContent.TextContent("전체"),
                 isFilterSelected = true,
             )
-            FilterChip(
+            HapHapFilterChip(
                 content = FilterChipContent.TextContent("개발"),
             )
         }
