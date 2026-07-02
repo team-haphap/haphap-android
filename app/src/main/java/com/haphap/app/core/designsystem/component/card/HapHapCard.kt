@@ -76,7 +76,7 @@ fun HapHapCard(
     ) {
         UrlImage(
             url = imageUrl,
-            placeholderDrawable = R.drawable.img_kakao_card,
+            placeholderDrawable = R.drawable.ic_launcher_background,
             contentScale = ContentScale.Crop,
             contentDescription = company,
             modifier = Modifier
