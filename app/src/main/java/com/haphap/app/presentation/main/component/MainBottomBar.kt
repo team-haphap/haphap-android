@@ -25,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -49,31 +48,33 @@ fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
         modifier = modifier,
     ) {
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = HapHapTheme.colors.gray100,
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = HapHapTheme.colors.white
-                )
-                .padding(
-                    horizontal = 10.dp,
-                    vertical = 8.dp
-                )
-                .navigationBarsPadding(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            tabs.forEach { tab ->
-                key(tab.route) {
-                    MainBottomBarItem(
-                        tab = tab,
-                        isSelected = tab == currentTab,
-                        onClick = { onTabSelected(tab) },
-                        modifier = Modifier.weight(1f),
+        Column(modifier = Modifier.fillMaxWidth()) {
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = HapHapTheme.colors.gray100,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = HapHapTheme.colors.white
                     )
+                    .padding(
+                        horizontal = 10.dp,
+                        vertical = 8.dp
+                    )
+                    .navigationBarsPadding(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                tabs.forEach { tab ->
+                    key(tab.route) {
+                        MainBottomBarItem(
+                            tab = tab,
+                            isSelected = tab == currentTab,
+                            onClick = { onTabSelected(tab) },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
                 }
             }
         }
