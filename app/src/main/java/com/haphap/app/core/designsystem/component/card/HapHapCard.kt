@@ -57,10 +57,6 @@ fun HapHapCard(
         HapHapCardType.BIG -> 12.dp
         HapHapCardType.SMALL -> 6.dp
     }
-    val spacerBottom = when (type) {
-        HapHapCardType.BIG -> 12.dp
-        HapHapCardType.SMALL -> 9.dp
-    }
     val companyStyle = when (type) {
         HapHapCardType.BIG -> HapHapTheme.typography.body.sb16
         HapHapCardType.SMALL -> HapHapTheme.typography.body.sb14
@@ -72,7 +68,7 @@ fun HapHapCard(
             .clip(shape = RoundedCornerShape(cardRadius))
             .background(HapHapTheme.colors.gray100)
             .noRippleClickable(onClick = onCardClick)
-            .padding(start = 12.dp, end = 12.dp, top = 12.dp),
+            .padding(all = 12.dp),
     ) {
         UrlImage(
             url = imageUrl,
@@ -105,8 +101,6 @@ fun HapHapCard(
             style = HapHapTheme.typography.caption.sb12,
             color = HapHapTheme.colors.gray600,
         )
-
-        Spacer(modifier = Modifier.height(spacerBottom))
     }
 }
 
