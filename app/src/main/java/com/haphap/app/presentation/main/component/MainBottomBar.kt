@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,11 +49,15 @@ fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
         modifier = modifier,
     ) {
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = HapHapTheme.colors.gray100,
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = HapHapTheme.colors.gray100
+                    color = HapHapTheme.colors.white
                 )
                 .padding(
                     horizontal = 10.dp,
