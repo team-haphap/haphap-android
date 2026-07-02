@@ -34,8 +34,6 @@ import com.haphap.app.core.extensions.noRippleClickable
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-// Todo: 추후 디자인에 맞게 수정 필요
-
 @Composable
 fun MainBottomBar(
     isVisible: Boolean,
