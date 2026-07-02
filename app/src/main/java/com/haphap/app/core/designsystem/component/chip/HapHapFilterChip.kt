@@ -23,7 +23,11 @@ import com.haphap.app.core.extensions.noRippleClickable
 
 
 sealed interface FilterChipContent {
-    data class IconContent(@param:DrawableRes val iconRes: Int) : FilterChipContent
+    data class IconContent(
+        @param:DrawableRes val iconRes: Int,
+        val iconContentDescription: String? = null
+    ) : FilterChipContent
+
     data class TextContent(val text: String) : FilterChipContent
 }
 
@@ -65,7 +69,7 @@ fun HapHapFilterChip(
         when (content) {
             is FilterChipContent.IconContent -> Icon(
                 imageVector = ImageVector.vectorResource(id = content.iconRes),
-                contentDescription = null,
+                contentDescription = content.iconContentDescription,
                 tint = contentColor,
                 modifier = Modifier.size(20.dp),
             )
@@ -88,7 +92,10 @@ private fun HapHapFilterChipPreview() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             HapHapFilterChip(
-                content = FilterChipContent.IconContent(R.drawable.ic_filter_20),
+                content = FilterChipContent.IconContent(
+                    iconRes = R.drawable.ic_filter_20,
+                    iconContentDescription = "필터"
+                ),
                 onFilterClick = {}
             )
             HapHapFilterChip(
