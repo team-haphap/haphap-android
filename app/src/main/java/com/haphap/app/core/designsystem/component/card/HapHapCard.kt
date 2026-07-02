@@ -53,7 +53,7 @@ fun HapHapCard(
         HapHapCardType.BIG -> 8.dp
         HapHapCardType.SMALL -> 12.dp
     }
-    val spacerHeight = when (type) {
+    val imageToChipHeight = when (type) {
         HapHapCardType.BIG -> 12.dp
         HapHapCardType.SMALL -> 6.dp
     }
@@ -81,7 +81,7 @@ fun HapHapCard(
                 .clip(RoundedCornerShape(8.dp)),
         )
 
-        Spacer(modifier = Modifier.height(spacerHeight))
+        Spacer(modifier = Modifier.height(imageToChipHeight))
 
         //Todo: 추후 status chip 추가
         Spacer(modifier = Modifier.height(17.dp))
