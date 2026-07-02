@@ -58,7 +58,7 @@ fun FilterChip(
             .clip(shape = CircleShape)
             .background(backgroundColor)
             .noRippleClickable(onClick = onFilterClick)
-            .padding(vertical = 8.dp, horizontal = 8.dp),
+            .padding(all = 8.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
