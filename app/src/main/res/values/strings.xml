@@ -1,10 +1,3 @@
 <resources>
     <string name="app_name">haphap-android</string>
-
-    <string name="nav_home">홈</string>
-    <string name="nav_list">리스트</string>
-    <string name="nav_register">등록</string>
-    <string name="nav_calendar">캘린더</string>
-    <string name="nav_mypage">마이</string>
-
 </resources>

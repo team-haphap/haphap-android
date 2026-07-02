@@ -102,13 +102,13 @@ private fun MainBottomBarItem(
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(tab.iconRes),
-            contentDescription = stringResource(id = tab.titleRes),
+            contentDescription = tab.titleRes,
             modifier = Modifier.size(24.dp),
             tint = contentColor,
         )
 
         Text(
-            text = stringResource(id = tab.titleRes),
+            text = tab.titleRes,
             style = HapHapTheme.typography.caption.sb12,
             color = contentColor,
         )

@@ -1,7 +1,6 @@
 package com.haphap.app.presentation.main.component
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.haphap.app.R
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.core.navigation.Route
@@ -13,33 +12,33 @@ import com.haphap.app.presentation.register.navigation.Register
 
 enum class MainTab(
     @DrawableRes val iconRes: Int,
-    @StringRes val titleRes: Int,
+    val titleRes: String,
     val route: MainTabRoute,
 ) {
     HOME(
         iconRes = R.drawable.ic_bottom_bar_home_24,
-        titleRes = R.string.nav_home,
+        titleRes = "홈",
         route = Home,
     ),
 
     JOB(
         iconRes = R.drawable.ic_bottom_bar_list_24,
-        titleRes = R.string.nav_list,
+        titleRes = "리스트",
         route = Job,
     ),
     REGISTER(
         iconRes = R.drawable.ic_bottom_bar_register_24,
-        titleRes = R.string.nav_register,
+        titleRes = "등록",
         route = Register,
     ),
     CALENDAR(
         iconRes = R.drawable.ic_bottom_bar_calendar_24,
-        titleRes = R.string.nav_calendar,
+        titleRes = "캘린더",
         route = Calendar,
     ),
     MYPAGE(
         iconRes = R.drawable.ic_bottom_bar_my_24,
-        titleRes = R.string.nav_mypage,
+        titleRes = "마이",
         route = MyPage,
     );
 
