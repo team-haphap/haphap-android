@@ -34,17 +34,17 @@ sealed class FilterChipContent {
  * 선택 상태에 따라 배경색과 텍스트 스타일이 변경됩니다.
  *
  * @param content 표시할 아이콘 또는 텍스트
- * @param isFilterSelected 필터칩 선택 여부 (true: 배경색 primary100, 텍스트 sb14)
  * @param onFilterClick 필터칩 클릭 시 동작
+ * @param isFilterSelected 필터칩 선택 여부 (true: 배경색 primary100, 텍스트 sb14)
  *
  */
 
 @Composable
 fun HapHapFilterChip(
     content: FilterChipContent,
+    onFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
     isFilterSelected: Boolean = false,
-    onFilterClick: () -> Unit,
 ) {
     val backgroundColor =
         if (isFilterSelected) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray100
