@@ -64,7 +64,6 @@ fun MainBottomBar(
                     vertical = 8.dp
                 )
                 .navigationBarsPadding(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             tabs.forEach { tab ->
