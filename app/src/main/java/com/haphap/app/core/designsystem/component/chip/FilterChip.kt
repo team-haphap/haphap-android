@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,7 +55,7 @@ fun FilterChip(
 
     Row(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(100.dp))
+            .clip(shape = CircleShape)
             .background(backgroundColor)
             .noRippleClickable(onClick = onFilterClick)
             .padding(vertical = 8.dp, horizontal = 8.dp),
