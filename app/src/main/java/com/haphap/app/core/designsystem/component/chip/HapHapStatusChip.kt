@@ -36,20 +36,15 @@ fun HapHapStatusChip(
         StatusChipType.COUNT -> HapHapTheme.typography.body.sb14
     }
 
-    Row(
+    Text(
+        text = text,
+        style = textStyle,
+        color = HapHapTheme.colors.primary500,
         modifier = modifier
             .clip(shape = CircleShape)
             .background(HapHapTheme.colors.sub100)
-            .padding(horizontal = 6.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = text,
-            style = textStyle,
-            color = HapHapTheme.colors.primary500,
-        )
-    }
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+    )
 }
 
 @Preview
