@@ -17,29 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.HapHapCardType
 import com.haphap.app.core.extensions.noRippleClickable
-
-enum class HapHapCardType(
-    val imageRatio: Float,
-    val cardRadius: Dp,
-    val imageToChipHeight: Dp,
-) {
-    BIG(
-        imageRatio = 170f / 82f,
-        cardRadius = 8.dp,
-        imageToChipHeight = 12.dp,
-    ),
-    SMALL(
-        imageRatio = 131f / 82f,
-        cardRadius = 12.dp,
-        imageToChipHeight = 6.dp,
-    )
-}
 
 /**
  * 공고 카드 공통 컴포넌트입니다.
