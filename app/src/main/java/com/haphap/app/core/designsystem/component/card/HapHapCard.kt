@@ -69,9 +69,9 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .noRippleClickable(onClick = onCardClick)
             .clip(shape = RoundedCornerShape(cardRadius))
             .background(HapHapTheme.colors.gray100)
+            .noRippleClickable(onClick = onCardClick)
             .padding(start = 12.dp, end = 12.dp, top = 12.dp),
     ) {
         UrlImage(
