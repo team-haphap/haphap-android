@@ -127,7 +127,7 @@ private fun HapHapCardPreview() {
                 company = "카카오",
                 description = "기업에 대한 설명",
                 onCardClick = {},
-                modifier = Modifier.width(194.dp),
+                modifier = Modifier.width(186.dp),
             )
             HapHapCard(
                 type = CardType.SMALL,
