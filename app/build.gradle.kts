@@ -14,8 +14,6 @@ val properties = Properties().apply {
     load(project.rootProject.file("local.properties").inputStream())
 }
 
-val kakaoAppKey = properties.getProperty("kakao.app.key").removeSurrounding("\"")
-
 android {
     namespace = "com.haphap.app"
     compileSdk {
@@ -36,7 +34,7 @@ android {
         buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
         buildConfigField("String", "KAKAO_APP_KEY", properties.getProperty("kakao.app.key"))
 
-        manifestPlaceholders["kakaoAppKey"] = kakaoAppKey
+        manifestPlaceholders["kakaoAppKey"] = properties.getProperty("kakao.app.key").removeSurrounding("\"")
     }
 
     buildTypes {
