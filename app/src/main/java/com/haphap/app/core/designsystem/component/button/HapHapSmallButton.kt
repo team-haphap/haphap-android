@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -18,24 +17,21 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
  * 자유롭게 배치할 수 있도록 단일 버튼 단위로 제공합니다.
  *
  * @param text 버튼 안에 표시할 텍스트
- * @param backgroundColor 버튼 배경색
- * @param textColor 텍스트 색상
+ * @param colorType 버튼의 색상 조합 (Primary/Cancel)
  * @param onClick 클릭 시 실행할 콜백
  * @param modifier Modifier
  */
 @Composable
 fun HapHapSmallButton(
     text: String,
-    backgroundColor: Color,
-    textColor: Color,
+    colorType: HapHapButtonColorType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     HapHapBasicButton(
         text = text,
-        textColor = textColor,
         textStyle = HapHapTheme.typography.body.sb18,
-        backgroundColor = backgroundColor,
+        colorType = colorType,
         onClick = onClick,
         modifier = modifier,
     )
@@ -53,15 +49,13 @@ private fun HapHapSmallButtonPreview() {
         ) {
             HapHapSmallButton(
                 text = "취소",
-                backgroundColor = HapHapTheme.colors.gray100,
-                textColor = HapHapTheme.colors.gray400,
+                colorType = HapHapButtonColorType.Cancel,
                 onClick = {},
                 modifier = Modifier.weight(1f),
             )
             HapHapSmallButton(
                 text = "변경하기",
-                backgroundColor = HapHapTheme.colors.primary500,
-                textColor = HapHapTheme.colors.white,
+                colorType = HapHapButtonColorType.Primary(),
                 onClick = {},
                 modifier = Modifier.weight(1f),
             )

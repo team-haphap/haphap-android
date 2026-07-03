@@ -26,20 +26,12 @@ fun HapHapLargeButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val color = if (enabled) {
-        HapHapTheme.colors.primary500
-    } else {
-        HapHapTheme.colors.gray300
-    }
-
     HapHapBasicButton(
         text = text,
-        textColor = HapHapTheme.colors.white,
         textStyle = HapHapTheme.typography.body.b18,
-        backgroundColor = color,
+        colorType = HapHapButtonColorType.Primary(enabled = enabled),
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
-        isEnabled = enabled,
     )
 }
 
