@@ -79,10 +79,7 @@ fun HapHapCard(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        Row(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
-        ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             HapHapStatusChip(
                 text = text,
                 type = StatusChipType.CATEGORY,
@@ -95,7 +92,7 @@ fun HapHapCard(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        Column(modifier = modifier.padding(horizontal = 6.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 6.dp)) {
             Text(
                 text = company,
                 style = companyStyle,
