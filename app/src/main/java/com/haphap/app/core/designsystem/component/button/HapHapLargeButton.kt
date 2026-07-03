@@ -44,7 +44,6 @@ fun HapHapLargeButton(
             .fillMaxWidth()
             .height(49.dp)
             .background(color = color, shape = RoundedCornerShape(8.dp))
-            .border(width = 1.dp, color = color, shape = RoundedCornerShape(8.dp))
             .noRippleClickable(onClick = onClick, isEnabled = enabled)
             .padding(horizontal = 12.dp),
         contentAlignment = Alignment.Center,
