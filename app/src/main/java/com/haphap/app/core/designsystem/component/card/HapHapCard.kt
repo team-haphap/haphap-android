@@ -19,9 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.chip.HapHapDeadlineChip
+import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
+import com.haphap.app.core.designsystem.type.StatusChipType
 import com.haphap.app.core.extensions.noRippleClickable
 
 /**
@@ -30,6 +33,9 @@ import com.haphap.app.core.extensions.noRippleClickable
  *
  * @param type 카드 타입 (BIG, SMALL)
  * @param imageUrl 카드 이미지 URL
+ * @param text 표시할 텍스트 (직무)
+ * @param stage 전형명 (예: 서류, 최종)
+ * @param dDay 발표까지 남은 일수
  * @param company 회사명
  * @param description 기업 설명
  * @param onCardClick 카드 클릭 시 동작
@@ -39,6 +45,9 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun HapHapCard(
     type: CardType,
     imageUrl: String,
+    text: String,
+    stage: String,
+    dDay: Int,
     company: String,
     description: String,
     onCardClick: () -> Unit,
@@ -70,8 +79,19 @@ fun HapHapCard(
 
         Spacer(modifier = Modifier.height(type.imageToChipHeight))
 
-        //Todo: 추후 status chip 추가
-        Spacer(modifier = Modifier.height(17.dp))
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            HapHapStatusChip(
+                text = text,
+                type = StatusChipType.CATEGORY,
+            )
+            HapHapDeadlineChip(
+                stage = stage,
+                dDay = dDay,
+            )
+        }
 
         Spacer(modifier = Modifier.height(2.dp))
 
@@ -102,6 +122,9 @@ private fun HapHapCardPreview() {
             HapHapCard(
                 type = CardType.BIG,
                 imageUrl = "",
+                text = "개발",
+                stage = "서류",
+                dDay = 2,
                 company = "카카오",
                 description = "기업에 대한 설명",
                 onCardClick = {},
@@ -110,6 +133,9 @@ private fun HapHapCardPreview() {
             HapHapCard(
                 type = CardType.SMALL,
                 imageUrl = "",
+                text = "개발",
+                stage = "서류",
+                dDay = 2,
                 company = "카카오",
                 description = "기업에 대한 설명",
                 onCardClick = {},
