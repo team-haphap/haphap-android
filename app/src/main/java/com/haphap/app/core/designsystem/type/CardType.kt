@@ -3,7 +3,7 @@ package com.haphap.app.core.designsystem.type
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-enum class HapHapCardType(
+enum class CardType(
     val imageRatio: Float,
     val cardRadius: Dp,
     val imageToChipHeight: Dp,

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.designsystem.type.HapHapCardType
+import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.core.extensions.noRippleClickable
 
 /**
@@ -37,7 +37,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun HapHapCard(
-    type: HapHapCardType,
+    type: CardType,
     imageUrl: String,
     company: String,
     description: String,
@@ -45,8 +45,8 @@ fun HapHapCard(
     modifier: Modifier = Modifier
 ) {
     val companyStyle = when (type) {
-        HapHapCardType.BIG -> HapHapTheme.typography.body.sb16
-        HapHapCardType.SMALL -> HapHapTheme.typography.body.sb14
+        CardType.BIG -> HapHapTheme.typography.body.sb16
+        CardType.SMALL -> HapHapTheme.typography.body.sb14
     }
 
     Column(
@@ -100,7 +100,7 @@ private fun HapHapCardPreview() {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             HapHapCard(
-                type = HapHapCardType.BIG,
+                type = CardType.BIG,
                 imageUrl = "",
                 company = "카카오",
                 description = "기업에 대한 설명",
@@ -108,7 +108,7 @@ private fun HapHapCardPreview() {
                 modifier = Modifier.width(194.dp)
             )
             HapHapCard(
-                type = HapHapCardType.SMALL,
+                type = CardType.SMALL,
                 imageUrl = "",
                 company = "카카오",
                 description = "기업에 대한 설명",
