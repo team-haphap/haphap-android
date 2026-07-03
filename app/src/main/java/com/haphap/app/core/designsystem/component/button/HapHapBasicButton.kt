@@ -14,18 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.HapHapButtonColorType
 import com.haphap.app.core.extensions.noRippleClickable
-
-/**
- * HapHap 버튼의 색상 조합을 나타내는 타입
- *
- * - [Primary]: primary500 배경 + white 텍스트. [enabled]가 false면 gray300 배경으로 비활성화 처리
- * - [Cancel]: gray100 배경 + gray400 텍스트. 항상 활성화 상태
- */
-sealed interface HapHapButtonColorType {
-    data class Primary(val enabled: Boolean = true) : HapHapButtonColorType
-    data object Cancel : HapHapButtonColorType
-}
 
 private data class HapHapButtonStyle(
     val backgroundColor: Color,
