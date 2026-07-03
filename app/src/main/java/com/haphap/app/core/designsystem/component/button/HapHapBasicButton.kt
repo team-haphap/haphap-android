@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.designsystem.type.HapHapButtonColorType
+import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 
 /**
@@ -37,19 +37,19 @@ private data class HapHapButtonStyle(
 )
 
 /**
- * [HapHapButtonColorType]을 실제 색상 값([HapHapButtonStyle])으로 변환합니다.
+ * [ButtonType]을 실제 색상 값([HapHapButtonStyle])으로 변환합니다.
  *
  * 활성화 여부에 따른 분기는 더 이상 이 함수에서 처리하지 않으며,
  * 각 색상 타입이 가질 수 있는 활성/비활성 색상 값만 그대로 전달합니다.
  */
-private fun HapHapButtonColorType.toStyle(colors: HapHapColors): HapHapButtonStyle = when (this) {
-    is HapHapButtonColorType.Primary -> HapHapButtonStyle(
+private fun ButtonType.toStyle(colors: HapHapColors): HapHapButtonStyle = when (this) {
+    is ButtonType.Primary -> HapHapButtonStyle(
         backgroundColor = colors.primary500,
         textColor = colors.white,
         disabledBackgroundColor = colors.gray300,
     )
 
-    HapHapButtonColorType.Cancel -> HapHapButtonStyle(
+    ButtonType.Cancel -> HapHapButtonStyle(
         backgroundColor = colors.gray100,
         textColor = colors.gray400,
     )
@@ -74,14 +74,14 @@ private fun HapHapButtonColorType.toStyle(colors: HapHapColors): HapHapButtonSty
 fun HapHapBasicButton(
     text: String,
     textStyle: TextStyle,
-    colorType: HapHapButtonColorType,
+    colorType: ButtonType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val style = colorType.toStyle(HapHapTheme.colors)
     val isEnabled = when (colorType) {
-        is HapHapButtonColorType.Primary -> colorType.enabled
-        HapHapButtonColorType.Cancel -> true
+        is ButtonType.Primary -> colorType.enabled
+        ButtonType.Cancel -> true
     }
 
     Box(
@@ -109,7 +109,7 @@ private fun HapHapBasicButtonPreview() {
         HapHapBasicButton(
             text = "확인",
             textStyle = HapHapTheme.typography.body.b18,
-            colorType = HapHapButtonColorType.Primary(enabled = false),
+            colorType = ButtonType.Primary(enabled = false),
             onClick = {},
         )
     }
