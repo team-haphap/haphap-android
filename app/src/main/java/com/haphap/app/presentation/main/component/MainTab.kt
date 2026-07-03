@@ -1,7 +1,7 @@
 package com.haphap.app.presentation.main.component
 
 import androidx.annotation.DrawableRes
-import com.haphap.app.R.drawable.ic_launcher_background
+import com.haphap.app.R
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.calendar.navigation.Calendar
@@ -16,29 +16,29 @@ enum class MainTab(
     val route: MainTabRoute,
 ) {
     HOME(
-        iconRes = ic_launcher_background,
-        titleRes = "home",
+        iconRes = R.drawable.ic_bottom_bar_home_24,
+        titleRes = "홈",
         route = Home,
     ),
 
     JOB(
-        iconRes = ic_launcher_background,
-        titleRes = "job",
+        iconRes = R.drawable.ic_bottom_bar_list_24,
+        titleRes = "리스트",
         route = Job,
     ),
     REGISTER(
-        iconRes = ic_launcher_background,
-        titleRes = "register",
+        iconRes = R.drawable.ic_bottom_bar_register_24,
+        titleRes = "등록",
         route = Register,
     ),
     CALENDAR(
-        iconRes = ic_launcher_background,
-        titleRes = "calender",
+        iconRes = R.drawable.ic_bottom_bar_calendar_24,
+        titleRes = "캘린더",
         route = Calendar,
     ),
     MYPAGE(
-        iconRes = ic_launcher_background,
-        titleRes = "mypage",
+        iconRes = R.drawable.ic_bottom_bar_my_24,
+        titleRes = "마이",
         route = MyPage,
     );
 
