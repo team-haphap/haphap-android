@@ -93,6 +93,11 @@ private fun MainBottomBarItem(
     } else {
         HapHapTheme.colors.gray400
     }
+    val textStyle = if (isSelected) {
+        HapHapTheme.typography.caption.sb12
+    } else {
+        HapHapTheme.typography.caption.m12
+    }
 
     Column(
         modifier = modifier
@@ -109,7 +114,7 @@ private fun MainBottomBarItem(
 
         Text(
             text = tab.titleRes,
-            style = HapHapTheme.typography.caption.sb12,
+            style = textStyle,
             color = contentColor,
         )
     }
