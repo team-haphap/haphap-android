@@ -1,21 +1,16 @@
 package com.haphap.app.core.designsystem.component.button
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.extensions.noRippleClickable
 
 /**
  * HapHap 공용 Medium 버튼 컴포넌트
@@ -37,22 +32,14 @@ fun HapHapMediumButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(8.dp),
-            )
-            .noRippleClickable(onClick = onClick)
-            .padding(vertical = 12.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = text,
-            color = textColor,
-            style = HapHapTheme.typography.body.b18,
-        )
-    }
+    HapHapBasicButton(
+        text = text,
+        textColor = textColor,
+        textStyle = HapHapTheme.typography.body.b18,
+        backgroundColor = backgroundColor,
+        onClick = onClick,
+        modifier = modifier,
+    )
 }
 
 @Preview(showBackground = true)
