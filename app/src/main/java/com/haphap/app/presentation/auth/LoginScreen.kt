@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,17 +59,15 @@ fun LoginRoute(
     }
 
     LoginScreen(
+        onKakaoLoginClick = {viewModel.onKakaoLoginClick(context)},
         modifier = modifier,
-        isLoading = loginState is UiState.Loading,
-        onKakaoLoginClick = {viewModel.onKakaoLoginClick(context)}
     )
 }
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
-    isLoading: Boolean,
     onKakaoLoginClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -131,36 +128,30 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(17.dp))
 
-            if (isLoading) {
-                CircularProgressIndicator(
-                    color = HapHapTheme.colors.primary500,
+            Button(
+                onClick = onKakaoLoginClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(46.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = HapHapTheme.colors.yellow,
+                    contentColor = HapHapTheme.colors.gray800,
+                ),
+                shape = RoundedCornerShape(8.dp),
+                elevation = ButtonDefaults.buttonElevation(0.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_login_kakao_logo),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(20.dp),
                 )
-            } else {
-                Button(
-                    onClick = onKakaoLoginClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(46.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = HapHapTheme.colors.yellow,
-                        contentColor = HapHapTheme.colors.gray800,
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = ButtonDefaults.buttonElevation(0.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_login_kakao_logo),
-                        contentDescription = null,
-                        tint = Color.Unspecified,
-                        modifier = Modifier.size(20.dp),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "카카오로 시작하기",
-                        style = HapHapTheme.typography.caption.sb12,
-                        color = HapHapTheme.colors.gray800,
-                    )
-                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "카카오로 시작하기",
+                    style = HapHapTheme.typography.caption.sb12,
+                    color = HapHapTheme.colors.gray800,
+                )
             }
         }
     }
@@ -171,7 +162,6 @@ fun LoginScreen(
 private fun LoginScreenPreview() {
     HapHapTheme {
         LoginScreen(
-            isLoading = false,
             onKakaoLoginClick = {},
         )
     }
