@@ -1,4 +1,4 @@
-package com.haphap.app.data.remote.dto
+package com.haphap.app.data.remote.dto.auth
 
 import kotlinx.serialization.Serializable
 

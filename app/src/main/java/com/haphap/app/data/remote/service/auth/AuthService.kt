@@ -1,8 +1,8 @@
-package com.haphap.app.data.remote.service
+package com.haphap.app.data.remote.service.auth
 
 import com.haphap.app.data.remote.dto.BaseResponse
-import com.haphap.app.data.remote.dto.KakaoLoginRequestDto
-import com.haphap.app.data.remote.dto.KakaoLoginResponseDto
+import com.haphap.app.data.remote.dto.auth.KakaoLoginRequestDto
+import com.haphap.app.data.remote.dto.auth.KakaoLoginResponseDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 

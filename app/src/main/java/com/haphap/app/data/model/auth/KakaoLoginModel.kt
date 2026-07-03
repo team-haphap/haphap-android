@@ -1,4 +1,4 @@
-package com.haphap.app.data.model
+package com.haphap.app.data.model.auth
 
 data class KakaoLoginModel(
     val accessToken: String,
