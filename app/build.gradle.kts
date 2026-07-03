@@ -95,5 +95,5 @@ dependencies {
     implementation(libs.lottie.compose)
 
     // Auth
-    implementation("com.kakao.sdk:v2-user:2.20.6")
+    implementation(libs.kakao.user.sdk)
 }
