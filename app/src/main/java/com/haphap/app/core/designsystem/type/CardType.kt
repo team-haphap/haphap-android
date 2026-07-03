@@ -8,5 +8,5 @@ enum class CardType(
     ),
     SMALL(
         imageRatio = 139f / 82f,
-    )
+    ),
 }

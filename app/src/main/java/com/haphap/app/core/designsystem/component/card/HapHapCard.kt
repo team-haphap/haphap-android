@@ -51,7 +51,7 @@ fun HapHapCard(
     company: String,
     description: String,
     onCardClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val companyStyle = when (type) {
         CardType.BIG -> HapHapTheme.typography.body.sb16
@@ -116,7 +116,7 @@ private fun HapHapCardPreview() {
     HapHapTheme {
         Row(
             modifier = Modifier.padding(all = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             HapHapCard(
                 type = CardType.BIG,
@@ -127,7 +127,7 @@ private fun HapHapCardPreview() {
                 company = "카카오",
                 description = "기업에 대한 설명",
                 onCardClick = {},
-                modifier = Modifier.width(194.dp)
+                modifier = Modifier.width(194.dp),
             )
             HapHapCard(
                 type = CardType.SMALL,
@@ -138,7 +138,7 @@ private fun HapHapCardPreview() {
                 company = "카카오",
                 description = "기업에 대한 설명",
                 onCardClick = {},
-                modifier = Modifier.width(155.dp)
+                modifier = Modifier.width(155.dp),
             )
         }
     }
