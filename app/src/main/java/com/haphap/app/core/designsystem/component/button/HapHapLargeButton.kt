@@ -42,10 +42,9 @@ fun HapHapLargeButton(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(49.dp)
             .background(color = color, shape = RoundedCornerShape(8.dp))
             .noRippleClickable(onClick = onClick, isEnabled = enabled)
-            .padding(horizontal = 12.dp),
+            .padding(vertical = 12.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(

@@ -38,37 +38,35 @@ fun HapHapSmallButton(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .height(49.dp)
                 .background(
                     color = HapHapTheme.colors.gray100,
                     shape = RoundedCornerShape(8.dp),
                 )
-                .noRippleClickable(onClick = onCancelClick),
+                .noRippleClickable(onClick = onCancelClick)
+                .padding(vertical = 12.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = "취소",
                 color = HapHapTheme.colors.gray400,
                 style = HapHapTheme.typography.body.sb18,
-                modifier = Modifier.padding(vertical = 12.dp),
             )
         }
         Box(
             modifier = Modifier
                 .weight(1f)
-                .height(49.dp)
                 .background(
                     color = HapHapTheme.colors.primary500,
                     shape = RoundedCornerShape(8.dp),
                 )
-                .noRippleClickable(onClick = onChangeClick),
+                .noRippleClickable(onClick = onChangeClick)
+                .padding(vertical = 12.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = "변경하기",
                 color = HapHapTheme.colors.white,
                 style = HapHapTheme.typography.body.sb18,
-                modifier = Modifier.padding(vertical = 12.dp),
             )
         }
     }
