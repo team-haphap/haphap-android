@@ -14,7 +14,7 @@ val properties = Properties().apply {
     load(project.rootProject.file("local.properties").inputStream())
 }
 
-val nativeAppKey = properties.getProperty("native.app.key").removeSurrounding("\"")
+val kakaoAppKey = properties.getProperty("kakao.app.key").removeSurrounding("\"")
 
 android {
     namespace = "com.haphap.app"
@@ -34,9 +34,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
-        buildConfigField("String", "NATIVE_APP_KEY", properties.getProperty("native.app.key"))
+        buildConfigField("String", "KAKAO_APP_KEY", properties.getProperty("kakao.app.key"))
 
-        manifestPlaceholders["nativeAppKey"] = nativeAppKey
+        manifestPlaceholders["kakaoAppKey"] = kakaoAppKey
     }
 
     buildTypes {

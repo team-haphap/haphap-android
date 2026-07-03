@@ -1,7 +1,6 @@
 package com.haphap.app
 
 import android.app.Application
-import android.os.Build
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -20,6 +19,6 @@ class HapHapApplication : Application() {
     }
 
     private fun initKakaoSdk() {
-        KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
+        KakaoSdk.init(this, BuildConfig.KAKAO_APP_KEY)
     }
 }
