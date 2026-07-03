@@ -24,6 +24,19 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
+fun SignUpCompleteRoute(
+    modifier: Modifier = Modifier,
+    userName: String,
+    onStartClick: () -> Unit,
+) {
+    SignUpCompleteScreen(
+        modifier = modifier,
+        userName = userName.ifBlank { "사용자" },
+        onStartClick = onStartClick
+    )
+}
+
+@Composable
 fun SignUpCompleteScreen(
     modifier: Modifier = Modifier,
     userName: String,

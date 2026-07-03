@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,14 +20,51 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.state.UiState
+
+@Composable
+fun LoginRoute(
+    modifier: Modifier = Modifier,
+    onLoginSuccess: () -> Unit,
+    onSignUpComplete: (userName: String) -> Unit, // 추가
+    viewModel: LoginViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    val loginState by viewModel.loginState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(loginState) {
+        when (val state = loginState) {
+            is UiState.Failure -> {
+                Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
+                viewModel.consumeFailure()
+            }
+            is UiState.Success -> {
+                // onLoginSuccess()
+                onSignUpComplete("박연수")
+            }
+            else -> Unit
+        }
+    }
+
+    LoginScreen(
+        modifier = modifier,
+        isLoading = loginState is UiState.Loading,
+        onKakaoLoginClick = {viewModel.onKakaoLoginClick(context)}
+    )
+}
 
 @Composable
 fun LoginScreen(
