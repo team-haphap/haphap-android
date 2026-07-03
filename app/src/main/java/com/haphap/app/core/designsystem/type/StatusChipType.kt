@@ -1,4 +1,4 @@
-package com.haphap.app.core.designsystem.component.chip
+package com.haphap.app.core.designsystem.type
 
 enum class StatusChipType {
     CATEGORY,
