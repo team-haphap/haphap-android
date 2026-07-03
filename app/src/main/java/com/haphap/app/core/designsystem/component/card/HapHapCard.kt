@@ -61,10 +61,10 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(type.cardRadius))
+            .clip(shape = RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.gray100)
             .noRippleClickable(onClick = onCardClick)
-            .padding(all = 12.dp),
+            .padding(all = 8.dp),
     ) {
         UrlImage(
             url = imageUrl,
@@ -74,10 +74,10 @@ fun HapHapCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(type.imageRatio)
-                .clip(RoundedCornerShape(8.dp)),
+                .clip(RoundedCornerShape(6.dp)),
         )
 
-        Spacer(modifier = Modifier.height(type.imageToChipHeight))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Row(
             modifier = modifier,
@@ -95,19 +95,21 @@ fun HapHapCard(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        Text(
-            text = company,
-            style = companyStyle,
-            color = HapHapTheme.colors.gray700,
-        )
+        Column(modifier = modifier.padding(horizontal = 6.dp)) {
+            Text(
+                text = company,
+                style = companyStyle,
+                color = HapHapTheme.colors.gray700,
+            )
 
-        Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
-        Text(
-            text = description,
-            style = HapHapTheme.typography.caption.sb12,
-            color = HapHapTheme.colors.gray600,
-        )
+            Text(
+                text = description,
+                style = HapHapTheme.typography.caption.sb12,
+                color = HapHapTheme.colors.gray600,
+            )
+        }
     }
 }
 
