@@ -71,7 +71,7 @@ private fun CalendarListCardContent(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Row() {
+        Row{
             CalendarStatusChip(
                 chipText = "$stage 발표 예상",
                 isExpectedStage = true,
