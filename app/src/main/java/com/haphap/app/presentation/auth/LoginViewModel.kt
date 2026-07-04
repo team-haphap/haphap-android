@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.state.UiState
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
+import com.haphap.app.data.model.auth.KakaoLoginModel
+import com.haphap.app.data.repository.api.auth.AuthRepository
+import com.haphap.app.data.repository.impl.auth.AuthRepositoryImpl
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
@@ -20,11 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val localTokenDataSource: LocalTokenDataSource,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    private val _loginState = MutableStateFlow<UiState<OAuthToken>>(UiState.Idle)
-    val loginState: StateFlow<UiState<OAuthToken>> = _loginState.asStateFlow()
+    private val _loginState = MutableStateFlow<UiState<KakaoLoginModel>>(UiState.Idle)
+    val loginState: StateFlow<UiState<KakaoLoginModel>> = _loginState.asStateFlow()
 
     fun onKakaoLoginClick(context: Context) {
         _loginState.value = UiState.Loading
@@ -55,7 +58,7 @@ class LoginViewModel @Inject constructor(
                 }
             }
         } else if (token != null) {
-            saveTokenAndUpdateState(token)
+            requestServerLogin(token)
         }
     }
 
@@ -71,7 +74,7 @@ class LoginViewModel @Inject constructor(
                 _loginState.value = UiState.Failure("잠시 후 다시 시도해 주세요.")
             }
             token != null -> {
-                saveTokenAndUpdateState(token)
+                requestServerLogin(token)
             }
         }
     }
@@ -103,16 +106,17 @@ class LoginViewModel @Inject constructor(
                 || error.cause is java.io.IOException
     }
 
-    private fun saveTokenAndUpdateState(token: OAuthToken) {
+    private fun requestServerLogin(token: OAuthToken) {
         viewModelScope.launch {
-            runCatching {
-                localTokenDataSource.setAccessToken(token.accessToken)
-                token.refreshToken?.let { localTokenDataSource.setRefreshToken(it) }
-            }.onSuccess {
-                _loginState.value = UiState.Success(token)
-            }.onFailure {
-                _loginState.value = UiState.Failure("로그인 처리 중 오류가 발생했습니다.")
-            }
+            authRepository.kakaoLogin(token.accessToken)
+                .onSuccess { model ->
+                    _loginState.value = UiState.Success(model)
+                }
+                .onFailure { throwable ->
+                    _loginState.value = UiState.Failure(
+                        throwable.message ?: "로그인 처리 중 오류가 발생했습니다."
+                    )
+                }
         }
     }
 
