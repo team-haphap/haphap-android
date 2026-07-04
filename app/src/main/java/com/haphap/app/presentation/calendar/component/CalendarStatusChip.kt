@@ -1,7 +1,10 @@
 package com.haphap.app.presentation.calendar.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +35,18 @@ fun CalendarStatusChip(
 @Composable
 private fun CalendarStatusChipPreview() {
     HapHapTheme {
-        CalendarStatusChip(
-            chipText = "서류 발표 예상",
-            isExpectedStage = true,
-        )
+        Row() {
+            CalendarStatusChip(
+                chipText = "서류 발표 예상",
+                isExpectedStage = true,
+            )
+
+            Spacer(modifier = Modifier.width(6.dp))
+
+            CalendarStatusChip(
+                chipText = "00명 참여중",
+                isExpectedStage = false,
+            )
+        }
     }
 }
