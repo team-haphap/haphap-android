@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.state.UiState
-import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.model.auth.KakaoLoginModel
 import com.haphap.app.data.repository.api.auth.AuthRepository
-import com.haphap.app.data.repository.impl.auth.AuthRepositoryImpl
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
@@ -18,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
