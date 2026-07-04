@@ -20,10 +20,10 @@ fun CalendarStatusChip(
     Text(
         text = chipText,
         style = HapHapTheme.typography.caption.sb12,
-        color = if(isExpectedStage)HapHapTheme.colors.primary100 else HapHapTheme.colors.gray500,
+        color = if (isExpectedStage) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray500,
         modifier = modifier
             .clip(shape = RoundedCornerShape(4.dp))
-            .background(color = if(isExpectedStage)HapHapTheme.colors.sub100 else HapHapTheme.colors.gray100)
+            .background(color = if (isExpectedStage) HapHapTheme.colors.sub100 else HapHapTheme.colors.gray100)
             .padding(horizontal = 6.dp),
     )
 }
