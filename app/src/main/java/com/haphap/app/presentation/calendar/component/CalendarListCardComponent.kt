@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,25 +50,37 @@ fun CalendarListCardComponent(
             participantCount = participantCount,
         )
 
-        Box(
+        CalendarListCardImage(
+            imageUrl = imageUrl,
             modifier = Modifier
                 .fillMaxHeight()
-                .aspectRatio(1f)
-                .clip(shape = RoundedCornerShape(8.dp))
-                .background(color = Color.Unspecified)
-                .border(
-                    shape = RoundedCornerShape(8.dp),
-                    color = HapHapTheme.colors.gray100,
-                    width = 1.dp,
-                )
-        ) {
-            UrlImage(
-                url = imageUrl,
-                placeholderDrawable = R.drawable.img_calendar_kakao,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.fillMaxSize(),
+                .aspectRatio(1f),
+        )
+    }
+}
+
+@Composable
+private fun CalendarListCardImage(
+    imageUrl: String,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(color = HapHapTheme.colors.white)
+            .border(
+                shape = RoundedCornerShape(8.dp),
+                color = HapHapTheme.colors.gray100,
+                width = 1.dp,
             )
-        }
+    ) {
+        UrlImage(
+            url = imageUrl,
+            placeholderDrawable = R.drawable.img_calendar_kakao,
+            contentScale = ContentScale.Fit,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }
 
