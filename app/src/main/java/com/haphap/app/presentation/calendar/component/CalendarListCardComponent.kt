@@ -2,22 +2,20 @@ package com.haphap.app.presentation.calendar.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -38,48 +36,21 @@ fun CalendarListCardComponent(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Min)
             .clip(shape = RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.white)
             .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         CalendarListCardContent(
             titleText = titleText,
             stage = stage,
             participantCount = participantCount,
+            modifier = Modifier.weight(1f),
         )
 
         CalendarListCardImage(
             imageUrl = imageUrl,
-            modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f),
-        )
-    }
-}
-
-@Composable
-private fun CalendarListCardImage(
-    imageUrl: String,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(color = HapHapTheme.colors.white)
-            .border(
-                shape = RoundedCornerShape(8.dp),
-                color = HapHapTheme.colors.gray100,
-                width = 1.dp,
-            )
-    ) {
-        UrlImage(
-            url = imageUrl,
-            placeholderDrawable = R.drawable.img_calendar_kakao,
-            contentScale = ContentScale.Fit,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.size(64.dp),
         )
     }
 }
@@ -120,6 +91,31 @@ private fun CalendarListCardContent(
             text = "과거 유사 공고 흐름을 바탕으로 예상했어요!",
             style = HapHapTheme.typography.caption.r10,
             color = HapHapTheme.colors.gray500,
+        )
+    }
+}
+
+@Composable
+private fun CalendarListCardImage(
+    imageUrl: String,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+            .background(color = HapHapTheme.colors.white)
+            .border(
+                shape = RoundedCornerShape(10.dp),
+                color = HapHapTheme.colors.gray100,
+                width = 1.dp,
+            )
+    ) {
+        UrlImage(
+            url = imageUrl,
+            placeholderDrawable = R.drawable.img_calendar_kakao,
+            contentScale = ContentScale.Fit,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
