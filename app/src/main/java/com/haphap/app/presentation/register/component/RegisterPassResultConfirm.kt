@@ -1,0 +1,82 @@
+package com.haphap.app.presentation.register.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.haphap.app.R
+import com.haphap.app.core.designsystem.theme.HapHapTheme
+
+enum class PassResultStatus(val text: String) {
+    PASS("합격했어요"),
+    FAILED("불합격했어요"),
+    DONT_KNOW("아직 몰라요"),
+}
+
+@Composable
+fun RegisterPassResultConfirm(
+    status: PassResultStatus,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = HapHapTheme.colors.sub100,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 10.dp, vertical = 13.dp)
+    ) {
+        Text(
+            text = status.text,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            textAlign = TextAlign.Center,
+            color = HapHapTheme.colors.primary500,
+            style = HapHapTheme.typography.body.sb14,
+        )
+
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_check_18),
+            contentDescription = null,
+            tint = HapHapTheme.colors.primary100,
+            modifier = Modifier
+                .size(24.dp)
+                .align(Alignment.CenterEnd),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RegisterPassResultConfirmPreview() {
+    HapHapTheme {
+        Column(
+            modifier = Modifier
+                .background(HapHapTheme.colors.white)
+                .padding(all = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            RegisterPassResultConfirm(status = PassResultStatus.PASS)
+            RegisterPassResultConfirm(status = PassResultStatus.FAILED)
+            RegisterPassResultConfirm(status = PassResultStatus.DONT_KNOW)
+        }
+    }
+}
