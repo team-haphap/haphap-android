@@ -15,7 +15,7 @@ class AuthDataSourceImpl @Inject constructor(
     private val json: Json,
 ) : AuthDataSource {
 
-    override suspend fun kakaoLogin(accessToken: String): KakaoLoginResponseDto {
+    override suspend fun postKakaoLogin(accessToken: String): KakaoLoginResponseDto {
         return try {
             val response = authService.kakaoLogin(KakaoLoginRequestDto(accessToken = accessToken))
             response.data ?: throw AuthApiException(

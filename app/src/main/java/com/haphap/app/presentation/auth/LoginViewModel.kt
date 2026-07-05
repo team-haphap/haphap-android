@@ -105,7 +105,7 @@ class LoginViewModel @Inject constructor(
 
     private fun requestServerLogin(token: OAuthToken) {
         viewModelScope.launch {
-            authRepository.kakaoLogin(token.accessToken)
+            authRepository.postKakaoLogin(token.accessToken)
                 .onSuccess { model ->
                     _loginState.value = UiState.Success(model)
                 }

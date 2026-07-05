@@ -12,9 +12,9 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val localTokenDataSource: LocalTokenDataSource,
 ): AuthRepository {
-    override suspend fun kakaoLogin(accessToken: String): Result<KakaoLoginModel> =
+    override suspend fun postKakaoLogin(accessToken: String): Result<KakaoLoginModel> =
         suspendRunCatching {
-            val response = authDataSource.kakaoLogin(accessToken)
+            val response = authDataSource.postKakaoLogin(accessToken)
 
             localTokenDataSource.setAccessToken(response.accessToken)
             localTokenDataSource.setRefreshToken(response.refreshToken)
