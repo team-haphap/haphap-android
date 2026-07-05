@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.ButtonType
 
 @Composable
 fun SignUpCompleteRoute(
@@ -49,7 +48,7 @@ fun SignUpCompleteScreen(
             .padding(start = 20.dp, end = 20.dp, top = 43.dp),
     ) {
         Text(
-            text = "${userName}님 가입을 완료 했어요!",
+            text = "${userName}님 가입을 완료했어요!",
             style = HapHapTheme.typography.subtitle.b22,
             color = HapHapTheme.colors.gray800,
         )
@@ -67,42 +66,37 @@ fun SignUpCompleteScreen(
                 .fillMaxWidth()
                 .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
         ) {
+            Spacer(modifier = Modifier.height(172.dp))
+
             Image(
                 painter = painterResource(R.drawable.img_logo),
                 contentDescription = null,
-                modifier = Modifier.size(65.dp),
+                modifier = Modifier.size(width = 48.dp, height = 50.dp),
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Image(
                 painter = painterResource(R.drawable.img_text_logo),
                 contentDescription = null,
-                modifier = Modifier.size(width = 190.dp, height = 30.dp),
+                modifier = Modifier.size(width = 191.dp, height = 30.dp),
             )
         }
 
         Column(
-            modifier = Modifier.padding(bottom = 26.dp)
+            modifier = Modifier
+                .padding(bottom = 10.dp),
+            verticalArrangement = Arrangement.Bottom,
         ) {
-            Button(
+            HapHapBasicButton(
+                text = "시작하기",
+                textStyle = HapHapTheme.typography.body.b18,
+                colorType = ButtonType.Primary(enabled = true),
                 onClick = navigateToHome,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(49.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = HapHapTheme.colors.primary500,
-                    contentColor = HapHapTheme.colors.white,
-                ),
-                shape = RoundedCornerShape(8.dp),
-            ) {
-                Text(
-                    text = "시작하기",
-                    style = HapHapTheme.typography.body.b18,
-                )
-            }
+            )
         }
     }
 }

@@ -89,7 +89,7 @@ fun LoginScreen(
         modifier = modifier
             .fillMaxSize()
             .background(HapHapTheme.colors.white)
-            .padding(start = 17.dp, end = 17.dp, bottom = 25.dp),
+            .padding(start = 20.dp, end = 20.dp, bottom = 13.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
@@ -97,16 +97,17 @@ fun LoginScreen(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Image(
                 painter = painterResource(R.drawable.img_logo),
                 contentDescription = null,
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(width = 48.dp, height = 50.dp),
             )
             Image(
                 painter = painterResource(R.drawable.img_text_logo),
                 contentDescription = null,
+                modifier = Modifier.size(width = 206.dp, height = 34.dp),
             )
         }
 
@@ -126,13 +127,13 @@ fun LoginScreen(
             color = HapHapTheme.colors.gray600,
         )
 
-        Spacer(modifier = Modifier.height(17.dp))
+        Spacer(modifier = Modifier.height(29.dp))
 
         Button(
             onClick = onKakaoLoginClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(46.dp),
+                .padding(top = 13.dp, bottom = 12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = HapHapTheme.colors.yellow,
                 contentColor = HapHapTheme.colors.gray800,
@@ -144,9 +145,11 @@ fun LoginScreen(
                 painter = painterResource(R.drawable.ic_login_kakao_logo),
                 contentDescription = null,
                 tint = Color.Unspecified,
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(21.dp),
             )
-            Spacer(modifier = Modifier.width(8.dp))
+
+            Spacer(modifier = Modifier.width(12.dp))
+
             Text(
                 text = "카카오로 시작하기",
                 style = HapHapTheme.typography.caption.sb12,
