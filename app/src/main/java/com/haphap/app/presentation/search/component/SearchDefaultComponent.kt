@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.search.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,7 +54,7 @@ fun SearchDefaultComponent(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            recentSearchList.forEach { it ->
+            recentSearchList.forEach {
                 RecentSearchItem(
                     keyword = it.keyword,
                     date = it.date,
@@ -65,9 +66,11 @@ fun SearchDefaultComponent(
                     thickness = 1.dp,
                     color = HapHapTheme.colors.gray100,
                 )
+
+                Spacer(modifier = Modifier.height(8.dp))
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "인기 공고",
@@ -80,7 +83,8 @@ fun SearchDefaultComponent(
         }
 
         LazyRow(
-            contentPadding = PaddingValues(horizontal = 20.dp)
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(
                 items = trendJobList,
