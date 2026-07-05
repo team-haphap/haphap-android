@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +44,7 @@ fun LoginRoute(
 ) {
     val context = LocalContext.current
     val loginState by viewModel.loginState.collectAsStateWithLifecycle()
+    val kakaoLoginManager = remember { KakaoLoginManager() }
 
     LaunchedEffect(loginState) {
         when (val state = loginState) {
@@ -59,7 +61,21 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        onKakaoLoginClick = {viewModel.onKakaoLoginClick(context)},
+        onKakaoLoginClick = {
+            kakaoLoginManager.login(
+                context = context,
+                onSuccess = { kakaoAccessToken ->
+                    viewModel.kakaoLogin(kakaoAccessToken)
+                },
+                onCancel = {},
+                onNetworkError = {
+                    Toast.makeText(context, "네트워크 연결을 확인해 주세요.", Toast.LENGTH_SHORT).show()
+                },
+                onFailure = {
+                    Toast.makeText(context, "잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                },
+            )
+        },
         modifier = modifier,
     )
 }
