@@ -29,10 +29,10 @@ fun NavGraphBuilder.authGraph(
 ) {
     composable<Login> {
         LoginRoute(
-            modifier = Modifier.padding(innerPadding),
             onLoginSuccess = onLoginSuccess,
-            onSignUpComplete = onSignUpComplete
-        )
+            onSignUpComplete = onSignUpComplete,
+            modifier = Modifier.padding(innerPadding),
+            )
     }
 }
 

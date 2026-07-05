@@ -36,9 +36,9 @@ import com.haphap.app.core.state.UiState
 
 @Composable
 fun LoginRoute(
-    modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit,
     onSignUpComplete: (userName: String) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
