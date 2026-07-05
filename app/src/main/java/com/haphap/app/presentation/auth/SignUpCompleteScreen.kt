@@ -46,21 +46,19 @@ fun SignUpCompleteScreen(
         modifier = modifier
             .fillMaxSize()
             .background(HapHapTheme.colors.white)
-            .padding(horizontal = 20.dp),
+            .padding(start = 20.dp, end = 20.dp, top = 43.dp),
     ) {
-        Spacer(modifier = Modifier.height(50.dp))
-
         Text(
-            text = "${userName}님\n합합에 가입을 완료 했어요!",
-            style = HapHapTheme.typography.title.b26,
+            text = "${userName}님 가입을 완료 했어요!",
+            style = HapHapTheme.typography.subtitle.b22,
             color = HapHapTheme.colors.gray800,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "${userName}님의 합격 여정을 합합이 함께 응원할게요",
-            style = HapHapTheme.typography.body.r16,
+            text = "지원자들의 결과를 확인하고 내 상태도 등록해보세요.",
+            style = HapHapTheme.typography.body.m14,
             color = HapHapTheme.colors.gray500,
         )
 
@@ -74,7 +72,7 @@ fun SignUpCompleteScreen(
             Image(
                 painter = painterResource(R.drawable.img_logo),
                 contentDescription = null,
-                modifier = Modifier.size(50.dp),
+                modifier = Modifier.size(65.dp),
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -82,7 +80,7 @@ fun SignUpCompleteScreen(
             Image(
                 painter = painterResource(R.drawable.img_text_logo),
                 contentDescription = null,
-                modifier = Modifier.size(width = 140.dp, height = 23.dp),
+                modifier = Modifier.size(width = 190.dp, height = 30.dp),
             )
         }
 
