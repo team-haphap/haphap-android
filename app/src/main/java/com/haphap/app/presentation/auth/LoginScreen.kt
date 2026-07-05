@@ -91,13 +91,12 @@ fun LoginScreen(
             .background(HapHapTheme.colors.white)
             .padding(start = 20.dp, end = 20.dp, bottom = 13.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
     ) {
         Spacer(modifier = Modifier.weight(1f))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Image(
                 painter = painterResource(R.drawable.img_logo),

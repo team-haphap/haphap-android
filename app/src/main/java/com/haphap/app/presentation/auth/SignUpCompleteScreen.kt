@@ -84,20 +84,15 @@ fun SignUpCompleteScreen(
             )
         }
 
-        Column(
+        HapHapBasicButton(
+            text = "시작하기",
+            textStyle = HapHapTheme.typography.body.b18,
+            colorType = ButtonType.Primary(enabled = true),
+            onClick = navigateToHome,
             modifier = Modifier
-                .padding(bottom = 10.dp),
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            HapHapBasicButton(
-                text = "시작하기",
-                textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = true),
-                onClick = navigateToHome,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
+        )
     }
 }
 
