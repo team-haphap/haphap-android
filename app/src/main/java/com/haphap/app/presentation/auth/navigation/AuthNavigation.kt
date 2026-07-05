@@ -24,13 +24,13 @@ fun NavController.navigateToSignUpComplete(
 
 fun NavGraphBuilder.authGraph(
     innerPadding: PaddingValues,
-    onLoginSuccess: () -> Unit,
-    onSignUpComplete: (userName: String) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToSignUpComplete: (userName: String) -> Unit,
 ) {
     composable<Login> {
         LoginRoute(
-            onLoginSuccess = onLoginSuccess,
-            onSignUpComplete = onSignUpComplete,
+            navigateToHome = navigateToHome,
+            navigateToSignUpComplete = navigateToSignUpComplete,
             modifier = Modifier.padding(innerPadding),
             )
     }
@@ -38,14 +38,14 @@ fun NavGraphBuilder.authGraph(
 
 fun NavGraphBuilder.signUpCompleteGraph(
     innerPadding: PaddingValues,
-    onStartClick: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     composable<SignUpComplete> { backStackEntry ->
         val route = backStackEntry.toRoute<SignUpComplete>()
         SignUpCompleteRoute(
             modifier = Modifier.padding(innerPadding),
             userName = route.userName,
-            onStartClick = onStartClick,
+            navigateToHome = navigateToHome,
         )
     }
 }

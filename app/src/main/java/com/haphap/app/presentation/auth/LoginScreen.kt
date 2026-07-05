@@ -37,8 +37,8 @@ import com.haphap.app.core.state.UiState
 
 @Composable
 fun LoginRoute(
-    onLoginSuccess: () -> Unit,
-    onSignUpComplete: (userName: String) -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToSignUpComplete: (userName: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -54,7 +54,7 @@ fun LoginRoute(
             }
             is UiState.Success -> {
                 // onLoginSuccess()
-                onSignUpComplete(state.data.name)
+                navigateToSignUpComplete(state.data.name)
             }
             else -> Unit
         }

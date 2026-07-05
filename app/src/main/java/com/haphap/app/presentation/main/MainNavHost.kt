@@ -31,7 +31,7 @@ fun MainNavHost(
     ) {
         authGraph(
             innerPadding = innerPadding,
-            onLoginSuccess = {
+            navigateToHome = {
                 navController.navigateToHome(
                     navOptions = navOptions {
                         popUpTo<Login> {inclusive = true}
@@ -39,7 +39,7 @@ fun MainNavHost(
                     }
                 )
             },
-            onSignUpComplete = { userName ->
+            navigateToSignUpComplete = { userName ->
                 navController.navigateToSignUpComplete(
                     userName = userName,
                     navOptions = navOptions {
@@ -52,7 +52,7 @@ fun MainNavHost(
 
         signUpCompleteGraph(
             innerPadding = innerPadding,
-            onStartClick = {
+            navigateToHome = {
                 navController.navigateToHome(
                     navOptions = navOptions {
                         popUpTo<SignUpComplete> { inclusive = true }

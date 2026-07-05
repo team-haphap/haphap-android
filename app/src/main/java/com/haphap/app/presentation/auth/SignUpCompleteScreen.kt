@@ -27,11 +27,11 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 fun SignUpCompleteRoute(
     modifier: Modifier = Modifier,
     userName: String,
-    onStartClick: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
     SignUpCompleteScreen(
         userName = userName.ifBlank { "사용자" },
-        onStartClick = onStartClick,
+        navigateToHome = navigateToHome,
         modifier = modifier,
         )
 }
@@ -39,7 +39,7 @@ fun SignUpCompleteRoute(
 @Composable
 fun SignUpCompleteScreen(
     userName: String,
-    onStartClick: () -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     ) {
     Column(
@@ -88,7 +88,7 @@ fun SignUpCompleteScreen(
             modifier = Modifier.padding(bottom = 26.dp)
         ) {
             Button(
-                onClick = onStartClick,
+                onClick = navigateToHome,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(49.dp),
@@ -113,7 +113,7 @@ private fun SignUpCompleteScreenPreview() {
     HapHapTheme {
         SignUpCompleteScreen(
             userName = "박연수",
-            onStartClick = {},
+            navigateToHome = {},
         )
     }
 }
