@@ -30,18 +30,18 @@ fun SignUpCompleteRoute(
     onStartClick: () -> Unit,
 ) {
     SignUpCompleteScreen(
-        modifier = modifier,
         userName = userName.ifBlank { "사용자" },
-        onStartClick = onStartClick
-    )
+        onStartClick = onStartClick,
+        modifier = modifier,
+        )
 }
 
 @Composable
 fun SignUpCompleteScreen(
-    modifier: Modifier = Modifier,
     userName: String,
     onStartClick: () -> Unit,
-) {
+    modifier: Modifier = Modifier,
+    ) {
     Column(
         modifier = modifier
             .fillMaxSize()
