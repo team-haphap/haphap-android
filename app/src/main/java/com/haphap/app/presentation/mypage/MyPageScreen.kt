@@ -41,7 +41,7 @@ private fun MyPageScreen(
             .padding(top = 43.dp),
     ) {
         MyPageTopSection(
-            nickNameText = uiState.nickNameText,
+            nameText = uiState.nameText,
         )
 
         Spacer(modifier = Modifier.height(42.dp))
