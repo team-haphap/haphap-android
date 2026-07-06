@@ -15,10 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
 fun MyPageProfileCard(
+    profileImage: String,
     nickNameText: String,
     emailText: String,
     modifier: Modifier = Modifier,
@@ -33,10 +35,19 @@ fun MyPageProfileCard(
             modifier = Modifier.aspectRatio(288f / 418f),
         )
 
+        UrlImage(
+            modifier = Modifier
+                .padding(horizontal = 81.dp)
+                .padding(top = 60.dp)
+                .aspectRatio(1f),
+            url  = profileImage,
+        )
+
         Column(
             modifier = Modifier
                 .matchParentSize()
-                .padding(horizontal = 20.dp, vertical = 33.dp),
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 33.dp),
             verticalArrangement = Arrangement.Bottom,
         ) {
             MyPageInfoField(
@@ -61,6 +72,7 @@ fun MyPageProfileCard(
 private fun MyPageProfileCardPreview() {
     HapHapTheme {
         MyPageProfileCard(
+            profileImage = "",
             nickNameText = "익명의죠르디",
             emailText = "yeonsoo1234@naver.com",
         )

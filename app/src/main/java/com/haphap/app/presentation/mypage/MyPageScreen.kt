@@ -47,6 +47,7 @@ private fun MyPageScreen(
         Spacer(modifier = Modifier.height(42.dp))
 
         MyPageProfileCard(
+            profileImage = uiState.profileUrl,
             nickNameText = uiState.nickNameText,
             emailText = uiState.emailText,
         )
