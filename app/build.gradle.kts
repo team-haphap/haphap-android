@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "com.haphap.app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -47,6 +47,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
         compose = true
@@ -89,4 +90,7 @@ dependencies {
     // Logging
     implementation(libs.timber)
     implementation(libs.lottie.compose)
+
+    // Core Library Desugaring
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
