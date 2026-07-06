@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +33,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
  * HapHap 공용 휠 피커 바텀시트.
  *
  * [content]는 [HapHapPicker] 휠들을 나열하는 자리로, 내부적으로 이미
- * 휠 간격/정렬이 맞춰진 [Row] 스코프([RowScope])를 제공합니다.
+ * 휠 간격/정렬이 맞춰진 [Row] 안에서 호출됩니다.
  * 각 [HapHapPicker]에 `onRowHeightMeasured`를 연결하면, 그 값들 중
  * 가장 큰 값으로 가운데 하이라이트 배경 높이가 맞춰집니다.
  *
@@ -44,7 +43,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
  * @param modifier Modifier
  * @param sheetState 바텀시트의 펼침/닫힘 상태. 기본값은 half-expanded 없이
  * 바로 완전히 펼쳐지는 상태 (기본값: [rememberModalBottomSheetState] with `skipPartiallyExpanded = true`)
- * @param content [HapHapPicker] 휠들을 나열할 내용. `RowScope`가 제공되므로 별도
+ * @param content [HapHapPicker] 휠들을 나열할 내용. 이미 [Row] 안에서 호출되므로 별도
  * `Row` 없이 휠들을 바로 나열하면 되고, 각 휠에 인자로 받은 `onRowHeightMeasured`를
  * 연결해주면 가운데 하이라이트 배경 높이가 자동으로 맞춰집니다.
  */
@@ -56,7 +55,7 @@ fun HapHapBottomSheet(
     onConfirmClick: () -> Unit,
     modifier: Modifier = Modifier,
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-    content: @Composable RowScope.(onRowHeightMeasured: (Dp) -> Unit) -> Unit,
+    content: @Composable (onRowHeightMeasured: (Dp) -> Unit) -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
