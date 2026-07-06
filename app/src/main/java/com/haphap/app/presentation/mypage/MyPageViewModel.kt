@@ -11,11 +11,6 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
 
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(
-        MyPageUiState(
-            nickNameText = "익명의죠르디",
-            emailText = "yeonsoo1234@naver.com",
-        ),
-    )
+    private val _uiState = MutableStateFlow(MyPageUiState())
     val uiState: StateFlow<MyPageUiState> = _uiState.asStateFlow()
 }
