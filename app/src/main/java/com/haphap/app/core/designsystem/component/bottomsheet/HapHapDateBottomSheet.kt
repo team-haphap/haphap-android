@@ -65,7 +65,12 @@ fun HapHapDateBottomSheet(
 
         LaunchedEffect(year, month, day) {
             val lastDayOfMonth = YearMonth.of(year, month).lengthOfMonth()
-            onDateSelected(LocalDate.of(year, month, day.coerceAtMost(lastDayOfMonth)))
+            if (day > lastDayOfMonth) {
+                day = lastDayOfMonth
+                dayState.scrollToItem((day - 1).coerceIn(days.indices))
+                return@LaunchedEffect
+            }
+            onDateSelected(LocalDate.of(year, month, day))
         }
 
         HapHapPicker(

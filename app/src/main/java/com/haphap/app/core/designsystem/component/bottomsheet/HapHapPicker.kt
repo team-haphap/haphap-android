@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.map
  * 하나의 아이템이 정중앙에 오도록 스냅됩니다. 선택된 값은 [state]의
  * [PickerState.selectedItem]으로 확인할 수 있습니다.
  *
- * @param items 휠에 표시할 아이템 목록
+ * @param items 휠에 표시할 아이템 목록. 비어있으면 아무것도 렌더링하지 않습니다.
  * @param modifier Modifier
  * @param state 현재 선택된 아이템을 담는 상태. 기본값은 내부에서 새로 생성하며,
  * 선택값을 외부에서 읽어야 하는 경우에만 [rememberPickerState]로 만들어 직접 넘기면 됩니다.
@@ -62,6 +62,8 @@ fun HapHapPicker(
     visibleItemsCount: Int = 5,
     onItemHeightMeasured: (Dp) -> Unit = {},
 ){
+    if (items.isEmpty()) return
+
     val visibleItemsMiddle = visibleItemsCount / 2
     val listScrollCount = if (isInfinite) Integer.MAX_VALUE else items.size + visibleItemsMiddle * 2
     val listScrollMiddle = listScrollCount / 2
@@ -91,7 +93,10 @@ fun HapHapPicker(
         with(density) { maxWidthPx.toDp() }
     }
 
-    SideEffect { onItemHeightMeasured(itemHeightDp) }
+    SideEffect {
+        state.scrollToItemIndex = { itemIndex -> listState.scrollToItem(itemIndex) }
+        onItemHeightMeasured(itemHeightDp)
+    }
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -151,6 +156,17 @@ fun rememberPickerState() = remember { PickerState() }
 class PickerState {
     /** 현재 정중앙에 위치한, 선택된 것으로 취급되는 아이템 문자열 */
     var selectedItem by mutableStateOf("")
+
+    internal var scrollToItemIndex: (suspend (Int) -> Unit)? = null
+
+    /**
+     * [items] 기준 인덱스로 휠을 프로그래밍적으로 스크롤합니다.
+     * 외부 요인으로 선택 가능 범위가 바뀌어 강제로 위치를 맞춰야 할 때 사용합니다
+     * (예: [HapHapDateBottomSheet]에서 월 변경으로 일(day) 범위가 줄어든 경우).
+     */
+    suspend fun scrollToItem(index: Int) {
+        scrollToItemIndex?.invoke(index)
+    }
 }
 
 @Preview
