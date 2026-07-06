@@ -8,9 +8,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +29,6 @@ fun MyPageProfileCard(
 ) {
     Box(
         modifier = modifier.padding(horizontal = 36.dp),
-        contentAlignment = Alignment.Center,
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_mypage),
@@ -39,8 +40,10 @@ fun MyPageProfileCard(
             modifier = Modifier
                 .padding(horizontal = 81.dp)
                 .padding(top = 60.dp)
-                .aspectRatio(1f),
-            url  = profileImage,
+                .aspectRatio(1f)
+                .clip(shape = CircleShape),
+            url = profileImage,
+            placeholderDrawable = R.drawable.ic_launcher_background,
         )
 
         Column(
