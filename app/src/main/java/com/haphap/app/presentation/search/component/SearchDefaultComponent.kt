@@ -129,7 +129,7 @@ private fun RecentSearchItem(
         Text(
             text = date,
             color = HapHapTheme.colors.gray500,
-            //Todo: 스타일 추가
+            style = HapHapTheme.typography.caption.r12,
         )
 
         Icon(
