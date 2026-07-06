@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalTime
 
 /**
@@ -59,14 +60,14 @@ fun HapHapTimeBottomSheet(
         }
 
         HapHapPicker(
-            items = hours.map { "${"%02d".format(it)}시" },
+            items = hours.map { "${"%02d".format(it)}시" }.toImmutableList(),
             state = hourState,
             startIndex = hours.indexOf(hour),
             isInfinite = true,
             onItemHeightMeasured = onRowHeightMeasured,
         )
         HapHapPicker(
-            items = minutes.map { "${"%02d".format(it)}분" },
+            items = minutes.map { "${"%02d".format(it)}분" }.toImmutableList(),
             state = minuteState,
             startIndex = minutes.indexOf(minute),
             isInfinite = true,

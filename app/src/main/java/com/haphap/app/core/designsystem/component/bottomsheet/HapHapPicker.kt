@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
@@ -54,7 +55,7 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HapHapPicker(
-    items: List<String>,
+    items: ImmutableList<String>,
     modifier: Modifier = Modifier,
     state: PickerState = rememberPickerState(),
     isInfinite: Boolean = false,
@@ -174,7 +175,7 @@ class PickerState {
 private fun HapHapPickerPreview() {
     HapHapTheme {
         HapHapPicker(
-            items = (1..31).map { "${it}일" },
+            items = (1..31).map { "${it}일" }.toImmutableList(),
             startIndex = 10,
         )
     }

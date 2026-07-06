@@ -7,8 +7,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -31,6 +33,7 @@ fun HapHapDateBottomSheet(
     onDismissRequest: () -> Unit,
     onCancelClick: () -> Unit,
     onConfirmClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onDateSelected: (LocalDate) -> Unit = {},
     initialDate: LocalDate = LocalDate.now(),
 ) {
@@ -38,6 +41,7 @@ fun HapHapDateBottomSheet(
         onDismissRequest = onDismissRequest,
         onCancelClick = onCancelClick,
         onConfirmClick = onConfirmClick,
+        modifier = modifier,
     ) { onRowHeightMeasured ->
         var year by remember { mutableIntStateOf(initialDate.year) }
         var month by remember { mutableIntStateOf(initialDate.monthValue) }
@@ -74,19 +78,19 @@ fun HapHapDateBottomSheet(
         }
 
         HapHapPicker(
-            items = years.map { "${it}년" },
+            items = years.map { "${it}년" }.toImmutableList(),
             state = yearState,
             startIndex = years.indexOf(year),
             onItemHeightMeasured = onRowHeightMeasured,
         )
         HapHapPicker(
-            items = months.map { "${it}월" },
+            items = months.map { "${it}월" }.toImmutableList(),
             state = monthState,
             startIndex = months.indexOf(month),
             onItemHeightMeasured = onRowHeightMeasured,
         )
         HapHapPicker(
-            items = days,
+            items = days.toImmutableList(),
             state = dayState,
             startIndex = (day - 1).coerceIn(days.indices),
             onItemHeightMeasured = onRowHeightMeasured,
