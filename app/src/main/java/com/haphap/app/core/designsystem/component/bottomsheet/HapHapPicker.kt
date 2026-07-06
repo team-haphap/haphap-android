@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,12 +75,6 @@ fun HapHapPicker(
         startIndex
     }
 
-    fun getItem(index: Int): String {
-        if (isInfinite) return items[index % items.size]
-        val realIndex = index - visibleItemsMiddle
-        return if (realIndex in items.indices) items[realIndex] else ""
-    }
-
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = listStartIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
@@ -101,9 +96,25 @@ fun HapHapPicker(
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index -> getItem(index + visibleItemsMiddle) }
+            .map { index ->
+                getItem(
+                    index = index + visibleItemsMiddle,
+                    items = items,
+                    visibleItemsMiddle = visibleItemsMiddle,
+                    isInfinite = isInfinite,
+                )
+            }
             .distinctUntilChanged()
             .collect { item -> state.selectedItem = item }
+    }
+
+    val centerIndex by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex + visibleItemsMiddle +
+                if (itemHeightPixels.value > 0) {
+                    (listState.firstVisibleItemScrollOffset.toFloat() / itemHeightPixels.value + 0.5f).toInt()
+                } else 0
+        }
     }
 
     Box(modifier = modifier) {
@@ -116,10 +127,6 @@ fun HapHapPicker(
                 .height(itemHeightDp * visibleItemsCount)
         ) {
             items(listScrollCount) { index ->
-                val centerIndex = listState.firstVisibleItemIndex + visibleItemsMiddle +
-                    if (itemHeightPixels.value > 0) {
-                        (listState.firstVisibleItemScrollOffset.toFloat() / itemHeightPixels.value + 0.5f).toInt()
-                    } else 0
                 val distance = kotlin.math.abs(index - centerIndex)
                 val itemColor = when (distance) {
                     0 -> HapHapTheme.colors.gray700
@@ -127,7 +134,12 @@ fun HapHapPicker(
                     else -> HapHapTheme.colors.gray200
                 }
                 Text(
-                    text = getItem(index),
+                    text = getItem(
+                        index = index,
+                        items = items,
+                        visibleItemsMiddle = visibleItemsMiddle,
+                        isInfinite = isInfinite,
+                    ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = textStyle,
@@ -147,6 +159,17 @@ private fun pixelsToDp(pixels: Int) = with(LocalDensity.current) { pixels.toDp()
 /** [PickerState]를 기억(remember)해서 반환합니다. */
 @Composable
 fun rememberPickerState() = remember { PickerState() }
+
+private fun getItem(
+    index: Int,
+    items: ImmutableList<String>,
+    visibleItemsMiddle: Int,
+    isInfinite: Boolean,
+): String {
+    if (isInfinite) return items[index % items.size]
+    val realIndex = index - visibleItemsMiddle
+    return if (realIndex in items.indices) items[realIndex] else ""
+}
 
 /**
  * [HapHapPicker]의 현재 선택 상태를 담는 홀더.
