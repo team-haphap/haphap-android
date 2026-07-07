@@ -59,7 +59,7 @@ private fun ButtonType.toStyle(colors: HapHapColors): HapHapButtonStyle = when (
         textColor = colors.primary500,
     )
 
-    ButtonType.Default -> HapHapButtonStyle(
+    ButtonType.UnSelected -> HapHapButtonStyle(
         backgroundColor = colors.gray100,
         textColor = colors.gray400,
     )
@@ -93,7 +93,7 @@ fun HapHapBasicButton(
         is ButtonType.Primary -> colorType.enabled
         ButtonType.Cancel -> true
         ButtonType.Selected -> true
-        ButtonType.Default -> true
+        ButtonType.UnSelected -> true
     }
 
     Box(

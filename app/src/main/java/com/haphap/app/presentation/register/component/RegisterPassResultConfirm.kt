@@ -20,12 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-
-enum class PassResultStatus(val text: String) {
-    PASS("합격했어요"),
-    FAILED("불합격했어요"),
-    DONT_KNOW("아직 몰라요"),
-}
+import com.haphap.app.presentation.register.PassResultStatus
 
 @Composable
 fun RegisterPassResultConfirm(
@@ -39,7 +34,7 @@ fun RegisterPassResultConfirm(
                 color = HapHapTheme.colors.sub100,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 13.dp)
+            .padding(horizontal = 14.dp, vertical = 10.dp)
     ) {
         Text(
             text = status.text,

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,8 +32,8 @@ fun RegisterEnterTime(
     onTimeSelected: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isBottomSheetVisible by remember { mutableStateOf(false) }
-    var pendingTime by remember { mutableStateOf<LocalTime?>(null) }
+    var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+    var pendingTime by rememberSaveable { mutableStateOf<LocalTime?>(null) }
 
     Box(
         modifier = modifier

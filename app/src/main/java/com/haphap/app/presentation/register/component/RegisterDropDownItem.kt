@@ -9,35 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.presentation.register.DropDownItemSelectionState
+import com.haphap.app.presentation.register.toStyle
 
 val RegisterDropDownItemHeight = 50.dp
-
-private enum class DropDownItemSelectionState {
-    SELECTED,
-    UNSELECTED,
-}
-
-private data class RegisterDropDownItemStyle(
-    val backgroundColor: Color,
-    val textColor: Color,
-)
-
-private fun DropDownItemSelectionState.toStyle(colors: HapHapColors): RegisterDropDownItemStyle = when (this) {
-    DropDownItemSelectionState.SELECTED -> RegisterDropDownItemStyle(
-        backgroundColor = colors.sub100,
-        textColor = colors.primary500,
-    )
-    DropDownItemSelectionState.UNSELECTED -> RegisterDropDownItemStyle(
-        backgroundColor = colors.gray50,
-        textColor = colors.gray500,
-    )
-}
 
 @Composable
 fun RegisterDropDownItem(

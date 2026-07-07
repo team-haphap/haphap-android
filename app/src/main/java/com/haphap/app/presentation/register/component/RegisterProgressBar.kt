@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,14 +25,14 @@ fun RegisterProgressBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(11.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         repeat(totalSteps) { steps ->
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .height(6.dp)
-                    .clip(RoundedCornerShape(percent = 50))
+                    .clip(CircleShape)
                     .background(
                         color = if (steps < progress) HapHapTheme.colors.gray700
                         else HapHapTheme.colors.gray200

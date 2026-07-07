@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,14 +27,21 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 private const val MAX_VISIBLE_ITEMS = 4
 
+data class RegisterDropDownItemData(
+    val id: String,
+    val text: String,
+)
+
 @Composable
 fun RegisterDropDown(
-    items: List<String>,
-    selectedItem: String?,
-    onItemSelected: (String) -> Unit,
+    items: ImmutableList<RegisterDropDownItemData>,
+    selectedItem: RegisterDropDownItemData?,
+    onItemSelected: (RegisterDropDownItemData) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
 ) {
@@ -59,7 +65,7 @@ fun RegisterDropDown(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = selectedItem ?: placeholder,
+            text = selectedItem?.text ?: placeholder,
             style = HapHapTheme.typography.body.sb14,
             color = triggerTextColor,
         )
@@ -69,7 +75,7 @@ fun RegisterDropDown(
                 id = if (isExpanded) R.drawable.ic_register_up_30 else R.drawable.ic_register_down_30
             ),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = HapHapTheme.colors.gray600,
         )
     }
 
@@ -89,10 +95,13 @@ fun RegisterDropDown(
                 .padding(horizontal = 11.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(items) { item ->
+            items(
+                items = items,
+                key = { it.id },
+            ) { item ->
                 RegisterDropDownItem(
-                    text = item,
-                    isSelected = item == selectedItem,
+                    text = item.text,
+                    isSelected = item.id == selectedItem?.id,
                     onClick = {
                         onItemSelected(item)
                         isExpanded = false
@@ -107,16 +116,16 @@ fun RegisterDropDown(
 @Composable
 private fun RegisterDropDownPreview() {
     HapHapTheme {
-        var selected by remember { mutableStateOf<String?>(null) }
+        var selected by remember { mutableStateOf<RegisterDropDownItemData?>(null) }
 
         Column(modifier = Modifier.padding(20.dp)) {
             RegisterDropDown(
-                items = listOf(
-                    "카카오 2026 신입 개발자 공개 채용",
-                    "네이버 2026 신입 개발자 공개 채용",
-                    "라인 2026 신입 개발자 공개 채용",
-                    "토스 2026 신입 개발자 공개 채용",
-                    "당근 2026 신입 개발자 공개 채용",
+                items = persistentListOf(
+                    RegisterDropDownItemData(id = "1", text = "카카오 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemData(id = "2", text = "네이버 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemData(id = "3", text = "라인 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemData(id = "4", text = "토스 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemData(id = "5", text = "당근 2026 신입 개발자 공개 채용"),
                 ),
                 selectedItem = selected,
                 onItemSelected = { selected = it },

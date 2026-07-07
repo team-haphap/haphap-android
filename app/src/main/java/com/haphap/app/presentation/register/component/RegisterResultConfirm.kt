@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,10 +29,11 @@ fun RegisterResultConfirm(
                 color = HapHapTheme.colors.gray100,
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(all = 20.dp),
-        verticalAlignment = Alignment.Bottom,
+            .padding(all = 10.dp),
     ) {
-        Column {
+        Column(
+            modifier = Modifier.weight(1f),
+        ) {
             Text(
                 text = "지원 정보",
                 color = HapHapTheme.colors.gray400,
@@ -44,17 +46,21 @@ fun RegisterResultConfirm(
                 text = recruitName,
                 color = HapHapTheme.colors.gray600,
                 style = HapHapTheme.typography.body.sb14,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(4.dp))
 
         Text(
             text = recruitProcess,
             modifier = Modifier
-                .background(HapHapTheme.colors.white, RoundedCornerShape(8.dp))
+                .align(Alignment.Bottom)
+                .background(
+                    color = HapHapTheme.colors.white,
+                    shape = RoundedCornerShape(8.dp)
+                )
                 .padding(horizontal = 9.dp, vertical = 7.dp),
             color = HapHapTheme.colors.gray500,
             style = HapHapTheme.typography.caption.sb12,
@@ -72,7 +78,7 @@ private fun RegisterResultConfirmPreview() {
                 .padding(all = 20.dp)
         ) {
             RegisterResultConfirm(
-                recruitName = "카카오 2026 신입 개발자 공개 채용",
+                recruitName = "카카오 2026 신입~~~~~~~~~~~~~~~~~~~~ 개발자 공개 채용",
                 recruitProcess = "코딩 테스트",
             )
         }

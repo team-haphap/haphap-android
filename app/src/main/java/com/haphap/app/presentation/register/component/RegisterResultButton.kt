@@ -1,14 +1,13 @@
 package com.haphap.app.presentation.register.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,31 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-
-enum class PassResultStatusButton(
-    val text: String,
-    @DrawableRes val defaultBadgeRes: Int,
-    @DrawableRes val selectedBadgeRes: Int
-) {
-    PASS(
-        text = "합격했어요",
-        defaultBadgeRes = R.drawable.img_register_pass_default,
-        selectedBadgeRes = R.drawable.img_register_pass_selected
-    ),
-    FAILED(
-        text = "불합격했어요",
-        defaultBadgeRes = R.drawable.img_register_fail_default,
-        selectedBadgeRes = R.drawable.img_register_fail_selected
-    ),
-    DONT_KNOW(
-        text = "아직 몰라요",
-        defaultBadgeRes = R.drawable.img_register_wait_default,
-        selectedBadgeRes = R.drawable.img_register_wait_selected
-    )
-}
+import com.haphap.app.presentation.register.PassResultStatusButton
 
 @Composable
 fun RegisterResultButton(
@@ -59,7 +36,6 @@ fun RegisterResultButton(
 
     Column(
         modifier = modifier
-            .wrapContentSize()
             .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
             .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
             .noRippleClickable(onClick = onClick)
@@ -70,7 +46,7 @@ fun RegisterResultButton(
             painter = painterResource(
                 id = if (isSelected) status.selectedBadgeRes else status.defaultBadgeRes
             ),
-            contentDescription = status.text,
+            contentDescription = null,
         )
 
         Text(
