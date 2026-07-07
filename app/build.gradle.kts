@@ -32,7 +32,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
+        buildConfigField("String", "KAKAO_APP_KEY", properties.getProperty("kakao.app.key"))
 
+        manifestPlaceholders["kakaoAppKey"] = properties.getProperty("kakao.app.key").removeSurrounding("\"")
     }
 
     buildTypes {
@@ -93,4 +95,6 @@ dependencies {
 
     // Core Library Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    // Auth
+    implementation(libs.kakao.user.sdk)
 }

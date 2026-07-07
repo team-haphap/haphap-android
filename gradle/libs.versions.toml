@@ -46,6 +46,8 @@ timber = "5.0.1"
 
 # Core Library Desugaring
 desugarJdkLibs = "2.1.5"
+# Auth
+kakaoUserSdk = "2.20.6"
 
 
 [libraries]
@@ -100,6 +102,8 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 # Core Library Desugaring
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 
+# Auth
+kakao-user-sdk = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoUserSdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
