@@ -87,11 +87,11 @@ fun RegisterDropDown(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(listHeight)
-                .padding(horizontal = 11.dp)
                 .background(
-                    color = HapHapTheme.colors.white,
-                    shape = RoundedCornerShape(8.dp),
-                ),
+                    color = HapHapTheme.colors.gray50,
+                    shape = RoundedCornerShape(10.dp),
+                )
+                .padding(horizontal = 11.dp),
         ) {
             items(items) { item ->
                 RegisterDropDownItem(

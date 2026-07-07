@@ -53,6 +53,16 @@ private fun ButtonType.toStyle(colors: HapHapColors): HapHapButtonStyle = when (
         backgroundColor = colors.gray100,
         textColor = colors.gray400,
     )
+
+    ButtonType.Selected -> HapHapButtonStyle(
+        backgroundColor = colors.sub100,
+        textColor = colors.primary500,
+    )
+
+    ButtonType.Default -> HapHapButtonStyle(
+        backgroundColor = colors.gray100,
+        textColor = colors.gray400,
+    )
 }
 
 /**
@@ -82,6 +92,8 @@ fun HapHapBasicButton(
     val isEnabled = when (colorType) {
         is ButtonType.Primary -> colorType.enabled
         ButtonType.Cancel -> true
+        ButtonType.Selected -> true
+        ButtonType.Default -> true
     }
 
     Box(
