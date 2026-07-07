@@ -122,15 +122,16 @@ private fun BannerCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(300f / 198f)
             .clip(RoundedCornerShape(12.dp))
     ) {
         UrlImage(
+            modifier = Modifier
+                .aspectRatio(300f / 198f)
+                .height(198.dp),
             url = imageUrl,
             placeholderDrawable = R.drawable.ic_launcher_background,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize(),
         )
 
         Column(
