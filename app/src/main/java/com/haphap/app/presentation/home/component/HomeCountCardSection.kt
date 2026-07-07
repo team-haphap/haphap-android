@@ -78,7 +78,7 @@ private fun HomeCountCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(100f / 61f),
+                .aspectRatio(100f / 62f),
         )
 
         Column(
