@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,21 +34,17 @@ fun HomeEmptyComponent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Row(modifier = Modifier) {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
                 text = "하단의",
                 style = HapHapTheme.typography.caption.sb12,
                 color = HapHapTheme.colors.gray500,
             )
 
-            Spacer(modifier = Modifier.width(2.dp))
-
             HapHapStatusChip(
                 text = "등록",
                 type = StatusChipType.CATEGORY,
             )
-
-            Spacer(modifier = Modifier.width(2.dp))
 
             Text(
                 text = "탭에서 내 결과를 공유할 수 있어요!",
