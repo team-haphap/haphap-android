@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
@@ -68,6 +70,9 @@ fun RegisterDropDown(
             text = selectedItem?.text ?: placeholder,
             style = HapHapTheme.typography.body.sb14,
             color = triggerTextColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
         )
 
         Icon(
@@ -123,7 +128,7 @@ private fun RegisterDropDownPreview() {
                 items = persistentListOf(
                     RegisterDropDownItemData(id = "1", text = "카카오 2026 신입 개발자 공개 채용"),
                     RegisterDropDownItemData(id = "2", text = "네이버 2026 신입 개발자 공개 채용"),
-                    RegisterDropDownItemData(id = "3", text = "라인 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemData(id = "3", text = "라인 2026 신입 ~~~~~~~~~~~~~~~~~~~~~~~~~~개발자 공개 채용"),
                     RegisterDropDownItemData(id = "4", text = "토스 2026 신입 개발자 공개 채용"),
                     RegisterDropDownItemData(id = "5", text = "당근 2026 신입 개발자 공개 채용"),
                 ),

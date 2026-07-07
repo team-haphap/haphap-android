@@ -1,5 +1,6 @@
 package com.haphap.app.core.designsystem.component.modal
 
+import android.graphics.drawable.VectorDrawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +27,14 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+
+/**
+ * 취소/확인 버튼이 있는 알림용 다이얼로그.
+ *
+ * @param content 다이얼로그 본문에 표시할 안내 문구
+ * @param onDismiss 다이얼로그 바깥 영역 또는 "취소" 버튼 클릭 시 호출되는 콜백
+ * @param onConfirmClick "확인" 버튼 클릭 시 호출되는 콜백
+ */
 
 @Composable
 fun HapHapModal(
@@ -35,8 +46,8 @@ fun HapHapModal(
     Dialog (
         onDismissRequest = onDismiss,
         properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-            decorFitsSystemWindows = false,
+            usePlatformDefaultWidth = true,
+            decorFitsSystemWindows = true,
         )
     ) {
         Column(
@@ -50,7 +61,7 @@ fun HapHapModal(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_alert_53),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
                 contentDescription = null,
                 tint = HapHapTheme.colors.gray200,
             )
