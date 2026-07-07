@@ -33,7 +33,7 @@ fun RegisterTopBar(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = null,
             tint = Color.Unspecified,
-            modifier = Modifier.noRippleClickable(onClick = onBackClick), // 수정: 뒤로가기 클릭 처리 추가
+            modifier = Modifier.noRippleClickable(onClick = onBackClick),
         )
 
         Spacer(modifier = Modifier.width(10.dp))

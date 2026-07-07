@@ -84,7 +84,6 @@ fun RegisterResultButton(
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterResultButtonPreview() {
-    // 수정: 선택된 상태를 기억하는 로컬 state 추가
     var selectedStatus by remember { mutableStateOf(PassResultStatusButton.PASS) }
 
     HapHapTheme {
