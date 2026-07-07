@@ -78,7 +78,7 @@ private fun HomeCountCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(300f / 198f),
+                .aspectRatio(100f / 61f),
         )
 
         Column(
@@ -92,7 +92,7 @@ private fun HomeCountCard(
                         bottomEnd = 6.dp,
                     ),
                 )
-                .padding(horizontal = 10.dp, vertical = 6.dp)
+                .padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 4.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
