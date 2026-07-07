@@ -21,7 +21,7 @@ import com.haphap.app.core.designsystem.type.StatusChipType
 import com.haphap.app.presentation.jobdetail.type.JobStepReportType
 
 @Composable
-fun JobFeedItem(
+fun JobStepReportItem(
     time: String,
     nickName: String,
     result: JobStepReportType,
@@ -80,22 +80,22 @@ fun JobFeedItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun JobFeedItemPreview() {
+private fun JobStepReportItemPreview() {
     HapHapTheme {
         Column {
-            JobFeedItem(
+            JobStepReportItem(
                 time = "12:21",
                 nickName = "익명의 라이언",
                 result = JobStepReportType.PASS,
                 stage = "서류",
             )
-            JobFeedItem(
+            JobStepReportItem(
                 time = "12:21",
                 nickName = "익명의 라이언",
                 result = JobStepReportType.FAIL,
                 stage = "서류",
             )
-            JobFeedItem(
+            JobStepReportItem(
                 time = "12:21",
                 nickName = "익명의 라이언",
                 result = JobStepReportType.PENDING,
