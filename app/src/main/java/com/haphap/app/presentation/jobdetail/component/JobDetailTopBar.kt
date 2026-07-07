@@ -3,6 +3,7 @@ package com.haphap.app.presentation.jobdetail.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,6 @@ fun JobDetailTopBar(
     onMoreClick: () -> Unit,
     modifier: Modifier = Modifier,
     isAlarmActive: Boolean = false,
-    title: @Composable () -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -46,17 +46,15 @@ fun JobDetailTopBar(
             } else {
                 R.drawable.ic_top_bar_alarm_default_44
             }
+
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
                 contentDescription = "뒤로가기",
                 modifier = Modifier.noRippleClickable (onClick = { onBackClick() })
             )
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                title()
-            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -65,6 +63,7 @@ fun JobDetailTopBar(
                     contentDescription = "알림",
                     modifier = Modifier.noRippleClickable(onClick = { onAlarmClick() })
                 )
+
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
                     contentDescription = "더보기",
