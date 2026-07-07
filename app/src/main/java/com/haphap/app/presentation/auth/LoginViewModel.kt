@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
         _loginState.value = UiState.Loading
 
         viewModelScope.launch {
-            authRepository.postKakaoLogin(KakaoLoginRequestDto(kakaoAccessToken))
+            authRepository.postKakaoLogin(accessToken = kakaoAccessToken)
                 .onSuccess { model ->
                     _loginState.value = UiState.Success(model)
                 }

@@ -1,5 +1,6 @@
 package com.haphap.app.data.di.auth
 
+import com.haphap.app.core.network.di.Auth
 import com.haphap.app.data.remote.service.auth.AuthService
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,6 @@ object AuthServiceModule {
     @Provides
     @Singleton
     fun provideAuthService(
-        retrofit: Retrofit
+        @Auth retrofit: Retrofit
     ): AuthService = retrofit.create()
 }

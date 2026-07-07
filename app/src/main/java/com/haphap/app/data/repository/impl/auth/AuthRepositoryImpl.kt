@@ -13,9 +13,9 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val localTokenDataSource: LocalTokenDataSource,
 ): AuthRepository {
-    override suspend fun postKakaoLogin(requestDto: KakaoLoginRequestDto): Result<KakaoLoginModel> =
+    override suspend fun postKakaoLogin(accessToken: String): Result<KakaoLoginModel> =
         suspendRunCatching {
-            val response = authDataSource.postKakaoLogin(requestDto)
+            val response = authDataSource.postKakaoLogin(KakaoLoginRequestDto(accessToken))
             val data = response.data ?: throw IllegalStateException("response data is null")
 
             localTokenDataSource.setAccessToken(data.accessToken)
