@@ -1,6 +1,6 @@
 package com.haphap.app.presentation.jobdetail.component
 
-import com.haphap.app.presentation.jobdetail.type.JobResultType
+import com.haphap.app.presentation.jobdetail.type.JobResultCardType
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
 fun JobResultCard(
-    type: JobResultType,
+    type: JobResultCardType,
     count: Int,
     modifier: Modifier = Modifier,
 ) {
@@ -73,17 +73,17 @@ private fun JobResultCardPreview() {
             modifier = Modifier.padding(16.dp),
         ) {
             JobResultCard(
-                type = JobResultType.PASS,
+                type = JobResultCardType.PASS,
                 count = 12,
                 modifier = Modifier.width(100.dp),
             )
             JobResultCard(
-                type = JobResultType.FAIL,
+                type = JobResultCardType.FAIL,
                 count = 12,
                 modifier = Modifier.width(100.dp),
             )
             JobResultCard(
-                type = JobResultType.PENDING,
+                type = JobResultCardType.PENDING,
                 count = 12,
                 modifier = Modifier.width(100.dp),
             )

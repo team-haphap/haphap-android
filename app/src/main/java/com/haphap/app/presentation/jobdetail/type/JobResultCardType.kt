@@ -3,7 +3,7 @@ package com.haphap.app.presentation.jobdetail.type
 import androidx.annotation.DrawableRes
 import com.haphap.app.R
 
-enum class JobResultType(
+enum class JobResultCardType(
     @DrawableRes val imageRes: Int,
     val label: String,
 ) {
