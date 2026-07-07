@@ -26,7 +26,7 @@ import com.haphap.app.core.designsystem.component.chip.HapHapFilterChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.search.ChipListModel
-import com.haphap.app.data.model.search.JobListModel
+import com.haphap.app.data.model.search.SearchResultModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -36,7 +36,7 @@ fun SearchCompleteComponent(
     chipList: ImmutableList<ChipListModel>,
     selectedChips: ImmutableList<String>,
     onFilterClick: (String) -> Unit,
-    jobList: ImmutableList<JobListModel>,
+    searchResultList: ImmutableList<SearchResultModel>,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +78,7 @@ fun SearchCompleteComponent(
             contentPadding = PaddingValues(vertical = 12.dp),
         ) {
             items(
-                items = jobList,
+                items = searchResultList,
                 key = { it.id }
             ){
                 HapHapCard(
@@ -131,8 +131,8 @@ private fun SearchCompleteComponentPreview() {
                     selectedChips.remove("전체").add(category)
                 }
             },
-            jobList = persistentListOf(
-                JobListModel(
+            searchResultList = persistentListOf(
+                SearchResultModel(
                     id = 1,
                     imageUrl = "",
                     category = "개발",
@@ -141,7 +141,7 @@ private fun SearchCompleteComponentPreview() {
                     title = "카카오",
                     content = "공고 설명",
                 ),
-                JobListModel(
+                SearchResultModel(
                     id = 2,
                     imageUrl = "",
                     category = "개발",
@@ -150,7 +150,7 @@ private fun SearchCompleteComponentPreview() {
                     title = "카카오",
                     content = "공고 설명",
                 ),
-                JobListModel(
+                SearchResultModel(
                     id = 3,
                     imageUrl = "",
                     category = "개발",
@@ -159,7 +159,7 @@ private fun SearchCompleteComponentPreview() {
                     title = "카카오",
                     content = "공고 설명",
                 ),
-                JobListModel(
+                SearchResultModel(
                     id = 4,
                     imageUrl = "",
                     category = "개발",

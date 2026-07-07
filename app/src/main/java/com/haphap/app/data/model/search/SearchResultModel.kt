@@ -1,6 +1,6 @@
 package com.haphap.app.data.model.search
 
-data class JobListModel(
+data class SearchResultModel(
     val id: Int,
     val imageUrl: String,
     val category: String,

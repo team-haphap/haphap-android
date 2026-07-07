@@ -30,15 +30,15 @@ import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.search.RelatedKeywordListModel
-import com.haphap.app.data.model.search.SearchResultListModel
+import com.haphap.app.data.model.search.SearchAutoCompleteModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SearchingComponent(
-    searchResultList: ImmutableList<SearchResultListModel>,
+    searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel>,
     relatedKeywordList: ImmutableList<RelatedKeywordListModel>,
-    onResultItemClick: () -> Unit,
+    onAutoCompleteItemClick: () -> Unit,
     onRelatedItemClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -47,12 +47,12 @@ fun SearchingComponent(
             .padding(top = 12.dp)
             .padding(horizontal = 20.dp),
     ) {
-        searchResultList.forEach {
+        searchAutoCompleteList.forEach {
             SearchResultItem(
                 imageUrl = it.imageUrl,
                 text = it.text,
                 highlightLength = it.length,
-                onClick = onResultItemClick,
+                onClick = onAutoCompleteItemClick,
             )
 
             HorizontalDivider(
@@ -186,14 +186,14 @@ private fun RelatedKeywordItem(
 private fun SearchingComponentPreview() {
     HapHapTheme{
         SearchingComponent(
-            searchResultList = persistentListOf(
-                SearchResultListModel(
+            searchAutoCompleteList = persistentListOf(
+                SearchAutoCompleteModel(
                     id = 1,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용",
                     length = 3,
                 ),
-                SearchResultListModel(
+                SearchAutoCompleteModel(
                     id = 2,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용",
@@ -222,7 +222,7 @@ private fun SearchingComponentPreview() {
                     length = 3,
                 ),
             ),
-            onResultItemClick = {},
+            onAutoCompleteItemClick = {},
             onRelatedItemClick = {},
         )
     }
