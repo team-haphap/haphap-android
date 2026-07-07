@@ -37,6 +37,7 @@ fun RegisterDropDown(
     selectedItem: String?,
     onItemSelected: (String) -> Unit,
     placeholder: String,
+    isEditable: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -46,6 +47,9 @@ fun RegisterDropDown(
     val triggerTextColor =
         if (selectedItem != null) HapHapTheme.colors.primary500 else HapHapTheme.colors.gray600
 
+    val isEditablePadding =
+        if (isEditable)  10.dp else 15.dp
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -53,8 +57,8 @@ fun RegisterDropDown(
                 color = triggerBackgroundColor,
                 shape = RoundedCornerShape(8.dp),
             )
-            .noRippleClickable(onClick = { isExpanded = !isExpanded })
-            .padding(vertical = 14.dp, horizontal = 16.dp),
+            .noRippleClickable(onClick = { isExpanded = !isExpanded }, isEnabled = isEditable)
+            .padding(vertical = isEditablePadding, horizontal = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -63,13 +67,15 @@ fun RegisterDropDown(
             style = HapHapTheme.typography.body.sb14,
             color = triggerTextColor,
         )
-        Icon(
-            imageVector = ImageVector.vectorResource(
-                id = if (isExpanded) R.drawable.ic_register_up_30 else R.drawable.ic_register_down_30
-            ),
-            contentDescription = null,
-            tint = Color.Unspecified,
-        )
+        if (isEditable) {
+            Icon(
+                imageVector = ImageVector.vectorResource(
+                    id = if (isExpanded) R.drawable.ic_register_up_30 else R.drawable.ic_register_down_30
+                ),
+                contentDescription = null,
+                tint = Color.Unspecified,
+            )
+        }
     }
 
     if (isExpanded) {
@@ -101,9 +107,9 @@ fun RegisterDropDown(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterDropDownPreview() {
+private fun RegisterDropDownEditablePreview() {
     HapHapTheme {
         var selected by remember { mutableStateOf<String?>(null) }
 
@@ -119,6 +125,27 @@ private fun RegisterDropDownPreview() {
                 selectedItem = selected,
                 onItemSelected = { selected = it },
                 placeholder = "원하는 공고를 선택해주세요",
+                isEditable = true,
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(text = "전형", style = HapHapTheme.typography.body.b18)
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun RegisterDropDownNotEditablePreview() {
+    HapHapTheme {
+        Column(modifier = Modifier.padding(20.dp)) {
+            RegisterDropDown(
+                items = listOf("카카오 2026 신입 개발자 공개 채용"),
+                selectedItem = "카카오 2026 신입 개발자 공개 채용",
+                onItemSelected = {},
+                placeholder = "원하는 공고를 선택해주세요",
+                isEditable = false,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
