@@ -44,7 +44,7 @@ fun HapHapRefreshButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeRefreshButtonPreview() {
+private fun HapHapRefreshButtonPreview() {
     HapHapTheme {
         HapHapRefreshButton(onButtonClick = {})
     }
