@@ -112,7 +112,7 @@ private fun HomeCountCard(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "$count",
+                    text = count.toString(),
                     style = HapHapTheme.typography.subtitle.sb24,
                     color = HapHapTheme.colors.primary500,
                 )
