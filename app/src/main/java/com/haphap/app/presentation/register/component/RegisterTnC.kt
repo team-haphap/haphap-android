@@ -33,13 +33,10 @@ fun RegisterTnC(
     modifier: Modifier = Modifier,
     checked: Boolean = false,
 ) {
-    var isSingleLine by remember {mutableStateOf(true)}
-
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        verticalAlignment = if (isSingleLine) Alignment.CenterVertically else Alignment.Top,
     ) {
         Icon (
             imageVector = ImageVector.vectorResource(
@@ -70,9 +67,6 @@ fun RegisterTnC(
             text = context,
             color = HapHapTheme.colors.gray600,
             style = HapHapTheme.typography.caption.r12,
-            onTextLayout = { layoutResult ->
-                isSingleLine = layoutResult.lineCount <= 1
-            }
         )
     }
 }

@@ -92,6 +92,7 @@ fun RegisterDropDown(
                     shape = RoundedCornerShape(10.dp),
                 )
                 .padding(horizontal = 11.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(items) { item ->
                 RegisterDropDownItem(
