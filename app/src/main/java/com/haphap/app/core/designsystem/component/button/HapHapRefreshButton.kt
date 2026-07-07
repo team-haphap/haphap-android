@@ -24,13 +24,12 @@ fun HapHapRefreshButton(
 ) {
     Box(
         modifier = modifier
-            .size(44.dp)
             .background(
                 color = HapHapTheme.colors.gray500,
                 shape = CircleShape,
             )
-            .padding(13.dp)
-            .noRippleClickable(onClick = onButtonClick),
+            .noRippleClickable(onClick = onButtonClick)
+            .padding(13.dp),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
