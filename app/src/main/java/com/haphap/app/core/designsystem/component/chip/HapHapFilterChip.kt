@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 sealed interface FilterChipContent {
     data class IconContent(
         @param:DrawableRes val iconRes: Int,
+        val iconResTint: Color,
         val iconContentDescription: String? = null
     ) : FilterChipContent
 
@@ -94,6 +96,7 @@ private fun HapHapFilterChipPreview() {
             HapHapFilterChip(
                 content = FilterChipContent.IconContent(
                     iconRes = R.drawable.ic_filter_20,
+                    iconResTint = HapHapTheme.colors.gray500,
                     iconContentDescription = "필터"
                 ),
                 onFilterClick = {}
