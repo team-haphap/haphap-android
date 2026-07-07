@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,32 +30,25 @@ fun JobResultCard(
 ) {
     Column(
         modifier = modifier
-            .width(100.dp)
-            .height(104.dp)
             .clip(shape = RoundedCornerShape(8.dp)),
     ) {
         Image(
             painter = painterResource(id = type.imageRes),
             contentDescription = type.label,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp)
                 .background(color = HapHapTheme.colors.white)
                 .border(
                     width = 1.dp,
                     color = HapHapTheme.colors.gray100,
-                ),
+                )
+                .padding(top = 4.dp, bottom = 5.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                space = 2.dp,
-                alignment = Alignment.CenterVertically,
-            ),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             Text(
                 text = count.toString(),
@@ -80,9 +72,21 @@ private fun JobResultCardPreview() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(16.dp),
         ) {
-            JobResultCard(type = JobResultType.PASS, count = 12)
-            JobResultCard(type = JobResultType.FAIL, count = 12)
-            JobResultCard(type = JobResultType.PENDING, count = 12)
+            JobResultCard(
+                type = JobResultType.PASS,
+                count = 12,
+                modifier = Modifier.width(100.dp),
+            )
+            JobResultCard(
+                type = JobResultType.FAIL,
+                count = 12,
+                modifier = Modifier.width(100.dp),
+            )
+            JobResultCard(
+                type = JobResultType.PENDING,
+                count = 12,
+                modifier = Modifier.width(100.dp),
+            )
         }
     }
 }
