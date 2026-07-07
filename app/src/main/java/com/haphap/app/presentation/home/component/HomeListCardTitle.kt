@@ -23,7 +23,7 @@ fun HomeListCardTitle(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            text = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요.",
+            text = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
             style = HapHapTheme.typography.caption.m12,
             color = HapHapTheme.colors.gray500,
         )
