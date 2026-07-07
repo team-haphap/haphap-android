@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.search.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +29,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.search.ChipListModel
 import com.haphap.app.data.model.search.SearchResultModel
+import com.haphap.app.presentation.search.SearchContract.State.Companion.DEFAULT_CHIP_LIST
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -41,10 +44,10 @@ fun SearchResultSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 20.dp),
     ) {
         LazyRow(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             item {
                 HapHapFilterChip(
@@ -75,7 +78,7 @@ fun SearchResultSection(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(vertical = 12.dp),
+            contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
         ) {
             items(
                 items = searchResultList,
@@ -103,24 +106,7 @@ private fun SearchResultSectionPreview() {
         var selectedChips by remember { mutableStateOf(persistentListOf(1)) }
 
         SearchResultSection(
-            chipList = persistentListOf(
-                ChipListModel(
-                    id = 1,
-                    category = "전체",
-                ),
-                ChipListModel(
-                    id = 2,
-                    category = "개발",
-                ),
-                ChipListModel(
-                    id = 3,
-                    category = "기획/PM",
-                ),
-                ChipListModel(
-                    id = 4,
-                    category = "디자인",
-                ),
-            ),
+            chipList = DEFAULT_CHIP_LIST,
             selectedChips = selectedChips,
             onFilterClick = { id ->
                 selectedChips = when {
