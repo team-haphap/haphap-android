@@ -16,6 +16,7 @@ import com.haphap.app.presentation.job.navigation.navigateToJob
 import com.haphap.app.presentation.main.component.MainTab
 import com.haphap.app.presentation.mypage.navigation.navigateToMyPage
 import com.haphap.app.presentation.register.navigation.navigateToRegister
+import com.haphap.app.presentation.splash.navigation.Splash
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +28,7 @@ class MainAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
-    val startDestination: Route = Login
+    val startDestination: Route = Splash
 
     private val currentDestination = navController.currentBackStackEntryFlow
         .map { it.destination }

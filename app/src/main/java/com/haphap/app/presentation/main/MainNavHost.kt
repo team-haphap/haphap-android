@@ -8,6 +8,7 @@ import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.Login
 import com.haphap.app.presentation.auth.navigation.SignUpComplete
 import com.haphap.app.presentation.auth.navigation.authGraph
+import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.auth.navigation.navigateToSignUpComplete
 import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
@@ -16,6 +17,8 @@ import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.job.navigation.jobGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
+import com.haphap.app.presentation.splash.navigation.Splash
+import com.haphap.app.presentation.splash.navigation.splashGraph
 
 @Composable
 fun MainNavHost(
@@ -29,6 +32,26 @@ fun MainNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
+        splashGraph(
+            innerPadding = innerPadding,
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<Splash> {inclusive = true}
+                        launchSingleTop = true
+                    }
+                )
+            },
+            navigateToLogin = {
+                navController.navigateToLogin(
+                    navOptions = navOptions {
+                        popUpTo<Splash> {inclusive = true}
+                        launchSingleTop = true
+                    }
+                )
+            }
+        )
+
         authGraph(
             innerPadding = innerPadding,
             navigateToHome = {

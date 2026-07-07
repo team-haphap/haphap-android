@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.splash.SplashRoute
 import kotlinx.serialization.Serializable
 
