@@ -12,9 +12,9 @@ class KakaoLoginManager {
     fun login(
         context: Context,
         onSuccess: (kakaoAccessToken: String) -> Unit,
-        onCancel: () -> Unit,
-        onNetworkError: () -> Unit,
         onFailure: () -> Unit,
+        onCancel: () -> Unit = {},
+        onNetworkError: () -> Unit = {},
     ) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->

@@ -50,7 +50,6 @@ fun LoginRoute(
         when (val state = loginState) {
             is UiState.Failure -> {
                 Toast.makeText(context, state.msg, Toast.LENGTH_SHORT).show()
-                viewModel.consumeFailure()
             }
             is UiState.Success -> {
                 // onLoginSuccess()
@@ -66,10 +65,6 @@ fun LoginRoute(
                 context = context,
                 onSuccess = { kakaoAccessToken ->
                     viewModel.kakaoLogin(kakaoAccessToken)
-                },
-                onCancel = {},
-                onNetworkError = {
-                    Toast.makeText(context, "네트워크 연결을 확인해 주세요.", Toast.LENGTH_SHORT).show()
                 },
                 onFailure = {
                     Toast.makeText(context, "잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
