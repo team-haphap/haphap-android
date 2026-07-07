@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,40 +34,46 @@ fun JobFeedItem(
         JobStepReportType.PENDING -> "${nickName}이 대기 상태를 공유했어요"
     }
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = HapHapTheme.colors.white)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = time,
-            style = HapHapTheme.typography.caption.r11,
-            color = HapHapTheme.colors.gray600,
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+    Column(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(color = HapHapTheme.colors.white)
+                .padding(vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "새 제보 등록!",
-                style = HapHapTheme.typography.body.sb14,
-                color = HapHapTheme.colors.gray800,
-            )
-            Text(
-                text = content,
+                text = time,
                 style = HapHapTheme.typography.caption.r11,
                 color = HapHapTheme.colors.gray600,
             )
-        }
 
-        HapHapStatusChip(
-            text = stage,
-            type = StatusChipType.STAGE,
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text(
+                    text = "새 제보 등록!",
+                    style = HapHapTheme.typography.body.sb14,
+                    color = HapHapTheme.colors.gray800,
+                )
+                Text(
+                    text = content,
+                    style = HapHapTheme.typography.caption.r11,
+                    color = HapHapTheme.colors.gray600,
+                )
+            }
+
+            HapHapStatusChip(
+                text = stage,
+                type = StatusChipType.STAGE,
+            )
+        }
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = HapHapTheme.colors.gray100,
         )
     }
 }
