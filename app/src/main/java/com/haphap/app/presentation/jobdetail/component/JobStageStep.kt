@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,15 +20,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.presentation.jobdetail.model.JobStep
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.ImmutableList
-
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun JobPostStep(
+fun JobStageStep(
     number: Int,
     stageName: String,
-    stateText: String,
     status: JobStepStatus,
     modifier: Modifier = Modifier,
 ) {
@@ -46,6 +49,12 @@ fun JobPostStep(
     } else {
         HapHapTheme.typography.caption.r10
     }
+    val stageNameColor = HapHapTheme.colors.gray800
+    val stateText = when (status) {
+        JobStepStatus.COMPLETED -> "완료"
+        JobStepStatus.IN_PROGRESS -> "진행중"
+        JobStepStatus.UPCOMING -> "대기"
+    }
     val stateTextColor = if (isActive) {
         HapHapTheme.colors.primary100
     } else {
@@ -58,9 +67,10 @@ fun JobPostStep(
     }
 
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .widthIn(min = 46.dp)
+            .padding(vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Box(
             modifier = Modifier
@@ -75,11 +85,15 @@ fun JobPostStep(
             )
         }
 
+        Spacer(modifier = Modifier.height(2.dp))
+
         Text(
             text = stageName,
             style = stageNameStyle,
-            color = HapHapTheme.colors.gray800,
+            color = stageNameColor,
         )
+
+        Spacer(modifier = Modifier.height(2.dp))
 
         Text(
             text = stateText,
@@ -90,19 +104,18 @@ fun JobPostStep(
 }
 
 @Composable
-fun JobPostStepRow(
+fun JobStageStepRow(
     steps: ImmutableList<JobStep>,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items(steps) { step ->
-            JobPostStep(
+            JobStageStep(
                 number = step.number,
                 stageName = step.stageName,
-                stateText = step.stateText,
                 status = step.status,
             )
         }
@@ -111,30 +124,18 @@ fun JobPostStepRow(
 
 @Preview(showBackground = true)
 @Composable
-private fun JobPostStepPreview() {
+private fun JobStageStepRowPreview() {
     HapHapTheme {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.padding(16.dp),
-        ) {
-            JobPostStep(
-                number = 1,
-                stageName = "서류",
-                stateText = "완료",
-                status = JobStepStatus.COMPLETED,
-            )
-            JobPostStep(
-                number = 2,
-                stageName = "인적성",
-                stateText = "진행중",
-                status = JobStepStatus.IN_PROGRESS,
-            )
-            JobPostStep(
-                number = 3,
-                stageName = "코딩테스트",
-                stateText = "대기",
-                status = JobStepStatus.UPCOMING,
-            )
-        }
+        JobStageStepRow(
+            steps = persistentListOf(
+                JobStep(1, "서류", JobStepStatus.COMPLETED),
+                JobStep(2, "서류", JobStepStatus.COMPLETED),
+                JobStep(3, "1차면접", JobStepStatus.IN_PROGRESS),
+                JobStep(2, "서류", JobStepStatus.UPCOMING),
+                JobStep(2, "서류", JobStepStatus.UPCOMING),
+                JobStep(2, "서류", JobStepStatus.UPCOMING),
+                JobStep(2, "서류", JobStepStatus.UPCOMING),
+            ),
+        )
     }
 }
