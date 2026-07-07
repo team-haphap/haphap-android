@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -28,22 +26,22 @@ fun JobDetailTitleSection(
     statusText: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        )
+    {
         Text(
             text = companyName,
             style = HapHapTheme.typography.body.b14,
             color = HapHapTheme.colors.gray800,
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         Text(
             text = jobTitle,
             style = HapHapTheme.typography.subtitle.b24,
             color = HapHapTheme.colors.gray800,
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
