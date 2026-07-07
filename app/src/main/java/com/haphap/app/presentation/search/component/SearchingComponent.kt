@@ -80,6 +80,8 @@ fun SearchingComponent(
                 highlightLength = it.length,
                 onClick = onRelatedItemClick,
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 
@@ -134,9 +136,8 @@ private fun SearchResultItem(
 
         Spacer(modifier = Modifier.width(2.dp))
 
-        //Todo: 아이콘 터치 영역 수정 필요
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_36),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_20),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
             modifier = Modifier
@@ -172,7 +173,7 @@ private fun RelatedKeywordItem(
         Spacer(modifier = Modifier.weight(1f))
 
         Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_36),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_20),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
             modifier = Modifier.noRippleClickable(onClick = onClick),
