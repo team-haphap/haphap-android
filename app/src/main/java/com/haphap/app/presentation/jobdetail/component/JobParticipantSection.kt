@@ -88,10 +88,12 @@ fun JobParticipantSection(
 
             Spacer(modifier = Modifier.width(14.dp))
 
-            HapHapStatusChip(
-                text = "+$additionalCount",
-                type = StatusChipType.COUNT,
-            )
+            if (additionalCount > 0) {
+                HapHapStatusChip(
+                    text = "+$additionalCount",
+                    type = StatusChipType.COUNT,
+                )
+            }
         }
     }
 }
