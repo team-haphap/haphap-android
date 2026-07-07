@@ -4,6 +4,7 @@ import com.haphap.app.BuildConfig
 import com.haphap.app.BuildConfig.BASE_URL
 import com.haphap.app.core.extensions.isJsonArray
 import com.haphap.app.core.extensions.isJsonObject
+import com.haphap.app.core.network.TokenInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -65,7 +66,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
+    @Auth
+    fun provideAuthOkHttpClient(
         loggingInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
@@ -73,8 +75,32 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(
-        client: OkHttpClient,
+    @NoAuth
+    fun provideNoAuthOkHttpClient(
+        loggingInterceptor: Interceptor,
+        tokenInterceptor: TokenInterceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(tokenInterceptor)
+        .build()
+
+    @Provides
+    @Singleton
+    @Auth
+    fun provideAuthRetrofit(
+        @Auth client: OkHttpClient,
+        factory: Converter.Factory,
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(factory)
+        .build()
+
+    @Provides
+    @Singleton
+    @NoAuth
+    fun provideNoAuthRetrofit(
+        @NoAuth client: OkHttpClient,
         factory: Converter.Factory,
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
