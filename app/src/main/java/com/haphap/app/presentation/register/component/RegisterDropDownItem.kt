@@ -16,12 +16,14 @@ import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
+val RegisterDropDownItemHeight = 50.dp
+
 private enum class DropDownItemSelectionState {
     SELECTED,
     UNSELECTED,
 }
 
-private data class RegisterDropDownItemStyle (
+private data class RegisterDropDownItemStyle(
     val backgroundColor: Color,
     val textColor: Color,
 )
@@ -66,7 +68,7 @@ fun RegisterDropDownItem(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
+@Preview(showBackground = true)
 @Composable
 private fun RegisterDropDownItemPreview() {
     HapHapTheme {
