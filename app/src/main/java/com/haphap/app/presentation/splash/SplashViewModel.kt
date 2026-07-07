@@ -24,13 +24,16 @@ class SplashViewModel @Inject constructor(
 
     private fun checkLoginState() {
         viewModelScope.launch {
-            val tokenDelayed = async { localTokenDataSource.getAccessToken() }
-            val minDelay = async { delay(2000) }
+            val tokenDelay = async {
+                runCatching { localTokenDataSource.getAccessToken() }.getOrNull()
+            }
+            delay(MIN_SPLASH_DELAY_MS)
 
-            val accessToken = tokenDelayed.await()
-            minDelay.await()
-
+            val accessToken = tokenDelay.await()
             _isLoggedIn.value = !accessToken.isNullOrBlank()
         }
+    }
+    companion object {
+        private const val MIN_SPLASH_DELAY_MS = 2000L
     }
 }
