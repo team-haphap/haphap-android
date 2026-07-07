@@ -35,7 +35,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun SearchingComponent(
+fun SearchingSection(
     searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel>,
     relatedKeywordList: ImmutableList<RelatedKeywordListModel>,
     onAutoCompleteItemClick: () -> Unit,
@@ -183,9 +183,9 @@ private fun RelatedKeywordItem(
 
 @Preview (showBackground = true)
 @Composable
-private fun SearchingComponentPreview() {
+private fun SearchingSectionPreview() {
     HapHapTheme{
-        SearchingComponent(
+        SearchingSection(
             searchAutoCompleteList = persistentListOf(
                 SearchAutoCompleteModel(
                     id = 1,

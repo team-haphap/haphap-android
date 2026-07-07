@@ -32,7 +32,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 
 @Composable
-fun SearchCompleteComponent(
+fun SearchResultSection(
     chipList: ImmutableList<ChipListModel>,
     selectedChips: ImmutableList<String>,
     onFilterClick: (String) -> Unit,
@@ -98,11 +98,11 @@ fun SearchCompleteComponent(
 
 @Preview (showBackground = true)
 @Composable
-private fun SearchCompleteComponentPreview() {
+private fun SearchResultSectionPreview() {
     HapHapTheme {
         var selectedChips by remember { mutableStateOf(persistentListOf("전체")) }
 
-        SearchCompleteComponent(
+        SearchResultSection(
             chipList = persistentListOf(
                 ChipListModel(
                     id = 1,

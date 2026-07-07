@@ -33,7 +33,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 
 @Composable
-fun SearchDefaultComponent(
+fun SearchDefaultSection(
     recentSearchList: ImmutableList<RecentSearchListModel>,
     trendJobList: ImmutableList<TrendJobListModel>,
     onDeleteClick: () -> Unit,
@@ -143,9 +143,9 @@ private fun RecentSearchItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchDefaultComponentPreview() {
+private fun SearchDefaultSectionPreview() {
     HapHapTheme {
-        SearchDefaultComponent(
+        SearchDefaultSection(
             recentSearchList = persistentListOf(
                 RecentSearchListModel(
                     id = 1,
