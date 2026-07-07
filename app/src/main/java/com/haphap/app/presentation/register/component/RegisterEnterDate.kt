@@ -1,5 +1,7 @@
 package com.haphap.app.presentation.register.component
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,10 +21,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.bottomsheet.HapHapDateBottomSheet
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import java.time.LocalDate
-// import com.haphap.app.core.designsystem.component.bottomsheet.HapHapDateBottomSheet
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun RegisterEnterDate(
@@ -32,6 +35,7 @@ fun RegisterEnterDate(
     modifier: Modifier = Modifier,
 ) {
     var isBottomSheetVisible by remember { mutableStateOf(false) }
+    var pendingDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Row(
         modifier = modifier
@@ -58,31 +62,34 @@ fun RegisterEnterDate(
         )
     }
 
-    // TODO: BottomSheet 추후에 연동
-    /*
     if (isBottomSheetVisible) {
          HapHapDateBottomSheet(
              onDismissRequest = { isBottomSheetVisible = false },
              onCancelClick = { isBottomSheetVisible = false },
-             onConfirmClick = { isBottomSheetVisible = false },
-             onDateSelected = onDateSelected,
+             onConfirmClick = {
+                 pendingDate?.let(onDateSelected)
+                 isBottomSheetVisible = false
+             },
+             onDateSelected = { pendingDate = it },
          )
      }
-     */
-
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterEnterDatePreview() {
+    var selectedDate by remember { mutableStateOf("") }
+    val formatter = remember { DateTimeFormatter.ofPattern("yyyy.MM.dd") }
+
     HapHapTheme {
         Row(
             modifier = Modifier.padding(30.dp)
         ) {
             RegisterEnterDate(
-                value = "",
+                value = selectedDate,
                 placeholder = "연도.월.일",
-                onDateSelected = {},
+                onDateSelected = { date -> selectedDate = date.format(formatter) },
             )
         }
     }
