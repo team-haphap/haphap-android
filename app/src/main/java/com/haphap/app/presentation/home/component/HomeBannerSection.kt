@@ -32,11 +32,13 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeBannerSection(
-    banners: List<String>,
+    banners: ImmutableList<String>,
     modifier: Modifier = Modifier,
     state: HomeBannerState = rememberHomeBannerState(banners = banners),
 ) {
@@ -47,7 +49,7 @@ fun HomeBannerSection(
     Column(modifier = modifier.padding(vertical = 8.dp)) {
         HorizontalPager(
             state = state.pagerState,
-            contentPadding = PaddingValues(horizontal = 20.dp),
+            contentPadding = PaddingValues(horizontal = 30.dp),
             pageSpacing = 12.dp,
         ) { page ->
             val index = page % banners.size
@@ -63,8 +65,9 @@ fun HomeBannerSection(
                 alignment = Alignment.CenterHorizontally,
             ),
         ) {
+            val currentIndex = state.pagerState.currentPage % banners.size
+
             repeat(banners.size) { index ->
-                val currentIndex = state.pagerState.currentPage % banners.size
                 val isSelected = currentIndex == index
 
                 Box(
@@ -80,8 +83,11 @@ fun HomeBannerSection(
 
 class HomeBannerState(
     val pagerState: PagerState,
-    private val autoScrollDelay: Long = 5000L
 ) {
+    companion object {
+        private const val AUTO_SCROLL_DELAY = 5000L
+    }
+
     @Composable
     fun HandleAutoScroll() {
         val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
@@ -89,7 +95,7 @@ class HomeBannerState(
         LaunchedEffect(isDragged) {
             if (!isDragged) {
                 while (true) {
-                    delay(autoScrollDelay)
+                    delay(AUTO_SCROLL_DELAY)
                     if (pagerState.pageCount > 0) {
                         val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
                         pagerState.animateScrollToPage(nextPage)
@@ -102,15 +108,14 @@ class HomeBannerState(
 
 @Composable
 private fun rememberHomeBannerState(
-    banners: List<String>,
-    autoScrollDelay: Long = 5000L
+    banners: ImmutableList<String>
 ): HomeBannerState {
     val pagerState = rememberPagerState(
         initialPage = if (banners.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % banners.size),
         pageCount = { if (banners.isEmpty()) 0 else Int.MAX_VALUE }
     )
     return remember(pagerState) {
-        HomeBannerState(pagerState, autoScrollDelay)
+        HomeBannerState(pagerState)
     }
 }
 
@@ -161,7 +166,7 @@ private fun BannerCard(
 private fun HomeBannerSectionPreview() {
     HapHapTheme {
         HomeBannerSection(
-            banners = listOf("","","","","")
+            banners = listOf("", "", "", "", "").toImmutableList()
         )
     }
 }
