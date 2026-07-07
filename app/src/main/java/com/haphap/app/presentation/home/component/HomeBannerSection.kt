@@ -48,7 +48,7 @@ fun HomeBannerSection(
         HorizontalPager(
             state = state.pagerState,
             contentPadding = PaddingValues(horizontal = 20.dp),
-            pageSpacing = 10.dp,
+            pageSpacing = 12.dp,
         ) { page ->
             val index = page % banners.size
             BannerCard(imageUrl = banners[index])
