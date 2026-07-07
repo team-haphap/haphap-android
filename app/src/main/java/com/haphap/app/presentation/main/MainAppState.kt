@@ -9,13 +9,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
-import com.haphap.app.presentation.auth.navigation.Login
 import com.haphap.app.presentation.calendar.navigation.navigateToCalendar
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.job.navigation.navigateToJob
 import com.haphap.app.presentation.main.component.MainTab
 import com.haphap.app.presentation.mypage.navigation.navigateToMyPage
 import com.haphap.app.presentation.register.navigation.navigateToRegister
+import com.haphap.app.presentation.splash.navigation.Splash
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +27,7 @@ class MainAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
-    val startDestination: Route = Login
+    val startDestination: Route = Splash
 
     private val currentDestination = navController.currentBackStackEntryFlow
         .map { it.destination }
