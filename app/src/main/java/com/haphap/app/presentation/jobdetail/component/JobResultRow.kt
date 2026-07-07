@@ -18,7 +18,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun JobStageTabRow(
+fun JobResultTabRow(
     stages: ImmutableList<String>,
     selectedStage: String,
     onStageClick: (String) -> Unit,
@@ -40,10 +40,10 @@ fun JobStageTabRow(
 
 @Preview(showBackground = true)
 @Composable
-private fun JobStageTabRowPreview() {
+private fun JobResultTabRowPreview() {
     HapHapTheme {
         var selectedStage by remember { mutableStateOf("서류") }
-        JobStageTabRow(
+        JobResultTabRow(
             stages = persistentListOf("서류", "인적성", "코딩테스트", "1차면접", "2차면접"),
             selectedStage = selectedStage,
             onStageClick = { selectedStage = it },
