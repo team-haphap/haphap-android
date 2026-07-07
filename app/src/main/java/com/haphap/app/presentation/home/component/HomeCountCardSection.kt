@@ -88,8 +88,8 @@ private fun HomeCountCard(
                     width = 1.dp,
                     color = HapHapTheme.colors.gray100,
                     shape = RoundedCornerShape(
-                        bottomStart = 6.dp,
-                        bottomEnd = 6.dp,
+                        bottomStart = 8.dp,
+                        bottomEnd = 8.dp,
                     ),
                 )
                 .padding(start = 10.dp, end = 10.dp, top = 6.dp, bottom = 4.dp)
