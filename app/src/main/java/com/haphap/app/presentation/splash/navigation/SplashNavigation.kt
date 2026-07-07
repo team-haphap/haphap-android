@@ -7,7 +7,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
+import com.haphap.app.presentation.auth.navigation.navigateToLogin
+import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.splash.SplashRoute
 import kotlinx.serialization.Serializable
 
@@ -17,13 +20,24 @@ fun NavController.navigateToSplash(
 
 fun NavGraphBuilder.splashGraph(
     innerPadding: PaddingValues,
-    navigateToHome: () -> Unit,
-    navigateToLogin: () -> Unit,
+    navController: NavController,
 ) {
     composable<Splash> {
         SplashRoute (
-            navigateToHome = navigateToHome,
-            navigateToLogin = navigateToLogin,
+            navigateToHome = {
+                navController.navigateToHome(
+                navOptions = navOptions {
+                    popUpTo<Splash> {inclusive = true}
+                    launchSingleTop = true
+                })
+            },
+            navigateToLogin = {
+                navController.navigateToLogin(
+                navOptions = navOptions {
+                    popUpTo<Splash> {inclusive = true}
+                    launchSingleTop = true
+                })
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }

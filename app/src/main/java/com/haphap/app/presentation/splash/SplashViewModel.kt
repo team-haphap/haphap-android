@@ -2,6 +2,7 @@ package com.haphap.app.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -25,7 +26,7 @@ class SplashViewModel @Inject constructor(
     private fun checkLoginState() {
         viewModelScope.launch {
             val tokenDelay = async {
-                runCatching { localTokenDataSource.getAccessToken() }.getOrNull()
+                suspendRunCatching { localTokenDataSource.getAccessToken() }.getOrNull()
             }
             delay(MIN_SPLASH_DELAY_MS)
 
