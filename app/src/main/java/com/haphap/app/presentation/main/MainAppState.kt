@@ -8,8 +8,9 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.haphap.app.core.navigation.Route
+import com.haphap.app.presentation.auth.navigation.Login
 import com.haphap.app.presentation.calendar.navigation.navigateToCalendar
-import com.haphap.app.presentation.home.navigation.Home
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.job.navigation.navigateToJob
 import com.haphap.app.presentation.main.component.MainTab
@@ -26,7 +27,7 @@ class MainAppState(
     val navController: NavHostController,
     coroutineScope: CoroutineScope,
 ) {
-    val startDestination = Home
+    val startDestination: Route = Login
 
     private val currentDestination = navController.currentBackStackEntryFlow
         .map { it.destination }
@@ -84,7 +85,7 @@ class MainAppState(
 @Composable
 fun rememberMainAppState(
     navController: NavHostController = rememberNavController(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ): MainAppState = remember(navController, coroutineScope) {
     MainAppState(navController, coroutineScope)
 }
