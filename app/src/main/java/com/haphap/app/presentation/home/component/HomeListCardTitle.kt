@@ -3,7 +3,7 @@ package com.haphap.app.presentation.home.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +20,7 @@ fun HomeListCardTitle(modifier: Modifier = Modifier) {
             color = HapHapTheme.colors.gray800,
         )
 
-        Spacer(modifier = Modifier.width(2.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         Text(
             text = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요.",
