@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.home.component
+package com.haphap.app.core.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,7 +18,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
-fun HomeRefreshButton(
+fun HapHapRefreshButton(
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -46,6 +46,6 @@ fun HomeRefreshButton(
 @Composable
 private fun HomeRefreshButtonPreview() {
     HapHapTheme {
-        HomeRefreshButton(onButtonClick = {})
+        HapHapRefreshButton(onButtonClick = {})
     }
 }
