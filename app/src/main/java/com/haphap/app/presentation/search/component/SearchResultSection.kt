@@ -34,8 +34,8 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun SearchResultSection(
     chipList: ImmutableList<ChipListModel>,
-    selectedChips: ImmutableList<String>,
-    onFilterClick: (String) -> Unit,
+    selectedChips: ImmutableList<Int>,
+    onFilterClick: (Int) -> Unit,
     searchResultList: ImmutableList<SearchResultModel>,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -65,8 +65,8 @@ fun SearchResultSection(
             ) {
                 HapHapFilterChip(
                     content = FilterChipContent.TextContent(it.category),
-                    onFilterClick = { onFilterClick(it.category) },
-                    isFilterSelected = selectedChips.contains(it.category),
+                    onFilterClick = { onFilterClick(it.id) },
+                    isFilterSelected = selectedChips.contains(it.id),
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -100,7 +100,7 @@ fun SearchResultSection(
 @Composable
 private fun SearchResultSectionPreview() {
     HapHapTheme {
-        var selectedChips by remember { mutableStateOf(persistentListOf("전체")) }
+        var selectedChips by remember { mutableStateOf(persistentListOf(1)) }
 
         SearchResultSection(
             chipList = persistentListOf(
@@ -122,13 +122,14 @@ private fun SearchResultSectionPreview() {
                 ),
             ),
             selectedChips = selectedChips,
-            onFilterClick = { category ->
-                selectedChips = if (category == "전체") {
-                    persistentListOf("전체")
-                } else if (selectedChips.contains(category)) {
-                    selectedChips.remove(category)
-                } else {
-                    selectedChips.remove("전체").add(category)
+            onFilterClick = { id ->
+                selectedChips = when {
+                    id == 1 -> persistentListOf(1)
+                    selectedChips.contains(id) -> {
+                        if (selectedChips.size == 1) selectedChips
+                        else selectedChips.remove(id)
+                    }
+                    else -> selectedChips.remove(1).add(id)
                 }
             },
             searchResultList = persistentListOf(
