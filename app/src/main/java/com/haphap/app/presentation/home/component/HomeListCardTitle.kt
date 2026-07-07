@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
-fun HomeListCardTitle(modifier: Modifier = Modifier) {
+fun HomeListCardTitle(
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = "오늘 발표 예상 공고",
