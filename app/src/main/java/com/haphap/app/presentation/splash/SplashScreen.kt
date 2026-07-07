@@ -10,13 +10,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+
+@Composable
+fun SplashRoute(
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SplashViewModel = hiltViewModel(),
+) {
+    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
+
+    LaunchedEffect(isLoggedIn) {
+        when (isLoggedIn) {
+            true -> navigateToHome()
+            false -> navigateToLogin()
+            null -> Unit
+        }
+    }
+
+    SplashScreen(modifier = modifier)
+}
 
 @Composable
 fun SplashScreen(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class SplashViewModel @Inject constructor(
     private val localTokenDataSource: LocalTokenDataSource
 ) : ViewModel() {
     private val _isLoggedIn = MutableStateFlow<Boolean?>(null)
