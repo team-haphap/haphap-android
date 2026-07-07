@@ -79,6 +79,8 @@ fun SearchResultSection(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(
                 items = searchResultList,
