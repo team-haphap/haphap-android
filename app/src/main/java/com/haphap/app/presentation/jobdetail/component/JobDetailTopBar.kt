@@ -31,7 +31,6 @@ fun JobDetailTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(44.dp)
             .background(HapHapTheme.colors.white)
             .padding(start = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
