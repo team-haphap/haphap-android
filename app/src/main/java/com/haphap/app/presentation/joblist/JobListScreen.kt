@@ -64,7 +64,7 @@ private fun JobListScreen(
     Column(
         modifier = modifier
             .background(color = HapHapTheme.colors.white)
-            .padding(vertical = 10.dp),
+            .padding(top = 10.dp),
     ) {
         HapHapSearchBar(
             placeholder = "공고명을 검색해보세요!",
@@ -80,10 +80,12 @@ private fun JobListScreen(
             onFilterClick = onFilterClick,
         )
 
+        Spacer(modifier = Modifier.height(10.dp))
+
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
+            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
