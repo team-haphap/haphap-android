@@ -91,6 +91,7 @@ fun HomeRecentCardSection(
                         company = it.company,
                         description = it.description,
                         onCardClick = { onCardClick(it.id) },
+                        modifier = Modifier.width(186.dp)
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
