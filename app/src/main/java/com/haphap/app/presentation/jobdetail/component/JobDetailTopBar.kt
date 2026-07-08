@@ -44,6 +44,7 @@ fun JobDetailTopBar(
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = "null",
+            tint = Color.Unspecified,
             modifier = Modifier.noRippleClickable(onClick = { onBackClick() })
         )
 
