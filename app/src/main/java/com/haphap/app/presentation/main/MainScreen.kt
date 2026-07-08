@@ -39,7 +39,6 @@ fun MainScreen(
 
     val mutex = remember { Mutex() }
 
-    // 마지막 토스트만 띄우기
     val onShowToast: (String) -> Unit = { message ->
         coroutineScope.launch {
             if (!mutex.tryLock()) return@launch
@@ -60,22 +59,6 @@ fun MainScreen(
         }
     }
 
-    // 모든 토스트 다 띄우기
-    val onShowToast2: (String) -> Unit = { message ->
-        coroutineScope.launch {
-            mutex.withLock {
-                launch {
-                    delay(TOAST_DURATION)
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                }
-
-                snackbarHostState.showSnackbar(
-                    message = message,
-                    duration = SnackbarDuration.Indefinite,
-                )
-            }
-        }
-    }
 
     CompositionLocalProvider(
         LocalToastTrigger provides onShowToast,
