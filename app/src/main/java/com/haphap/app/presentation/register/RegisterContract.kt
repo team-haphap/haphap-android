@@ -80,8 +80,9 @@ enum class RegisterStep {
 
 enum class NotificationChannelType(val text: String) {
     SMS("문자"),
-    EMAIL("메일"),
-    // TODO: 기획 확인 후 더 추가
+    EMAIL("이메일"),
+    CALL("전화"),
+    WEB("기업 홈페이지"),
 }
 
 sealed interface RegisterEntryPoint {
