@@ -29,6 +29,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.data.model.search.RangeModel
 import com.haphap.app.data.model.search.RelatedKeywordListModel
 import com.haphap.app.data.model.search.SearchAutoCompleteModel
 import kotlinx.collections.immutable.ImmutableList
@@ -51,7 +52,7 @@ fun SearchingSection(
             SearchResultItem(
                 imageUrl = it.imageUrl,
                 text = it.text,
-                highlightLength = it.length,
+                highlightLength = it.highlightLength,
                 onClick = { onAutoCompleteItemClick(it.id) },
             )
 
@@ -77,7 +78,7 @@ fun SearchingSection(
         relatedKeywordList.forEach {
             RelatedKeywordItem(
                 text = it.text,
-                highlightLength = it.length,
+                highlightLength = it.highlightLength,
                 onClick = { onRelatedItemClick(it.id) },
             )
 
@@ -91,7 +92,7 @@ fun SearchingSection(
 private fun SearchResultItem(
     imageUrl: String,
     text: String,
-    highlightLength: Int,
+    highlightLength: RangeModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -116,11 +117,14 @@ private fun SearchResultItem(
 
         Text(
             text = buildAnnotatedString {
+                withStyle(SpanStyle(color = HapHapTheme.colors.gray700)) {
+                    append(text.substring(0, highlightLength.start))
+                }
                 withStyle(SpanStyle(color = HapHapTheme.colors.primary500)) {
-                    append(text.take(highlightLength))
+                    append(text.substring(highlightLength.start, highlightLength.end))
                 }
                 withStyle(SpanStyle(color = HapHapTheme.colors.gray700)) {
-                    append(text.drop(highlightLength))
+                    append(text.substring(highlightLength.end))
                 }
             },
             style = HapHapTheme.typography.body.sb14,
@@ -151,7 +155,7 @@ private fun SearchResultItem(
 @Composable
 private fun RelatedKeywordItem(
     text: String,
-    highlightLength: Int,
+    highlightLength: RangeModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -160,11 +164,14 @@ private fun RelatedKeywordItem(
     ) {
         Text(
             text = buildAnnotatedString {
+                withStyle(SpanStyle(color = HapHapTheme.colors.gray600)) {
+                    append(text.substring(0, highlightLength.start))
+                }
                 withStyle(SpanStyle(color = HapHapTheme.colors.primary500)) {
-                    append(text.take(highlightLength))
+                    append(text.substring(highlightLength.start, highlightLength.end))
                 }
                 withStyle(SpanStyle(color = HapHapTheme.colors.gray600)) {
-                    append(text.drop(highlightLength))
+                    append(text.substring(highlightLength.end))
                 }
             },
             style = HapHapTheme.typography.body.sb14,
@@ -191,35 +198,53 @@ private fun SearchingSectionPreview() {
                     id = 1,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
                 SearchAutoCompleteModel(
                     id = 2,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
             ),
             relatedKeywordList = persistentListOf(
                 RelatedKeywordListModel(
                     id = 1,
                     text = "카카오",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
                 RelatedKeywordListModel(
                     id = 1,
                     text = "카카오 스타일",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
                 RelatedKeywordListModel(
                     id = 1,
                     text = "카카오 뱅크",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
                 RelatedKeywordListModel(
                     id = 1,
                     text = "카카오 맵",
-                    length = 3,
+                    highlightLength = RangeModel(
+                        start = 0,
+                        end = 3,
+                    ),
                 ),
             ),
             onAutoCompleteItemClick = {},
