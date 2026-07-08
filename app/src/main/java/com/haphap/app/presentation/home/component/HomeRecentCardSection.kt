@@ -37,7 +37,7 @@ fun HomeRecentCardSection(
     selectedChips: ImmutableList<Int>,
     onFilterClick: (Int) -> Unit,
     recentCardList: ImmutableList<RecentCardModel>,
-    onCardClick: (Int) -> Unit,
+    onRecentCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -98,7 +98,7 @@ fun HomeRecentCardSection(
                         dDay = it.dDay,
                         company = it.company,
                         description = it.description,
-                        onCardClick = { onCardClick(it.id) },
+                        onCardClick = { onRecentCardClick(it.id) },
                         modifier = Modifier.width(186.dp)
                     )
 
@@ -168,7 +168,7 @@ private fun HomeRecentCardSectionPreview() {
                     description = "공고 설명",
                 ),
             ),
-            onCardClick = {},
+            onRecentCardClick = {},
         )
     }
 }
