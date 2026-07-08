@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,7 @@ import com.haphap.app.presentation.calendar.type.DayType
 import com.haphap.app.presentation.calendar.type.PresentChance
 import com.haphap.app.presentation.calendar.type.defaultDaysOfWeek
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -34,11 +36,28 @@ fun HapHapCalendar(
     val startPage = Int.MAX_VALUE / 2
     val baseMonth = remember { YearMonth.now() }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+    val coroutineScope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
         initialPage = startPage,
         pageCount = { pageCount },
     )
+    val currentYearMonth = baseMonth.plusMonths((pagerState.currentPage - startPage).toLong())
+
+    CalendarHeader(
+        yearMonth = currentYearMonth,
+        onBackClick = {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        },
+        onNextClick = {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+            }
+        },
+    )
+
     DayLabelRow()
 
     HorizontalPager(

@@ -20,9 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
+import java.time.YearMonth
 
 @Composable
 fun CalendarHeader(
+    yearMonth: YearMonth,
+    onBackClick: () -> Unit,
+    onNextClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -35,12 +40,14 @@ fun CalendarHeader(
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = null,
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier
+                .size(30.dp)
+                .noRippleClickable(onClick = onBackClick),
             tint = HapHapTheme.colors.gray400
         )
 
         Text(
-            text = "2026년 6월",
+            text = "${yearMonth.year}년 ${yearMonth.monthValue}월",
             color = HapHapTheme.colors.gray700,
             style = HapHapTheme.typography.body.sb16,
             modifier = modifier
@@ -52,7 +59,9 @@ fun CalendarHeader(
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right_30),
             contentDescription = null,
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier
+                .size(30.dp)
+                .noRippleClickable(onClick = onNextClick),
             tint = HapHapTheme.colors.gray400
         )
     }
@@ -62,6 +71,10 @@ fun CalendarHeader(
 @Composable
 private fun CalendarHeaderPreview() {
     HapHapTheme {
-        CalendarHeader()
+        CalendarHeader(
+            yearMonth = YearMonth.now(),
+            onBackClick = {},
+            onNextClick = {}
+        )
     }
 }
