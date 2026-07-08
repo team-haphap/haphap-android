@@ -1,6 +1,7 @@
 package com.haphap.app.presentation.jobdetail.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ fun JobResultTabRow(
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(
