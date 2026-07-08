@@ -3,8 +3,11 @@ package com.haphap.app.presentation.calendar.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
@@ -44,37 +47,44 @@ fun HapHapCalendar(
     )
     val currentYearMonth = baseMonth.plusMonths((pagerState.currentPage - startPage).toLong())
 
-    CalendarHeader(
-        yearMonth = currentYearMonth,
-        onBackClick = {
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-            }
-        },
-        onNextClick = {
-            coroutineScope.launch {
-                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-            }
-        },
-    )
-
-    DayLabelRow()
-
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier,
-    ) { page ->
-        val yearMonth = remember(page) {
-            baseMonth.plusMonths((page - startPage).toLong())
-        }
-        HapHapCalendarGrid(
-            yearMonth = yearMonth,
-            selectedDate = selectedDate,
-            onClick = { day ->
-                selectedDate = day
-                onClick(day)
+    Column {
+        CalendarHeader(
+            yearMonth = currentYearMonth,
+            onDateClick = {},
+            onBackClick = {
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                }
+            },
+            onNextClick = {
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                }
             },
         )
+
+        DayLabelRow()
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = modifier,
+        ) { page ->
+            val yearMonth = remember(page) {
+                baseMonth.plusMonths((page - startPage).toLong())
+            }
+            HapHapCalendarGrid(
+                yearMonth = yearMonth,
+                selectedDate = selectedDate,
+                onClick = { day ->
+                    selectedDate = day
+                    onClick(day)
+                },
+            )
+        }
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        CalendarBottom()
     }
 }
 
@@ -146,7 +156,9 @@ private fun HapHapCalendarGrid(
 @Composable
 private fun HapHapCalendarPreview() {
     HapHapTheme {
-        Column(modifier = Modifier.padding(top = 50.dp)) {
+        Column(modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .padding(top = 50.dp)) {
             HapHapCalendar(onClick = {})
         }
     }

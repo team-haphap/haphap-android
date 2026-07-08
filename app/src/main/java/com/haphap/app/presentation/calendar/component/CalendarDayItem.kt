@@ -31,21 +31,13 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.presentation.calendar.type.DayType
 import com.haphap.app.presentation.calendar.type.PresentChance
+import com.haphap.app.presentation.calendar.type.toColor
 import java.time.LocalDate
 
 private data class DayItemStyle(
     val textColor: Color,
     val chanceColor: Color,
 )
-
-private fun PresentChance.toColor(colors: HapHapColors): Color = when (this) {
-    PresentChance.NONE -> colors.gray400
-    PresentChance.VERY_LOW -> colors.sub300
-    PresentChance.LOW -> colors.sub200
-    PresentChance.MEDIUM -> colors.primary100
-    PresentChance.HIGH -> colors.primary500
-    PresentChance.VERY_HIGH -> colors.sub400
-}
 
 private fun DayType.toStyle(colors: HapHapColors): DayItemStyle = when (this) {
     DayType.OutMonth -> DayItemStyle(
