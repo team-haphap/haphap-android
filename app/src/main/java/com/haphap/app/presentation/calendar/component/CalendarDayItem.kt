@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +36,7 @@ private data class DayItemStyle(
 )
 
 private fun PresentChance.toColor(colors: HapHapColors): Color = when (this) {
-    PresentChance.NONE -> Color.Transparent
+    PresentChance.NONE -> colors.gray400
     PresentChance.VERY_LOW -> colors.sub300
     PresentChance.LOW -> colors.sub200
     PresentChance.MEDIUM -> colors.primary100
@@ -69,7 +70,8 @@ fun CalendarDayItem(
             .clickable(
                 enabled = dayType is DayType.InMonth,
                 onClick = onClick
-            ),
+            )
+            .aspectRatio(48f/50f),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -81,6 +83,7 @@ fun CalendarDayItem(
         if (dayType is DayType.InMonth) {
             if (dayType.isToday) {
                 Spacer(modifier = Modifier.height(2.dp))
+
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_today),
                     contentDescription = null,
@@ -91,6 +94,7 @@ fun CalendarDayItem(
                 )
             } else {
                 Spacer(modifier = Modifier.height(5.dp))
+
                 if (dayType.presentChance != PresentChance.NONE) {
                     Box(
                         modifier = Modifier
