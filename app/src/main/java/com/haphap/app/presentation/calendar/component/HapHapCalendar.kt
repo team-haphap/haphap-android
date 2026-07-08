@@ -15,10 +15,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.core.designsystem.component.bottomsheet.HapHapDateBottomSheet
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun HapHapCalendar(
@@ -29,6 +31,8 @@ fun HapHapCalendar(
     val startPage = Int.MAX_VALUE / 2
     val baseMonth = remember { YearMonth.now() }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+    var showDateBottomSheet by remember { mutableStateOf(false) }
+    var pickedDate by remember { mutableStateOf<LocalDate?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
@@ -40,7 +44,7 @@ fun HapHapCalendar(
     Column(modifier = modifier) {
         CalendarHeader(
             yearMonth = currentYearMonth,
-            onDateClick = {},
+            onDateClick = { showDateBottomSheet = true },
             onBackClick = {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(pagerState.currentPage - 1)
@@ -74,6 +78,26 @@ fun HapHapCalendar(
         Spacer(modifier = Modifier.height(2.dp))
 
         CalendarBottom()
+    }
+
+    if (showDateBottomSheet) {
+        HapHapDateBottomSheet(
+            onDismissRequest = { showDateBottomSheet = false },
+            onCancelClick = { showDateBottomSheet = false },
+            onConfirmClick = {
+                pickedDate?.let { date ->
+                    selectedDate = date
+                    onClick(date)
+                    val targetPage = startPage + ChronoUnit.MONTHS.between(baseMonth, YearMonth.from(date))
+                    coroutineScope.launch {
+                        pagerState.scrollToPage(targetPage.toInt())
+                    }
+                }
+                showDateBottomSheet = false
+            },
+            onDateSelected = { pickedDate = it },
+            initialDate = selectedDate ?: currentYearMonth.atDay(1),
+        )
     }
 }
 
