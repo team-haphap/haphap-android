@@ -24,8 +24,18 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 
+//@Composable
+//fun HapHapCalendar(
+//    onClick: (LocalDate) -> Unit,
+//){
+//    HorizontalPager() {
+//        HapHapCalendarGrid(
+//            onClick = onClick,
+//        )
+//    }
+//}
 @Composable
-fun HapHapCalendarGrid(
+private fun HapHapCalendarGrid(
     onClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     daysOfWeek: ImmutableList<DayOfWeek> = defaultDaysOfWeek,
