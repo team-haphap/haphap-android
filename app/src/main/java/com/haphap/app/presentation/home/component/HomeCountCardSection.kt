@@ -31,7 +31,9 @@ fun HomeCountCardSection(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 24.dp, start = 20.dp, end = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         HomeCountCard(
@@ -129,7 +131,7 @@ private fun HomeCountCard(
 @Composable
 private fun HomeCountCardSectionPreview() {
     HapHapTheme {
-        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
+        Column {
             HomeCountCardSection(
                 countCardModel = CountCardModel(
                     cumulatedCount = 37,

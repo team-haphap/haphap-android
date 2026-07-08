@@ -18,11 +18,13 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun HomeListCardSection(
     todayExpectedCardList: ImmutableList<TodayExpectedCardModel>,
-    onCardClick: () -> Unit,
+    onListCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (todayExpectedCardList.isEmpty()) {
@@ -44,7 +46,7 @@ fun HomeListCardSection(
                             companyName = it.companyName,
                             category = it.category,
                             stageName = it.stageName,
-                            onCardClick = onCardClick,
+                            onCardClick = onListCardClick,
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -85,7 +87,7 @@ private fun HomeListCardSectionPreview() {
                     title = "2026 신입 공개채용",
                 ),
             ),
-            onCardClick = {},
+            onListCardClick = {},
         )
     }
 }

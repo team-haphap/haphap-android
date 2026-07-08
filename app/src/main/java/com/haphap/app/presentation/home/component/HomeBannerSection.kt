@@ -47,7 +47,7 @@ fun HomeBannerSection(
 
     state.HandleAutoScroll()
 
-    Column(modifier = modifier.padding(vertical = 8.dp)) {
+    Column(modifier = modifier.padding(top = 4.dp)) {
         HorizontalPager(
             state = state.pagerState,
             contentPadding = PaddingValues(horizontal = 30.dp),
@@ -57,10 +57,10 @@ fun HomeBannerSection(
             BannerCard(imageUrl = bannerList[index].imageUrl)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 space = 6.dp,
                 alignment = Alignment.CenterHorizontally,
