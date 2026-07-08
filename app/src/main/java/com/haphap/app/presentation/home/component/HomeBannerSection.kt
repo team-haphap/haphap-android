@@ -84,10 +84,6 @@ fun HomeBannerSection(
 class HomeBannerState(
     val pagerState: PagerState,
 ) {
-    companion object {
-        private const val AUTO_SCROLL_DELAY = 5000L
-    }
-
     @Composable
     fun HandleAutoScroll() {
         val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
@@ -103,6 +99,10 @@ class HomeBannerState(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val AUTO_SCROLL_DELAY = 5000L
     }
 }
 
