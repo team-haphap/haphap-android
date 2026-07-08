@@ -33,7 +33,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 
 @Composable
@@ -166,7 +166,7 @@ private fun BannerCard(
 private fun HomeBannerSectionPreview() {
     HapHapTheme {
         HomeBannerSection(
-            banners = listOf("", "", "", "", "").toImmutableList()
+            banners = persistentListOf("", "", "", "", "")
         )
     }
 }
