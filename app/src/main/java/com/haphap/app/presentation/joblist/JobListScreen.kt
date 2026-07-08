@@ -74,6 +74,11 @@ private fun JobListScreen(
 
         Spacer(modifier = Modifier.height(22.dp))
 
+        CategoryChipList(
+            chipList = uiState.categoryChipState.chipList,
+            selectedChips = uiState.categoryChipState.selectedChips,
+            onFilterClick = onFilterClick,
+        )
         }
     }
 }
