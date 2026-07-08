@@ -82,7 +82,7 @@ fun RegisterDropDown(
     if (isExpanded) {
         Spacer(modifier = Modifier.height(12.dp))
 
-        val listHeight = RegisterDropDownItemHeight * items.size.coerceAtMost(MAX_VISIBLE_ITEMS)
+        val listHeight = RegisterDropDownItemHeight * items.size.coerceAtMost(MAX_VISIBLE_ITEMS) + 12.dp
 
         LazyColumn(
             modifier = Modifier
@@ -92,7 +92,7 @@ fun RegisterDropDown(
                     color = HapHapTheme.colors.gray50,
                     shape = RoundedCornerShape(10.dp),
                 )
-                .padding(horizontal = 11.dp),
+                .padding(horizontal = 11.dp, vertical = 6.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(
