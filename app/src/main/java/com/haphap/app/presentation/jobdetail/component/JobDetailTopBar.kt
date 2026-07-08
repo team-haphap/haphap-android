@@ -52,27 +52,23 @@ fun JobDetailTopBar(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = alarmIconRes),
-                contentDescription = null,
-                tint = HapHapTheme.colors.gray700,
-                modifier = Modifier
-                    .size(44.dp)
-                    .noRippleClickable(onClick = onAlarmClick)
-            )
+        Icon(
+            imageVector = ImageVector.vectorResource(id = alarmIconRes),
+            contentDescription = null,
+            tint = HapHapTheme.colors.gray700,
+            modifier = Modifier
+                .size(44.dp)
+                .noRippleClickable(onClick = onAlarmClick)
+        )
 
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
-                contentDescription = null,
-                tint = HapHapTheme.colors.gray700,
-                modifier = Modifier
-                    .size(44.dp)
-                    .noRippleClickable(onClick = onMoreClick)
-            )
-        }
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
+            contentDescription = null,
+            tint = HapHapTheme.colors.gray700,
+            modifier = Modifier
+                .size(44.dp)
+                .noRippleClickable(onClick = onMoreClick)
+        )
     }
 }
 
