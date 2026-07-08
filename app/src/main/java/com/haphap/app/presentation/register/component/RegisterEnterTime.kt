@@ -35,7 +35,7 @@ fun RegisterEnterTime(
     var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
     var pendingTime by rememberSaveable { mutableStateOf<LocalTime?>(null) }
 
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -43,11 +43,12 @@ fun RegisterEnterTime(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(onClick = { isBottomSheetVisible = true })
-            .padding(vertical = 12.dp),
-        contentAlignment = Alignment.Center,
+            .padding(vertical = 12.dp, horizontal = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = value.ifBlank { placeholder },
+            modifier = Modifier.weight(1f),
             color = if (value.isBlank()) HapHapTheme.colors.gray400 else HapHapTheme.colors.gray600,
             style = HapHapTheme.typography.body.sb14,
         )
