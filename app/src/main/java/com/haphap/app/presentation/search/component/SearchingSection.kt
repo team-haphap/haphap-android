@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -97,7 +98,9 @@ private fun SearchResultItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(vertical = 7.dp),
+        modifier = modifier
+            .padding(end = 7.dp)
+            .padding(vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         UrlImage(
@@ -128,9 +131,12 @@ private fun SearchResultItem(
                 }
             },
             style = HapHapTheme.typography.body.sb14,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(4.dp))
 
         Text(
             text = "바로가기",
@@ -175,9 +181,12 @@ private fun RelatedKeywordItem(
                 }
             },
             style = HapHapTheme.typography.body.sb14,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(6.dp))
 
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_20),
@@ -206,7 +215,7 @@ private fun SearchingSectionPreview() {
                 SearchAutoCompleteModel(
                     id = 2,
                     imageUrl = "",
-                    text = "카카오 기획 공개 채용",
+                    text = "카카오 기획 공개 채용 채용 채용채용채용채용채용채용",
                     highlightLength = RangeModel(
                         start = 0,
                         end = 3,
@@ -240,7 +249,7 @@ private fun SearchingSectionPreview() {
                 ),
                 RelatedKeywordListModel(
                     id = 1,
-                    text = "카카오 맵",
+                    text = "카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵",
                     highlightLength = RangeModel(
                         start = 0,
                         end = 3,
