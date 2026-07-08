@@ -32,17 +32,18 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.data.model.home.BannerListModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeBannerSection(
-    banners: ImmutableList<String>,
+    bannerList: ImmutableList<BannerListModel>,
     modifier: Modifier = Modifier,
-    state: HomeBannerState = rememberHomeBannerState(banners = banners),
+    state: HomeBannerState = rememberHomeBannerState(bannerList = bannerList),
 ) {
-    if (banners.isEmpty()) return
+    if (bannerList.isEmpty()) return
 
     state.HandleAutoScroll()
 
@@ -52,8 +53,8 @@ fun HomeBannerSection(
             contentPadding = PaddingValues(horizontal = 30.dp),
             pageSpacing = 12.dp,
         ) { page ->
-            val index = page % banners.size
-            BannerCard(imageUrl = banners[index])
+            val index = page % bannerList.size
+            BannerCard(imageUrl = bannerList[index].imageUrl)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -65,9 +66,9 @@ fun HomeBannerSection(
                 alignment = Alignment.CenterHorizontally,
             ),
         ) {
-            val currentIndex = state.pagerState.currentPage % banners.size
+            val currentIndex = state.pagerState.currentPage % bannerList.size
 
-            repeat(banners.size) { index ->
+            repeat(bannerList.size) { index ->
                 val isSelected = currentIndex == index
 
                 Box(
@@ -108,11 +109,11 @@ class HomeBannerState(
 
 @Composable
 private fun rememberHomeBannerState(
-    banners: ImmutableList<String>
+    bannerList: ImmutableList<BannerListModel>
 ): HomeBannerState {
     val pagerState = rememberPagerState(
-        initialPage = if (banners.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % banners.size),
-        pageCount = { if (banners.isEmpty()) 0 else Int.MAX_VALUE }
+        initialPage = if (bannerList.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % bannerList.size),
+        pageCount = { if (bannerList.isEmpty()) 0 else Int.MAX_VALUE }
     )
     return remember(pagerState) {
         HomeBannerState(pagerState)
@@ -166,7 +167,13 @@ private fun BannerCard(
 private fun HomeBannerSectionPreview() {
     HapHapTheme {
         HomeBannerSection(
-            banners = persistentListOf("", "", "", "", "")
+            bannerList = persistentListOf(
+                BannerListModel(id = 1, imageUrl = ""),
+                BannerListModel(id = 2, imageUrl = ""),
+                BannerListModel(id = 3, imageUrl = ""),
+                BannerListModel(id = 4, imageUrl = ""),
+                BannerListModel(id = 5, imageUrl = ""),
+            )
         )
     }
 }
