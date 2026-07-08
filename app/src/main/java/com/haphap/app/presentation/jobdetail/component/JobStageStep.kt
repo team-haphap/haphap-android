@@ -85,7 +85,7 @@ fun JobStageStep(
             )
         }
 
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         Text(
             text = stageName,
@@ -93,7 +93,10 @@ fun JobStageStep(
             color = stageNameColor,
         )
 
-        Spacer(modifier = Modifier.height(2.dp))
+        if (isActive)
+            Spacer(modifier = Modifier.height(3.dp))
+        else
+            Spacer(modifier = Modifier.height(2.dp))
 
         Text(
             text = stateText,
