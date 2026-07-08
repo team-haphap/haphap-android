@@ -11,22 +11,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-
-private val dayLabels = listOf("일", "월", "화", "수", "목", "금", "토")
+import com.haphap.app.presentation.calendar.type.defaultDaysOfWeek
+import kotlinx.collections.immutable.ImmutableList
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun DayLabelRow(
     modifier: Modifier = Modifier,
+    daysOfWeek: ImmutableList<DayOfWeek> = defaultDaysOfWeek,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 6.dp, top = 12.dp)
     ) {
-        dayLabels.forEach { dayLabel ->
-            key(dayLabel) {
+        daysOfWeek.forEach { dayOfWeek ->
+            key(dayOfWeek) {
                 Text(
-                    text = dayLabel,
+                    text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN),
                     color = HapHapTheme.colors.gray600,
                     style = HapHapTheme.typography.body.sb13,
                     modifier = Modifier.weight(1f),

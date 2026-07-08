@@ -2,6 +2,7 @@ package com.haphap.app.presentation.calendar.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.presentation.calendar.type.DayType
 import com.haphap.app.presentation.calendar.type.PresentChance
 import java.time.LocalDate
@@ -67,9 +70,9 @@ fun CalendarDayItem(
     Column(
         modifier = modifier
             .padding(top = 3.dp)
-            .clickable(
-                enabled = dayType is DayType.InMonth,
-                onClick = onClick
+            .noRippleClickable(
+                onClick = onClick,
+                isEnabled = dayType is DayType.InMonth,
             )
             .aspectRatio(48f/50f),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,7 +90,7 @@ fun CalendarDayItem(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_today),
                     contentDescription = null,
-                    tint = style.textColor,
+                    tint = style.chanceColor,
                     modifier = Modifier
                         .padding(horizontal = 11.dp)
                         .size(26.dp),
