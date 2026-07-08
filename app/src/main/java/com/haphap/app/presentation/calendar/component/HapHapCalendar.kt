@@ -39,6 +39,7 @@ fun HapHapCalendar(
         initialPage = startPage,
         pageCount = { pageCount },
     )
+    DayLabelRow()
 
     HorizontalPager(
         state = pagerState,
@@ -47,7 +48,6 @@ fun HapHapCalendar(
         val yearMonth = remember(page) {
             baseMonth.plusMonths((page - startPage).toLong())
         }
-
         HapHapCalendarGrid(
             yearMonth = yearMonth,
             selectedDate = selectedDate,
