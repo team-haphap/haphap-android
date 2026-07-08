@@ -56,7 +56,7 @@ fun JobStepReportItem(
                     color = HapHapTheme.colors.gray800,
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
                     text = content,
