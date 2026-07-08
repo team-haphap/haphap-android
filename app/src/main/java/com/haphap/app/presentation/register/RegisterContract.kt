@@ -45,6 +45,7 @@ sealed interface RegisterContract {
 
                 RegisterStep.CONFIRM,
                 RegisterStep.COMPLETE,
+                RegisterStep.PASS_SHARE,
                     -> RegisterSection.Result
             }
 
@@ -77,6 +78,7 @@ enum class RegisterStep {
     DATE_AND_CHANNEL,
     CONFIRM,
     COMPLETE,
+    PASS_SHARE,
 }
 
 enum class NotificationChannelType(val text: String) {
