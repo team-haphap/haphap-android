@@ -28,7 +28,10 @@ fun JobResultTabRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(stages) { stage ->
+        items(
+            items = stages,
+            key = { it }
+        ) { stage ->
             HapHapFilterChip(
                 content = FilterChipContent.TextContent(stage),
                 isFilterSelected = stage == selectedStage,

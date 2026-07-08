@@ -34,7 +34,10 @@ fun JobStageStepRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        items(steps) { step ->
+        items(
+            items = steps,
+            key = { it }
+        ) { step ->
             JobStageStep(
                 number = step.number,
                 stageName = step.stageName,
