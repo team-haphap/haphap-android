@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -72,18 +73,15 @@ fun JobStageStep(
             .padding(vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
+        Text(
+            text = number.toString(),
+            style = HapHapTheme.typography.caption.sb12,
+            color = numberColor,
             modifier = Modifier
                 .size(23.dp)
-                .background(color = circleColor, shape = CircleShape),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = number.toString(),
-                style = HapHapTheme.typography.caption.sb12,
-                color = numberColor,
-            )
-        }
+                .background(color = circleColor, shape = CircleShape)
+                .wrapContentSize(Alignment.Center)
+        )
 
         Spacer(modifier = Modifier.height(4.dp))
 
