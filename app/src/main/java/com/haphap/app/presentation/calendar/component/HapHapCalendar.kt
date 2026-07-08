@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,27 +25,51 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 
-//@Composable
-//fun HapHapCalendar(
-//    onClick: (LocalDate) -> Unit,
-//){
-//    HorizontalPager() {
-//        HapHapCalendarGrid(
-//            onClick = onClick,
-//        )
-//    }
-//}
+@Composable
+fun HapHapCalendar(
+    onClick: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+){
+    val pageCount = Int.MAX_VALUE
+    val startPage = Int.MAX_VALUE / 2
+    val baseMonth = remember { YearMonth.now() }
+    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+
+    val pagerState = rememberPagerState(
+        initialPage = startPage,
+        pageCount = { pageCount },
+    )
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier,
+    ) { page ->
+        val yearMonth = remember(page) {
+            baseMonth.plusMonths((page - startPage).toLong())
+        }
+
+        HapHapCalendarGrid(
+            yearMonth = yearMonth,
+            selectedDate = selectedDate,
+            onClick = { day ->
+                selectedDate = day
+                onClick(day)
+            },
+        )
+    }
+}
+
 @Composable
 private fun HapHapCalendarGrid(
+    yearMonth: YearMonth,
+    selectedDate: LocalDate?,
     onClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     daysOfWeek: ImmutableList<DayOfWeek> = defaultDaysOfWeek,
 ) {
-    val yearMonth = YearMonth.of(2026, 7)
     val firstDay = yearMonth.atDay(1)
     val dayIndex = daysOfWeek.indexOf(firstDay.dayOfWeek)
     val today = LocalDate.now()
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     val weeks = remember(yearMonth, daysOfWeek) {
         (0 until 6 * 7).map { offset ->
@@ -89,10 +114,7 @@ private fun HapHapCalendarGrid(
                     CalendarDayItem(
                         day = day,
                         dayType = dayType,
-                        onClick = {
-                            selectedDate = day
-                            onClick(day)
-                        },
+                        onClick = { onClick(day) },
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -106,7 +128,7 @@ private fun HapHapCalendarGrid(
 private fun HapHapCalendarPreview() {
     HapHapTheme {
         Column(modifier = Modifier.padding(top = 50.dp)) {
-            HapHapCalendarGrid(onClick = {})
+            HapHapCalendar(onClick = {})
         }
     }
 }
