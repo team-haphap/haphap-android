@@ -1,12 +1,12 @@
 package com.haphap.app.presentation.search
 
 import androidx.compose.runtime.Immutable
+import com.haphap.app.core.designsystem.component.chip.CategoryChipState
 import com.haphap.app.data.model.search.RecentSearchListModel
 import com.haphap.app.data.model.search.RelatedKeywordListModel
 import com.haphap.app.data.model.search.SearchAutoCompleteModel
 import com.haphap.app.data.model.search.SearchResultModel
 import com.haphap.app.data.model.search.TrendJobListModel
-import com.haphap.app.presentation.category.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
