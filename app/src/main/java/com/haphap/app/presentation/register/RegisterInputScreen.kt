@@ -78,7 +78,7 @@ fun RegisterInputScreen(
             modifier = modifier,
         )
 
-        RegisterStep.CONFIRM, RegisterStep.COMPLETE -> Unit
+        RegisterStep.CONFIRM, RegisterStep.COMPLETE, RegisterStep.PASS_SHARE -> Unit
     }
 }
 
