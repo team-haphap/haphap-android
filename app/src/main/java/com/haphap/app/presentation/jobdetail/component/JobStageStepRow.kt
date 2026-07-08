@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.jobdetail.component
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,46 +48,48 @@ fun JobStageStepRow(
     }
 }
 
+private data class JobStageStepStyle(
+    val circleColor: Color,
+    val numberColor: Color,
+    val stageNameStyle: TextStyle,
+    val stateText: String,
+    val stateTextColor: Color,
+    val stateTextStyle: TextStyle,
+)
+
 @Composable
-fun JobStageStep(
+private fun jobStageStepStyle(status: JobStepStatus): JobStageStepStyle {
+    val isActive = status != JobStepStatus.UPCOMING
+
+    return JobStageStepStyle(
+        circleColor = if (isActive) HapHapTheme.colors.primary500 else HapHapTheme.colors.gray200,
+        numberColor = if (isActive) HapHapTheme.colors.gray100 else HapHapTheme.colors.gray500,
+        stageNameStyle = if (isActive) {
+            HapHapTheme.typography.caption.sb10
+        } else {
+            HapHapTheme.typography.caption.r10
+        },
+        stateText = when (status) {
+            JobStepStatus.COMPLETED -> "완료"
+            JobStepStatus.IN_PROGRESS -> "진행중"
+            JobStepStatus.UPCOMING -> "대기"
+        },
+        stateTextColor = if (isActive) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray300,
+        stateTextStyle = if (isActive) {
+            HapHapTheme.typography.caption.m10
+        } else {
+            HapHapTheme.typography.caption.r10
+        },
+    )
+}
+@Composable
+private fun JobStageStep(
     number: Int,
     stageName: String,
     status: JobStepStatus,
     modifier: Modifier = Modifier,
 ) {
-    val isActive = status != JobStepStatus.UPCOMING
-
-    val circleColor = if (isActive) {
-        HapHapTheme.colors.primary500
-    } else {
-        HapHapTheme.colors.gray200
-    }
-    val numberColor = if (isActive) {
-        HapHapTheme.colors.gray100
-    } else {
-        HapHapTheme.colors.gray500
-    }
-    val stageNameStyle: TextStyle = if (isActive) {
-        HapHapTheme.typography.caption.sb10
-    } else {
-        HapHapTheme.typography.caption.r10
-    }
-    val stageNameColor = HapHapTheme.colors.gray800
-    val stateText = when (status) {
-        JobStepStatus.COMPLETED -> "완료"
-        JobStepStatus.IN_PROGRESS -> "진행중"
-        JobStepStatus.UPCOMING -> "대기"
-    }
-    val stateTextColor = if (isActive) {
-        HapHapTheme.colors.primary100
-    } else {
-        HapHapTheme.colors.gray300
-    }
-    val stateTextStyle: TextStyle = if (isActive) {
-        HapHapTheme.typography.caption.m10
-    } else {
-        HapHapTheme.typography.caption.r10
-    }
+    val style = jobStageStepStyle(status)
 
     Column(
         modifier = modifier
@@ -97,30 +100,27 @@ fun JobStageStep(
         Text(
             text = number.toString(),
             style = HapHapTheme.typography.caption.sb12,
-            color = numberColor,
+            color = style.numberColor,
             modifier = Modifier
                 .size(23.dp)
-                .background(color = circleColor, shape = CircleShape)
-                .wrapContentSize(Alignment.Center)
+                .background(color = style.circleColor, shape = CircleShape)
+                .wrapContentSize(Alignment.Center),
         )
 
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
             text = stageName,
-            style = stageNameStyle,
-            color = stageNameColor,
+            style = style.stageNameStyle,
+            color = HapHapTheme.colors.gray800,
         )
 
-        if (isActive)
-            Spacer(modifier = Modifier.height(3.dp))
-        else
-            Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            text = stateText,
-            style = stateTextStyle,
-            color = stateTextColor,
+            text = style.stateText,
+            style = style.stateTextStyle,
+            color = style.stateTextColor,
         )
     }
 }
