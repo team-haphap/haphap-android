@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -17,10 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
-import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
@@ -71,9 +72,8 @@ private fun HomeCountCard(
             .clip(RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.white),
     ) {
-        UrlImage(
-            url = "",
-            placeholderDrawable = imageRes,
+        Image(
+            painter = painterResource(id = imageRes),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
