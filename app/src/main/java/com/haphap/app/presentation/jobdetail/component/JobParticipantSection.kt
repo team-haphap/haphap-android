@@ -90,7 +90,7 @@ fun JobParticipantSection(
 
             if (additionalCount > 0) {
                 HapHapStatusChip(
-                    text = "+$additionalCount",
+                    text = "+${additionalCount}",
                     type = StatusChipType.COUNT,
                 )
             }
