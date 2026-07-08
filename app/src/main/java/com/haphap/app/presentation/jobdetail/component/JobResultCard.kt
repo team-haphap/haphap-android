@@ -33,7 +33,7 @@ fun JobResultCard(
     ) {
         Image(
             painter = painterResource(id = type.imageRes),
-            contentDescription = type.label,
+            contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
         )
 
