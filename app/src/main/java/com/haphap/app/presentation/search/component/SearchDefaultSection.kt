@@ -42,7 +42,7 @@ fun SearchDefaultSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(top = 12.dp),
+        modifier = modifier.padding(vertical = 12.dp),
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 20.dp),
@@ -116,7 +116,7 @@ private fun RecentSearchItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
