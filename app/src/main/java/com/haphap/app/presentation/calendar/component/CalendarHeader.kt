@@ -26,6 +26,7 @@ import java.time.YearMonth
 @Composable
 fun CalendarHeader(
     yearMonth: YearMonth,
+    onDateClick: () -> Unit,
     onBackClick: () -> Unit,
     onNextClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -43,17 +44,18 @@ fun CalendarHeader(
             modifier = Modifier
                 .size(30.dp)
                 .noRippleClickable(onClick = onBackClick),
-            tint = HapHapTheme.colors.gray400
+            tint = HapHapTheme.colors.gray400,
         )
 
         Text(
             text = "${yearMonth.year}년 ${yearMonth.monthValue}월",
             color = HapHapTheme.colors.gray700,
             style = HapHapTheme.typography.body.sb16,
-            modifier = modifier
+            modifier = Modifier
                 .clip(shape = CircleShape)
                 .background(color = HapHapTheme.colors.gray100)
                 .padding(horizontal = 42.dp, vertical = 4.dp)
+                .noRippleClickable(onClick = onDateClick),
         )
 
         Icon(
@@ -62,7 +64,7 @@ fun CalendarHeader(
             modifier = Modifier
                 .size(30.dp)
                 .noRippleClickable(onClick = onNextClick),
-            tint = HapHapTheme.colors.gray400
+            tint = HapHapTheme.colors.gray400,
         )
     }
 }
@@ -74,7 +76,8 @@ private fun CalendarHeaderPreview() {
         CalendarHeader(
             yearMonth = YearMonth.now(),
             onBackClick = {},
-            onNextClick = {}
+            onNextClick = {},
+            onDateClick = {},
         )
     }
 }
