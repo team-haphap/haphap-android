@@ -57,7 +57,7 @@ fun RegisterDropDown(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(onClick = { isExpanded = !isExpanded })
-            .padding(vertical = 15.dp, horizontal = 10.dp),
+            .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
