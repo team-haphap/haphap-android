@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.data.model.register.RegisterDropDownItemData
+import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -36,9 +36,9 @@ private const val MAX_VISIBLE_ITEMS = 4
 
 @Composable
 fun RegisterDropDown(
-    items: ImmutableList<RegisterDropDownItemData>,
-    selectedItem: RegisterDropDownItemData?,
-    onItemSelected: (RegisterDropDownItemData) -> Unit,
+    items: ImmutableList<RegisterDropDownItemModel>,
+    selectedItem: RegisterDropDownItemModel?,
+    onItemSelected: (RegisterDropDownItemModel) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
 ) {
@@ -116,19 +116,19 @@ fun RegisterDropDown(
 @Composable
 private fun RegisterDropDownPreview() {
     HapHapTheme {
-        var selected by remember { mutableStateOf<RegisterDropDownItemData?>(null) }
+        var selected by remember { mutableStateOf<RegisterDropDownItemModel?>(null) }
 
         Column(modifier = Modifier.padding(20.dp)) {
             RegisterDropDown(
                 items = persistentListOf(
-                    RegisterDropDownItemData(id = "1", text = "카카오 2026 신입 개발자 공개 채용"),
-                    RegisterDropDownItemData(id = "2", text = "네이버 2026 신입 개발자 공개 채용"),
-                    RegisterDropDownItemData(
-                        id = "3",
+                    RegisterDropDownItemModel(id = 1, text = "카카오 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemModel(id = 2, text = "네이버 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemModel(
+                        id = 3,
                         text = "라인 2026 신입 ~~~~~~~~~~~~~~~~~~~~~~~~~~개발자 공개 채용"
                     ),
-                    RegisterDropDownItemData(id = "4", text = "토스 2026 신입 개발자 공개 채용"),
-                    RegisterDropDownItemData(id = "5", text = "당근 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemModel(id = 4, text = "토스 2026 신입 개발자 공개 채용"),
+                    RegisterDropDownItemModel(id = 5, text = "당근 2026 신입 개발자 공개 채용"),
                 ),
                 selectedItem = selected,
                 onItemSelected = { selected = it },

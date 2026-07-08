@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.register.type.PassResultStatus
+import com.haphap.app.presentation.register.type.RegisterPassResultType
 
 @Composable
 fun RegisterPassResultConfirm(
-    status: PassResultStatus,
+    status: RegisterPassResultType,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -67,9 +67,9 @@ private fun RegisterPassResultConfirmPreview() {
                 .padding(all = 20.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            RegisterPassResultConfirm(status = PassResultStatus.PASS)
-            RegisterPassResultConfirm(status = PassResultStatus.FAILED)
-            RegisterPassResultConfirm(status = PassResultStatus.DONT_KNOW)
+            RegisterPassResultConfirm(status = RegisterPassResultType.PASS)
+            RegisterPassResultConfirm(status = RegisterPassResultType.FAILED)
+            RegisterPassResultConfirm(status = RegisterPassResultType.DONT_KNOW)
         }
     }
 }

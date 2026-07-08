@@ -3,7 +3,7 @@ package com.haphap.app.presentation.register.type
 import androidx.compose.ui.graphics.Color
 import com.haphap.app.core.designsystem.theme.HapHapColors
 
-enum class DropDownItemSelectionState {
+enum class RegisterDropDownItemType {
     SELECTED,
     UNSELECTED,
 }
@@ -12,12 +12,12 @@ data class RegisterDropDownItemStyle(
     val textColor: Color,
 )
 
-fun DropDownItemSelectionState.toStyle(colors: HapHapColors): RegisterDropDownItemStyle = when (this) {
-    DropDownItemSelectionState.SELECTED -> RegisterDropDownItemStyle(
+fun RegisterDropDownItemType.toStyle(colors: HapHapColors): RegisterDropDownItemStyle = when (this) {
+    RegisterDropDownItemType.SELECTED -> RegisterDropDownItemStyle(
         backgroundColor = colors.sub100,
         textColor = colors.primary500,
     )
-    DropDownItemSelectionState.UNSELECTED -> RegisterDropDownItemStyle(
+    RegisterDropDownItemType.UNSELECTED -> RegisterDropDownItemStyle(
         backgroundColor = colors.gray50,
         textColor = colors.gray500,
     )

@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.presentation.register.type.DropDownItemSelectionState
+import com.haphap.app.presentation.register.type.RegisterDropDownItemType
 import com.haphap.app.presentation.register.type.toStyle
 
 val RegisterDropDownItemHeight = 50.dp
@@ -26,7 +26,7 @@ fun RegisterDropDownItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val style = (if (isSelected) DropDownItemSelectionState.SELECTED else DropDownItemSelectionState.UNSELECTED)
+    val style = (if (isSelected) RegisterDropDownItemType.SELECTED else RegisterDropDownItemType.UNSELECTED)
         .toStyle(HapHapTheme.colors)
 
     Box(
