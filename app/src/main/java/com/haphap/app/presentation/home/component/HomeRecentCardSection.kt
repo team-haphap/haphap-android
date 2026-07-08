@@ -83,7 +83,7 @@ fun HomeRecentCardSection(
                     key = { it.id },
                 ) {
                     HapHapCard(
-                        type = CardType.SMALL,
+                        type = CardType.BIG,
                         imageUrl = it.imageUrl,
                         text = it.text,
                         stage = it.stage,
