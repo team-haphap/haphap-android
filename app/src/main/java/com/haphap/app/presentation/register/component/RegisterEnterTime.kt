@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.bottomsheet.HapHapTimeBottomSheet
@@ -51,6 +52,7 @@ fun RegisterEnterTime(
             modifier = Modifier.weight(1f),
             color = if (value.isBlank()) HapHapTheme.colors.gray400 else HapHapTheme.colors.gray600,
             style = HapHapTheme.typography.body.sb14,
+            textAlign = TextAlign.Center
         )
     }
 
