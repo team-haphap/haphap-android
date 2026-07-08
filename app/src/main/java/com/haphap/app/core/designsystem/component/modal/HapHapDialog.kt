@@ -1,6 +1,5 @@
 package com.haphap.app.core.designsystem.component.modal
 
-import android.graphics.drawable.VectorDrawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,13 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -37,7 +34,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
  */
 
 @Composable
-fun HapHapModal(
+fun HapHapDialog(
     content: String,
     onDismiss: () -> Unit,
     onConfirmClick: () -> Unit,
@@ -45,10 +42,6 @@ fun HapHapModal(
 ) {
     Dialog (
         onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = true,
-            decorFitsSystemWindows = true,
-        )
     ) {
         Column(
             modifier = modifier
@@ -102,9 +95,9 @@ fun HapHapModal(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun HapHapModalPreview() {
+private fun HapHapDialogPreview() {
     HapHapTheme {
-        HapHapModal(
+        HapHapDialog(
             content = "이전에 등록한 결과가 있습니다.\n결과를 변경할까요?",
             onDismiss = {},
             onConfirmClick = {},
