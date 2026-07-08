@@ -78,6 +78,18 @@ fun MainNavHost(
 
         registerGraph(
             innerPadding = innerPadding,
+            navController = navController,
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<Login> {inclusive = true}
+                        launchSingleTop = true
+                    }
+                )
+            },
+            navigateToJobDetail = { jobId ->
+                // TODO: 상세 페이지 네비게이션 함수 추가 예정
+            }
         )
 
         calendarGraph(
