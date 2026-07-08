@@ -27,7 +27,7 @@ fun JobDetailTopBar(
     isAlarmActive: Boolean = false,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(44.dp)
             .background(HapHapTheme.colors.white)
