@@ -20,14 +20,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.jobdetail.model.JobStep
+import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun JobStageStepRow(
-    steps: ImmutableList<JobStep>,
+    steps: ImmutableList<JobStepModel>,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
@@ -128,13 +128,13 @@ private fun JobStageStepRowPreview() {
     HapHapTheme {
         JobStageStepRow(
             steps = persistentListOf(
-                JobStep(1, "서류", JobStepStatus.COMPLETED),
-                JobStep(2, "서류", JobStepStatus.COMPLETED),
-                JobStep(3, "1차면접", JobStepStatus.IN_PROGRESS),
-                JobStep(2, "서류", JobStepStatus.UPCOMING),
-                JobStep(2, "서류", JobStepStatus.UPCOMING),
-                JobStep(2, "서류", JobStepStatus.UPCOMING),
-                JobStep(2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(1, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(2, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(3, "1차면접", JobStepStatus.IN_PROGRESS),
+                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
             ),
         )
     }
