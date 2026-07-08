@@ -21,14 +21,13 @@ import com.haphap.app.presentation.splash.navigation.splashGraph
 @Composable
 fun MainNavHost(
     appState: MainAppState,
-    startDestination: Route,
     innerPadding: PaddingValues,
 ) {
     val navController = appState.navController
 
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = appState.startDestination,
     ) {
         splashGraph(
             innerPadding = innerPadding,
