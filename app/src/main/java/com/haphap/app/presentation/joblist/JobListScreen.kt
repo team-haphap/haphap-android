@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.job
+package com.haphap.app.presentation.joblist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +10,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
-fun JobRoute(
+fun JobListRoute(
     modifier: Modifier = Modifier,
 ) {
-    JobScreen(
+    JobListScreen(
         modifier = modifier,
     )
 }
 
 @Composable
-private fun JobScreen(
+private fun JobListScreen(
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -33,8 +33,8 @@ private fun JobScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun JobScreenPreview() {
+private fun JobListScreenPreview() {
     HapHapTheme {
-        JobScreen()
+        JobListScreen()
     }
 }
