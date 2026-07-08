@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,10 @@ fun HomeRecentCardSection(
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column() {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 20.dp)
@@ -73,6 +77,7 @@ fun HomeRecentCardSection(
         Spacer(modifier = Modifier.height(12.dp))
 
         if (recentCardList.isEmpty()) {
+
             HomeEmptyComponent(
                 text = "최근 결과가 올라온 공고가 없습니다.",
             )
@@ -129,7 +134,7 @@ private fun HomeRecentCardSectionPreview() {
                 RecentCardModel(
                     id = 1,
                     imageUrl = "",
-                    text = "개발",
+                    text = "개발/데이터",
                     stage = "서류",
                     dDay = 2,
                     company = "카카오",
@@ -138,7 +143,7 @@ private fun HomeRecentCardSectionPreview() {
                 RecentCardModel(
                     id = 2,
                     imageUrl = "",
-                    text = "개발",
+                    text = "개발/데이터",
                     stage = "서류",
                     dDay = 2,
                     company = "카카오",
@@ -147,7 +152,7 @@ private fun HomeRecentCardSectionPreview() {
                 RecentCardModel(
                     id = 3,
                     imageUrl = "",
-                    text = "개발",
+                    text = "인사",
                     stage = "서류",
                     dDay = 2,
                     company = "카카오",
@@ -156,7 +161,7 @@ private fun HomeRecentCardSectionPreview() {
                 RecentCardModel(
                     id = 4,
                     imageUrl = "",
-                    text = "개발",
+                    text = "인사",
                     stage = "서류",
                     dDay = 2,
                     company = "카카오",
