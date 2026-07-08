@@ -11,5 +11,6 @@ sealed interface JobListContract {
     @Immutable
     data class State(
         val categoryChipState: CategoryChipState = CategoryChipState(),
+        val jobList: ImmutableList<JobItemModel> = persistentListOf(),
     )
 }

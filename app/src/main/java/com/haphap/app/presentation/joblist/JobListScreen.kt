@@ -79,6 +79,29 @@ private fun JobListScreen(
             selectedChips = uiState.categoryChipState.selectedChips,
             onFilterClick = onFilterClick,
         )
+
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            items(
+                items = uiState.jobList,
+                key = { it.id }
+            ) {
+                HapHapCard(
+                    type = CardType.SMALL,
+                    imageUrl = it.imageUrl,
+                    text = it.category,
+                    stage = it.stage,
+                    dDay = it.dDay,
+                    company = it.title,
+                    description = it.content,
+                    onCardClick = { onCardClick(it.id) },
+                )
+            }
         }
     }
 }
