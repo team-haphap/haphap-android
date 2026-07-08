@@ -2,12 +2,10 @@ package com.haphap.app.presentation.register.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -48,15 +46,12 @@ fun RegisterDateChannelSection(
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(HapHapTheme.colors.white),
+    RegisterStepScaffold(
+        onBackClick = onBackClick,
+        progress = 3,
+        totalSteps = 3,
+        modifier = modifier,
     ) {
-        RegisterTopBar(onBackClick = onBackClick)
-
-        RegisterProgressBar(progress = 3, totalSteps = 3)
-
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -126,14 +121,9 @@ fun RegisterDateChannelSection(
             )
         }
 
-        HapHapBasicButton(
-            text = "다음",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = isNextEnabled),
+        RegisterNextButton(
+            isEnabled = isNextEnabled,
             onClick = onNextClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 13.dp),
         )
     }
 }
