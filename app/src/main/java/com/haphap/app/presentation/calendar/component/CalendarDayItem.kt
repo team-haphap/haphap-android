@@ -27,6 +27,7 @@ import com.haphap.app.core.designsystem.theme.HapHapColors
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.calendar.type.DayType
 import com.haphap.app.presentation.calendar.type.PresentChance
+import java.time.LocalDate
 
 private data class DayItemStyle(
     val textColor: Color,
@@ -55,7 +56,7 @@ private fun DayType.toStyle(colors: HapHapColors): DayItemStyle = when (this) {
 
 @Composable
 fun CalendarDayItem(
-    day: String,
+    day: LocalDate,
     dayType: DayType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -72,7 +73,7 @@ fun CalendarDayItem(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = day,
+            text = day.dayOfMonth.toString(),
             style = HapHapTheme.typography.body.sb13,
             color = style.textColor,
         )
@@ -111,43 +112,43 @@ private fun CalendarDayItemPreview() {
     HapHapTheme {
         Row {
             CalendarDayItem(
-                day = "1",
+                day = LocalDate.of(2024, 1, 1),
                 dayType = DayType.OutMonth,
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "2",
+                day = LocalDate.of(2024, 1, 2),
                 dayType = DayType.InMonth(),
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "3",
+                day = LocalDate.of(2024, 1, 3),
                 dayType = DayType.InMonth(presentChance = PresentChance.LOW, isToday = true),
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "4",
+                day = LocalDate.of(2024, 1, 4),
                 dayType = DayType.InMonth(isSelected = true),
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "5",
+                day = LocalDate.of(2024, 1, 5),
                 dayType = DayType.InMonth(presentChance = PresentChance.HIGH),
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "6",
+                day = LocalDate.of(2024, 1, 6),
                 dayType = DayType.InMonth(presentChance = PresentChance.VERY_LOW),
                 onClick = {},
                 modifier = Modifier.weight(1f)
             )
             CalendarDayItem(
-                day = "7",
+                day = LocalDate.of(2024, 1, 7),
                 dayType = DayType.InMonth(presentChance = PresentChance.VERY_HIGH, isSelected = true),
                 onClick = {},
                 modifier = Modifier.weight(1f)
