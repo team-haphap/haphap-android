@@ -44,7 +44,10 @@ fun JobResultCard(
                 .border(
                     width = 1.dp,
                     color = HapHapTheme.colors.gray100,
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(
+                        bottomStart = 8.dp,
+                        bottomEnd = 8.dp
+                    )
                 )
                 .padding(top = 4.dp, bottom = 5.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
