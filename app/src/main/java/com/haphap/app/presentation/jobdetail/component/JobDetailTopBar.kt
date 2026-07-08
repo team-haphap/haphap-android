@@ -43,7 +43,7 @@ fun JobDetailTopBar(
 
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
-            contentDescription = "null",
+            contentDescription = null,
             tint = Color.Unspecified,
             modifier = Modifier
                 .size(30.dp)
