@@ -14,10 +14,4 @@ class HomeViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(HomeContract.State())
     val uiState = _uiState.asStateFlow()
-
-    fun updateSelectedChips(id: Int){
-        _uiState.update {
-            it.toggleCategoryChips(id)
-        }
-    }
 }
