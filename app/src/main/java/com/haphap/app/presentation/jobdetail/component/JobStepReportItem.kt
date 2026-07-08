@@ -35,7 +35,7 @@ fun JobStepReportItem(
         JobStepReportType.PENDING -> "${nickName}이 대기 상태를 공유했어요"
     }
      Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .background(color = HapHapTheme.colors.white)
                 .padding(vertical = 16.dp),
