@@ -85,7 +85,6 @@ fun MainScreen(
 
             MainNavHost(
                 appState = appState,
-                startDestination = appState.startDestination,
                 innerPadding = innerPadding,
             )
         }
