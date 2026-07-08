@@ -38,8 +38,8 @@ import kotlinx.collections.immutable.persistentListOf
 fun SearchingSection(
     searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel>,
     relatedKeywordList: ImmutableList<RelatedKeywordListModel>,
-    onAutoCompleteItemClick: () -> Unit,
-    onRelatedItemClick: () -> Unit,
+    onAutoCompleteItemClick: (Int) -> Unit,
+    onRelatedItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -52,7 +52,7 @@ fun SearchingSection(
                 imageUrl = it.imageUrl,
                 text = it.text,
                 highlightLength = it.length,
-                onClick = onAutoCompleteItemClick,
+                onClick = { onAutoCompleteItemClick(it.id) },
             )
 
             HorizontalDivider(
@@ -78,7 +78,7 @@ fun SearchingSection(
             RelatedKeywordItem(
                 text = it.text,
                 highlightLength = it.length,
-                onClick = onRelatedItemClick,
+                onClick = { onRelatedItemClick(it.id) },
             )
 
             Spacer(modifier = Modifier.height(12.dp))

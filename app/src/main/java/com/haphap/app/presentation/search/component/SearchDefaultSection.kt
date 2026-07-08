@@ -37,8 +37,8 @@ import kotlinx.collections.immutable.persistentListOf
 fun SearchDefaultSection(
     recentSearchList: ImmutableList<RecentSearchListModel>,
     trendJobList: ImmutableList<TrendJobListModel>,
-    onDeleteClick: () -> Unit,
-    onCardClick: () -> Unit,
+    onDeleteClick: (Int) -> Unit,
+    onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -59,7 +59,7 @@ fun SearchDefaultSection(
                 RecentSearchItem(
                     keyword = it.keyword,
                     date = it.date,
-                    onDeleteClick = onDeleteClick,
+                    onDeleteClick = { onDeleteClick(it.id) },
                 )
 
                 HorizontalDivider(
@@ -99,7 +99,7 @@ fun SearchDefaultSection(
                     dDay = it.dDay,
                     company = it.company,
                     description = it.description,
-                    onCardClick = onCardClick,
+                    onCardClick = { onCardClick(it.id) },
                     modifier = Modifier.widthIn(max = 186.dp)
                 )
             }

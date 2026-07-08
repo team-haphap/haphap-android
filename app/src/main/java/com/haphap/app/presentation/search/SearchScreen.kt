@@ -56,12 +56,12 @@ private fun SearchScreen(
     uiState: SearchContract.State,
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
-    onAutoCompleteItemClick: () -> Unit,
-    onRelatedItemClick: () -> Unit,
+    onAutoCompleteItemClick: (Int) -> Unit,
+    onRelatedItemClick: (Int) -> Unit,
     onFilterClick: (Int) -> Unit,
     onResultCardClick: (Int) -> Unit,
-    onDeleteClick: () -> Unit,
-    onTrendCardClick: () -> Unit,
+    onDeleteClick: (Int) -> Unit,
+    onTrendCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
