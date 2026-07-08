@@ -68,7 +68,7 @@ fun JobResultCard(
 private fun JobResultCardPreview() {
     HapHapTheme {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.padding(16.dp),
         ) {
             JobResultCard(
