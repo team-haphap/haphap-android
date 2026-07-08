@@ -48,13 +48,12 @@ fun SearchResultSection(
     ) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp)
         ) {
             item {
                 HapHapFilterChip(
                     content = FilterChipContent.IconContent(
                         iconRes = R.drawable.ic_filter_20,
-                        iconResTint = HapHapTheme.colors.gray500,
                     ),
                     onFilterClick = {},
                     isFilterSelected = false
