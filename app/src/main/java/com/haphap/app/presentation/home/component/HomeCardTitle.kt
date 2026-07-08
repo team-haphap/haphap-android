@@ -19,22 +19,40 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun HomeCardTitle(
     title: String,
     description: String,
-    modifier: Modifier = Modifier
+    isMore: Boolean,
+    modifier: Modifier = Modifier,
+    onMoreClick: () -> Unit = {},
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Text(
-            text = title,
-            style = HapHapTheme.typography.subtitle.b20,
-            color = HapHapTheme.colors.gray800,
-        )
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = HapHapTheme.typography.subtitle.b20,
+                color = HapHapTheme.colors.gray800,
+            )
 
-        Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
-        Text(
-            text = description,
-            style = HapHapTheme.typography.caption.m12,
-            color = HapHapTheme.colors.gray500,
-        )
+            Text(
+                text = description,
+                style = HapHapTheme.typography.caption.m12,
+                color = HapHapTheme.colors.gray500,
+            )
+        }
+
+        if (isMore) {
+            Text(
+                text = "더보기",
+                style = HapHapTheme.typography.caption.m12,
+                color = HapHapTheme.colors.gray300,
+                modifier = Modifier
+                    .noRippleClickable(onClick = onMoreClick)
+                    .padding(horizontal = 6.dp),
+            )
+        }
     }
 }
 
@@ -48,26 +66,17 @@ private fun HomeCardTitlePreview() {
             HomeCardTitle(
                 title = "최근 결과가 올라온 공고",
                 description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
+                isMore = false,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                HomeCardTitle(
-                    title = "오늘 발표 예상 공고",
-                    description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
-                    modifier = Modifier.weight(1f),
-                )
-
-                Text(
-                    text = "더보기",
-                    style = HapHapTheme.typography.caption.m12,
-                    color = HapHapTheme.colors.gray300,
-                    modifier = Modifier
-                        .noRippleClickable(onClick = {})
-                        .padding(horizontal = 6.dp),
-                )
-            }
+            HomeCardTitle(
+                title = "오늘 발표 예상 공고",
+                description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
+                isMore = true,
+                onMoreClick = {},
+            )
         }
     }
 }
