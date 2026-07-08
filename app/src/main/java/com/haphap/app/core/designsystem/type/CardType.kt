@@ -4,9 +4,9 @@ enum class CardType(
     val imageRatio: Float,
 ) {
     BIG(
-        imageRatio = 170f / 82f,
+        imageRatio = 186f / 74f,
     ),
     SMALL(
-        imageRatio = 139f / 82f,
+        imageRatio = 155f / 74f,
     ),
 }
