@@ -27,6 +27,8 @@ import com.haphap.app.presentation.home.HomeContract.State.Companion.DEFAULT_CHI
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
+private const val MAX_RECENT_CARD_COUNT = 8
+
 @Composable
 fun HomeRecentCardSection(
     chipList: ImmutableList<ChipListModel>,
@@ -67,26 +69,32 @@ fun HomeRecentCardSection(
             }
         }
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(20.dp)
-        ) {
-            items(
-                items = recentCardList,
-                key = { it.id },
+        if (recentCardList.isEmpty()) {
+            HomeEmptyComponent(
+                text = "최근 결과가 올라온 공고가 없습니다.",
+            )
+        } else {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(20.dp)
             ) {
-                HapHapCard(
-                    type = CardType.SMALL,
-                    imageUrl = it.imageUrl,
-                    text = it.text,
-                    stage = it.stage,
-                    dDay = it.dDay,
-                    company = it.company,
-                    description = it.description,
-                    onCardClick = { onCardClick(it.id) },
-                )
+                items(
+                    items = recentCardList.take(MAX_RECENT_CARD_COUNT),
+                    key = { it.id },
+                ) {
+                    HapHapCard(
+                        type = CardType.SMALL,
+                        imageUrl = it.imageUrl,
+                        text = it.text,
+                        stage = it.stage,
+                        dDay = it.dDay,
+                        company = it.company,
+                        description = it.description,
+                        onCardClick = { onCardClick(it.id) },
+                    )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
             }
         }
     }

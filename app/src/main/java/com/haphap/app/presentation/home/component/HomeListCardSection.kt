@@ -20,24 +20,30 @@ fun HomeListCardSection(
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-    ) {
-        todayExpectedCardList
-            .take(3)
-            .forEach {
-            HomeListCardComponent(
-                imageUrl = it.imageUrl,
-                title = it.title,
-                companyName = it.companyName,
-                category = it.category,
-                stageName = it.stageName,
-                onCardClick = onCardClick,
-            )
+    if (todayExpectedCardList.isEmpty()) {
+        HomeEmptyComponent(
+            text = "오늘 발표 예상 공고가 없습니다.",
+        )
+    } else {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
+            todayExpectedCardList
+                .take(3)
+                .forEach {
+                    HomeListCardComponent(
+                        imageUrl = it.imageUrl,
+                        title = it.title,
+                        companyName = it.companyName,
+                        category = it.category,
+                        stageName = it.stageName,
+                        onCardClick = onCardClick,
+                    )
 
-            Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
         }
     }
 }
