@@ -49,7 +49,7 @@ fun JobResultCard(
                         bottomEnd = 8.dp
                     )
                 )
-                .padding(top = 4.dp, bottom = 5.dp),
+                .padding(vertical = 4.dp, horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
