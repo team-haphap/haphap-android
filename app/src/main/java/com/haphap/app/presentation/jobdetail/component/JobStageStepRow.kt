@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.detail.JobStepModel
@@ -53,6 +54,7 @@ private data class JobStageStepStyle(
     val numberColor: Color,
     val stageNameStyle: TextStyle,
     val stateText: String,
+    val stateSpacerHeight: Dp,
     val stateTextColor: Color,
     val stateTextStyle: TextStyle,
 )
@@ -74,6 +76,7 @@ private fun jobStageStepStyle(status: JobStepStatus): JobStageStepStyle {
             JobStepStatus.IN_PROGRESS -> "진행중"
             JobStepStatus.UPCOMING -> "대기"
         },
+        stateSpacerHeight = if (isActive) 3.dp else 2.dp,
         stateTextColor = if (isActive) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray300,
         stateTextStyle = if (isActive) {
             HapHapTheme.typography.caption.m10
@@ -115,7 +118,7 @@ private fun JobStageStep(
             color = HapHapTheme.colors.gray800,
         )
 
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(style.stateSpacerHeight))
 
         Text(
             text = style.stateText,
