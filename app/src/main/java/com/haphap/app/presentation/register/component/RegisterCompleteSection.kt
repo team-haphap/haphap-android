@@ -31,45 +31,53 @@ fun RegisterCompleteSection(
         modifier = modifier
             .fillMaxSize()
             .background(HapHapTheme.colors.white)
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(bottom = 10.dp),
     ) {
         RegisterTopBar(
             onBackClick = onBackClick,
             isText = false,
         )
 
-        Text(
-            text = "등록이 완료되었어요!",
-            style = HapHapTheme.typography.subtitle.b22,
-            color = HapHapTheme.colors.gray800,
-        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+        ) {
+            Text(
+                text = "등록이 완료되었어요!",
+                style = HapHapTheme.typography.subtitle.b22,
+                color = HapHapTheme.colors.gray800,
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = "소중한 결과를 등록해 주셔서 감사해요",
-            style = HapHapTheme.typography.body.m14,
-            color = HapHapTheme.colors.gray500,
-        )
+            Text(
+                text = "소중한 결과를 등록해 주셔서 감사해요",
+                style = HapHapTheme.typography.body.m14,
+                color = HapHapTheme.colors.gray500,
+            )
 
-        Spacer(modifier = Modifier.height(126.dp))
+            Spacer(modifier = Modifier.height(126.dp))
 
-        Image(
-            painter = painterResource(R.drawable.img_register_check),
-            contentDescription = null,
-            modifier = Modifier.size(210.dp),
-        )
+            Image(
+                painter = painterResource(R.drawable.img_register_check),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(210.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
 
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-        HapHapBasicButton(
-            text = "완료",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = true),
-            onClick = onCompleteClick,
-            modifier = Modifier.fillMaxWidth(),
-        )
+            HapHapBasicButton(
+                text = "완료",
+                textStyle = HapHapTheme.typography.body.b18,
+                colorType = ButtonType.Primary(enabled = true),
+                onClick = onCompleteClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
 
