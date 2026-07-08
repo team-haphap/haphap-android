@@ -102,7 +102,7 @@ class HomeBannerState(
     }
 
     companion object {
-        private const val AUTO_SCROLL_DELAY = 5000L
+        private const val AUTO_SCROLL_DELAY = 3000L
     }
 }
 
