@@ -11,9 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.model.register.RegisterPassShareModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.component.RegisterCompleteSection
 import com.haphap.app.presentation.register.component.RegisterConfirmSection
+import com.haphap.app.presentation.register.component.RegisterPassShareSection
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -23,10 +25,12 @@ import java.time.LocalTime
 @Composable
 fun RegisterResultScreen(
     uiState: RegisterContract.State,
+    userName: String,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     onTermAgreeToggled: (Boolean) -> Unit,
     onRegisterClick: () -> Unit,
     onCompleteClick: () -> Unit,
+    onHomeClick: () -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -53,6 +57,22 @@ fun RegisterResultScreen(
             onCompleteClick = onCompleteClick,
             modifier = modifier,
         )
+
+        RegisterStep.PASS_SHARE -> {
+            val passShareModel = uiState.passShareInfo ?: RegisterPassShareModel(
+                companyName = "",
+                logoUrl = "",
+                backgroundImageUrl = "",
+            )
+
+            RegisterPassShareSection(
+                userName = userName,
+                recruitName = uiState.selectedAnnounce?.text.orEmpty(),
+                passShareModel = passShareModel,
+                onHomeClick = onHomeClick,
+                modifier = modifier,
+            )
+        }
 
         else -> Unit
     }
@@ -84,6 +104,7 @@ private fun RegisterResultScreenPreview() {
     HapHapTheme {
         RegisterResultScreen(
             uiState = uiState,
+            userName = "박연수",
             onAlarmAgreeToggled = { checked ->
                 uiState = uiState.copy(isAlarmAgreed = checked)
             },
@@ -96,6 +117,7 @@ private fun RegisterResultScreenPreview() {
                 }
             },
             onCompleteClick = {},
+            onHomeClick = {},
             onBackClick = {},
         )
     }

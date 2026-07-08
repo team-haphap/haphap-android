@@ -36,6 +36,7 @@ fun RegisterRoute(
 
     RegisterScreen(
         uiState = uiState,
+        userName = "박연수",
         onAnnounceSelected = viewModel::onAnnounceSelected,
         onProcessSelected = viewModel::onProcessSelected,
         onStep1NextClick = viewModel::onStep1NextClick,
@@ -52,7 +53,14 @@ fun RegisterRoute(
         onRegisterClick = viewModel::onRegisterClick,
         onBackClick = navigateBack,
         onCompleteBackClick = navigateByEntryPoint,
-        onCompleteClick = navigateByEntryPoint,
+        onCompleteClick = {
+            if (uiState.selectedResult == PassResultStatusButton.PASS) {
+                viewModel.onPassShareEntryClick()
+            } else {
+                navigateByEntryPoint()
+            }
+        },
+        onHomeClick = navigateByEntryPoint,
         modifier = modifier,
     )
 }
@@ -61,6 +69,7 @@ fun RegisterRoute(
 @Composable
 private fun RegisterScreen(
     uiState: RegisterContract.State,
+    userName: String,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
     onProcessSelected: (Int) -> Unit,
     onStep1NextClick: () -> Unit,
@@ -78,6 +87,7 @@ private fun RegisterScreen(
     onBackClick: () -> Unit,
     onCompleteBackClick: () -> Unit,
     onCompleteClick: () -> Unit,
+    onHomeClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (uiState.section) {
@@ -100,10 +110,12 @@ private fun RegisterScreen(
 
         RegisterSection.Result -> RegisterResultScreen(
             uiState = uiState,
+            userName = userName,
             onAlarmAgreeToggled = onAlarmAgreeToggled,
             onTermAgreeToggled = onTermAgreeToggled,
             onRegisterClick = onRegisterClick,
             onCompleteClick = onCompleteClick,
+            onHomeClick = onHomeClick,
             onBackClick = if (uiState.step == RegisterStep.CONFIRM) onBackClick else onCompleteBackClick,
             modifier = modifier,
         )
@@ -124,6 +136,7 @@ private fun RegisterScreenPreview() {
                     RegisterDropDownItemModel(id = 2, text = "네이버 2026 신입 개발자 공개 채용"),
                 ),
             ),
+            userName = "박연수",
             onAnnounceSelected = {},
             onProcessSelected = {},
             onStep1NextClick = {},
@@ -141,6 +154,7 @@ private fun RegisterScreenPreview() {
             onBackClick = {},
             onCompleteBackClick = {},
             onCompleteClick = {},
+            onHomeClick = {},
         )
     }
 }

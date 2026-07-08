@@ -106,5 +106,5 @@ sealed interface RegisterUiState {
     data object Loading : RegisterUiState
     data object Empty : RegisterUiState
     data object Success : RegisterUiState
-    data class Failure(val msg: String,): RegisterUiState
+    data class Failure(val msg: String): RegisterUiState
 }
