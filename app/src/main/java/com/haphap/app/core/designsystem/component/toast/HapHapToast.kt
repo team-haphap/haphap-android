@@ -1,6 +1,5 @@
 package com.haphap.app.core.designsystem.component.toast
 
-import android.R.attr.text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
