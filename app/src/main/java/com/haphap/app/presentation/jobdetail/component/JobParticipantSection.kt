@@ -27,8 +27,8 @@ import com.haphap.app.core.designsystem.type.StatusChipType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-private val AvatarSize = 36.dp
-private val AvatarStep = 26.dp
+private val AvatarSize = 36
+private val AvatarStep = 26
 
 @Composable
 fun JobParticipantSection(
@@ -40,7 +40,7 @@ fun JobParticipantSection(
     Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
-                painter = painterResource(id = R.drawable.img_fire),  // 이미지용 ✅
+                painter = painterResource(id = R.drawable.img_fire),
                 contentDescription = null,
                 modifier = Modifier.size(20.dp),
             )
@@ -65,15 +65,15 @@ fun JobParticipantSection(
             val avatarRowWidth = if (profileImages.isEmpty()) {
                 0.dp
             } else {
-                AvatarStep * (profileImages.size - 1) + AvatarSize
+                AvatarStep.dp * (profileImages.size - 1) + AvatarSize.dp
             }
 
             Box(modifier = Modifier.width(avatarRowWidth)) {
                 profileImages.forEachIndexed { index, imageUrl ->
                     UrlImage(
                         modifier = Modifier
-                            .offset(x = AvatarStep * index)
-                            .size(AvatarSize)
+                            .offset(x = AvatarStep.dp * index)
+                            .size(AvatarSize.dp)
                             .clip(shape = CircleShape)
                             .border(
                                 width = 1.dp,
