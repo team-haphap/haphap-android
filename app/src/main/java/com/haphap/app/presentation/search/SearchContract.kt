@@ -17,7 +17,7 @@ sealed interface SearchContract {
         val searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel> = persistentListOf(),
         val relatedKeywordList: ImmutableList<RelatedKeywordListModel> = persistentListOf(),
         val chipList: ImmutableList<ChipListModel> = DEFAULT_CHIP_LIST,
-        val selectedChips: PersistentList<Int> = persistentListOf(1),
+        val selectedChips: PersistentList<String> = persistentListOf("전체"),
         val searchResultList: ImmutableList<SearchResultModel> = persistentListOf(),
         val recentSearchList: ImmutableList<RecentSearchListModel> = persistentListOf(),
         val trendJobList: ImmutableList<TrendJobListModel> = persistentListOf(),
@@ -39,14 +39,14 @@ sealed interface SearchContract {
             }
 
         fun toggleCategoryChips(
-            id: Int,
+            category: String,
         ): State =
             copy(
                 selectedChips = when {
-                    id == 1 -> persistentListOf(1)
-                    selectedChips.size == 1 && selectedChips.contains(id) -> selectedChips
-                    selectedChips.contains(id) -> selectedChips.remove(id)
-                    else -> selectedChips.remove(1).add(id)
+                    category == "전체" -> persistentListOf("전체")
+                    selectedChips.size == 1 && selectedChips.contains("전체") -> selectedChips
+                    selectedChips.contains("전체") -> selectedChips.remove("전체")
+                    else -> selectedChips.remove("전체").add(category)
                 }
             )
 

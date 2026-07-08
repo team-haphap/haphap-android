@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.search.component
 
+import android.R.attr.category
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,8 +36,8 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun SearchResultSection(
     chipList: ImmutableList<ChipListModel>,
-    selectedChips: ImmutableList<Int>,
-    onFilterClick: (Int) -> Unit,
+    selectedChips: ImmutableList<String>,
+    onFilterClick: (String) -> Unit,
     searchResultList: ImmutableList<SearchResultModel>,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -66,8 +67,8 @@ fun SearchResultSection(
             ) {
                 HapHapFilterChip(
                     content = FilterChipContent.TextContent(it.category),
-                    onFilterClick = { onFilterClick(it.id) },
-                    isFilterSelected = selectedChips.contains(it.id),
+                    onFilterClick = { onFilterClick(it.category) },
+                    isFilterSelected = selectedChips.contains(it.category),
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -103,19 +104,17 @@ fun SearchResultSection(
 @Composable
 private fun SearchResultSectionPreview() {
     HapHapTheme {
-        var selectedChips by remember { mutableStateOf(persistentListOf(1)) }
+        var selectedChips by remember { mutableStateOf(persistentListOf("전체")) }
 
         SearchResultSection(
             chipList = DEFAULT_CHIP_LIST,
             selectedChips = selectedChips,
-            onFilterClick = { id ->
+            onFilterClick = { category ->
                 selectedChips = when {
-                    id == 1 -> persistentListOf(1)
-                    selectedChips.contains(id) -> {
-                        if (selectedChips.size == 1) selectedChips
-                        else selectedChips.remove(id)
-                    }
-                    else -> selectedChips.remove(1).add(id)
+                    category == "전체" -> persistentListOf("전체")
+                    selectedChips.size == 1 && selectedChips.contains("전체") -> selectedChips
+                    selectedChips.contains("전체") -> selectedChips.remove("전체")
+                    else -> selectedChips.remove("전체").add(category)
                 }
             },
             searchResultList = persistentListOf(
