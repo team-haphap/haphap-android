@@ -44,6 +44,7 @@ fun SearchResultSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
+        modifier = modifier,
     ) {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),

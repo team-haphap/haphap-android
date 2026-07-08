@@ -45,7 +45,7 @@ fun SearchDefaultSection(
         modifier = modifier.padding(top = 12.dp),
     ) {
         Column(
-            modifier = modifier.padding(horizontal = 20.dp),
+            modifier = Modifier.padding(horizontal = 20.dp),
         ) {
             Text(
                 text = "최근 검색어",
