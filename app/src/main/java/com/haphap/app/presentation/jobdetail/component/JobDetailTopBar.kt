@@ -57,7 +57,7 @@ fun JobDetailTopBar(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
-                contentDescription = "null",
+                contentDescription = null,
                 tint = Color.Unspecified,
                 modifier = Modifier
                     .size(44.dp)
@@ -66,7 +66,7 @@ fun JobDetailTopBar(
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
-                contentDescription = "null",
+                contentDescription = null,
                 tint = Color.Unspecified,
                 modifier = Modifier
                     .size(44.dp)
