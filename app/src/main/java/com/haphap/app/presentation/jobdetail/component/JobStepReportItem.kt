@@ -36,7 +36,7 @@ fun JobStepReportItem(
             modifier = modifier
                 .fillMaxWidth()
                 .background(color = HapHapTheme.colors.white)
-                .padding(vertical = 16.dp),
+                .padding(vertical = 18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
