@@ -2,7 +2,6 @@ package com.haphap.app.presentation.jobdetail.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -25,6 +24,25 @@ import com.haphap.app.presentation.jobdetail.model.JobStep
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+
+@Composable
+fun JobStageStepRow(
+    steps: ImmutableList<JobStep>,
+    modifier: Modifier = Modifier,
+) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+    ) {
+        items(steps) { step ->
+            JobStageStep(
+                number = step.number,
+                stageName = step.stageName,
+                status = step.status,
+            )
+        }
+    }
+}
 
 @Composable
 fun JobStageStep(
@@ -101,25 +119,6 @@ fun JobStageStep(
             style = stateTextStyle,
             color = stateTextColor,
         )
-    }
-}
-
-@Composable
-fun JobStageStepRow(
-    steps: ImmutableList<JobStep>,
-    modifier: Modifier = Modifier,
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-    ) {
-        items(steps) { step ->
-            JobStageStep(
-                number = step.number,
-                stageName = step.stageName,
-                status = step.status,
-            )
-        }
     }
 }
 
