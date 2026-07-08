@@ -33,14 +33,15 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 selectedAnnounce = item,
-                selectedProcess = null,
+                selectedProcessId = null,
                 processList = persistentListOf(),
+                processListUiState = RegisterUiState.Loading,
             )
         }
     }
 
-    fun onProcessSelected(item: RegisterProcessModel) {
-        _uiState.update { it.copy(selectedProcess = item) }
+    fun onProcessSelected(id: Int) {
+        _uiState.update { it.copy(selectedProcessId = id) }
     }
 
     fun onStep1NextClick() {

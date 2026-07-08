@@ -20,7 +20,8 @@ sealed interface RegisterContract {
         val selectedAnnounce: RegisterDropDownItemModel? = null,
         val announceListUiState: RegisterUiState = RegisterUiState.Idle,
         val processList: ImmutableList<RegisterProcessModel> = persistentListOf(),
-        val selectedProcess: RegisterProcessModel? = null,
+        val processListUiState: RegisterUiState = RegisterUiState.Idle,
+        val selectedProcessId: Int? = null,
 
         val selectedResult: PassResultStatusButton? = null,
         val previousRegisteredResult: PassResultStatusButton? = null,
@@ -48,7 +49,7 @@ sealed interface RegisterContract {
             }
 
         val isStep1NextEnabled: Boolean
-            get() = selectedAnnounce != null && selectedProcess != null
+            get() = selectedAnnounce != null && selectedProcessId != null
 
         val isStep2NextEnabled: Boolean
             get() = selectedResult != null
