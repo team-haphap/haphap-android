@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,15 +28,11 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.data.model.register.RegisterDropDownItemData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 private const val MAX_VISIBLE_ITEMS = 4
-
-data class RegisterDropDownItemData(
-    val id: String,
-    val text: String,
-)
 
 @Composable
 fun RegisterDropDown(
@@ -128,7 +123,10 @@ private fun RegisterDropDownPreview() {
                 items = persistentListOf(
                     RegisterDropDownItemData(id = "1", text = "카카오 2026 신입 개발자 공개 채용"),
                     RegisterDropDownItemData(id = "2", text = "네이버 2026 신입 개발자 공개 채용"),
-                    RegisterDropDownItemData(id = "3", text = "라인 2026 신입 ~~~~~~~~~~~~~~~~~~~~~~~~~~개발자 공개 채용"),
+                    RegisterDropDownItemData(
+                        id = "3",
+                        text = "라인 2026 신입 ~~~~~~~~~~~~~~~~~~~~~~~~~~개발자 공개 채용"
+                    ),
                     RegisterDropDownItemData(id = "4", text = "토스 2026 신입 개발자 공개 채용"),
                     RegisterDropDownItemData(id = "5", text = "당근 2026 신입 개발자 공개 채용"),
                 ),

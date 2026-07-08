@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.register.PassResultStatus
+import com.haphap.app.presentation.register.type.PassResultStatus
 
 @Composable
 fun RegisterPassResultConfirm(

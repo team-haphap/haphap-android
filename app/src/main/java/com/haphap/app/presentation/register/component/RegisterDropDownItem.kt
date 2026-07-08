@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.presentation.register.DropDownItemSelectionState
-import com.haphap.app.presentation.register.toStyle
+import com.haphap.app.presentation.register.type.DropDownItemSelectionState
+import com.haphap.app.presentation.register.type.toStyle
 
 val RegisterDropDownItemHeight = 50.dp
 
