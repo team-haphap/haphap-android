@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
@@ -50,13 +51,15 @@ fun JobStepReportItem(
 
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
                     text = "새 제보 등록!",
                     style = HapHapTheme.typography.body.sb14,
                     color = HapHapTheme.colors.gray800,
                 )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
                 Text(
                     text = content,
                     style = HapHapTheme.typography.caption.r11,
