@@ -51,7 +51,7 @@ class SearchViewModel @Inject constructor(
 
     fun updateSelectedChips(category: String){
         _uiState.update {
-            it.toggleCategoryChips(category = category)
+            it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
     }
 

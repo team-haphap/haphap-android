@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.search.component
 
-import android.R.attr.category
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,7 +27,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.search.ChipListModel
 import com.haphap.app.data.model.search.SearchResultModel
-import com.haphap.app.presentation.search.SearchContract.State.Companion.DEFAULT_CHIP_LIST
+import com.haphap.app.presentation.category.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -104,18 +103,13 @@ fun SearchResultSection(
 @Composable
 private fun SearchResultSectionPreview() {
     HapHapTheme {
-        var selectedChips by remember { mutableStateOf(persistentListOf("전체")) }
+        var categoryChipState by remember { mutableStateOf(CategoryChipState()) }
 
         SearchResultSection(
-            chipList = DEFAULT_CHIP_LIST,
-            selectedChips = selectedChips,
+            chipList = categoryChipState.chipList,
+            selectedChips = categoryChipState.selectedChips,
             onFilterClick = { category ->
-                selectedChips = when {
-                    category == "전체" -> persistentListOf("전체")
-                    selectedChips.size == 1 && selectedChips.contains("전체") -> selectedChips
-                    selectedChips.contains("전체") -> selectedChips.remove("전체")
-                    else -> selectedChips.remove("전체").add(category)
-                }
+                categoryChipState = categoryChipState.toggle(category)
             },
             searchResultList = persistentListOf(
                 SearchResultModel(

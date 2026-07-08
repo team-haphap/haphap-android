@@ -108,8 +108,8 @@ private fun SearchScreen(
 
             SearchSection.Result ->
                 SearchResultSection(
-                    chipList = uiState.chipList,
-                    selectedChips = uiState.selectedChips,
+                    chipList = uiState.categoryChipState.chipList,
+                    selectedChips = uiState.categoryChipState.selectedChips,
                     onFilterClick = onFilterClick,
                     searchResultList = uiState.searchResultList,
                     onCardClick = onResultCardClick,
