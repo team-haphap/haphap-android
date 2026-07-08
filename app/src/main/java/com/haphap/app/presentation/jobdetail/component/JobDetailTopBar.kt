@@ -42,7 +42,7 @@ fun JobDetailTopBar(
 
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
-            contentDescription = "뒤로가기",
+            contentDescription = "null",
             modifier = Modifier.noRippleClickable(onClick = { onBackClick() })
         )
 
@@ -53,13 +53,13 @@ fun JobDetailTopBar(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
-                contentDescription = "알림",
+                contentDescription = "null",
                 modifier = Modifier.noRippleClickable(onClick = { onAlarmClick() })
             )
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
-                contentDescription = "더보기",
+                contentDescription = "null",
                 modifier = Modifier.noRippleClickable(onClick = { onMoreClick() })
             )
         }
