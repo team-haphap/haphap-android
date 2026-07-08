@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
@@ -123,9 +124,12 @@ private fun RecentSearchItem(
             text = keyword,
             style = HapHapTheme.typography.body.sb14,
             color = HapHapTheme.colors.gray700,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(4.dp))
 
         Text(
             text = date,
@@ -160,7 +164,7 @@ private fun SearchDefaultSectionPreview() {
                 ),
                 RecentSearchListModel(
                     id = 3,
-                    keyword = "2026 신입 공개 채용",
+                    keyword = "2026 신입 공개 채용 채용채용채용채용채용채용채용",
                     date = "01.22"
                 ),
             ),
