@@ -36,7 +36,7 @@ fun JobStageStepRow(
     ) {
         items(
             items = steps,
-            key = { it }
+            key = { it.stageId }
         ) { step ->
             JobStageStep(
                 number = step.number,
@@ -131,13 +131,13 @@ private fun JobStageStepRowPreview() {
     HapHapTheme {
         JobStageStepRow(
             steps = persistentListOf(
-                JobStepModel(1, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(2, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(3, "1차면접", JobStepStatus.IN_PROGRESS),
-                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(1,1, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(2,2, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(3,3, "1차면접", JobStepStatus.IN_PROGRESS),
+                JobStepModel(4,2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(5,2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(6,2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(7,2, "서류", JobStepStatus.UPCOMING),
             ),
         )
     }
