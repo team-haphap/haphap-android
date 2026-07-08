@@ -44,7 +44,7 @@ fun JobDetailTopBar(
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = HapHapTheme.colors.gray800,
             modifier = Modifier
                 .size(30.dp)
                 .noRippleClickable(onClick = onBackClick)
@@ -58,7 +58,7 @@ fun JobDetailTopBar(
             Icon(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
                 contentDescription = null,
-                tint = Color.Unspecified,
+                tint = HapHapTheme.colors.gray700,
                 modifier = Modifier
                     .size(44.dp)
                     .noRippleClickable(onClick = onAlarmClick)
@@ -67,7 +67,7 @@ fun JobDetailTopBar(
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
                 contentDescription = null,
-                tint = Color.Unspecified,
+                tint = HapHapTheme.colors.gray700,
                 modifier = Modifier
                     .size(44.dp)
                     .noRippleClickable(onClick = onMoreClick)
