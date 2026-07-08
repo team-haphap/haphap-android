@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -41,7 +42,7 @@ fun HomeRecentCardSection(
     Column() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(20.dp)
+            contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             item {
                 HapHapFilterChip(
@@ -69,6 +70,8 @@ fun HomeRecentCardSection(
             }
         }
 
+        Spacer(modifier = Modifier.height(12.dp))
+
         if (recentCardList.isEmpty()) {
             HomeEmptyComponent(
                 text = "최근 결과가 올라온 공고가 없습니다.",
@@ -76,7 +79,7 @@ fun HomeRecentCardSection(
         } else {
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(20.dp)
+                contentPadding = PaddingValues(horizontal = 20.dp)
             ) {
                 items(
                     items = recentCardList.take(MAX_RECENT_CARD_COUNT),
