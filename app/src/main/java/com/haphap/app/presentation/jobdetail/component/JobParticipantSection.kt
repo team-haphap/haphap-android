@@ -27,8 +27,8 @@ import com.haphap.app.core.designsystem.type.StatusChipType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-private val AvatarSize = 36
-private val AvatarStep = 26
+private const val AvatarSize = 36
+private const val AvatarStep = 26
 
 @Composable
 fun JobParticipantSection(
