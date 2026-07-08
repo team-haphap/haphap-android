@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.detail.JobStepModel
+import com.haphap.app.presentation.jobdetail.style.jobStageStepStyle
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

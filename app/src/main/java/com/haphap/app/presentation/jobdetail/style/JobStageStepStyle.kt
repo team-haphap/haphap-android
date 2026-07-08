@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.jobdetail.component
+package com.haphap.app.presentation.jobdetail.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
