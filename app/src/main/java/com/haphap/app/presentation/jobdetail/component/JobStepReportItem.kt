@@ -33,9 +33,7 @@ fun JobStepReportItem(
         JobStepReportType.FAIL -> "${nickName}이 불합격 결과를 공유했어요"
         JobStepReportType.PENDING -> "${nickName}이 대기 상태를 공유했어요"
     }
-
-    Column(modifier = modifier.fillMaxWidth()) {
-        Row(
+     Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = HapHapTheme.colors.white)
@@ -71,11 +69,6 @@ fun JobStepReportItem(
                 type = StatusChipType.STAGE,
             )
         }
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = HapHapTheme.colors.gray100,
-        )
-    }
 }
 
 @Preview(showBackground = true)
