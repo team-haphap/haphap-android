@@ -58,7 +58,7 @@ private fun SearchScreen(
     onSearchClick: () -> Unit,
     onAutoCompleteItemClick: (Int) -> Unit,
     onRelatedItemClick: (Int) -> Unit,
-    onFilterClick: (Int) -> Unit,
+    onFilterClick: (String) -> Unit,
     onResultCardClick: (Int) -> Unit,
     onDeleteClick: (Int) -> Unit,
     onTrendCardClick: (Int) -> Unit,
