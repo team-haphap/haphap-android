@@ -45,7 +45,7 @@ fun JobDetailTopBar(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = "null",
             tint = Color.Unspecified,
-            modifier = Modifier.noRippleClickable(onClick = { onBackClick() })
+            modifier = Modifier.noRippleClickable(onClick = onBackClick)
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -57,14 +57,14 @@ fun JobDetailTopBar(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
                 contentDescription = "null",
                 tint = Color.Unspecified,
-                modifier = Modifier.noRippleClickable(onClick = { onAlarmClick() })
+                modifier = Modifier.noRippleClickable(onClick = onAlarmClick)
             )
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
                 contentDescription = "null",
                 tint = Color.Unspecified,
-                modifier = Modifier.noRippleClickable(onClick = { onMoreClick() })
+                modifier = Modifier.noRippleClickable(onClick = onMoreClick)
             )
         }
     }
