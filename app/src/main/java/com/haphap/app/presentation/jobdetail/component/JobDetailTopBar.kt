@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +46,9 @@ fun JobDetailTopBar(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_30),
             contentDescription = "null",
             tint = Color.Unspecified,
-            modifier = Modifier.noRippleClickable(onClick = onBackClick)
+            modifier = Modifier
+                .size(30.dp)
+                .noRippleClickable(onClick = onBackClick)
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -57,14 +60,18 @@ fun JobDetailTopBar(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
                 contentDescription = "null",
                 tint = Color.Unspecified,
-                modifier = Modifier.noRippleClickable(onClick = onAlarmClick)
+                modifier = Modifier
+                    .size(44.dp)
+                    .noRippleClickable(onClick = onAlarmClick)
             )
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
                 contentDescription = "null",
                 tint = Color.Unspecified,
-                modifier = Modifier.noRippleClickable(onClick = onMoreClick)
+                modifier = Modifier
+                    .size(44.dp)
+                    .noRippleClickable(onClick = onMoreClick)
             )
         }
     }
