@@ -29,8 +29,7 @@ fun JobResultCard(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .clip(shape = RoundedCornerShape(8.dp)),
+        modifier = modifier.clip(shape = RoundedCornerShape(8.dp)),
     ) {
         Image(
             painter = painterResource(id = type.imageRes),
