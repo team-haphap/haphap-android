@@ -32,6 +32,7 @@ val Gray600 = Color(0xFF505867)
 val Gray700 = Color(0xFF181E27)
 val Gray800 = Color(0xFF141920)
 val Gray900 = Color(0xFF111214)
+val GrayBg = Color(0x33000000)
 
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
@@ -55,6 +56,7 @@ data class HapHapColors(
     val gray700: Color,
     val gray800: Color,
     val gray900: Color,
+    val grayBg: Color,
     val white: Color,
     val black: Color,
 )
@@ -77,6 +79,7 @@ val defaultHapHapColors = HapHapColors(
     gray700 = Gray700,
     gray800 = Gray800,
     gray900 = Gray900,
+    grayBg = GrayBg,
     white = White,
     black = Black,
 )
@@ -106,6 +109,8 @@ private fun ColorPreview() {
                 HapHapTheme.colors.gray700,
                 HapHapTheme.colors.gray800,
                 HapHapTheme.colors.gray900,
+
+                HapHapTheme.colors.grayBg,
 
                 HapHapTheme.colors.white,
                 HapHapTheme.colors.black,

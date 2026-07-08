@@ -80,6 +80,7 @@ data class CaptionStyle(
     val r12: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 12),
     val r11: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 11),
     val sb10: TextStyle = haphapTextStyle(weight = FontWeight.SemiBold, size = 10, lineHeight= 1.3.em),
+    val m10: TextStyle = haphapTextStyle(weight = FontWeight.Medium, size =10, lineHeight= 1.3.em),
     val r10: TextStyle = haphapTextStyle(weight = FontWeight.Normal, size = 10),
 )
 
@@ -111,6 +112,7 @@ private fun TypographyPreview() {
             Text("Caption b12", style = HapHapTheme.typography.caption.b12)
             Text("Caption r11", style = HapHapTheme.typography.caption.r11)
             Text("Caption sb10", style = HapHapTheme.typography.caption.sb10)
+            Text("Caption m10", style = HapHapTheme.typography.caption.m10)
             Text("Caption r10", style = HapHapTheme.typography.caption.r10)
         }
     }

@@ -50,6 +50,11 @@ hiltCompose = "1.3.0"
 # Logging
 timber = "5.0.1"
 
+# Core Library Desugaring
+desugarJdkLibs = "2.1.5"
+# Auth
+kakaoUserSdk = "2.20.6"
+
 
 [libraries]
 # AndroidX
@@ -104,6 +109,13 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+
+# Core Library Desugaring
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
+# Auth
+kakao-user-sdk = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoUserSdk" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
