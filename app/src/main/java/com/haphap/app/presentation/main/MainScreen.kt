@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 
-private const val TOAST_DURATION = 2000L
+private const val TOAST_DURATION = 3000L
 
 @Composable
 fun MainScreen(
