@@ -58,7 +58,7 @@ private fun JobStageStep(
     Column(
         modifier = modifier
             .widthIn(min = 46.dp)
-            .padding(top = 2.dp, bottom = 3.dp),
+            .padding(vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
