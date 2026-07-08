@@ -127,4 +127,8 @@ class RegisterViewModel @Inject constructor(
             _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
         }
     }
+
+    fun onPassShareEntryClick() {
+        _uiState.update { it.copy(step = RegisterStep.PASS_SHARE) }
+    }
 }
