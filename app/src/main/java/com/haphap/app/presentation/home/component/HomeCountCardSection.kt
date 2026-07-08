@@ -23,12 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.data.model.home.CountCardModel
 
 @Composable
 fun HomeCountCardSection(
-    cumulatedCount: Int,
-    onGoingCount: Int,
-    announcedCount: Int,
+    countCardModel: CountCardModel,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -39,21 +38,21 @@ fun HomeCountCardSection(
             imageRes = R.drawable.img_home_1,
             labelBold = "누적 공유",
             labelMedium = "결과",
-            count = cumulatedCount,
+            count = countCardModel.cumulatedCount,
             modifier = Modifier.weight(1f),
         )
         HomeCountCard(
             imageRes = R.drawable.img_home_2,
             labelBold = "진행 중인",
             labelMedium = "공고",
-            count = onGoingCount,
+            count = countCardModel.onGoingCount,
             modifier = Modifier.weight(1f),
         )
         HomeCountCard(
             imageRes = R.drawable.img_home_3,
             labelBold = "오늘 발표된",
             labelMedium = "공고",
-            count = announcedCount,
+            count = countCardModel.announcedCount,
             modifier = Modifier.weight(1f),
         )
     }
@@ -132,9 +131,11 @@ private fun HomeCountCardSectionPreview() {
     HapHapTheme {
         Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
             HomeCountCardSection(
-                cumulatedCount = 37,
-                onGoingCount = 37,
-                announcedCount = 37,
+                countCardModel = CountCardModel(
+                    cumulatedCount = 37,
+                    onGoingCount = 37,
+                    announcedCount = 37,
+                ),
             )
         }
     }
