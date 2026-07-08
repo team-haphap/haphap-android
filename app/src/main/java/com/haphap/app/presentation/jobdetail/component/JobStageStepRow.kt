@@ -31,7 +31,7 @@ fun JobStageStepRow(
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
-        modifier = modifier.padding(horizontal = 13.dp),
+        modifier = modifier.padding(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items(
