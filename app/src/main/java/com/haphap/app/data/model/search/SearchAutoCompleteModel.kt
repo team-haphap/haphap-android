@@ -4,5 +4,5 @@ data class SearchAutoCompleteModel(
     val id: Int,
     val imageUrl: String,
     val text: String,
-    val length: Int,
+    val highlightLength: RangeModel,
 )
