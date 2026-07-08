@@ -3,7 +3,6 @@ package com.haphap.app.presentation.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
