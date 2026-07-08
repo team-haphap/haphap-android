@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,12 +55,14 @@ fun JobDetailTopBar(
             Icon(
                 imageVector = ImageVector.vectorResource(id = alarmIconRes),
                 contentDescription = "null",
+                tint = Color.Unspecified,
                 modifier = Modifier.noRippleClickable(onClick = { onAlarmClick() })
             )
 
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_top_bar_more_44),
                 contentDescription = "null",
+                tint = Color.Unspecified,
                 modifier = Modifier.noRippleClickable(onClick = { onMoreClick() })
             )
         }
