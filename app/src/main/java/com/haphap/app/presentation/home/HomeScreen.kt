@@ -45,6 +45,7 @@ fun HomeRoute(
 
     HomeScreen(
         uiState = uiState,
+        onSearchBarClick = {},
         onRecentCardClick = {},
         onListCardClick = {},
         modifier = modifier,
@@ -54,6 +55,7 @@ fun HomeRoute(
 @Composable
 private fun HomeScreen(
     uiState: HomeContract.State,
+    onSearchBarClick: () -> Unit,
     onRecentCardClick: (Int) -> Unit,
     onListCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -81,7 +83,7 @@ private fun HomeScreen(
             item {
                 HapHapSearchBar(
                     placeholder = "공고명을 검색해보세요!",
-                    onSearchBarClick = {},
+                    onSearchBarClick = onSearchBarClick,
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
                 )
             }
@@ -243,6 +245,7 @@ private fun HomeScreenPreview() {
                     ),
                 ),
             ),
+            onSearchBarClick = {},
             onRecentCardClick = {},
             onListCardClick = {},
         )
