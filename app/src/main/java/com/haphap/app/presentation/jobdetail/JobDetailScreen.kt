@@ -2,6 +2,7 @@ package com.haphap.app.presentation.jobdetail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -86,161 +87,167 @@ private fun JobDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(HapHapTheme.colors.white),
-                horizontalAlignment = Alignment.End,
+                    .background(HapHapTheme.colors.white)
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
             ) {
-                HapHapRefreshButton(
-                    onButtonClick = onRefreshClick,
-                    modifier = Modifier.padding(end = 20.dp, bottom = 10.dp),
-                )
-
                 HapHapBasicButton(
                     text = "등록하기",
                     textStyle = HapHapTheme.typography.body.b18,
                     colorType = ButtonType.Primary(enabled = true),
                     onClick = onRegisterClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(HapHapTheme.colors.white),
-            contentPadding = innerPadding,
+                .background(HapHapTheme.colors.white)
+                .padding(innerPadding)
         ) {
-            item {
-                JobDetailTopBar(
-                    onBackClick = onBackClick,
-                    onAlarmClick = onAlarmClick,
-                    onMoreClick = onMoreClick,
-                    isAlarmActive = uiState.isAlarmActive,
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            item {
-                JobDetailTitleSection(
-                    companyName = uiState.titleInfo.companyName,
-                    jobTitle = uiState.titleInfo.jobTitle,
-                    keywords = uiState.titleInfo.keywords,
-                    statusText = uiState.titleInfo.currentState,
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            item {
-                UrlImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(360f / 190f),
-                    url = uiState.bannerImageUrl,
-                    placeholderDrawable = R.drawable.ic_launcher_background,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(24.dp)) }
-
-            item {
-                SectionTitle(title = "전형 단계")
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            item {
-                JobStageStepRow(steps = uiState.stages)
-            }
-
-            item { Spacer(modifier = Modifier.height(24.dp)) }
-
-            item {
-                SectionTitle(title = "전형별 등록 결과")
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            item {
-                JobResultTabRow(
-                    stages = uiState.resultTabs,
-                    selectedStage = uiState.selectedTab,
-                    onStageClick = onTabClick,
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            item {
-                Row(
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    JobResultCard(
-                        type = JobResultCardType.PASS,
-                        count = uiState.result.passCount,
-                        modifier = Modifier.weight(1f),
-                    )
-                    JobResultCard(
-                        type = JobResultCardType.FAIL,
-                        count = uiState.result.failCount,
-                        modifier = Modifier.weight(1f),
-                    )
-                    JobResultCard(
-                        type = JobResultCardType.PENDING,
-                        count = uiState.result.pendingCount,
-                        modifier = Modifier.weight(1f),
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(HapHapTheme.colors.white),
+                contentPadding = innerPadding,
+            ) {
+                item {
+                    JobDetailTopBar(
+                        onBackClick = onBackClick,
+                        onAlarmClick = onAlarmClick,
+                        onMoreClick = onMoreClick,
+                        isAlarmActive = uiState.isAlarmActive,
                     )
                 }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                item {
+                    JobDetailTitleSection(
+                        companyName = uiState.titleInfo.companyName,
+                        jobTitle = uiState.titleInfo.jobTitle,
+                        keywords = uiState.titleInfo.keywords,
+                        statusText = uiState.titleInfo.currentState,
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                item {
+                    UrlImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(360f / 190f),
+                        url = uiState.bannerImageUrl,
+                        placeholderDrawable = R.drawable.ic_launcher_background,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(24.dp)) }
+
+                item {
+                    SectionTitle(title = "전형 단계")
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                item {
+                    JobStageStepRow(steps = uiState.stages)
+                }
+
+                item { Spacer(modifier = Modifier.height(24.dp)) }
+
+                item {
+                    SectionTitle(title = "전형별 등록 결과")
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                item {
+                    JobResultTabRow(
+                        stages = uiState.resultTabs,
+                        selectedStage = uiState.selectedTab,
+                        onStageClick = onTabClick,
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                item {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        JobResultCard(
+                            type = JobResultCardType.PASS,
+                            count = uiState.result.passCount,
+                            modifier = Modifier.weight(1f),
+                        )
+                        JobResultCard(
+                            type = JobResultCardType.FAIL,
+                            count = uiState.result.failCount,
+                            modifier = Modifier.weight(1f),
+                        )
+                        JobResultCard(
+                            type = JobResultCardType.PENDING,
+                            count = uiState.result.pendingCount,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+
+                item { Spacer(modifier = Modifier.height(24.dp)) }
+
+                item {
+                    JobParticipantSection(
+                        registeredCount = uiState.participant.registeredCount,
+                        profileImages = uiState.participant.profileImages,
+                        additionalCount = uiState.participant.additionalParticipantCount,
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(24.dp)) }
+
+                item {
+                    HorizontalDivider(
+                        thickness = 2.dp,
+                        color = HapHapTheme.colors.gray100
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(24.dp)) }
+
+                item {
+                    SectionTitle(title = "실시간 전형 제보")
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+
+                items(
+                    items = uiState.reports,
+                    key = { it.id },
+                ) { report ->
+                    JobStepReportItem(
+                        time = report.time,
+                        nickName = report.nickName,
+                        result = report.result,
+                        stage = report.stage,
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                    )
+                }
+
+                item { Spacer(modifier = Modifier.height(12.dp)) }
             }
-
-            item { Spacer(modifier = Modifier.height(24.dp)) }
-
-            item {
-                JobParticipantSection(
-                    registeredCount = uiState.participant.registeredCount,
-                    profileImages = uiState.participant.profileImages,
-                    additionalCount = uiState.participant.additionalParticipantCount,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(24.dp)) }
-
-            item {
-                HorizontalDivider(
-                    thickness = 2.dp,
-                    color = HapHapTheme.colors.gray100
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(24.dp)) }
-
-            item {
-                SectionTitle(title = "실시간 전형 제보")
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
-
-            items(
-                items = uiState.reports,
-                key = { it.id },
-            ) { report ->
-                JobStepReportItem(
-                    time = report.time,
-                    nickName = report.nickName,
-                    result = report.result,
-                    stage = report.stage,
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(12.dp)) }
+            HapHapRefreshButton(
+                onButtonClick = onRefreshClick,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 10.dp, end = 20.dp),
+            )
         }
     }
 }
