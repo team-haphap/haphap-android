@@ -15,8 +15,9 @@ class JobDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(JobDetailContract.State())
     val uiState = _uiState.asStateFlow()
 
-    fun updateSelectedTab(stage: String) {
-        _uiState.update { it.copy(selectedTab = stage) }
+    fun updateSelectedTab(index: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(selectedTab = index) }
     }
 
 }
