@@ -25,7 +25,7 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.type.RegisterPassResultType
+import com.haphap.app.presentation.register.type.toPassResultType
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -160,12 +160,6 @@ private fun ConfirmInfoBox(
             textAlign = TextAlign.Center,
         )
     }
-}
-
-private fun PassResultStatusButton.toPassResultType(): RegisterPassResultType = when (this) {
-    PassResultStatusButton.PASS -> RegisterPassResultType.PASS
-    PassResultStatusButton.FAILED -> RegisterPassResultType.FAILED
-    PassResultStatusButton.DONT_KNOW -> RegisterPassResultType.DONT_KNOW
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
