@@ -23,7 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.RegisterPassResultType
 import java.time.LocalDate
@@ -128,10 +130,14 @@ fun RegisterConfirmSection(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        RegisterNextButton(
-            text = "등록하기",
-            isEnabled = isRegisterButtonEnabled,
+        HapHapBasicButton(
+            text = "다음",
+            textStyle = HapHapTheme.typography.body.b18,
+            colorType = ButtonType.Primary(enabled = isRegisterButtonEnabled),
             onClick = onRegisterClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 12.dp),
         )
     }
 }

@@ -121,9 +121,14 @@ fun RegisterDateChannelSection(
             )
         }
 
-        RegisterNextButton(
-            isEnabled = isNextEnabled,
+        HapHapBasicButton(
+            text = "다음",
+            textStyle = HapHapTheme.typography.body.b18,
+            colorType = ButtonType.Primary(enabled = isNextEnabled),
             onClick = onNextClick,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 12.dp),
         )
     }
 }

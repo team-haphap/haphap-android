@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -15,8 +16,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 
 @Composable
@@ -66,9 +69,14 @@ fun RegisterResultSection(
             }
         }
 
-        RegisterNextButton(
-            isEnabled = isNextEnabled,
+        HapHapBasicButton(
+            text = "다음",
+            textStyle = HapHapTheme.typography.body.b18,
+            colorType = ButtonType.Primary(enabled = isNextEnabled),
             onClick = onNextClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 12.dp),
         )
     }
 
