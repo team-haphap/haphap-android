@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,7 +66,9 @@ private fun SearchScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(top = 10.dp),
+        modifier = modifier
+            .background(color = HapHapTheme.colors.white)
+            .padding(top = 10.dp),
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 20.dp),
