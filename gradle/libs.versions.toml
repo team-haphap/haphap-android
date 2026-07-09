@@ -46,8 +46,13 @@ timber = "5.0.1"
 
 # Core Library Desugaring
 desugarJdkLibs = "2.1.5"
+
 # Auth
 kakaoUserSdk = "2.20.6"
+
+# Room
+room_version = "2.8.4"
+
 
 
 [libraries]
@@ -105,6 +110,11 @@ desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", ver
 # Auth
 kakao-user-sdk = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoUserSdk" }
 
+#Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -139,6 +149,11 @@ hilt = [
     "hilt-android",
     "hilt-navigation-compose",
     "hilt-lifecycle-viewmodel-compose",
+]
+
+room = [
+    "room-runtime",
+    "room-ktx",
 ]
 
 debug = [
