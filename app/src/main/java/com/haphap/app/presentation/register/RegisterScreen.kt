@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.register
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -15,7 +13,6 @@ import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalTime
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterRoute(
     entryPoint: RegisterSideEffect,
@@ -65,7 +62,6 @@ fun RegisterRoute(
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun RegisterScreen(
     uiState: RegisterContract.State,
@@ -123,7 +119,6 @@ private fun RegisterScreen(
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPreview() {

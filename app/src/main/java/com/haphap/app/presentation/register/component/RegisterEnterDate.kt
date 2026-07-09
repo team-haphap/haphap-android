@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.register.component
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -76,7 +74,6 @@ fun RegisterEnterDate(
      }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterEnterDatePreview() {

@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.register.component
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,7 +28,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ColumnScope.RegisterDateChannelSection(
     contactDate: LocalDate?,
@@ -166,7 +163,6 @@ private fun NotificationChannelGrid(
 
 private const val COLUMN_COUNT = 2
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterDateChannelSectionPreview() {

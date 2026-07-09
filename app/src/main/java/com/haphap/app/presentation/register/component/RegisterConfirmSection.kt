@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.register.component
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +30,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterConfirmSection(
     recruitName: String,
@@ -171,7 +168,6 @@ private fun PassResultStatusButton.toPassResultType(): RegisterPassResultType = 
     PassResultStatusButton.DONT_KNOW -> RegisterPassResultType.DONT_KNOW
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterConfirmSectionPreview() {
@@ -196,7 +192,6 @@ private fun RegisterConfirmSectionPreview() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterConfirmSectionDontKnowPreview() {

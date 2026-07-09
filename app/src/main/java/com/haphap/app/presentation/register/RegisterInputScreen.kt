@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.register
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +23,6 @@ import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterInputScreen(
     uiState: RegisterContract.State,
@@ -99,7 +96,6 @@ fun RegisterInputScreen(
 
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterInputScreenPreview() {
