@@ -52,7 +52,7 @@ fun RegisterPassCardSection(
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            text = "라이팅 고민중...",
+            text = "기다려온 순간, 진심으로 축하드려요.",
             style = HapHapTheme.typography.body.sb13,
             color = HapHapTheme.colors.gray400,
         )
