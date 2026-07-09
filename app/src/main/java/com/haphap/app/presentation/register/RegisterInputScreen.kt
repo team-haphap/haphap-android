@@ -22,6 +22,8 @@ import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun RegisterInputScreen(
@@ -33,8 +35,8 @@ fun RegisterInputScreen(
     onChangeModalConfirmClick: () -> Unit,
     onChangeModalCancelClick: () -> Unit,
     onStep2NextClick: () -> Unit,
-    onDateSelected: (java.time.LocalDate) -> Unit,
-    onTimeSelected: (java.time.LocalTime) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
+    onTimeSelected: (LocalTime) -> Unit,
     onChannelToggled: (NotificationChannelType) -> Unit,
     onStep3NextClick: () -> Unit,
     onBackClick: () -> Unit,
