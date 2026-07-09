@@ -58,35 +58,38 @@ fun JobParticipantSection(
             color = HapHapTheme.colors.gray600,
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        if (profileImages.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy((-10).dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                profileImages.take(4).forEach { imageUrl ->
-                    UrlImage(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(shape = CircleShape)
-                            .border(
-                                width = 1.dp,
-                                color = HapHapTheme.colors.white,
-                                shape = CircleShape,
-                            ),
-                        url = imageUrl,
-                        placeholderDrawable = R.drawable.ic_launcher_background,
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy((-10).dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    profileImages.take(4).forEach { imageUrl ->
+                        UrlImage(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(shape = CircleShape)
+                                .border(
+                                    width = 1.dp,
+                                    color = HapHapTheme.colors.white,
+                                    shape = CircleShape,
+                                ),
+                            url = imageUrl,
+                            placeholderDrawable = R.drawable.ic_launcher_background,
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                if (additionalCount > 0) {
+                    HapHapStatusChip(
+                        text = "+${additionalCount}",
+                        type = StatusChipType.COUNT,
                     )
                 }
-            }
-            Spacer(modifier = Modifier.width(14.dp))
-
-            if (additionalCount > 0) {
-                HapHapStatusChip(
-                    text = "+${additionalCount}",
-                    type = StatusChipType.COUNT,
-                )
             }
         }
     }
