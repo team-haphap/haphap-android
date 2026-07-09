@@ -120,6 +120,8 @@ private fun HomeScreen(
                 )
             }
 
+            //Todo: 추후 필터칩 Row 공통 컴포넌트 사용 추가
+
             item {
                 Spacer(modifier = Modifier.height(12.dp))
 
