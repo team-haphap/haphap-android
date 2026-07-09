@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +23,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
-import com.haphap.app.core.designsystem.component.textfield.HapHapSearchTextField
+import com.haphap.app.core.designsystem.component.searchbar.HapHapSearchBar
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
@@ -80,15 +79,11 @@ private fun HomeScreen(
             }
 
             item {
-                val state = rememberTextFieldState(initialText = "")
-
-                HapHapSearchTextField(
-                    state = state,
+                HapHapSearchBar(
                     placeholder = "공고명을 검색해보세요!",
-                    onSearch = {},
+                    onSearchBarClick = {},
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
                 )
-
             }
 
             item {
