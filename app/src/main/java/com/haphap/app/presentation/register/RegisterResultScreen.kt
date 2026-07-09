@@ -50,7 +50,6 @@ fun RegisterResultScreen(
         )
 
         RegisterStep.COMPLETE -> RegisterCompleteSection(
-            onBackClick = onBackClick,
             onCompleteClick = onCompleteClick,
             modifier = modifier,
         )
