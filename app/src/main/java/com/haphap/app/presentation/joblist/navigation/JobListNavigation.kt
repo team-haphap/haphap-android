@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.job.navigation
+package com.haphap.app.presentation.joblist.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,22 +8,22 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.MainTabRoute
-import com.haphap.app.presentation.job.JobRoute
+import com.haphap.app.presentation.joblist.JobListRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateToJob(
+fun NavController.navigateToJobList(
     navOptions: NavOptions? = null
-) = navigate(Job, navOptions)
+) = navigate(JobList, navOptions)
 
-fun NavGraphBuilder.jobGraph(
+fun NavGraphBuilder.jobListGraph(
     innerPadding: PaddingValues,
 ) {
-    composable<Job> {
-        JobRoute(
+    composable<JobList> {
+        JobListRoute(
             modifier = Modifier.padding(innerPadding),
         )
     }
 }
 
 @Serializable
-data object Job: MainTabRoute
+data object JobList: MainTabRoute
