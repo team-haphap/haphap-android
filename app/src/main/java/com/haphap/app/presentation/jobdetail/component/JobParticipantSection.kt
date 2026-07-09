@@ -2,6 +2,7 @@ package com.haphap.app.presentation.jobdetail.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,9 +28,6 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.StatusChipType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-
-private const val AvatarSize = 36
-private const val AvatarStep = 26
 
 @Composable
 fun JobParticipantSection(
@@ -63,19 +61,14 @@ fun JobParticipantSection(
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val avatarRowWidth = if (profileImages.isEmpty()) {
-                0.dp
-            } else {
-                AvatarStep.dp * (profileImages.size - 1) + AvatarSize.dp
-            }
-
-            Box(modifier = Modifier.width(avatarRowWidth)) {
-                profileImages.forEachIndexed { index, imageUrl ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy((-10).dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                profileImages.take(4).forEach { imageUrl ->
                     UrlImage(
                         modifier = Modifier
-                            .zIndex(index.toFloat())
-                            .offset(x = AvatarStep.dp * index)
-                            .size(AvatarSize.dp)
+                            .size(36.dp)
                             .clip(shape = CircleShape)
                             .border(
                                 width = 1.dp,
@@ -87,7 +80,6 @@ fun JobParticipantSection(
                     )
                 }
             }
-
             Spacer(modifier = Modifier.width(14.dp))
 
             if (additionalCount > 0) {
