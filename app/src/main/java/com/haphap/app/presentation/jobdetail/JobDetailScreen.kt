@@ -153,7 +153,7 @@ private fun JobDetailScreen(
                     SectionTitle(title = "전형 단계")
                 }
 
-                item { Spacer(modifier = Modifier.height(12.dp)) }
+                item { Spacer(modifier = Modifier.height(9.dp)) }
 
                 item {
                     JobStageStepRow(steps = uiState.stages)
