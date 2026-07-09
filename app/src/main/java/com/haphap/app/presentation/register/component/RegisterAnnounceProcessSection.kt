@@ -1,8 +1,8 @@
 package com.haphap.app.presentation.register.component
 
-import android.R.attr.onClick
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +30,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun RegisterAnnounceProcessSection(
+fun ColumnScope.RegisterAnnounceProcessSection(
     announceList: ImmutableList<RegisterDropDownItemModel>,
     selectedAnnounce: RegisterDropDownItemModel?,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
@@ -40,70 +40,61 @@ fun RegisterAnnounceProcessSection(
     onProcessSelected: (Int) -> Unit,
     isNextEnabled: Boolean,
     onNextClick: () -> Unit,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    RegisterStepScaffold(
-        onBackClick = onBackClick,
-        progress = 1,
-        totalSteps = 3,
-        modifier = modifier,
+    Column(
+        modifier = Modifier
+            .weight(1f)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-        ) {
-            Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "공고",
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
+
+        Spacer(modifier = Modifier.height(9.dp))
+
+        RegisterDropDown(
+            items = announceList,
+            selectedItem = selectedAnnounce,
+            onItemSelected = onAnnounceSelected,
+            placeholder = "원하는 공고를 선택해주세요",
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        if (selectedAnnounce != null) {
+            Spacer(modifier = Modifier.height(36.dp))
 
             Text(
-                text = "공고",
+                text = "전형",
                 style = HapHapTheme.typography.body.b18,
                 color = HapHapTheme.colors.gray800,
             )
 
             Spacer(modifier = Modifier.height(9.dp))
 
-            RegisterDropDown(
-                items = announceList,
-                selectedItem = selectedAnnounce,
-                onItemSelected = onAnnounceSelected,
-                placeholder = "원하는 공고를 선택해주세요",
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            if (selectedAnnounce != null) {
-                Spacer(modifier = Modifier.height(36.dp))
-
-                Text(
-                    text = "전형",
-                    style = HapHapTheme.typography.body.b18,
-                    color = HapHapTheme.colors.gray800,
+            if (processListUiState == RegisterUiState.Success) {
+                ProcessButtonGrid(
+                    processList = processList,
+                    selectedProcessId = selectedProcessId,
+                    onProcessSelected = onProcessSelected,
                 )
-
-                Spacer(modifier = Modifier.height(9.dp))
-
-                if (processListUiState == RegisterUiState.Success) {
-                    ProcessButtonGrid(
-                        processList = processList,
-                        selectedProcessId = selectedProcessId,
-                        onProcessSelected = onProcessSelected,
-                    )
-                }
             }
         }
-
-        HapHapBasicButton(
-            text = "다음",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = isNextEnabled),
-            onClick = onNextClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-        )
     }
+
+    HapHapBasicButton(
+        text = "다음",
+        textStyle = HapHapTheme.typography.body.b18,
+        colorType = ButtonType.Primary(enabled = isNextEnabled),
+        onClick = onNextClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+    )
 }
 
 @Composable
@@ -168,17 +159,22 @@ private fun RegisterAnnounceProcessSectionPreview() {
     var selectedProcessId by remember { mutableStateOf<Int?>(1) }
 
     HapHapTheme {
-        RegisterAnnounceProcessSection(
-            announceList = announceList,
-            selectedAnnounce = selectedAnnounce,
-            onAnnounceSelected = { selectedAnnounce = it },
-            processList = processList,
-            processListUiState = RegisterUiState.Success,
-            selectedProcessId = selectedProcessId,
-            onProcessSelected = { selectedProcessId = it },
-            isNextEnabled = selectedAnnounce != null && selectedProcessId != null,
-            onNextClick = {},
+        RegisterStepScaffold(
             onBackClick = {},
-        )
+            progress = 1,
+            totalSteps = 3,
+        ) {
+            RegisterAnnounceProcessSection(
+                announceList = announceList,
+                selectedAnnounce = selectedAnnounce,
+                onAnnounceSelected = { selectedAnnounce = it },
+                processList = processList,
+                processListUiState = RegisterUiState.Success,
+                selectedProcessId = selectedProcessId,
+                onProcessSelected = { selectedProcessId = it },
+                isNextEnabled = selectedAnnounce != null && selectedProcessId != null,
+                onNextClick = {},
+            )
+        }
     }
 }

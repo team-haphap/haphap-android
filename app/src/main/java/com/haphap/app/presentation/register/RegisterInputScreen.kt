@@ -2,6 +2,9 @@ package com.haphap.app.presentation.register
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +18,9 @@ import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.component.RegisterAnnounceProcessSection
 import com.haphap.app.presentation.register.component.RegisterDateChannelSection
+import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterResultSection
+import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -38,48 +43,60 @@ fun RegisterInputScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (uiState.step) {
-        RegisterStep.ANNOUNCE_AND_PROCESS -> RegisterAnnounceProcessSection(
-            announceList = uiState.announceList,
-            selectedAnnounce = uiState.selectedAnnounce,
-            onAnnounceSelected = onAnnounceSelected,
-            processList = uiState.processList,
-            processListUiState = uiState.processListUiState,
-            selectedProcessId = uiState.selectedProcessId,
-            onProcessSelected = onProcessSelected,
-            isNextEnabled = uiState.isStep1NextEnabled,
-            onNextClick = onStep1NextClick,
-            onBackClick = onBackClick,
-            modifier = modifier,
-        )
-
-        RegisterStep.RESULT -> RegisterResultSection(
-            selectedResult = uiState.selectedResult,
-            onResultSelected = onResultSelected,
-            isChangeModalVisible = uiState.isChangeModalVisible,
-            onChangeModalConfirmClick = onChangeModalConfirmClick,
-            onChangeModalCancelClick = onChangeModalCancelClick,
-            isNextEnabled = uiState.isStep2NextEnabled,
-            onNextClick = onStep2NextClick,
-            onBackClick = onBackClick,
-            modifier = modifier,
-        )
-
-        RegisterStep.DATE_AND_CHANNEL -> RegisterDateChannelSection(
-            contactDate = uiState.contactDate,
-            onDateSelected = onDateSelected,
-            contactTime = uiState.contactTime,
-            onTimeSelected = onTimeSelected,
-            selectedChannels = uiState.selectedChannels,
-            onChannelToggled = onChannelToggled,
-            isNextEnabled = uiState.isStep3NextEnabled,
-            onNextClick = onStep3NextClick,
-            onBackClick = onBackClick,
-            modifier = modifier,
-        )
-
-        RegisterStep.CONFIRM, RegisterStep.COMPLETE, RegisterStep.PASS_SHARE -> Unit
+    val progress = when (uiState.step) {
+        RegisterStep.ANNOUNCE_AND_PROCESS -> 1
+        RegisterStep.RESULT -> 2
+        RegisterStep.DATE_AND_CHANNEL -> 3
+        else -> 1
     }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(HapHapTheme.colors.white)
+    ) {
+        RegisterTopBar(onBackClick = onBackClick)
+
+        RegisterProgressBar(progress = progress, totalSteps = 3)
+
+        when (uiState.step) {
+            RegisterStep.ANNOUNCE_AND_PROCESS -> RegisterAnnounceProcessSection(
+                announceList = uiState.announceList,
+                selectedAnnounce = uiState.selectedAnnounce,
+                onAnnounceSelected = onAnnounceSelected,
+                processList = uiState.processList,
+                processListUiState = uiState.processListUiState,
+                selectedProcessId = uiState.selectedProcessId,
+                onProcessSelected = onProcessSelected,
+                isNextEnabled = uiState.isStep1NextEnabled,
+                onNextClick = onStep1NextClick,
+            )
+
+            RegisterStep.RESULT -> RegisterResultSection(
+                selectedResult = uiState.selectedResult,
+                onResultSelected = onResultSelected,
+                isChangeModalVisible = uiState.isChangeModalVisible,
+                onChangeModalConfirmClick = onChangeModalConfirmClick,
+                onChangeModalCancelClick = onChangeModalCancelClick,
+                isNextEnabled = uiState.isStep2NextEnabled,
+                onNextClick = onStep2NextClick,
+            )
+
+            RegisterStep.DATE_AND_CHANNEL -> RegisterDateChannelSection(
+                contactDate = uiState.contactDate,
+                onDateSelected = onDateSelected,
+                contactTime = uiState.contactTime,
+                onTimeSelected = onTimeSelected,
+                selectedChannels = uiState.selectedChannels,
+                onChannelToggled = onChannelToggled,
+                isNextEnabled = uiState.isStep3NextEnabled,
+                onNextClick = onStep3NextClick,
+            )
+
+            RegisterStep.CONFIRM, RegisterStep.COMPLETE, RegisterStep.PASS_SHARE -> Unit
+        }
+    }
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

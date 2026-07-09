@@ -2,6 +2,7 @@ package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +24,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 
 @Composable
-fun RegisterResultSection(
+fun ColumnScope.RegisterResultSection(
     selectedResult: PassResultStatusButton?,
     onResultSelected: (PassResultStatusButton) -> Unit,
     isChangeModalVisible: Boolean,
@@ -31,54 +32,45 @@ fun RegisterResultSection(
     onChangeModalCancelClick: () -> Unit,
     isNextEnabled: Boolean,
     onNextClick: () -> Unit,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    RegisterStepScaffold(
-        onBackClick = onBackClick,
-        progress = 2,
-        totalSteps = 3,
-        modifier = modifier,
+    Column(
+        modifier = Modifier
+            .weight(1f)
+            .padding(horizontal = 20.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 20.dp),
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "결과",
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
+
+        Spacer(modifier = Modifier.height(9.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "결과",
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
-
-            Spacer(modifier = Modifier.height(9.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                PassResultStatusButton.entries.forEach { status ->
-                    RegisterResultButton(
-                        status = status,
-                        isSelected = status == selectedResult,
-                        onClick = { onResultSelected(status) },
-                        modifier = Modifier.weight(1f),
-                    )
-                }
+            PassResultStatusButton.entries.forEach { status ->
+                RegisterResultButton(
+                    status = status,
+                    isSelected = status == selectedResult,
+                    onClick = { onResultSelected(status) },
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
-
-        HapHapBasicButton(
-            text = "다음",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = isNextEnabled),
-            onClick = onNextClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-        )
     }
+
+    HapHapBasicButton(
+        text = "다음",
+        textStyle = HapHapTheme.typography.body.b18,
+        colorType = ButtonType.Primary(enabled = isNextEnabled),
+        onClick = onNextClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+    )
 
     if (isChangeModalVisible) {
         HapHapDialog(
@@ -95,16 +87,21 @@ private fun RegisterResultSectionPreview() {
     var selectedResult by remember { mutableStateOf<PassResultStatusButton?>(PassResultStatusButton.PASS) }
 
     HapHapTheme {
-        RegisterResultSection(
-            selectedResult = selectedResult,
-            onResultSelected = { selectedResult = it },
-            isChangeModalVisible = false,
-            onChangeModalConfirmClick = {},
-            onChangeModalCancelClick = {},
-            isNextEnabled = selectedResult != null,
-            onNextClick = {},
+        RegisterStepScaffold(
             onBackClick = {},
-        )
+            progress = 2,
+            totalSteps = 3,
+        ) {
+            RegisterResultSection(
+                selectedResult = selectedResult,
+                onResultSelected = { selectedResult = it },
+                isChangeModalVisible = false,
+                onChangeModalConfirmClick = {},
+                onChangeModalCancelClick = {},
+                isNextEnabled = selectedResult != null,
+                onNextClick = {},
+            )
+        }
     }
 }
 
@@ -112,15 +109,20 @@ private fun RegisterResultSectionPreview() {
 @Composable
 private fun RegisterResultSectionChangeModalPreview() {
     HapHapTheme {
-        RegisterResultSection(
-            selectedResult = PassResultStatusButton.FAILED,
-            onResultSelected = {},
-            isChangeModalVisible = true,
-            onChangeModalConfirmClick = {},
-            onChangeModalCancelClick = {},
-            isNextEnabled = true,
-            onNextClick = {},
+        RegisterStepScaffold(
             onBackClick = {},
-        )
+            progress = 2,
+            totalSteps = 3,
+        ) {
+            RegisterResultSection(
+                selectedResult = PassResultStatusButton.FAILED,
+                onResultSelected = {},
+                isChangeModalVisible = true,
+                onChangeModalConfirmClick = {},
+                onChangeModalCancelClick = {},
+                isNextEnabled = true,
+                onNextClick = {},
+            )
+        }
     }
 }

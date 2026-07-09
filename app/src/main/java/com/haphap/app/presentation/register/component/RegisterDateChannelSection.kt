@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,7 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RegisterDateChannelSection(
+fun ColumnScope.RegisterDateChannelSection(
     contactDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
     contactTime: LocalTime?,
@@ -40,97 +41,89 @@ fun RegisterDateChannelSection(
     onChannelToggled: (NotificationChannelType) -> Unit,
     isNextEnabled: Boolean,
     onNextClick: () -> Unit,
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
 
-    RegisterStepScaffold(
-        onBackClick = onBackClick,
-        progress = 3,
-        totalSteps = 3,
-        modifier = modifier,
+    Column(
+        modifier = Modifier
+            .weight(1f)
+            .padding(horizontal = 20.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 20.dp),
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "날짜",
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
+
+        Spacer(modifier = Modifier.height(9.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(9.dp),
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "연락받은 날짜",
+                    style = HapHapTheme.typography.body.sb14,
+                    color = HapHapTheme.colors.gray400,
+                )
 
-            Text(
-                text = "날짜",
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
+                Spacer(modifier = Modifier.height(10.dp))
 
-            Spacer(modifier = Modifier.height(9.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(9.dp),
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "연락받은 날짜",
-                        style = HapHapTheme.typography.body.sb14,
-                        color = HapHapTheme.colors.gray400,
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    RegisterEnterDate(
-                        value = contactDate?.format(dateFormatter).orEmpty(),
-                        placeholder = "연도.월.일",
-                        onDateSelected = onDateSelected,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "시간대",
-                        style = HapHapTheme.typography.body.sb14,
-                        color = HapHapTheme.colors.gray400,
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    RegisterEnterTime(
-                        value = contactTime?.format(timeFormatter).orEmpty(),
-                        placeholder = "00시 00분",
-                        onTimeSelected = onTimeSelected,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
+                RegisterEnterDate(
+                    value = contactDate?.format(dateFormatter).orEmpty(),
+                    placeholder = "연도.월.일",
+                    onDateSelected = onDateSelected,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "시간대",
+                    style = HapHapTheme.typography.body.sb14,
+                    color = HapHapTheme.colors.gray400,
+                )
 
-            Text(
-                text = "알림 채널",
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
+                Spacer(modifier = Modifier.height(10.dp))
 
-            Spacer(modifier = Modifier.height(9.dp))
-
-            NotificationChannelGrid(
-                selectedChannels = selectedChannels,
-                onChannelToggled = onChannelToggled,
-            )
+                RegisterEnterTime(
+                    value = contactTime?.format(timeFormatter).orEmpty(),
+                    placeholder = "00시 00분",
+                    onTimeSelected = onTimeSelected,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
 
-        HapHapBasicButton(
-            text = "다음",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = isNextEnabled),
-            onClick = onNextClick,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
+        Spacer(modifier = Modifier.height(36.dp))
+
+        Text(
+            text = "알림 채널",
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
+
+        Spacer(modifier = Modifier.height(9.dp))
+
+        NotificationChannelGrid(
+            selectedChannels = selectedChannels,
+            onChannelToggled = onChannelToggled,
         )
     }
+
+    HapHapBasicButton(
+        text = "다음",
+        textStyle = HapHapTheme.typography.body.b18,
+        colorType = ButtonType.Primary(enabled = isNextEnabled),
+        onClick = onNextClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+    )
+
 }
 
 @Composable
@@ -182,22 +175,27 @@ private fun RegisterDateChannelSectionPreview() {
     var selectedChannels by remember { mutableStateOf(persistentListOf<NotificationChannelType>()) }
 
     HapHapTheme {
-        RegisterDateChannelSection(
-            contactDate = contactDate,
-            onDateSelected = { contactDate = it },
-            contactTime = contactTime,
-            onTimeSelected = { contactTime = it },
-            selectedChannels = selectedChannels,
-            onChannelToggled = { channel ->
-                selectedChannels = if (selectedChannels.contains(channel)) {
-                    selectedChannels.remove(channel)
-                } else {
-                    selectedChannels.add(channel)
-                }
-            },
-            isNextEnabled = contactDate != null && contactTime != null,
-            onNextClick = {},
+        RegisterStepScaffold(
             onBackClick = {},
-        )
+            progress = 3,
+            totalSteps = 3,
+        ) {
+            RegisterDateChannelSection(
+                contactDate = contactDate,
+                onDateSelected = { contactDate = it },
+                contactTime = contactTime,
+                onTimeSelected = { contactTime = it },
+                selectedChannels = selectedChannels,
+                onChannelToggled = { channel ->
+                    selectedChannels = if (selectedChannels.contains(channel)) {
+                        selectedChannels.remove(channel)
+                    } else {
+                        selectedChannels.add(channel)
+                    }
+                },
+                isNextEnabled = contactDate != null && contactTime != null,
+                onNextClick = {},
+            )
+        }
     }
 }
