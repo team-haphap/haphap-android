@@ -69,8 +69,7 @@ private fun JobListScreen(
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-
-
+        
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
