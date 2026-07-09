@@ -199,7 +199,7 @@ private fun JobDetailScreen(
                     }
                 }
 
-                item { Spacer(modifier = Modifier.height(24.dp)) }
+                item { Spacer(modifier = Modifier.height(36.dp)) }
 
                 item {
                     JobParticipantSection(
