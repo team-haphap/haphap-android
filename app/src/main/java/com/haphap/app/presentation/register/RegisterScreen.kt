@@ -18,7 +18,7 @@ import java.time.LocalTime
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RegisterRoute(
-    entryPoint: RegisterEntryPoint,
+    entryPoint: RegisterSideEffect,
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Long) -> Unit,
@@ -29,8 +29,8 @@ fun RegisterRoute(
 
     val navigateByEntryPoint: () -> Unit = {
         when (entryPoint) {
-            RegisterEntryPoint.Home -> navigateToHome()
-            is RegisterEntryPoint.JobDetail -> navigateToJobDetail(entryPoint.jobId)
+            RegisterSideEffect.Home -> navigateToHome()
+            is RegisterSideEffect.JobDetail -> navigateToJobDetail(entryPoint.jobId)
         }
     }
 

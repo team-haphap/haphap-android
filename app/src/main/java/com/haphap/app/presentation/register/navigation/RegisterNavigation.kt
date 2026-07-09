@@ -11,7 +11,7 @@ import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.home.navigation.navigateToHome
-import com.haphap.app.presentation.register.RegisterEntryPoint
+import com.haphap.app.presentation.register.RegisterSideEffect
 import com.haphap.app.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
 
@@ -30,7 +30,7 @@ fun NavGraphBuilder.registerGraph(
 ) {
     composable<Register> {
         RegisterRoute(
-            entryPoint = RegisterEntryPoint.Home,
+            entryPoint = RegisterSideEffect.Home,
             navigateBack = { navController.popBackStack() },
             navigateToHome = { navController.navigateToHome() },
             navigateToJobDetail = { jobId ->
@@ -43,7 +43,7 @@ fun NavGraphBuilder.registerGraph(
     composable<RegisterFromJobDetail> { backStackEntry ->
         val route = backStackEntry.toRoute<RegisterFromJobDetail>()
         RegisterRoute(
-            entryPoint = RegisterEntryPoint.JobDetail(jobId = route.jobId),
+            entryPoint = RegisterSideEffect.JobDetail(jobId = route.jobId),
             navigateBack = { navController.popBackStack() },
             navigateToHome = { navController.navigateToHome() },
             navigateToJobDetail = { jobId ->

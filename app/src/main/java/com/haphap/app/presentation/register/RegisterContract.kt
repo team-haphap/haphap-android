@@ -15,7 +15,7 @@ sealed interface RegisterContract {
     @Immutable
     data class State(
         val step: RegisterStep = RegisterStep.ANNOUNCE_AND_PROCESS,
-        val entryPoint: RegisterEntryPoint = RegisterEntryPoint.Home,
+        val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
         val selectedAnnounce: RegisterDropDownItemModel? = null,
@@ -91,9 +91,9 @@ enum class NotificationChannelType(val text: String) {
     WEB("기업 홈페이지"),
 }
 
-sealed interface RegisterEntryPoint {
-    data object Home: RegisterEntryPoint
-    data class JobDetail(val jobId: Long) : RegisterEntryPoint
+sealed interface RegisterSideEffect {
+    data object Home: RegisterSideEffect
+    data class JobDetail(val jobId: Long) : RegisterSideEffect
 }
 
 sealed interface RegisterSection {
