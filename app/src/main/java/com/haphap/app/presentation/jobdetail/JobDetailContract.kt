@@ -17,7 +17,7 @@ sealed interface JobDetailContract {
         val isAlarmActive: Boolean = false,
         val stages: ImmutableList<JobStepModel> = persistentListOf(),
         val resultTabs: ImmutableList<String> = persistentListOf(),
-        val selectedTab: String = "",
+        val selectedTab: Int = 0,
         val result: JobResultModel = JobResultModel(),
         val participant: JobParticipantModel = JobParticipantModel(),
         val reports: ImmutableList<JobStepReportModel> = persistentListOf(),

@@ -3,7 +3,7 @@ package com.haphap.app.presentation.jobdetail.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,22 +21,22 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun JobResultTabRow(
     stages: ImmutableList<String>,
-    selectedStage: String,
-    onStageClick: (String) -> Unit,
+    selectedStage: Int,
+    onStageClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
         modifier = modifier.padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(
+        itemsIndexed(
             items = stages,
-            key = { it }
-        ) { stage ->
+            key = { index, _ -> index }
+        ) { index, stage ->
             HapHapFilterChip(
                 content = FilterChipContent.TextContent(stage),
-                isFilterSelected = stage == selectedStage,
-                onFilterClick = { onStageClick(stage) },
+                isFilterSelected = index == selectedStage,
+                onFilterClick = { onStageClick(index) },
             )
         }
     }
@@ -46,11 +46,11 @@ fun JobResultTabRow(
 @Composable
 private fun JobResultTabRowPreview() {
     HapHapTheme {
-        var selectedStage by remember { mutableStateOf("서류") }
+        var selectedStageIndex by remember { mutableStateOf(0) }
         JobResultTabRow(
             stages = persistentListOf("서류", "인적성", "코딩테스트", "1차면접", "2차면접"),
-            selectedStage = selectedStage,
-            onStageClick = { selectedStage = it },
+            selectedStage = selectedStageIndex,
+            onStageClick = { selectedStageIndex = it },
         )
     }
 }

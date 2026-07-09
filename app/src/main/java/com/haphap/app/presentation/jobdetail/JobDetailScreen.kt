@@ -76,7 +76,7 @@ private fun JobDetailScreen(
     onBackClick: () -> Unit,
     onAlarmClick: () -> Unit,
     onMoreClick: () -> Unit,
-    onTabClick: (String) -> Unit,
+    onTabClick: (Int) -> Unit,
     onRefreshClick: () -> Unit,
     onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -260,7 +260,7 @@ private fun SectionTitle(
 @Composable
 private fun JobDetailScreenPreview() {
     HapHapTheme {
-        var selectedTab by remember { mutableStateOf("서류") }
+        var selectedTab by remember { mutableStateOf(0) }
 
         JobDetailScreen(
             uiState = JobDetailContract.State(
