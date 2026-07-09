@@ -1,7 +1,7 @@
 package com.haphap.app.presentation.home
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.home.BannerListModel
+import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
 import com.haphap.app.data.model.home.RecentCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
@@ -11,7 +11,7 @@ import kotlinx.collections.immutable.persistentListOf
 sealed interface HomeContract {
     @Immutable
     data class State(
-        val bannerList: ImmutableList<BannerListModel> = persistentListOf(),
+        val bannerList: ImmutableList<BannerItemModel> = persistentListOf(),
         val countCardModel: CountCardModel? = null,
         val recentCardList: ImmutableList<RecentCardModel> = persistentListOf(),
         val todayExpectedCardList: ImmutableList<TodayExpectedCardModel> = persistentListOf(),

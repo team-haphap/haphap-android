@@ -32,14 +32,14 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.data.model.home.BannerListModel
+import com.haphap.app.data.model.home.BannerItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeBannerSection(
-    bannerList: ImmutableList<BannerListModel>,
+    bannerList: ImmutableList<BannerItemModel>,
     modifier: Modifier = Modifier,
     state: HomeBannerState = rememberHomeBannerState(bannerList = bannerList),
 ) {
@@ -109,7 +109,7 @@ class HomeBannerState(
 
 @Composable
 private fun rememberHomeBannerState(
-    bannerList: ImmutableList<BannerListModel>
+    bannerList: ImmutableList<BannerItemModel>
 ): HomeBannerState {
     val pagerState = rememberPagerState(
         initialPage = if (bannerList.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % bannerList.size),
@@ -168,11 +168,11 @@ private fun HomeBannerSectionPreview() {
     HapHapTheme {
         HomeBannerSection(
             bannerList = persistentListOf(
-                BannerListModel(id = 1, imageUrl = ""),
-                BannerListModel(id = 2, imageUrl = ""),
-                BannerListModel(id = 3, imageUrl = ""),
-                BannerListModel(id = 4, imageUrl = ""),
-                BannerListModel(id = 5, imageUrl = ""),
+                BannerItemModel(id = 1, imageUrl = ""),
+                BannerItemModel(id = 2, imageUrl = ""),
+                BannerItemModel(id = 3, imageUrl = ""),
+                BannerItemModel(id = 4, imageUrl = ""),
+                BannerItemModel(id = 5, imageUrl = ""),
             )
         )
     }

@@ -26,7 +26,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.textfield.HapHapSearchTextField
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.data.model.home.BannerListModel
+import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
 import com.haphap.app.data.model.home.RecentCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
@@ -169,11 +169,11 @@ private fun HomeScreenPreview() {
         HomeScreen(
             uiState = HomeContract.State(
                 bannerList = persistentListOf(
-                    BannerListModel(id = 1, imageUrl = ""),
-                    BannerListModel(id = 2, imageUrl = ""),
-                    BannerListModel(id = 3, imageUrl = ""),
-                    BannerListModel(id = 4, imageUrl = ""),
-                    BannerListModel(id = 5, imageUrl = ""),
+                    BannerItemModel(id = 1, imageUrl = ""),
+                    BannerItemModel(id = 2, imageUrl = ""),
+                    BannerItemModel(id = 3, imageUrl = ""),
+                    BannerItemModel(id = 4, imageUrl = ""),
+                    BannerItemModel(id = 5, imageUrl = ""),
                 ),
 
                 countCardModel = CountCardModel(
