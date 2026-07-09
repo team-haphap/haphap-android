@@ -46,8 +46,10 @@ fun HomeRoute(
     HomeScreen(
         uiState = uiState,
         onSearchBarClick = {},
+        onMoreClick = {},
         onRecentCardClick = {},
         onListCardClick = {},
+        onButtonClick = {},
         modifier = modifier,
     )
 }
@@ -56,8 +58,10 @@ fun HomeRoute(
 private fun HomeScreen(
     uiState: HomeContract.State,
     onSearchBarClick: () -> Unit,
+    onMoreClick: () -> Unit,
     onRecentCardClick: (Int) -> Unit,
     onListCardClick: (Int) -> Unit,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -116,7 +120,7 @@ private fun HomeScreen(
                     title = "최근 결과가 올라온 공고",
                     description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
                     isMore = true,
-                    onMoreClick = {},
+                    onMoreClick = onMoreClick,
                 )
             }
 
@@ -152,7 +156,7 @@ private fun HomeScreen(
         }
 
         HapHapRefreshButton(
-            onButtonClick = {},
+            onButtonClick = onButtonClick,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 10.dp, end = 20.dp),
@@ -248,8 +252,10 @@ private fun HomeScreenPreview() {
                 ),
             ),
             onSearchBarClick = {},
+            onMoreClick = {},
             onRecentCardClick = {},
             onListCardClick = {},
+            onButtonClick = {},
         )
     }
 }
