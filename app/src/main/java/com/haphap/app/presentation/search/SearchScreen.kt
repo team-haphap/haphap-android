@@ -61,7 +61,7 @@ private fun SearchScreen(
     onRelatedItemClick: (Int) -> Unit,
     onFilterClick: (String) -> Unit,
     onResultCardClick: (Int) -> Unit,
-    onDeleteClick: (Int) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onTrendCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
