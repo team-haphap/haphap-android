@@ -110,7 +110,7 @@ private fun ProcessButtonGrid(
     ) {
         processList.chunked(COLUMN_COUNT).forEach { rowItems ->
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 rowItems.forEach { process ->
                     key(process.id) {

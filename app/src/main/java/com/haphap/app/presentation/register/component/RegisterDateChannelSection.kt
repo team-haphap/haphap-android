@@ -118,9 +118,8 @@ fun ColumnScope.RegisterDateChannelSection(
         onClick = onNextClick,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .padding(horizontal = 20.dp, vertical = 10.dp),
     )
-
 }
 
 @Composable

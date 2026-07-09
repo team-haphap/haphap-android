@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.presentation.register.component.ConfirmInfoBox
+import com.haphap.app.presentation.register.component.RegisterConfirmSection
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.toPassResultType
 import java.time.LocalDate
@@ -134,7 +136,7 @@ fun RegisterConfirmSection(
             onClick = onRegisterClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
+                .padding(horizontal = 20.dp, vertical = 10.dp),
         )
     }
 }
