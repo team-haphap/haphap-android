@@ -33,7 +33,7 @@ fun HomeCountCardSection(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 24.dp, start = 20.dp, end = 20.dp),
+            .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         HomeCountCard(

@@ -3,6 +3,7 @@ package com.haphap.app.presentation.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -65,93 +66,103 @@ private fun HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = HapHapTheme.colors.white),
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = HapHapTheme.colors.white),
-            contentPadding = PaddingValues(bottom = 54.dp),
-        ) {
-            item {
-                Image(
-                    painter = painterResource(id = R.drawable.img_text_logo),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 10.dp)
-                        .height(20.dp)
-                        .aspectRatio(124f / 20f),
-                )
-            }
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(10.dp))
 
-            item {
-                HapHapSearchBar(
-                    placeholder = "공고명을 검색해보세요!",
-                    onSearchBarClick = onSearchBarClick,
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
-                )
-            }
+            Image(
+                painter = painterResource(id = R.drawable.img_text_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .height(20.dp)
+                    .aspectRatio(124f / 20f),
+            )
 
-            item {
-                HomeBannerSection(
-                    bannerList = uiState.bannerList
-                )
-            }
+            Spacer(modifier = Modifier.height(20.dp))
 
-            item {
-                uiState.countCardModel?.let { countData ->
-                    HomeCountCardSection(
-                        countCardModel = countData,
+            HapHapSearchBar(
+                placeholder = "공고명을 검색해보세요!",
+                onSearchBarClick = onSearchBarClick,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(bottom = 50.dp),
+            ) {
+                item {
+                    HomeBannerSection(
+                        bannerList = uiState.bannerList
                     )
                 }
-            }
 
-            item {
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = HapHapTheme.colors.gray100,
-                )
-            }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
+                    uiState.countCardModel?.let { countData ->
+                        HomeCountCardSection(
+                            countCardModel = countData,
+                        )
+                    }
 
-                HomeCardTitle(
-                    title = "최근 결과가 올라온 공고",
-                    description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
-                    isMore = true,
-                    onMoreClick = onMoreClick,
-                )
-            }
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
 
-            //Todo: 추후 필터칩 Row 공통 컴포넌트 사용 추가
+                item {
+                    HorizontalDivider(
+                        thickness = 1.dp,
+                        color = HapHapTheme.colors.gray100,
+                    )
+                }
 
-            item {
-                Spacer(modifier = Modifier.height(12.dp))
+                item {
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                HomeRecentCardSection(
-                    recentCardList = uiState.recentCardList,
-                    onRecentCardClick = onRecentCardClick,
-                )
+                    HomeCardTitle(
+                        title = "최근 결과가 올라온 공고",
+                        description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
+                        isMore = true,
+                        onMoreClick = onMoreClick,
+                    )
+                }
 
-                Spacer(modifier = Modifier.height(24.dp))
-            }
+                //Todo: 추후 필터칩 Row 공통 컴포넌트 사용 추가
 
-            item {
-                Spacer(modifier = Modifier.height(12.dp))
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                HomeCardTitle(
-                    title = "오늘 발표 예상 공고",
-                    description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
-                    isMore = false,
-                )
-            }
+                    HomeRecentCardSection(
+                        recentCardList = uiState.recentCardList,
+                        onRecentCardClick = onRecentCardClick,
+                    )
 
-            item {
-                HomeListCardSection(
-                    todayExpectedCardList = uiState.todayExpectedCardList,
-                    onListCardClick = onListCardClick,
-                )
+                    Spacer(modifier = Modifier.height(36.dp))
+                }
+
+                item {
+                    HomeCardTitle(
+                        title = "오늘 발표 예상 공고",
+                        description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
+                        isMore = false,
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    HomeListCardSection(
+                        todayExpectedCardList = uiState.todayExpectedCardList,
+                        onListCardClick = onListCardClick,
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
             }
         }
 
