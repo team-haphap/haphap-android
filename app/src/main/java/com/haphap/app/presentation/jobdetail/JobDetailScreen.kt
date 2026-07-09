@@ -206,7 +206,6 @@ private fun JobDetailScreen(
                         registeredCount = uiState.participant.registeredCount,
                         profileImages = uiState.participant.profileImages,
                         additionalCount = uiState.participant.additionalParticipantCount,
-                        modifier = Modifier.padding(horizontal = 20.dp)
                     )
                 }
 
