@@ -64,7 +64,6 @@ fun JobParticipantSection(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy((-10).dp),
-                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     profileImages.take(4).forEach { imageUrl ->
                         UrlImage(
