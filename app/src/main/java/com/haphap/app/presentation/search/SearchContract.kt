@@ -36,10 +36,6 @@ sealed interface SearchContract {
                 else -> SearchSection.Default
             }
 
-        fun toggleCategoryChips(
-            category: String,
-        ): State =
-            copy(categoryChipState = categoryChipState.toggle(category))
     }
 }
 
