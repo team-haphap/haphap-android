@@ -15,7 +15,7 @@ import com.haphap.app.data.model.register.RegisterPassShareModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.component.RegisterCompleteSection
 import com.haphap.app.presentation.register.component.RegisterConfirmSection
-import com.haphap.app.presentation.register.component.RegisterPassShareSection
+import com.haphap.app.presentation.register.component.RegisterPassCardSection
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -65,7 +65,7 @@ fun RegisterResultScreen(
                 backgroundImageUrl = "",
             )
 
-            RegisterPassShareSection(
+            RegisterPassCardSection(
                 userName = userName,
                 recruitName = uiState.selectedAnnounce?.text.orEmpty(),
                 passShareModel = passShareModel,

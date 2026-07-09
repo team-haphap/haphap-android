@@ -28,7 +28,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.register.RegisterPassShareModel
 
 @Composable
-fun RegisterPassShareSection(
+fun RegisterPassCardSection(
     userName: String,
     recruitName: String,
     passShareModel: RegisterPassShareModel,
@@ -126,9 +126,9 @@ fun RegisterPassShareSection(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterPassShareSectionPreview() {
+private fun RegisterPassCardSectionPreview() {
     HapHapTheme {
-        RegisterPassShareSection(
+        RegisterPassCardSection(
             userName = "박연수",
             recruitName = "2026 신입 개발자 공개 채용~~~~~~~~~~~~~~~~",
             passShareModel = RegisterPassShareModel(
