@@ -35,15 +35,18 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.home.BannerItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeBannerSection(
     bannerList: ImmutableList<BannerItemModel>,
     modifier: Modifier = Modifier,
-    state: HomeBannerState = rememberHomeBannerState(bannerList = bannerList),
 ) {
     if (bannerList.isEmpty()) return
+
+    val visibleBannerList = remember(bannerList) { bannerList.take(5).toPersistentList() }
+    val state = rememberHomeBannerState(bannerList = visibleBannerList)
 
     state.HandleAutoScroll()
 
@@ -53,8 +56,8 @@ fun HomeBannerSection(
             contentPadding = PaddingValues(horizontal = 30.dp),
             pageSpacing = 12.dp,
         ) { page ->
-            val index = page % bannerList.size
-            BannerCard(imageUrl = bannerList[index].imageUrl)
+            val index = page % visibleBannerList.size
+            BannerCard(imageUrl = visibleBannerList[index].imageUrl)
         }
 
         Row(
@@ -66,9 +69,9 @@ fun HomeBannerSection(
                 alignment = Alignment.CenterHorizontally,
             ),
         ) {
-            val currentIndex = state.pagerState.currentPage % bannerList.size
+            val currentIndex = state.pagerState.currentPage % visibleBannerList.size
 
-            repeat(bannerList.size) { index ->
+            repeat(visibleBannerList.size) { index ->
                 val isSelected = currentIndex == index
 
                 Box(
