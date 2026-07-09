@@ -71,6 +71,8 @@ fun JobStepReportItem(
                 )
             }
 
+            Spacer(modifier = Modifier.width(11.dp))
+
             HapHapStatusChip(
                 text = stage,
                 type = StatusChipType.STAGE,
