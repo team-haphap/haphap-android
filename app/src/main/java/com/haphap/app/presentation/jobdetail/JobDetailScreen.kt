@@ -235,7 +235,6 @@ private fun JobDetailScreen(
                         nickName = report.nickName,
                         result = report.result,
                         stage = report.stage,
-                        modifier = Modifier.padding(horizontal = 20.dp),
                     )
                 }
 
