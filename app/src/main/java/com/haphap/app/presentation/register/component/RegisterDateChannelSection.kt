@@ -26,7 +26,6 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun ColumnScope.RegisterDateChannelSection(
@@ -39,9 +38,6 @@ fun ColumnScope.RegisterDateChannelSection(
     isNextEnabled: Boolean,
     onNextClick: () -> Unit,
 ) {
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-    val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
-
     Column(
         modifier = Modifier
             .weight(1f)
@@ -57,43 +53,12 @@ fun ColumnScope.RegisterDateChannelSection(
 
         Spacer(modifier = Modifier.height(9.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(9.dp),
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "연락받은 날짜",
-                    style = HapHapTheme.typography.body.sb14,
-                    color = HapHapTheme.colors.gray400,
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                RegisterEnterDate(
-                    value = contactDate?.format(dateFormatter).orEmpty(),
-                    placeholder = "연도.월.일",
-                    onDateSelected = onDateSelected,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "시간대",
-                    style = HapHapTheme.typography.body.sb14,
-                    color = HapHapTheme.colors.gray400,
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                RegisterEnterTime(
-                    value = contactTime?.format(timeFormatter).orEmpty(),
-                    placeholder = "00시 00분",
-                    onTimeSelected = onTimeSelected,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
+        RegisterEnterDateTime(
+            contactDate = contactDate,
+            onDateSelected = onDateSelected,
+            contactTime = contactTime,
+            onTimeSelected = onTimeSelected,
+        )
 
         Spacer(modifier = Modifier.height(36.dp))
 
