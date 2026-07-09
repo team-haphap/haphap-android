@@ -62,13 +62,14 @@ fun RegisterPassCardSection(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f)
+                .aspectRatio(312f/540f)
                 .clip(RoundedCornerShape(18.dp))
         ) {
             UrlImage(
                 url = passShareModel.backgroundImageUrl,
                 placeholderDrawable = R.drawable.ic_launcher_background,
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
             )
 
