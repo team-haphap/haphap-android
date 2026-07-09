@@ -2,6 +2,7 @@ package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,8 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.presentation.register.type.RegisterDropDownItemType
+import com.haphap.app.presentation.register.type.toStyle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -109,6 +112,39 @@ fun RegisterDropDown(
                 )
             }
         }
+    }
+}
+
+val RegisterDropDownItemHeight = 50.dp
+
+@Composable
+fun RegisterDropDownItem(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val style = (if (isSelected) RegisterDropDownItemType.SELECTED else RegisterDropDownItemType.UNSELECTED)
+        .toStyle(HapHapTheme.colors)
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = style.backgroundColor,
+                shape = RoundedCornerShape(8.dp),
+            )
+            .noRippleClickable(onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 15.dp),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Text(
+            text = text,
+            style = HapHapTheme.typography.body.sb14,
+            color = style.textColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
