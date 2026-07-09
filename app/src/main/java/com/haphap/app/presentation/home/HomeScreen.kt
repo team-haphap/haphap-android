@@ -3,6 +3,7 @@ package com.haphap.app.presentation.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,7 +65,8 @@ private fun HomeScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = HapHapTheme.colors.white)
+                .background(color = HapHapTheme.colors.white),
+            contentPadding = PaddingValues(bottom = 54.dp),
         ) {
             item {
                 Image(
