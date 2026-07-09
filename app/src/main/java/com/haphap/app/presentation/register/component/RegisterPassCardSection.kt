@@ -82,7 +82,7 @@ fun RegisterPassCardSection(
                 UrlImage(
                     url = passShareModel.logoUrl,
                     placeholderDrawable = R.drawable.ic_launcher_background,
-                    contentDescription = passShareModel.companyName,
+                    contentDescription = null,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.height(44.dp),
                 )
