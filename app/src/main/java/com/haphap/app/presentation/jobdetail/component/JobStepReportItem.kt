@@ -28,7 +28,7 @@ fun JobStepReportItem(
     modifier: Modifier = Modifier,
 ) {
     val content = when (result) {
-        JobStepReportType.PASS -> "${nickName}이 방금 합격 결과를 공유했어요!"
+        JobStepReportType.PASS -> "${nickName}이 합격 결과를 공유했어요!"
         JobStepReportType.FAIL -> "${nickName}이 불합격 결과를 공유했어요"
         JobStepReportType.PENDING -> "${nickName}이 대기 상태를 공유했어요"
     }
