@@ -1,10 +1,13 @@
 package com.haphap.app.presentation.register
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterPassShareModel
 import com.haphap.app.data.model.register.RegisterProcessModel
+import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -19,9 +22,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     // TODO: 공고/전형/등록 Repository 주입 (API 연동 시 하단 더미 데이터를 전부 대체)
 ) : ViewModel() {
 
+    private val route = savedStateHandle.toRoute<Register>()
+    private val entryPoint : RegisterSideEffect = route.jobId?.let { jobId ->
+        RegisterSideEffect.JobDetail(jobId)
+    } ?: RegisterSideEffect.Home
     private val _uiState = MutableStateFlow(RegisterContract.State())
     val uiState = _uiState.asStateFlow()
 

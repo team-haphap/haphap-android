@@ -7,22 +7,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.MainTabRoute
-import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.home.navigation.navigateToHome
-import com.haphap.app.presentation.register.RegisterSideEffect
 import com.haphap.app.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToRegister(
-    navOptions: NavOptions? = null
-) = navigate(Register, navOptions)
+    navOptions: NavOptions? = null,
+) = navigate(Register(jobId = null), navOptions)
 
 fun NavController.navigateToRegisterFromJobDetail(
     jobId: Long,
     navOptions: NavOptions? = null,
-) = navigate(RegisterFromJobDetail(jobId), navOptions)
+) = navigate(Register(jobId = jobId), navOptions)
 
 fun NavGraphBuilder.registerGraph(
     innerPadding: PaddingValues,
@@ -30,20 +27,6 @@ fun NavGraphBuilder.registerGraph(
 ) {
     composable<Register> {
         RegisterRoute(
-            entryPoint = RegisterSideEffect.Home,
-            navigateBack = { navController.popBackStack() },
-            navigateToHome = { navController.navigateToHome() },
-            navigateToJobDetail = { jobId ->
-                // TODO: 상세 페이지 네비게이션 함수 추가 예정
-            },
-            modifier = Modifier.padding(innerPadding),
-        )
-    }
-
-    composable<RegisterFromJobDetail> { backStackEntry ->
-        val route = backStackEntry.toRoute<RegisterFromJobDetail>()
-        RegisterRoute(
-            entryPoint = RegisterSideEffect.JobDetail(jobId = route.jobId),
             navigateBack = { navController.popBackStack() },
             navigateToHome = { navController.navigateToHome() },
             navigateToJobDetail = { jobId ->
@@ -55,7 +38,4 @@ fun NavGraphBuilder.registerGraph(
 }
 
 @Serializable
-data object Register: MainTabRoute
-
-@Serializable
-data class RegisterFromJobDetail(val jobId: Long) : Route
+data class Register(val jobId: Long? = null) : MainTabRoute

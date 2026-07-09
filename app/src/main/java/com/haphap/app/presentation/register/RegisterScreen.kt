@@ -15,7 +15,6 @@ import java.time.LocalTime
 
 @Composable
 fun RegisterRoute(
-    entryPoint: RegisterSideEffect,
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Long) -> Unit,
@@ -25,7 +24,7 @@ fun RegisterRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val navigateByEntryPoint: () -> Unit = {
-        when (entryPoint) {
+        when (val entryPoint = uiState.entryPoint) {
             RegisterSideEffect.Home -> navigateToHome()
             is RegisterSideEffect.JobDetail -> navigateToJobDetail(entryPoint.jobId)
         }
