@@ -74,7 +74,7 @@ private fun HomeScreen(
                     painter = painterResource(id = R.drawable.img_text_logo),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(start = 20.dp, top = 10.dp, bottom = 12.dp)
+                        .padding(horizontal = 20.dp, vertical = 10.dp)
                         .height(20.dp)
                         .aspectRatio(124f / 20f),
                 )
