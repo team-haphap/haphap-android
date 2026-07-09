@@ -22,13 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.card.HapHapCard
-import com.haphap.app.core.designsystem.component.chip.CategoryChipState
 import com.haphap.app.core.designsystem.component.chip.FilterChipContent
 import com.haphap.app.core.designsystem.component.chip.HapHapFilterChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.search.ChipListModel
 import com.haphap.app.data.model.search.SearchResultModel
+import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

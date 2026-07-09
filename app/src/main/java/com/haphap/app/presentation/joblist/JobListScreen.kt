@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.component.card.HapHapCard
-import com.haphap.app.core.designsystem.component.chip.HapHapCategoryChipList
 import com.haphap.app.core.designsystem.component.searchbar.HapHapSearchBar
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.list.JobItemModel
+import com.haphap.app.presentation.common.component.HapHapCategoryChipList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
