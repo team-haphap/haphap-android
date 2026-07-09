@@ -128,7 +128,7 @@ fun RegisterConfirmSection(
         Spacer(modifier = Modifier.height(30.dp))
 
         HapHapBasicButton(
-            text = "다음",
+            text = "등록하기",
             textStyle = HapHapTheme.typography.body.b18,
             colorType = ButtonType.Primary(enabled = isRegisterButtonEnabled),
             onClick = onRegisterClick,
