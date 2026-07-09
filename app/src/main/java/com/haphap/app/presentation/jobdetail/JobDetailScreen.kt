@@ -148,57 +148,51 @@ private fun JobDetailScreen(
                 item { Spacer(modifier = Modifier.height(24.dp)) }
 
                 item {
-                    SectionTitle(title = "전형 단계")
-                }
-
-                item { Spacer(modifier = Modifier.height(9.dp)) }
-
-                item {
-                    JobStageStepRow(steps = uiState.stages)
-                }
-
-                item { Spacer(modifier = Modifier.height(24.dp)) }
-
-                item {
-                    SectionTitle(title = "전형별 등록 결과")
-                }
-
-                item { Spacer(modifier = Modifier.height(12.dp)) }
-
-                item {
-                    JobResultTabRow(
-                        stages = uiState.resultTabs,
-                        selectedStage = uiState.selectedTab,
-                        onStageClick = onTabClick,
-                    )
-                }
-
-                item { Spacer(modifier = Modifier.height(13.dp)) }
-
-                item {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 20.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    ) {
-                        JobResultCard(
-                            type = JobResultCardType.PASS,
-                            count = uiState.result.passCount,
-                            modifier = Modifier.weight(1f),
-                        )
-                        JobResultCard(
-                            type = JobResultCardType.FAIL,
-                            count = uiState.result.failCount,
-                            modifier = Modifier.weight(1f),
-                        )
-                        JobResultCard(
-                            type = JobResultCardType.PENDING,
-                            count = uiState.result.pendingCount,
-                            modifier = Modifier.weight(1f),
-                        )
+                    Column {
+                        SectionTitle(title = "전형 단계")
+                        Spacer(modifier = Modifier.height(9.dp))
+                        JobStageStepRow(steps = uiState.stages)
+                        Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
 
-                item { Spacer(modifier = Modifier.height(36.dp)) }
+                item {
+                    Column {
+                        SectionTitle(title = "전형별 등록 결과")
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        JobResultTabRow(
+                            stages = uiState.resultTabs,
+                            selectedStage = uiState.selectedTab,
+                            onStageClick = onTabClick,
+                        )
+
+                        Spacer(modifier = Modifier.height(13.dp))
+
+                        Row(
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        ) {
+                            JobResultCard(
+                                type = JobResultCardType.PASS,
+                                count = uiState.result.passCount,
+                                modifier = Modifier.weight(1f),
+                            )
+                            JobResultCard(
+                                type = JobResultCardType.FAIL,
+                                count = uiState.result.failCount,
+                                modifier = Modifier.weight(1f),
+                            )
+                            JobResultCard(
+                                type = JobResultCardType.PENDING,
+                                count = uiState.result.pendingCount,
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(36.dp))
+                    }
+                }
 
                 item {
                     JobParticipantSection(
