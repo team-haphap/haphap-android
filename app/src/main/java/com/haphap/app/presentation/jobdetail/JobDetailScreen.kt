@@ -83,6 +83,16 @@ private fun JobDetailScreen(
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
+
+        topBar = {
+            JobDetailTopBar(
+                onBackClick = onBackClick,
+                onAlarmClick = onAlarmClick,
+                onMoreClick = onMoreClick,
+                isAlarmActive = uiState.isAlarmActive,
+            )
+        },
+
         bottomBar = {
             Column(
                 modifier = Modifier
@@ -112,15 +122,6 @@ private fun JobDetailScreen(
                     .background(HapHapTheme.colors.white),
                 contentPadding = innerPadding,
             ) {
-                item {
-                    JobDetailTopBar(
-                        onBackClick = onBackClick,
-                        onAlarmClick = onAlarmClick,
-                        onMoreClick = onMoreClick,
-                        isAlarmActive = uiState.isAlarmActive,
-                    )
-                }
-
                 item { Spacer(modifier = Modifier.height(12.dp)) }
 
                 item {
