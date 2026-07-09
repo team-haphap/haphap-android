@@ -58,7 +58,7 @@ fun RegisterCompleteSection(
                 color = HapHapTheme.colors.gray500,
             )
 
-            Spacer(modifier = Modifier.height(126.dp))
+            Spacer(modifier = Modifier.weight(136f))
 
             Image(
                 painter = painterResource(R.drawable.img_register_check),
@@ -68,7 +68,7 @@ fun RegisterCompleteSection(
                     .align(Alignment.CenterHorizontally),
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(210f))
 
             HapHapBasicButton(
                 text = "완료",
