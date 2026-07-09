@@ -118,8 +118,7 @@ private fun JobDetailScreen(
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(HapHapTheme.colors.white),
+                    .fillMaxSize(),
                 contentPadding = innerPadding,
             ) {
                 item { Spacer(modifier = Modifier.height(12.dp)) }
