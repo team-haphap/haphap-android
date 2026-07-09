@@ -5,7 +5,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,7 +50,7 @@ class SearchViewModel @Inject constructor(
 
     fun updateSelectedChips(category: String){
         _uiState.update {
-            it.toggleCategoryChips(category = category)
+            it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
     }
 
