@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,11 +19,17 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.textfield.HapHapSearchTextField
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.search.component.SearchDefaultSection
 import com.haphap.app.presentation.search.component.SearchResultSection
 import com.haphap.app.presentation.search.component.SearchingSection
@@ -33,18 +40,32 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(Unit) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when(sideEffect) {
+                    is OnShowToast -> {
+                        showToast.invoke(sideEffect.message)
+                    }
+                }
+            }
+        }
+    }
 
     //Todo: 화면 연결
     SearchScreen(
         state = viewModel.searchInputState,
         uiState = uiState,
         onBackClick = {},
-        onSearchClick = {},
+        onSearchClick = viewModel::onSearchClick,
         onAutoCompleteItemClick = {},
         onRelatedItemClick = {},
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onResultCardClick = {},
-        onDeleteClick = {},
+        onDeleteClick = viewModel::deleteRecentSearchItem,
         onTrendCardClick = {},
         modifier = modifier,
     )

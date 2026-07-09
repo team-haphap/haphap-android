@@ -1,7 +1,7 @@
 package com.haphap.app.presentation.search
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.search.RecentSearchListModel
+import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.RelatedKeywordListModel
 import com.haphap.app.data.model.search.SearchAutoCompleteModel
 import com.haphap.app.data.model.search.SearchResultModel
@@ -17,7 +17,7 @@ sealed interface SearchContract {
         val relatedKeywordList: ImmutableList<RelatedKeywordListModel> = persistentListOf(),
         val categoryChipState: CategoryChipState = CategoryChipState(),
         val searchResultList: ImmutableList<SearchResultModel> = persistentListOf(),
-        val recentSearchList: ImmutableList<RecentSearchListModel> = persistentListOf(),
+        val recentSearchList: ImmutableList<RecentSearchItemModel> = persistentListOf(),
         val trendJobList: ImmutableList<TrendJobListModel> = persistentListOf(),
         val trendJobListUiState: SearchUiState = SearchUiState.Idle,
         val searchAutoCompleteUiState: SearchUiState = SearchUiState.Idle,
@@ -36,6 +36,10 @@ sealed interface SearchContract {
                 else -> SearchSection.Default
             }
 
+    }
+
+    sealed class SideEffect {
+        data class OnShowToast(val message: String): SideEffect() //Todo: Alarm = false 추가
     }
 }
 
