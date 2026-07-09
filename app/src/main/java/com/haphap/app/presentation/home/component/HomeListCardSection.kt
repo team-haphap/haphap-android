@@ -18,7 +18,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun HomeListCardSection(
     todayExpectedCardList: ImmutableList<TodayExpectedCardModel>,
-    onListCardClick: () -> Unit,
+    onListCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -46,7 +46,7 @@ fun HomeListCardSection(
                             companyName = it.companyName,
                             category = it.category,
                             stageName = it.stageName,
-                            onCardClick = onListCardClick,
+                            onCardClick = { onListCardClick(it.id) },
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))

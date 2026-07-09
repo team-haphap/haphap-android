@@ -55,7 +55,7 @@ fun HomeRoute(
 private fun HomeScreen(
     uiState: HomeContract.State,
     onRecentCardClick: (Int) -> Unit,
-    onListCardClick: () -> Unit,
+    onListCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
