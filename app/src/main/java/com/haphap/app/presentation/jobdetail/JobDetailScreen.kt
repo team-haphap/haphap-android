@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -81,10 +82,37 @@ private fun JobDetailScreen(
     onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(HapHapTheme.colors.white),
+                horizontalAlignment = Alignment.End,
+            ) {
+                HapHapRefreshButton(
+                    onButtonClick = onRefreshClick,
+                    modifier = Modifier.padding(end = 20.dp, bottom = 10.dp),
+                )
+
+                HapHapBasicButton(
+                    text = "등록하기",
+                    textStyle = HapHapTheme.typography.body.b18,
+                    colorType = ButtonType.Primary(enabled = true),
+                    onClick = onRegisterClick,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                )
+            }
+        }
+    ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.background(HapHapTheme.colors.white),
-            contentPadding = PaddingValues(bottom = 92.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(HapHapTheme.colors.white),
+            contentPadding = innerPadding,
         ) {
             item {
                 JobDetailTopBar(
@@ -215,27 +243,6 @@ private fun JobDetailScreen(
             }
 
             item { Spacer(modifier = Modifier.height(12.dp)) }
-        }
-
-        Column(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            horizontalAlignment = Alignment.End,
-        ) {
-            HapHapRefreshButton(
-                onButtonClick = onRefreshClick,
-                modifier = Modifier.padding(end = 20.dp, bottom = 10.dp),
-            )
-
-            HapHapBasicButton(
-                text = "등록하기",
-                textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = true),
-                onClick = onRegisterClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 10.dp),
-            )
         }
     }
 }
