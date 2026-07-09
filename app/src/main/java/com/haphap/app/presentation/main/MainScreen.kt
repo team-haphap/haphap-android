@@ -64,6 +64,27 @@ fun MainScreen(
         }
     }
 
+    var job by remember { mutableStateOf<Job?>(null) }
+
+    val onShowToast2: (String, Boolean) -> Unit = { message, isAlarm ->
+        job?.cancel()
+        job = coroutineScope.launch {
+            snackbarHostState.currentSnackbarData?.dismiss()
+
+            launch {
+                delay(TOAST_DURATION)
+                snackbarHostState.currentSnackbarData?.dismiss()
+            }
+
+            snackbarHostState.showSnackbar(
+                HapHapToastVisuals(
+                    message = message,
+                    isAlarm = isAlarm,
+                )
+            )
+        }
+    }
+
 
     CompositionLocalProvider(
         LocalToastTrigger provides onShowToast,
