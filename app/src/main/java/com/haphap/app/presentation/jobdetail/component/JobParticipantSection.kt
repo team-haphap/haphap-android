@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
@@ -72,6 +73,7 @@ fun JobParticipantSection(
                 profileImages.forEachIndexed { index, imageUrl ->
                     UrlImage(
                         modifier = Modifier
+                            .zIndex(index.toFloat())
                             .offset(x = AvatarStep.dp * index)
                             .size(AvatarSize.dp)
                             .clip(shape = CircleShape)
