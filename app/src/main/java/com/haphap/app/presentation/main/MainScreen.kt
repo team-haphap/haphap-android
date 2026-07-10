@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -26,7 +25,6 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
 
 private const val TOAST_DURATION = 3000L
 
@@ -40,33 +38,9 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    val mutex = remember { Mutex() }
-
-    val onShowToast: (String, Boolean) -> Unit = { message, isAlarm ->
-        coroutineScope.launch {
-            if (!mutex.tryLock()) return@launch
-
-            try {
-                launch {
-                    delay(TOAST_DURATION)
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                }
-
-                snackbarHostState.showSnackbar(
-                    HapHapToastVisuals(
-                        message = message,
-                        isAlarm = isAlarm,
-                    )
-                )
-            } finally {
-                mutex.unlock()
-            }
-        }
-    }
-
     var job by remember { mutableStateOf<Job?>(null) }
 
-    val onShowToast2: (String, Boolean) -> Unit = { message, isAlarm ->
+    val onShowToast: (String, Boolean) -> Unit = { message, isAlarm ->
         job?.cancel()
         job = coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -84,7 +58,6 @@ fun MainScreen(
             )
         }
     }
-
 
     CompositionLocalProvider(
         LocalToastTrigger provides onShowToast,
@@ -120,4 +93,3 @@ fun MainScreen(
         }
     }
 }
-
