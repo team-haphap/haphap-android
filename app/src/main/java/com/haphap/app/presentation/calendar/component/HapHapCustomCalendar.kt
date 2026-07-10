@@ -42,7 +42,9 @@ fun HapHapCustomCalendar(
     )
     val currentYearMonth = baseMonth.plusMonths((pagerState.currentPage - startPage).toLong())
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+    ) {
         CalendarHeader(
             yearMonth = currentYearMonth,
             onDateClick = { showDateBottomSheet = true },
