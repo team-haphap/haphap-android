@@ -42,7 +42,7 @@ fun JobStepReportItem(
      Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(vertical = 18.dp),
+                .padding(vertical = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -51,7 +51,7 @@ fun JobStepReportItem(
                 color = HapHapTheme.colors.gray600,
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(14.dp))
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -62,7 +62,7 @@ fun JobStepReportItem(
                     color = HapHapTheme.colors.gray800,
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = content,
@@ -71,7 +71,7 @@ fun JobStepReportItem(
                 )
             }
 
-            Spacer(modifier = Modifier.width(11.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
             HapHapStatusChip(
                 text = stage,
