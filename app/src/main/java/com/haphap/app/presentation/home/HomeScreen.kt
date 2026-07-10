@@ -74,32 +74,28 @@ private fun HomeScreen(
             .background(color = HapHapTheme.colors.white),
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Spacer(modifier = Modifier.height(10.dp))
-
             Image(
                 painter = painterResource(id = R.drawable.img_text_logo),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
                     .height(20.dp)
                     .aspectRatio(124f / 20f),
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             HapHapSearchBar(
                 placeholder = "공고명을 검색해보세요!",
                 onSearchBarClick = onSearchBarClick,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
             )
-
-            Spacer(modifier = Modifier.height(14.dp))
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(bottom = 66.dp),
             ) {
                 item {
+                    Spacer(modifier = Modifier.height(8.dp))
+
                     HomeBannerSection(
                         bannerList = uiState.bannerList
                     )
