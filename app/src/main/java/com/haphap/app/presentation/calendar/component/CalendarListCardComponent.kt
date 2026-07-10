@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
@@ -48,6 +49,8 @@ fun CalendarListCardComponent(
             modifier = Modifier.weight(1f),
         )
 
+        Spacer(modifier = Modifier.width(4.dp))
+
         CalendarListCardImage(
             imageUrl = imageUrl,
             modifier = Modifier.size(64.dp),
@@ -67,6 +70,8 @@ private fun CalendarListCardContent(
             text = titleText,
             style = HapHapTheme.typography.body.sb14,
             color = HapHapTheme.colors.gray800,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
 
         Spacer(modifier = Modifier.height(4.dp))
