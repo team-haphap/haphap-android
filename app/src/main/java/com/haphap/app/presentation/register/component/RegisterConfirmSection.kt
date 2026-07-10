@@ -24,8 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
-import com.haphap.app.presentation.register.component.ConfirmInfoBox
-import com.haphap.app.presentation.register.component.RegisterConfirmSection
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.toPassResultType
 import java.time.LocalDate
@@ -43,101 +41,78 @@ fun RegisterConfirmSection(
     onAlarmAgreeToggled: (Boolean) -> Unit,
     isTermAgreed: Boolean,
     onTermAgreeToggled: (Boolean) -> Unit,
-    isRegisterButtonEnabled: Boolean,
-    onRegisterClick: () -> Unit,
-    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
 
-    RegisterStepScaffold(
-        onBackClick = onBackClick,
-        progress = null,
-        modifier = modifier,
+    Column(
+        modifier = modifier.padding(horizontal = 20.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 20.dp),
-        ) {
-            Spacer(modifier = Modifier.height(48.dp))
+        Text(
+            text = "입력한 정보를 확인해 주세요",
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
 
-            Text(
-                text = "입력한 정보를 확인해 주세요",
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
+        Spacer(modifier = Modifier.height(15.dp))
 
-            Spacer(modifier = Modifier.height(15.dp))
+        RegisterResultConfirm(
+            recruitName = recruitName,
+            recruitProcess = recruitProcess,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
-            RegisterResultConfirm(
-                recruitName = recruitName,
-                recruitProcess = recruitProcess,
-                modifier = Modifier.fillMaxWidth(),
-            )
+        Spacer(modifier = Modifier.height(36.dp))
 
-            Spacer(modifier = Modifier.height(36.dp))
+        Text(
+            text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과", // 수정: DONT_KNOW일 때 라벨 분기
+            style = HapHapTheme.typography.body.b18,
+            color = HapHapTheme.colors.gray800,
+        )
 
-            Text(
-                text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과", // 수정: DONT_KNOW일 때 라벨 분기
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
+        Spacer(modifier = Modifier.height(15.dp))
 
-            Spacer(modifier = Modifier.height(15.dp))
+        if (contactDate != null && contactTime != null) {
+            Row {
+                ConfirmInfoBox(
+                    text = contactDate.format(dateFormatter),
+                    modifier = Modifier.weight(1f),
+                )
 
-            if (contactDate != null && contactTime != null) {
-                Row {
-                    ConfirmInfoBox(
-                        text = contactDate.format(dateFormatter),
-                        modifier = Modifier.weight(1f),
-                    )
+                Spacer(modifier = Modifier.width(12.dp))
 
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    ConfirmInfoBox(
-                        text = contactTime.format(timeFormatter),
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
+                ConfirmInfoBox(
+                    text = contactTime.format(timeFormatter),
+                    modifier = Modifier.weight(1f),
+                )
             }
 
-            RegisterPassResultConfirm(
-                status = selectedResult.toPassResultType(),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            RegisterTnC(
-                isNecessary = false,
-                context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
-                checked = isAlarmAgreed,
-                onCheckedChange = onAlarmAgreeToggled,
-            )
-
-            RegisterTnC(
-                isNecessary = true,
-                context = "내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다.",
-                checked = isTermAgreed,
-                onCheckedChange = onTermAgreeToggled,
-            )
+            Spacer(modifier = Modifier.height(12.dp))
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
-
-        HapHapBasicButton(
-            text = "등록하기",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = isRegisterButtonEnabled),
-            onClick = onRegisterClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 10.dp),
+        RegisterPassResultConfirm(
+            status = selectedResult.toPassResultType(),
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        RegisterTnC(
+            isNecessary = false,
+            context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
+            checked = isAlarmAgreed,
+            onCheckedChange = onAlarmAgreeToggled,
+        )
+
+        RegisterTnC(
+            isNecessary = true,
+            context = "내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다.",
+            checked = isTermAgreed,
+            onCheckedChange = onTermAgreeToggled,
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -181,9 +156,6 @@ private fun RegisterConfirmSectionPreview() {
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
             onTermAgreeToggled = { isTermAgreed = it },
-            isRegisterButtonEnabled = isTermAgreed,
-            onRegisterClick = {},
-            onBackClick = {},
         )
     }
 }
@@ -205,9 +177,6 @@ private fun RegisterConfirmSectionDontKnowPreview() {
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
             onTermAgreeToggled = { isTermAgreed = it },
-            isRegisterButtonEnabled = isTermAgreed,
-            onRegisterClick = {},
-            onBackClick = {},
         )
     }
 }

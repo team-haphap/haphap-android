@@ -2,14 +2,11 @@ package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +27,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun ColumnScope.RegisterAnnounceProcessSection(
+fun RegisterAnnounceProcessSection(
     announceList: ImmutableList<RegisterDropDownItemModel>,
     selectedAnnounce: RegisterDropDownItemModel?,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
@@ -38,14 +35,10 @@ fun ColumnScope.RegisterAnnounceProcessSection(
     processListUiState: RegisterUiState,
     selectedProcessId: Int?,
     onProcessSelected: (Int) -> Unit,
-    isNextEnabled: Boolean,
-    onNextClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
-            .weight(1f)
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp),
+        modifier = modifier.padding(horizontal = 20.dp),
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -85,16 +78,6 @@ fun ColumnScope.RegisterAnnounceProcessSection(
             }
         }
     }
-
-    HapHapBasicButton(
-        text = "다음",
-        textStyle = HapHapTheme.typography.body.b18,
-        colorType = ButtonType.Primary(enabled = isNextEnabled),
-        onClick = onNextClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-    )
 }
 
 @Composable
@@ -159,22 +142,14 @@ private fun RegisterAnnounceProcessSectionPreview() {
     var selectedProcessId by remember { mutableStateOf<Int?>(1) }
 
     HapHapTheme {
-        RegisterStepScaffold(
-            onBackClick = {},
-            progress = 1,
-            totalSteps = 3,
-        ) {
-            RegisterAnnounceProcessSection(
-                announceList = announceList,
-                selectedAnnounce = selectedAnnounce,
-                onAnnounceSelected = { selectedAnnounce = it },
-                processList = processList,
-                processListUiState = RegisterUiState.Success,
-                selectedProcessId = selectedProcessId,
-                onProcessSelected = { selectedProcessId = it },
-                isNextEnabled = selectedAnnounce != null && selectedProcessId != null,
-                onNextClick = {},
-            )
-        }
+        RegisterAnnounceProcessSection(
+            announceList = announceList,
+            selectedAnnounce = selectedAnnounce,
+            onAnnounceSelected = { selectedAnnounce = it },
+            processList = processList,
+            processListUiState = RegisterUiState.Success,
+            selectedProcessId = selectedProcessId,
+            onProcessSelected = { selectedProcessId = it },
+        )
     }
 }

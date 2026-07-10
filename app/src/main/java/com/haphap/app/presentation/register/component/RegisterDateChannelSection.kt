@@ -2,10 +2,8 @@ package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -28,20 +26,17 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 @Composable
-fun ColumnScope.RegisterDateChannelSection(
+fun RegisterDateChannelSection(
     contactDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
     contactTime: LocalTime?,
     onTimeSelected: (LocalTime) -> Unit,
     selectedChannels: PersistentList<NotificationChannelType>,
     onChannelToggled: (NotificationChannelType) -> Unit,
-    isNextEnabled: Boolean,
-    onNextClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
-            .weight(1f)
-            .padding(horizontal = 20.dp),
+        modifier = modifier.padding(horizontal = 20.dp),
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -75,16 +70,6 @@ fun ColumnScope.RegisterDateChannelSection(
             onChannelToggled = onChannelToggled,
         )
     }
-
-    HapHapBasicButton(
-        text = "다음",
-        textStyle = HapHapTheme.typography.body.b18,
-        colorType = ButtonType.Primary(enabled = isNextEnabled),
-        onClick = onNextClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
-    )
 }
 
 @Composable
@@ -135,27 +120,19 @@ private fun RegisterDateChannelSectionPreview() {
     var selectedChannels by remember { mutableStateOf(persistentListOf<NotificationChannelType>()) }
 
     HapHapTheme {
-        RegisterStepScaffold(
-            onBackClick = {},
-            progress = 3,
-            totalSteps = 3,
-        ) {
-            RegisterDateChannelSection(
-                contactDate = contactDate,
-                onDateSelected = { contactDate = it },
-                contactTime = contactTime,
-                onTimeSelected = { contactTime = it },
-                selectedChannels = selectedChannels,
-                onChannelToggled = { channel ->
-                    selectedChannels = if (selectedChannels.contains(channel)) {
-                        selectedChannels.remove(channel)
-                    } else {
-                        selectedChannels.add(channel)
-                    }
-                },
-                isNextEnabled = contactDate != null && contactTime != null,
-                onNextClick = {},
-            )
-        }
+        RegisterDateChannelSection(
+            contactDate = contactDate,
+            onDateSelected = { contactDate = it },
+            contactTime = contactTime,
+            onTimeSelected = { contactTime = it },
+            selectedChannels = selectedChannels,
+            onChannelToggled = { channel ->
+                selectedChannels = if (selectedChannels.contains(channel)) {
+                    selectedChannels.remove(channel)
+                } else {
+                    selectedChannels.add(channel)
+                }
+            },
+        )
     }
 }

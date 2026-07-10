@@ -1,11 +1,8 @@
 package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,20 +14,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
-import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.designsystem.type.ButtonType
 
 @Composable
 fun RegisterCompleteSection(
-    onCompleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(HapHapTheme.colors.white)
-            .padding(start = 20.dp, end = 20.dp, top = 36.dp, bottom = 10.dp),
+        modifier = modifier.padding(start = 20.dp, end = 20.dp, top = 36.dp, bottom = 10.dp),
     ) {
         Text(
             text = "등록이 완료되었어요!",
@@ -57,24 +48,13 @@ fun RegisterCompleteSection(
         )
 
         Spacer(modifier = Modifier.weight(210f / 346f))
-
-        HapHapBasicButton(
-            text = "완료",
-            textStyle = HapHapTheme.typography.body.b18,
-            colorType = ButtonType.Primary(enabled = true),
-            onClick = onCompleteClick,
-            modifier = Modifier.fillMaxWidth(),
-        )
     }
-
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterCompleteSectionPreview() {
     HapHapTheme {
-        RegisterCompleteSection(
-            onCompleteClick = {},
-        )
+        RegisterCompleteSection()
     }
 }
