@@ -97,7 +97,7 @@ private fun HomeScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(bottom = 56.dp),
+                contentPadding = PaddingValues(bottom = 66.dp),
             ) {
                 item {
                     HomeBannerSection(
