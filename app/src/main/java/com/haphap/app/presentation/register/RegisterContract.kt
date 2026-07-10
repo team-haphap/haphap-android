@@ -15,7 +15,7 @@ sealed interface RegisterContract {
     @Immutable
     data class State(
         val step: Int = 1,
-        val isPassShareVariable: Boolean = false,
+        val isPassShareVisible: Boolean = false,
         val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
@@ -42,7 +42,7 @@ sealed interface RegisterContract {
         val passShareInfo: RegisterPassShareModel? = null,
     ) {
         val section: RegisterSection
-            get() = if (step <= RegisterStep.THIRD) RegisterSection.Input else RegisterSection.Result
+            get() = if (step <= 3) RegisterSection.Input else RegisterSection.Result
 
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
@@ -52,26 +52,7 @@ sealed interface RegisterContract {
                     selectedChannels.add(channel)
                 }
             )
-
-        fun refreshButtonEnabled(): State = copy(
-            isButtonEnabled = when (step) {
-                RegisterStep.FIRST -> selectedAnnounce != null && selectedProcessId != null
-                RegisterStep.SECOND -> selectedResult != null
-                RegisterStep.THIRD -> contactDate != null && contactTime != null
-                RegisterStep.FOURTH -> isTermsAgreed && registerUiState !is RegisterUiState.Loading
-                RegisterStep.FIFTH -> true
-                else -> false
-            }
-        )
     }
-}
-
-object RegisterStep {
-    const val FIRST = 1
-    const val SECOND = 2
-    const val THIRD = 3
-    const val FOURTH = 4
-    const val FIFTH = 5
 }
 
 enum class NotificationChannelType(val text: String) {

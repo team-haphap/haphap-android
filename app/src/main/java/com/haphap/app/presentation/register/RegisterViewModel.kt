@@ -88,7 +88,7 @@ class RegisterViewModel @Inject constructor(
 
     fun onStep1NextClick() {
         if (!_uiState.value.isButtonEnabled) return
-        _uiState.update { it.copy(step = 2, isButtonEnabled = false) }
+        _uiState.update { it.copy(step = 2, isButtonEnabled = it.selectedResult != null) }
     }
 
     fun onResultSelected(result: PassResultStatusButton) {
@@ -135,10 +135,16 @@ class RegisterViewModel @Inject constructor(
     fun onStep2NextClick() {
         val result = _uiState.value.selectedResult ?: return
         _uiState.update {
+            val nextStep = if (result == PassResultStatusButton.DONT_KNOW) 4 else 3
+
             it.copy(
-                step = if (result == PassResultStatusButton.DONT_KNOW) 4 else 3,
-                isButtonEnabled = false,
-            ).refreshButtonEnabled()
+                step = nextStep,
+                isButtonEnabled = if (nextStep == 3) {
+                    it.contactDate != null && it.contactTime != null
+                } else {
+                    it.isTermsAgreed
+                },
+            )
         }
     }
 
@@ -166,7 +172,26 @@ class RegisterViewModel @Inject constructor(
 
     fun onStep3NextClick() {
         if (!_uiState.value.isButtonEnabled) return
-        _uiState.update { it.copy(step = 4, isButtonEnabled = false) }
+        _uiState.update { it.copy(step = 4, isButtonEnabled = it.isTermsAgreed) }
+    }
+
+    fun onBackClick() {
+        _uiState.update {
+            val previousStep = if (it.step == 4 && it.selectedResult == PassResultStatusButton.DONT_KNOW) {
+                2
+            } else {
+                it.step - 1
+            }
+            it.copy(
+                step = previousStep,
+                isButtonEnabled = when (previousStep) {
+                    1 -> it.selectedAnnounce != null && it.selectedProcessId != null
+                    2 -> it.selectedResult != null
+                    3 -> it.contactDate != null && it.contactTime != null
+                    else -> it.isTermsAgreed
+                },
+            )
+        }
     }
 
     fun onAlarmAgreeToggled(checked: Boolean) {
@@ -208,7 +233,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onPassShareEntryClick() {
-        _uiState.update { it.copy(isPassShareVariable = true) }
+        _uiState.update { it.copy(isPassShareVisible = true) }
     }
 
     companion object {

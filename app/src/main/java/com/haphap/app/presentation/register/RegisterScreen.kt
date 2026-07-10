@@ -42,7 +42,7 @@ fun RegisterRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    if (uiState.isPassShareVariable) {
+    if (uiState.isPassShareVisible) {
         val passShareModel = uiState.passShareInfo ?: RegisterPassShareModel(
             companyName = "",
             logoUrl = "",
@@ -91,7 +91,13 @@ fun RegisterRoute(
                 }
             }
         },
-        onBackClick = navigateBack,
+        onBackClick = {
+            if (uiState.step == 1) {
+                navigateBack()
+            } else {
+                viewModel.onBackClick()
+            }
+        },
         modifier = modifier,
     )
 }
