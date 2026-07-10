@@ -18,16 +18,16 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.presentation.register.component.RegisterAnnounceProcessSection
-import com.haphap.app.presentation.register.component.RegisterCompleteSection
-import com.haphap.app.presentation.register.component.RegisterConfirmSection
-import com.haphap.app.presentation.register.component.RegisterDateChannelSection
+import com.haphap.app.presentation.register.component.RegisterFirstSection
 import com.haphap.app.presentation.register.component.RegisterPassCardSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
-import com.haphap.app.presentation.register.component.RegisterResultSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.data.model.register.RegisterPassShareModel
+import com.haphap.app.presentation.register.component.RegisterFifthSection
+import com.haphap.app.presentation.register.component.RegisterFourthSection
+import com.haphap.app.presentation.register.component.RegisterSecondSection
+import com.haphap.app.presentation.register.component.RegisterThirdSection
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.collections.find
@@ -42,7 +42,7 @@ fun RegisterRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    if (uiState.step == RegisterStep.PASS_SHARE) {
+    if (uiState.isPassShareVariable) {
         val passShareModel = uiState.passShareInfo ?: RegisterPassShareModel(
             companyName = "",
             logoUrl = "",
@@ -75,11 +75,11 @@ fun RegisterRoute(
         onTermAgreeToggled = viewModel::onTermAgreeToggled,
         onNextClick = {
             when (uiState.step) {
-                RegisterStep.ANNOUNCE_AND_PROCESS -> viewModel.onStep1NextClick()
-                RegisterStep.RESULT -> viewModel.onStep2NextClick()
-                RegisterStep.DATE_AND_CHANNEL -> viewModel.onStep3NextClick()
-                RegisterStep.CONFIRM -> viewModel.onRegisterClick()
-                RegisterStep.COMPLETE -> {
+                1 -> viewModel.onStep1NextClick()
+                2 -> viewModel.onStep2NextClick()
+                3 -> viewModel.onStep3NextClick()
+                4 -> viewModel.onRegisterClick()
+                5 -> {
                     if (uiState.selectedResult == PassResultStatusButton.PASS) {
                         viewModel.onPassShareEntryClick()
                     } else {
@@ -89,7 +89,6 @@ fun RegisterRoute(
                         }
                     }
                 }
-                RegisterStep.PASS_SHARE -> Unit
             }
         },
         onBackClick = navigateBack,
@@ -114,40 +113,23 @@ private fun RegisterScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val progress = when (uiState.step) {
-        RegisterStep.ANNOUNCE_AND_PROCESS -> 1
-        RegisterStep.RESULT -> 2
-        RegisterStep.DATE_AND_CHANNEL -> 3
-        RegisterStep.CONFIRM -> 4
-        RegisterStep.COMPLETE -> 5
-        RegisterStep.PASS_SHARE -> 5
-    }
-
-    val isNextEnabled = when (uiState.step) {
-        RegisterStep.ANNOUNCE_AND_PROCESS -> uiState.isStep1NextEnabled
-        RegisterStep.RESULT -> uiState.isStep2NextEnabled
-        RegisterStep.DATE_AND_CHANNEL -> uiState.isStep3NextEnabled
-        RegisterStep.CONFIRM -> uiState.isRegisterButtonEnabled
-        RegisterStep.COMPLETE, RegisterStep.PASS_SHARE -> true
-    }
-
     Scaffold(
         modifier = modifier,
         containerColor = HapHapTheme.colors.white,
         topBar = {
-            if (progress < 5) {
+            if (uiState.step < 5) {
                 Column {
                     RegisterTopBar(
                         onBackClick = onBackClick,
                         isText = true,
                     )
 
-                    if (progress <= 3) {
+                    if (uiState.step < 3) {
                         RegisterProgressBar(
-                            progress = progress,
+                            progress = uiState.step,
                             totalSteps = 3,
                         )
-                    } else if (progress == 4) {
+                    } else if (uiState.step == 4) {
                         Spacer(modifier = Modifier.height(48.dp))
                     }
                 }
@@ -156,15 +138,12 @@ private fun RegisterScreen(
         bottomBar = {
             HapHapBasicButton(
                 text = when (uiState.step) {
-                    RegisterStep.ANNOUNCE_AND_PROCESS,
-                    RegisterStep.RESULT,
-                    RegisterStep.DATE_AND_CHANNEL -> "다음"
-
-                    RegisterStep.CONFIRM -> "등록하기"
+                    1, 2, 3 -> "다음"
+                    4 -> "등록하기"
                     else -> "완료"
                 },
                 textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = isNextEnabled),
+                colorType = ButtonType.Primary(enabled = uiState.isButtonEnabled),
                 onClick = onNextClick,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -178,7 +157,7 @@ private fun RegisterScreen(
                 .fillMaxSize()
         ) {
             when (uiState.step) {
-                RegisterStep.ANNOUNCE_AND_PROCESS -> RegisterAnnounceProcessSection(
+                1 -> RegisterFirstSection(
                     announceList = uiState.announceList,
                     selectedAnnounce = uiState.selectedAnnounce,
                     onAnnounceSelected = onAnnounceSelected,
@@ -189,7 +168,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.RESULT -> RegisterResultSection(
+                2 -> RegisterSecondSection(
                     selectedResult = uiState.selectedResult,
                     onResultSelected = onResultSelected,
                     isChangeModalVisible = uiState.isChangeModalVisible,
@@ -198,7 +177,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.DATE_AND_CHANNEL -> RegisterDateChannelSection(
+                3 -> RegisterThirdSection(
                     contactDate = uiState.contactDate,
                     onDateSelected = onDateSelected,
                     contactTime = uiState.contactTime,
@@ -208,7 +187,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.CONFIRM -> RegisterConfirmSection(
+                4 -> RegisterFourthSection(
                     recruitName = uiState.selectedAnnounce?.text.orEmpty(),
                     recruitProcess = uiState.processList.find { it.id == uiState.selectedProcessId }?.text.orEmpty(),
                     contactDate = uiState.contactDate,
@@ -221,11 +200,9 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                RegisterStep.COMPLETE -> RegisterCompleteSection(
+                5 -> RegisterFifthSection(
                     modifier = Modifier.fillMaxSize(),
                 )
-
-                RegisterStep.PASS_SHARE -> Unit
             }
         }
     }

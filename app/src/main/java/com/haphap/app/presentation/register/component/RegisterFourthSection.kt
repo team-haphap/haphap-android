@@ -21,9 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.toPassResultType
 import java.time.LocalDate
@@ -31,7 +29,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun RegisterConfirmSection(
+fun RegisterFourthSection(
     recruitName: String,
     recruitProcess: String,
     contactDate: LocalDate?,
@@ -141,12 +139,12 @@ private fun ConfirmInfoBox(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterConfirmSectionPreview() {
+private fun RegisterFourthSectionPreview() {
     var isAlarmAgreed by remember { mutableStateOf(true) }
     var isTermAgreed by remember { mutableStateOf(true) }
 
     HapHapTheme {
-        RegisterConfirmSection(
+        RegisterFourthSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = LocalDate.of(2026, 6, 11),
@@ -162,12 +160,12 @@ private fun RegisterConfirmSectionPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterConfirmSectionDontKnowPreview() {
+private fun RegisterFourthSectionDontKnowPreview() {
     var isAlarmAgreed by remember { mutableStateOf(false) }
     var isTermAgreed by remember { mutableStateOf(false) }
 
     HapHapTheme {
-        RegisterConfirmSection(
+        RegisterFourthSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = null,

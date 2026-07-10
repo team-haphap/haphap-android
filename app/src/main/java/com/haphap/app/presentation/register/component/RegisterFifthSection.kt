@@ -17,7 +17,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
-fun RegisterCompleteSection(
+fun RegisterFifthSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -53,8 +53,8 @@ fun RegisterCompleteSection(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterCompleteSectionPreview() {
+private fun RegisterFifthSectionPreview() {
     HapHapTheme {
-        RegisterCompleteSection()
+        RegisterFifthSection()
     }
 }

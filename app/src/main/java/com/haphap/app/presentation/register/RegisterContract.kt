@@ -14,7 +14,8 @@ import java.time.LocalTime
 sealed interface RegisterContract {
     @Immutable
     data class State(
-        val step: RegisterStep = RegisterStep.ANNOUNCE_AND_PROCESS,
+        val step: Int = 1,
+        val isPassShareVariable: Boolean = false,
         val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
@@ -36,33 +37,12 @@ sealed interface RegisterContract {
         val isTermsAgreed: Boolean = false,
 
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
+        val isButtonEnabled: Boolean = false,
 
         val passShareInfo: RegisterPassShareModel? = null,
     ) {
         val section: RegisterSection
-            get() = when (step) {
-                RegisterStep.ANNOUNCE_AND_PROCESS,
-                RegisterStep.RESULT,
-                RegisterStep.DATE_AND_CHANNEL,
-                    -> RegisterSection.Input
-
-                RegisterStep.CONFIRM,
-                RegisterStep.COMPLETE,
-                RegisterStep.PASS_SHARE,
-                    -> RegisterSection.Result
-            }
-
-        val isStep1NextEnabled: Boolean
-            get() = selectedAnnounce != null && selectedProcessId != null
-
-        val isStep2NextEnabled: Boolean
-            get() = selectedResult != null
-
-        val isStep3NextEnabled: Boolean
-            get() = contactDate != null && contactTime != null
-
-        val isRegisterButtonEnabled: Boolean
-            get() = isTermsAgreed && registerUiState !is RegisterUiState.Loading
+            get() = if (step <= RegisterStep.THIRD) RegisterSection.Input else RegisterSection.Result
 
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
@@ -72,16 +52,26 @@ sealed interface RegisterContract {
                     selectedChannels.add(channel)
                 }
             )
+
+        fun refreshButtonEnabled(): State = copy(
+            isButtonEnabled = when (step) {
+                RegisterStep.FIRST -> selectedAnnounce != null && selectedProcessId != null
+                RegisterStep.SECOND -> selectedResult != null
+                RegisterStep.THIRD -> contactDate != null && contactTime != null
+                RegisterStep.FOURTH -> isTermsAgreed && registerUiState !is RegisterUiState.Loading
+                RegisterStep.FIFTH -> true
+                else -> false
+            }
+        )
     }
 }
 
-enum class RegisterStep {
-    ANNOUNCE_AND_PROCESS,
-    RESULT,
-    DATE_AND_CHANNEL,
-    CONFIRM,
-    COMPLETE,
-    PASS_SHARE,
+object RegisterStep {
+    const val FIRST = 1
+    const val SECOND = 2
+    const val THIRD = 3
+    const val FOURTH = 4
+    const val FIFTH = 5
 }
 
 enum class NotificationChannelType(val text: String) {

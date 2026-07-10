@@ -38,7 +38,6 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun loadAnnounceList() {
-        // 수정: 전체 플로우 테스트를 위한 임시 하드코딩 (API 연동 전까지만 사용)
         _uiState.update { it.copy(announceListUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
@@ -52,8 +51,6 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    // ---------- Step 1 (REG-002) ----------
-
     fun onAnnounceSelected(item: RegisterDropDownItemModel) {
         _uiState.update {
             it.copy(
@@ -62,6 +59,7 @@ class RegisterViewModel @Inject constructor(
                 processList = persistentListOf(),
                 processListUiState = RegisterUiState.Loading,
                 previousRegisteredResult = null,
+                isButtonEnabled = false,
             )
         }
 
@@ -83,16 +81,15 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 selectedProcessId = id,
                 previousRegisteredResult = previousResult,
+                isButtonEnabled = it.selectedAnnounce != null,
             )
         }
     }
 
     fun onStep1NextClick() {
-        if (!_uiState.value.isStep1NextEnabled) return
-        _uiState.update { it.copy(step = RegisterStep.RESULT) }
+        if (!_uiState.value.isButtonEnabled) return
+        _uiState.update { it.copy(step = 2, isButtonEnabled = false) }
     }
-
-    // ---------- Step 2 (REG-003, REG-004) ----------
 
     fun onResultSelected(result: PassResultStatusButton) {
         val previous = _uiState.value.previousRegisteredResult
@@ -104,12 +101,18 @@ class RegisterViewModel @Inject constructor(
 
             previous != null && previous != result -> {
                 _uiState.update {
-                    it.copy(selectedResult = result, isChangeModalVisible = true)
+                    it.copy(
+                        selectedResult = result,
+                        isChangeModalVisible = true,
+                        isButtonEnabled = true,
+                    )
                 }
             }
 
             else -> {
-                _uiState.update { it.copy(selectedResult = result) }
+                _uiState.update {
+                    it.copy(selectedResult = result, isButtonEnabled = true)
+                }
             }
         }
     }
@@ -122,8 +125,9 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 isChangeModalVisible = false,
-                step = RegisterStep.ANNOUNCE_AND_PROCESS,
+                step = 1,
                 selectedResult = null,
+                isButtonEnabled = it.selectedAnnounce != null && it.selectedProcessId != null
             )
         }
     }
@@ -132,23 +136,28 @@ class RegisterViewModel @Inject constructor(
         val result = _uiState.value.selectedResult ?: return
         _uiState.update {
             it.copy(
-                step = if (result == PassResultStatusButton.DONT_KNOW) {
-                    RegisterStep.CONFIRM
-                } else {
-                    RegisterStep.DATE_AND_CHANNEL
-                },
+                step = if (result == PassResultStatusButton.DONT_KNOW) 4 else 3,
+                isButtonEnabled = false,
+            ).refreshButtonEnabled()
+        }
+    }
+
+    fun onDateSelected(date: LocalDate) {
+        _uiState.update {
+            it.copy(
+                contactDate = date,
+                isButtonEnabled = it.contactTime != null
             )
         }
     }
 
-    // ---------- Step 3 (REG-005) ----------
-
-    fun onDateSelected(date: LocalDate) {
-        _uiState.update { it.copy(contactDate = date) }
-    }
-
     fun onTimeSelected(time: LocalTime) {
-        _uiState.update { it.copy(contactTime = time) }
+        _uiState.update {
+            it.copy(
+                contactTime = time,
+                isButtonEnabled = it.contactDate != null,
+            )
+        }
     }
 
     fun onChannelToggled(channel: NotificationChannelType) {
@@ -156,25 +165,33 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onStep3NextClick() {
-        if (!_uiState.value.isStep3NextEnabled) return
-        _uiState.update { it.copy(step = RegisterStep.CONFIRM) }
+        if (!_uiState.value.isButtonEnabled) return
+        _uiState.update { it.copy(step = 4, isButtonEnabled = false) }
     }
-
-    // ---------- Confirm (REG-006) ----------
 
     fun onAlarmAgreeToggled(checked: Boolean) {
         _uiState.update { it.copy(isAlarmAgreed = checked) }
     }
 
     fun onTermAgreeToggled(checked: Boolean) {
-        _uiState.update { it.copy(isTermsAgreed = checked) }
+        _uiState.update {
+            it.copy(
+                isTermsAgreed = checked,
+                isButtonEnabled = checked && it.registerUiState !is RegisterUiState.Loading
+            )
+        }
     }
 
     fun onRegisterClick() {
-        if (!_uiState.value.isRegisterButtonEnabled) return
+        if (!_uiState.value.isButtonEnabled) return
 
         viewModelScope.launch {
-            _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
+            _uiState.update {
+                it.copy(
+                    registerUiState = RegisterUiState.Loading,
+                    isButtonEnabled = false
+                )
+            }
             delay(300)
 
             // 수정: 전체 플로우 테스트를 위한 임시 하드코딩 (API 연동 전까지만 사용)
@@ -182,17 +199,16 @@ class RegisterViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     registerUiState = RegisterUiState.Success,
-                    step = RegisterStep.COMPLETE,
+                    step = 5,
                     passShareInfo = DUMMY_PASS_SHARE_INFO_BY_ANNOUNCE_ID[announceId],
+                    isButtonEnabled = true,
                 )
             }
         }
     }
 
-    // ---------- PASS_SHARE (REG-007 연장, PASS 전용) ----------
-
     fun onPassShareEntryClick() {
-        _uiState.update { it.copy(step = RegisterStep.PASS_SHARE) }
+        _uiState.update { it.copy(isPassShareVariable = true) }
     }
 
     companion object {
