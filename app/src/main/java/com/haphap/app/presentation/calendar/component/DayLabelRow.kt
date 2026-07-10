@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,15 +27,13 @@ fun DayLabelRow(
             .padding(bottom = 6.dp, top = 12.dp)
     ) {
         daysOfWeek.forEach { dayOfWeek ->
-            key(dayOfWeek) {
-                Text(
-                    text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN),
-                    color = HapHapTheme.colors.gray600,
-                    style = HapHapTheme.typography.body.sb13,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN),
+                color = HapHapTheme.colors.gray600,
+                style = HapHapTheme.typography.body.sb13,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

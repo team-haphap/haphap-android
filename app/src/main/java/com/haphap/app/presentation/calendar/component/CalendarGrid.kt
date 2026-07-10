@@ -20,7 +20,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun HapHapCalendarGrid(
+fun CalendarGrid(
     yearMonth: YearMonth,
     selectedDate: LocalDate?,
     onClick: (LocalDate) -> Unit,
@@ -47,7 +47,6 @@ fun HapHapCalendarGrid(
                 color = HapHapTheme.colors.gray100
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 week.forEach { day ->
@@ -85,9 +84,9 @@ fun HapHapCalendarGrid(
 
 @Preview(showBackground = true)
 @Composable
-private fun HapHapCalendarGridPreview() {
+private fun CalendarGridPreview() {
     HapHapTheme {
-        HapHapCalendarGrid(
+        CalendarGrid(
             yearMonth = YearMonth.now(),
             selectedDate = LocalDate.now(),
             onClick = {},

@@ -72,10 +72,11 @@ fun CalendarDayItem(
             color = style.textColor,
         )
 
-        if (dayType is DayType.InMonth) {
-            if (dayType.isToday) {
-                Spacer(modifier = Modifier.height(2.dp))
+        when {
+            dayType !is DayType.InMonth -> Unit
 
+            dayType.isToday -> {
+                Spacer(modifier = Modifier.height(2.dp))
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_today),
                     contentDescription = null,
@@ -84,19 +85,18 @@ fun CalendarDayItem(
                         .padding(horizontal = 11.dp)
                         .size(26.dp),
                 )
-            } else {
-                Spacer(modifier = Modifier.height(5.dp))
+            }
 
-                if (dayType.presentChance != PresentChance.NONE) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 13.dp)
-                            .height(6.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(color = style.chanceColor)
-                    )
-                }
+            dayType.presentChance != PresentChance.NONE -> {
+                Spacer(modifier = Modifier.height(5.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 13.dp)
+                        .height(6.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(color = style.chanceColor)
+                )
             }
         }
     }

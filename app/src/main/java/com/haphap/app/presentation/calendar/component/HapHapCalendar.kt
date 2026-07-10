@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +31,8 @@ fun HapHapCalendar(
     val pageCount = Int.MAX_VALUE
     val startPage = Int.MAX_VALUE / 2
     val baseMonth = remember { YearMonth.now() }
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    var showDateBottomSheet by remember { mutableStateOf(false) }
+    var selectedDate by rememberSaveable { mutableStateOf<LocalDate?>(null) }
+    var showDateBottomSheet by rememberSaveable { mutableStateOf(false) }
     var pickedDate by remember { mutableStateOf<LocalDate?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,10 +63,8 @@ fun HapHapCalendar(
         HorizontalPager(
             state = pagerState,
         ) { page ->
-            val yearMonth = remember(page) {
-                baseMonth.plusMonths((page - startPage).toLong())
-            }
-            HapHapCalendarGrid(
+            val yearMonth = baseMonth.plusMonths((page - startPage).toLong())
+            CalendarGrid(
                 yearMonth = yearMonth,
                 selectedDate = selectedDate,
                 onClick = { day ->
