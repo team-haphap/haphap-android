@@ -12,9 +12,10 @@ import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.home.navigation.navigateToHome
-import com.haphap.app.presentation.job.navigation.jobGraph
+import com.haphap.app.presentation.joblist.navigation.jobListGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
+import com.haphap.app.presentation.search.navigation.searchGraph
 import com.haphap.app.presentation.splash.navigation.splashGraph
 
 @Composable
@@ -70,7 +71,7 @@ fun MainNavHost(
             innerPadding = innerPadding,
         )
 
-        jobGraph(
+        jobListGraph(
             innerPadding = innerPadding,
         )
 
@@ -84,6 +85,10 @@ fun MainNavHost(
         )
 
         myPageGraph(
+            innerPadding = innerPadding,
+        )
+
+        searchGraph(
             innerPadding = innerPadding,
         )
 

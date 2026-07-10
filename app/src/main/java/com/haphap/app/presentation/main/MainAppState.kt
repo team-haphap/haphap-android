@@ -11,7 +11,7 @@ import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.calendar.navigation.navigateToCalendar
 import com.haphap.app.presentation.home.navigation.navigateToHome
-import com.haphap.app.presentation.job.navigation.navigateToJob
+import com.haphap.app.presentation.joblist.navigation.navigateToJobList
 import com.haphap.app.presentation.main.component.MainTab
 import com.haphap.app.presentation.mypage.navigation.navigateToMyPage
 import com.haphap.app.presentation.register.navigation.navigateToRegister
@@ -73,7 +73,7 @@ class MainAppState(
 
         when (tab) {
             MainTab.HOME -> navController.navigateToHome(navOptions = navOptions)
-            MainTab.JOB -> navController.navigateToJob(navOptions = navOptions)
+            MainTab.JOBLIST -> navController.navigateToJobList(navOptions = navOptions)
             MainTab.REGISTER -> navController.navigateToRegister(navOptions = navOptions)
             MainTab.CALENDAR -> navController.navigateToCalendar(navOptions = navOptions)
             MainTab.MYPAGE -> navController.navigateToMyPage(navOptions = navOptions)
