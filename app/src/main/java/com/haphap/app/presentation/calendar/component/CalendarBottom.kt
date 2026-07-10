@@ -62,7 +62,7 @@ fun CalendarBottom(
                 .forEach { presentChance ->
                     Box(
                         modifier = Modifier
-                            .width(26.dp)
+                            .width(25.dp)
                             .height(8.dp)
                             .clip(shape = RoundedCornerShape(4.dp))
                             .background(color = presentChance.toColor(HapHapTheme.colors))
