@@ -75,7 +75,7 @@ fun MainScreen(
             },
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState) { data ->
-                    val hapHapToastVisuals = data.visuals as HapHapToastVisuals
+                    val hapHapToastVisuals = data.visuals as? HapHapToastVisuals
 
                     HapHapToast(
                         text = hapHapToastVisuals.message,
