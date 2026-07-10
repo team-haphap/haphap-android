@@ -24,7 +24,7 @@ fun DayLabelRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 6.dp, top = 12.dp)
+            .padding(bottom = 6.dp, top = 12.dp),
     ) {
         daysOfWeek.forEach { dayOfWeek ->
             Text(
@@ -32,7 +32,7 @@ fun DayLabelRow(
                 color = HapHapTheme.colors.gray600,
                 style = HapHapTheme.typography.body.sb13,
                 modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }

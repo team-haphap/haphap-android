@@ -63,7 +63,7 @@ fun CalendarBottom(
                         modifier = Modifier
                             .size(width = 25.dp, height = 8.dp)
                             .clip(shape = CircleShape)
-                            .background(color = presentChance.toColor(HapHapTheme.colors))
+                            .background(color = presentChance.toColor(HapHapTheme.colors)),
                     )
                 }
 

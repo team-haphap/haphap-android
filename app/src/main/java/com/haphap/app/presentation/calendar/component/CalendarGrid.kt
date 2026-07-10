@@ -39,15 +39,15 @@ fun CalendarGrid(
 
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         weeks.forEach { week ->
             HorizontalDivider(
                 thickness = 1.dp,
-                color = HapHapTheme.colors.gray100
+                color = HapHapTheme.colors.gray100,
             )
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 week.forEach { day ->
                     // TODO: presentChance 색상 확인용 임시 매핑, 실제 데이터 연결되면 제거
@@ -74,7 +74,7 @@ fun CalendarGrid(
                         day = day,
                         dayType = dayType,
                         onClick = { onClick(day) },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }

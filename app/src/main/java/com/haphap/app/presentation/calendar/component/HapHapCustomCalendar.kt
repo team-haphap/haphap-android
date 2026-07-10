@@ -24,7 +24,7 @@ import java.time.YearMonth
 import java.time.temporal.ChronoUnit
 
 @Composable
-fun HapHapCalendar(
+fun HapHapCustomCalendar(
     onClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ){
@@ -102,12 +102,14 @@ fun HapHapCalendar(
 
 @Preview(showBackground = true)
 @Composable
-private fun HapHapCalendarPreview() {
+private fun HapHapCustomCalendarPreview() {
     HapHapTheme {
-        Column(modifier = Modifier
-            .padding(horizontal = 12.dp)
-            .padding(top = 50.dp)) {
-            HapHapCalendar(onClick = {})
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .padding(top = 50.dp),
+        ) {
+            HapHapCustomCalendar(onClick = {})
         }
     }
 }

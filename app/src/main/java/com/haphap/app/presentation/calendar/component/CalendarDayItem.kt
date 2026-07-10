@@ -31,22 +31,6 @@ import com.haphap.app.presentation.calendar.type.PresentChance
 import com.haphap.app.presentation.calendar.type.toColor
 import java.time.LocalDate
 
-private data class DayItemStyle(
-    val textColor: Color,
-    val chanceColor: Color,
-)
-
-private fun DayType.toStyle(colors: HapHapColors): DayItemStyle = when (this) {
-    DayType.OutMonth -> DayItemStyle(
-        textColor = colors.gray200,
-        chanceColor = Color.Transparent,
-    )
-    is DayType.InMonth -> DayItemStyle(
-        textColor = if (isSelected) colors.primary100 else colors.gray700,
-        chanceColor = presentChance.toColor(colors),
-    )
-}
-
 @Composable
 fun CalendarDayItem(
     day: LocalDate,
@@ -95,11 +79,27 @@ fun CalendarDayItem(
                         .padding(horizontal = 13.dp)
                         .height(6.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(color = style.chanceColor)
+                        .background(color = style.chanceColor),
                 )
             }
         }
     }
+}
+
+private data class DayItemStyle(
+    val textColor: Color,
+    val chanceColor: Color,
+)
+
+private fun DayType.toStyle(colors: HapHapColors): DayItemStyle = when (this) {
+    DayType.OutMonth -> DayItemStyle(
+        textColor = colors.gray200,
+        chanceColor = Color.Transparent,
+    )
+    is DayType.InMonth -> DayItemStyle(
+        textColor = if (isSelected) colors.primary100 else colors.gray700,
+        chanceColor = presentChance.toColor(colors),
+    )
 }
 
 @Preview(showBackground = true)
@@ -111,43 +111,43 @@ private fun CalendarDayItemPreview() {
                 day = LocalDate.of(2024, 1, 1),
                 dayType = DayType.OutMonth,
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 2),
                 dayType = DayType.InMonth(),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 3),
                 dayType = DayType.InMonth(presentChance = PresentChance.LOW, isToday = true),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 4),
                 dayType = DayType.InMonth(isSelected = true),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 5),
                 dayType = DayType.InMonth(presentChance = PresentChance.HIGH),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 6),
                 dayType = DayType.InMonth(presentChance = PresentChance.VERY_LOW),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             CalendarDayItem(
                 day = LocalDate.of(2024, 1, 7),
                 dayType = DayType.InMonth(presentChance = PresentChance.VERY_HIGH, isSelected = true),
                 onClick = {},
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
         }
     }
