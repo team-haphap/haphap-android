@@ -51,9 +51,9 @@ class MainAppState(
 
     val isBottomBarVisible: StateFlow<Boolean> = currentDestination
         .map { destination ->
-            MainTab.contains { tab ->
-                destination?.hasRoute(tab::class) == true
-            }
+            MainTab.entries
+                .filterNot { it == MainTab.REGISTER }
+                .any { tab -> destination?.hasRoute(tab.route::class) == true }
         }
         .stateIn(
             scope = coroutineScope,

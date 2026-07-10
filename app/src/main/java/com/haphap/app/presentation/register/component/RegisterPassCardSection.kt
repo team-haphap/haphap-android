@@ -62,6 +62,7 @@ fun RegisterPassCardSection(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 12.dp)
                 .aspectRatio(312f/540f)
                 .clip(RoundedCornerShape(18.dp))
         ) {
