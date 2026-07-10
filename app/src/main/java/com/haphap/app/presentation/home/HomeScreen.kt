@@ -93,11 +93,11 @@ private fun HomeScreen(
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(bottom = 50.dp),
+                contentPadding = PaddingValues(bottom = 56.dp),
             ) {
                 item {
                     HomeBannerSection(

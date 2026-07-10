@@ -1,9 +1,8 @@
 package com.haphap.app.presentation.home.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +33,7 @@ fun HomeListCardSection(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 todayExpectedCardList
                     .take(3)
@@ -46,8 +46,6 @@ fun HomeListCardSection(
                             stageName = it.stageName,
                             onCardClick = { onListCardClick(it.id) },
                         )
-
-                        Spacer(modifier = Modifier.height(12.dp))
                     }
             }
         }

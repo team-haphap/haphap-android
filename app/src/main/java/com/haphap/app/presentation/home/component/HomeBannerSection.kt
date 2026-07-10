@@ -50,7 +50,7 @@ fun HomeBannerSection(
 
     state.HandleAutoScroll()
 
-    Column(modifier = modifier.padding(top = 4.dp)) {
+    Column(modifier = modifier) {
         HorizontalPager(
             state = state.pagerState,
             contentPadding = PaddingValues(horizontal = 30.dp),
