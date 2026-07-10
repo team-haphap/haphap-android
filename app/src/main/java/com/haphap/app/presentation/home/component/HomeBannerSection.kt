@@ -78,7 +78,7 @@ fun HomeBannerSection(
                     modifier = Modifier
                         .size(8.dp)
                         .clip(CircleShape)
-                        .background(color = if (isSelected) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray200)
+                        .background(color = if (isSelected) HapHapTheme.colors.sub200 else HapHapTheme.colors.gray200)
                 )
             }
         }
