@@ -30,6 +30,7 @@ import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
 import com.haphap.app.data.model.home.RecentCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
+import com.haphap.app.presentation.common.component.HapHapCategoryChipList
 import com.haphap.app.presentation.home.component.HomeBannerSection
 import com.haphap.app.presentation.home.component.HomeCardTitle
 import com.haphap.app.presentation.home.component.HomeCountCardSection
@@ -48,6 +49,7 @@ fun HomeRoute(
         uiState = uiState,
         onSearchBarClick = {},
         onMoreClick = {},
+        onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = {},
         onListCardClick = {},
         onButtonClick = {},
@@ -60,6 +62,7 @@ private fun HomeScreen(
     uiState: HomeContract.State,
     onSearchBarClick: () -> Unit,
     onMoreClick: () -> Unit,
+    onFilterClick: (String) -> Unit,
     onRecentCardClick: (Int) -> Unit,
     onListCardClick: (Int) -> Unit,
     onButtonClick: () -> Unit,
@@ -132,7 +135,15 @@ private fun HomeScreen(
                     )
                 }
 
-                //Todo: 추후 필터칩 Row 공통 컴포넌트 사용 추가
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    HapHapCategoryChipList(
+                        chipList = uiState.categoryChipState.chipList,
+                        selectedChips = uiState.categoryChipState.selectedChips,
+                        onFilterClick = onFilterClick,
+                    )
+                }
 
                 item {
                     Spacer(modifier = Modifier.height(12.dp))
@@ -209,7 +220,7 @@ private fun HomeScreenPreview() {
                     RecentCardModel(
                         id = 2,
                         imageUrl = "",
-                        text = "개발/데이터",
+                        text = "디자인",
                         stage = "서류",
                         dDay = 2,
                         company = "카카오",
@@ -264,6 +275,7 @@ private fun HomeScreenPreview() {
             ),
             onSearchBarClick = {},
             onMoreClick = {},
+            onFilterClick = {},
             onRecentCardClick = {},
             onListCardClick = {},
             onButtonClick = {},
