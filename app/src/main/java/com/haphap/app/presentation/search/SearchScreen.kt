@@ -48,7 +48,7 @@ fun SearchRoute(
             viewModel.sideEffect.collect { sideEffect ->
                 when(sideEffect) {
                     is OnShowToast -> {
-                        showToast.invoke(sideEffect.message)
+                        showToast.invoke(sideEffect.message, sideEffect.isAlarm)
                     }
                 }
             }

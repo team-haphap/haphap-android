@@ -39,7 +39,10 @@ sealed interface SearchContract {
     }
 
     sealed class SideEffect {
-        data class OnShowToast(val message: String): SideEffect() //Todo: Alarm = false 추가
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = false,
+        ): SideEffect()
     }
 }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.search.SearchRepository
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -78,7 +79,7 @@ class SearchViewModel @Inject constructor(
         searchRepository.getRecentSearchItem()
             .onSuccess { flow ->
                 flow.collect { list ->
-                    _uiState.update { it.copy(recentSearchList = list.toPersistentList()) }
+                    _uiState.update { it.copy(recentSearchList = list.toImmutableList()) }
                 }
             }
     }
