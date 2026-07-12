@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,10 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.searchbar.HapHapSearchBar
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
@@ -35,18 +40,20 @@ import com.haphap.app.presentation.home.component.HomeCardTitle
 import com.haphap.app.presentation.home.component.HomeCountCardSection
 import com.haphap.app.presentation.home.component.HomeListCardSection
 import com.haphap.app.presentation.home.component.HomeRecentCardSection
+import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
+    navigateToSearch: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         uiState = uiState,
-        onSearchBarClick = {},
+        onSearchBarClick = navigateToSearch,
         onMoreClick = {},
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = {},

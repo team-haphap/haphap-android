@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.HomeRoute
+import com.haphap.app.presentation.search.navigation.navigateToSearch
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToHome(
@@ -17,10 +18,12 @@ fun NavController.navigateToHome(
 
 fun NavGraphBuilder.homeGraph(
     innerPadding: PaddingValues,
+    navController: NavController,
 ) {
     composable<Home> {
         HomeRoute(
             modifier = Modifier.padding(innerPadding),
+            navigateToSearch = navController::navigateToSearch
         )
     }
 }
