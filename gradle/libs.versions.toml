@@ -51,7 +51,7 @@ desugarJdkLibs = "2.1.5"
 kakaoUserSdk = "2.20.6"
 
 # Room
-room_version = "2.8.4"
+roomVersion = "2.8.4"
 
 
 
@@ -111,9 +111,9 @@ desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", ver
 kakao-user-sdk = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoUserSdk" }
 
 #Room
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
