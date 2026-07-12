@@ -95,6 +95,11 @@ dependencies {
 
     // Core Library Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     // Auth
     implementation(libs.kakao.user.sdk)
+
+    //Room
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 }
