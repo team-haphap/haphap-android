@@ -1,6 +1,5 @@
 package com.haphap.app.data.di.home
 
-import com.haphap.app.core.network.di.Auth
 import com.haphap.app.data.remote.service.home.HomeService
 import dagger.Module
 import dagger.Provides
@@ -15,7 +14,7 @@ import javax.inject.Singleton
 object HomeServiceModule {
     @Provides
     @Singleton
-    fun provideHomeBannerService(
-        @Auth retrofit: Retrofit
+    fun provideHomeService(
+        retrofit: Retrofit
     ): HomeService = retrofit.create()
 }
