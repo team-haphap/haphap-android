@@ -36,7 +36,7 @@ fun JobDetailReportEmptyComponent(
         )
 
         Text(
-            text = "오늘은 아직 공유된 결과가 없어요.",
+            text = "오늘은 아직 공유된 결과가 없어요",
             color = HapHapTheme.colors.gray400,
             style = HapHapTheme.typography.caption.sb12,
         )
