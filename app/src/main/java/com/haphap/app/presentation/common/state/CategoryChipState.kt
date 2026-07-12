@@ -1,7 +1,7 @@
 package com.haphap.app.presentation.common.state
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.search.ChipListModel
+import com.haphap.app.presentation.common.model.ChipListModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf

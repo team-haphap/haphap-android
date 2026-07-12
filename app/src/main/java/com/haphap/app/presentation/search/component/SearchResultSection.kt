@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.card.HapHapCard
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
-import com.haphap.app.data.model.search.ChipListModel
+import com.haphap.app.presentation.common.model.ChipListModel
 import com.haphap.app.data.model.search.SearchResultModel
 import com.haphap.app.presentation.common.component.HapHapCategoryChipList
 import com.haphap.app.presentation.common.state.CategoryChipState
