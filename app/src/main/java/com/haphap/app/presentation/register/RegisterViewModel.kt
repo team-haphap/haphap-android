@@ -137,7 +137,7 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 step = nextStep,
                 isButtonEnabled = if (nextStep == 3) {
-                    it.contactDate != null && it.contactTime != null
+                    it.contactDate != null && it.contactTime != null && it.selectedChannels.isNotEmpty()
                 } else {
                     it.isTermsAgreed
                 },
@@ -149,7 +149,7 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 contactDate = date,
-                isButtonEnabled = it.contactTime != null
+                isButtonEnabled = it.contactTime != null && it.selectedChannels.isNotEmpty(),
             )
         }
     }
@@ -158,13 +158,20 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 contactTime = time,
-                isButtonEnabled = it.contactDate != null,
+                isButtonEnabled = it.contactDate != null && it.selectedChannels.isNotEmpty(),
             )
         }
     }
 
     fun onChannelToggled(channel: NotificationChannelType) {
-        _uiState.update { it.toggleNotificationChannel(channel) }
+        _uiState.update {
+            val toggled = it.toggleNotificationChannel(channel)
+            toggled.copy(
+                isButtonEnabled = toggled.contactDate != null &&
+                    toggled.contactTime != null &&
+                    toggled.selectedChannels.isNotEmpty(),
+            )
+        }
     }
 
     fun onStep3NextClick() {
@@ -184,7 +191,7 @@ class RegisterViewModel @Inject constructor(
                 isButtonEnabled = when (previousStep) {
                     1 -> it.selectedAnnounce != null && it.selectedProcessId != null
                     2 -> it.selectedResult != null
-                    3 -> it.contactDate != null && it.contactTime != null
+                    3 -> it.contactDate != null && it.contactTime != null && it.selectedChannels.isNotEmpty()
                     else -> it.isTermsAgreed
                 },
             )
@@ -236,8 +243,7 @@ class RegisterViewModel @Inject constructor(
             result = selectedResult.toRegisterResultType(),
             contactedDate = contactDate?.toString().orEmpty(),
             contactedTime = contactTime?.toString().orEmpty(),
-            contactedMethod = selectedChannels.firstOrNull()?.toRegisterContactedMethodType()
-                ?: RegisterContactedMethodType.ETC,
+            contactedMethod = selectedChannels.first().toRegisterContactedMethodType(),
             anonymous = isTermsAgreed,
             alarmEnabled = isAlarmAgreed,
         )

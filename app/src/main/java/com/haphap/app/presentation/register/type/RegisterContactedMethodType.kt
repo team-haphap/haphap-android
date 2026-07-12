@@ -5,5 +5,4 @@ enum class RegisterContactedMethodType {
     SMS,
     MY_PAGE,
     PHONE_CALL,
-    ETC,
 }
