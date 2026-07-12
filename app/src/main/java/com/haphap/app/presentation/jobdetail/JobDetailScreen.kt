@@ -83,7 +83,6 @@ private fun JobDetailScreen(
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
-
         topBar = {
             JobDetailTopBar(
                 onBackClick = onBackClick,
@@ -92,7 +91,6 @@ private fun JobDetailScreen(
                 isAlarmActive = uiState.isAlarmActive,
             )
         },
-
         bottomBar = {
             Column(
                 modifier = Modifier
@@ -108,13 +106,13 @@ private fun JobDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-        }
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(HapHapTheme.colors.white)
-                .padding(innerPadding)
+                .padding(innerPadding),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -206,7 +204,7 @@ private fun JobDetailScreen(
                 item {
                     HorizontalDivider(
                         thickness = 2.dp,
-                        color = HapHapTheme.colors.gray100
+                        color = HapHapTheme.colors.gray100,
                     )
                 }
 
@@ -232,6 +230,7 @@ private fun JobDetailScreen(
 
                 item { Spacer(modifier = Modifier.height(12.dp)) }
             }
+
             HapHapRefreshButton(
                 onButtonClick = onRefreshClick,
                 modifier = Modifier
