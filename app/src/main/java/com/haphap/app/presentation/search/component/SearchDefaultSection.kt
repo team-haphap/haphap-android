@@ -29,7 +29,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.model.search.TrendJobListModel
+import com.haphap.app.data.model.search.TrendJobItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -37,7 +37,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun SearchDefaultSection(
     recentSearchList: ImmutableList<RecentSearchItemModel>,
-    trendJobList: ImmutableList<TrendJobListModel>,
+    trendJobList: ImmutableList<TrendJobItemModel>,
     onDeleteClick: (Long) -> Unit,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -95,11 +95,11 @@ fun SearchDefaultSection(
                 HapHapCard(
                     type = CardType.BIG,
                     imageUrl = it.imageUrl,
-                    text = it.text,
-                    stage = it.stage,
+                    text = it.category,
+                    stage = it.nextStage,
                     dDay = it.dDay,
-                    company = it.company,
-                    description = it.description,
+                    company = it.companyName,
+                    description = it.content,
                     onCardClick = { onCardClick(it.id) },
                     modifier = Modifier.widthIn(max = 186.dp)
                 )
@@ -169,32 +169,32 @@ private fun SearchDefaultSectionPreview() {
                 ),
             ),
             trendJobList = persistentListOf(
-                TrendJobListModel(
+                TrendJobItemModel(
                     id = 1,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 ),
-                TrendJobListModel(
+                TrendJobItemModel(
                     id = 2,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 ),
-                TrendJobListModel(
+                TrendJobItemModel(
                     id = 3,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 )
             ),
             onDeleteClick = {},
