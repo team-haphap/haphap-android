@@ -79,8 +79,7 @@ private fun HomeScreen(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 10.dp)
-                    .height(20.dp)
-                    .aspectRatio(124f / 20f),
+                    .height(20.dp),
             )
 
             HapHapSearchBar(
