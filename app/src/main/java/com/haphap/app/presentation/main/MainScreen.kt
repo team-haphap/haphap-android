@@ -1,5 +1,7 @@
 package com.haphap.app.presentation.main
 
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -32,9 +34,20 @@ fun MainScreen(
 ) {
     val currentTab by appState.currentTab.collectAsStateWithLifecycle()
     val isBottomBarVisible by appState.isBottomBarVisible.collectAsStateWithLifecycle()
+    val isHomeTab = currentTab == MainTab.HOME
 
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+
+    val activity = LocalActivity.current
+
+    BackHandler(enabled = currentTab != null) {
+        if (isHomeTab) {
+            activity?.finish()
+        } else {
+            appState.navigate(MainTab.HOME)
+        }
+    }
 
     val mutex = remember { Mutex() }
 
