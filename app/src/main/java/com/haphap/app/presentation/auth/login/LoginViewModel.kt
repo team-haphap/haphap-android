@@ -1,10 +1,9 @@
-package com.haphap.app.presentation.auth
+package com.haphap.app.presentation.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.state.UiState
 import com.haphap.app.data.model.auth.KakaoLoginModel
-import com.haphap.app.data.remote.dto.auth.KakaoLoginRequestDto
 import com.haphap.app.data.repository.api.auth.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
