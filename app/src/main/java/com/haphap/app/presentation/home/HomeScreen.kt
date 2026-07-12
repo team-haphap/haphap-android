@@ -40,13 +40,14 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
+    navigateToSearch: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         uiState = uiState,
-        onSearchBarClick = {},
+        onSearchBarClick = navigateToSearch,
         onMoreClick = {},
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = {},
