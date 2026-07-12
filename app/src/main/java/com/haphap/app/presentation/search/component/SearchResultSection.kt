@@ -20,7 +20,7 @@ import com.haphap.app.core.designsystem.component.card.HapHapCard
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.presentation.common.model.ChipListModel
-import com.haphap.app.data.model.search.SearchResultModel
+import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.presentation.common.component.HapHapCategoryChipList
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
@@ -32,7 +32,7 @@ fun SearchResultSection(
     chipList: ImmutableList<ChipListModel>,
     selectedChips: ImmutableList<String>,
     onFilterClick: (String) -> Unit,
-    searchResultList: ImmutableList<SearchResultModel>,
+    searchResultList: ImmutableList<SearchResultItemModel>,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -56,15 +56,15 @@ fun SearchResultSection(
             items(
                 items = searchResultList,
                 key = { it.id }
-            ){
+            ) {
                 HapHapCard(
                     type = CardType.SMALL,
                     imageUrl = it.imageUrl,
                     text = it.category,
                     stage = it.stage,
                     dDay = it.dDay,
-                    company = it.title,
-                    description = it.content,
+                    company = it.companyName,
+                    description = it.title,
                     onCardClick = { onCardClick(it.id) },
                 )
             }
@@ -72,7 +72,7 @@ fun SearchResultSection(
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 private fun SearchResultSectionPreview() {
     HapHapTheme {
@@ -85,41 +85,41 @@ private fun SearchResultSectionPreview() {
                 categoryChipState = categoryChipState.toggle(category)
             },
             searchResultList = persistentListOf(
-                SearchResultModel(
+                SearchResultItemModel(
                     id = 1,
                     imageUrl = "",
+                    companyName = "카카오",
                     category = "개발",
                     stage = "서류",
                     dDay = 2,
-                    title = "카카오",
-                    content = "공고 설명",
+                    title = "공고 설명",
                 ),
-                SearchResultModel(
+                SearchResultItemModel(
                     id = 2,
                     imageUrl = "",
+                    companyName = "카카오",
                     category = "개발",
                     stage = "서류",
                     dDay = 2,
-                    title = "카카오",
-                    content = "공고 설명",
+                    title = "공고 설명",
                 ),
-                SearchResultModel(
+                SearchResultItemModel(
                     id = 3,
                     imageUrl = "",
+                    companyName = "카카오",
                     category = "개발",
                     stage = "서류",
                     dDay = 2,
-                    title = "카카오",
-                    content = "공고 설명",
+                    title = "공고 설명",
                 ),
-                SearchResultModel(
+                SearchResultItemModel(
                     id = 4,
                     imageUrl = "",
+                    companyName = "카카오",
                     category = "개발",
                     stage = "서류",
                     dDay = 2,
-                    title = "카카오",
-                    content = "공고 설명",
+                    title = "공고 설명",
                 ),
             ),
             onCardClick = {},
