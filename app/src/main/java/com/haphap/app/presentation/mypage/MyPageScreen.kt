@@ -31,7 +31,7 @@ fun MyPageRoute(
 
 @Composable
 private fun MyPageScreen(
-    uiState: MyPageUiState,
+    uiState: MyPageContract.State,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -58,7 +58,7 @@ private fun MyPageScreen(
 private fun MyPageScreenPreview() {
     HapHapTheme {
         MyPageScreen(
-            uiState = MyPageUiState(
+            uiState = MyPageContract.State(
                 nickNameText = "익명의죠르디",
                 emailText = "yeonsoo1234@naver.com",
             ),
