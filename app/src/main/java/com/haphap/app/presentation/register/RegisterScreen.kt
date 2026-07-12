@@ -154,7 +154,7 @@ private fun RegisterScreen(
                     onAnnounceSelected = onAnnounceSelected,
                     processList = uiState.processList,
                     isProcessListSuccess = uiState.processListUiState == RegisterUiState.Success,
-                    selectedProcessId = uiState.selectedProcessId,
+                    selectedProcessId = uiState.registerInfo.stageId,
                     onProcessSelected = onProcessSelected,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -169,24 +169,24 @@ private fun RegisterScreen(
                 )
 
                 3 -> RegisterThirdSection(
-                    contactDate = uiState.contactDate,
+                    contactDate = uiState.registerInfo.contactedDate,
                     onDateSelected = onDateSelected,
-                    contactTime = uiState.contactTime,
+                    contactTime = uiState.registerInfo.contactedTime,
                     onTimeSelected = onTimeSelected,
-                    selectedChannels = uiState.selectedChannels,
+                    selectedChannels = uiState.registerInfo.contactedMethod,
                     onChannelToggled = onChannelToggled,
                     modifier = Modifier.fillMaxSize(),
                 )
 
                 4 -> RegisterFourthSection(
                     recruitName = uiState.selectedAnnounce?.text.orEmpty(),
-                    recruitProcess = uiState.processList.find { it.id == uiState.selectedProcessId }?.text.orEmpty(),
-                    contactDate = uiState.contactDate,
-                    contactTime = uiState.contactTime,
+                    recruitProcess = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
+                    contactDate = uiState.registerInfo.contactedDate,
+                    contactTime = uiState.registerInfo.contactedTime,
                     selectedResult = uiState.selectedResult ?: PassResultStatusButton.DONT_KNOW,
-                    isAlarmAgreed = uiState.isAlarmAgreed,
+                    isAlarmAgreed = uiState.registerInfo.alarmEnabled,
                     onAlarmAgreeToggled = onAlarmAgreeToggled,
-                    isTermAgreed = uiState.isTermsAgreed,
+                    isTermAgreed = uiState.registerInfo.anonymous,
                     onTermAgreeToggled = onTermAgreeToggled,
                     modifier = Modifier.fillMaxSize()
                 )

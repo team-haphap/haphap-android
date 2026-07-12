@@ -20,18 +20,18 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.register.type.NotificationChannelType
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Composable
 fun RegisterThirdSection(
-    contactDate: LocalDate?,
+    contactDate: String?,
     onDateSelected: (LocalDate) -> Unit,
-    contactTime: LocalTime?,
+    contactTime: String?,
     onTimeSelected: (LocalTime) -> Unit,
-    selectedChannels: PersistentList<NotificationChannelType>,
+    selectedChannels: ImmutableList<NotificationChannelType>,
     onChannelToggled: (NotificationChannelType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -74,7 +74,7 @@ fun RegisterThirdSection(
 
 @Composable
 private fun NotificationChannelGrid(
-    selectedChannels: PersistentList<NotificationChannelType>,
+    selectedChannels: ImmutableList<NotificationChannelType>,
     onChannelToggled: (NotificationChannelType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -121,9 +121,9 @@ private fun RegisterThirdSectionPreview() {
 
     HapHapTheme {
         RegisterThirdSection(
-            contactDate = contactDate,
+            contactDate = contactDate.toString(),
             onDateSelected = { contactDate = it },
-            contactTime = contactTime,
+            contactTime = contactTime.toString(),
             onTimeSelected = { contactTime = it },
             selectedChannels = selectedChannels,
             onChannelToggled = { channel ->

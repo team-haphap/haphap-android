@@ -34,9 +34,9 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun RegisterEnterDateTime(
-    contactDate: LocalDate?,
+    contactDate: String?,
     onDateSelected: (LocalDate) -> Unit,
-    contactTime: LocalTime?,
+    contactTime: String?,
     onTimeSelected: (LocalTime) -> Unit,
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
@@ -55,7 +55,7 @@ fun RegisterEnterDateTime(
             Spacer(modifier = Modifier.height(10.dp))
 
             RegisterEnterDate(
-                value = contactDate?.format(dateFormatter).orEmpty(),
+                value = contactDate?.let { LocalDate.parse(it).format(dateFormatter) }.orEmpty(),
                 placeholder = "연도.월.일",
                 onDateSelected = onDateSelected,
                 modifier = Modifier.fillMaxWidth(),
@@ -72,7 +72,7 @@ fun RegisterEnterDateTime(
             Spacer(modifier = Modifier.height(10.dp))
 
             RegisterEnterTime(
-                value = contactTime?.format(timeFormatter).orEmpty(),
+                value = contactTime?.let { LocalTime.parse(it).format(timeFormatter) }.orEmpty(),
                 placeholder = "00시 00분",
                 onTimeSelected = onTimeSelected,
                 modifier = Modifier.fillMaxWidth(),
@@ -181,9 +181,9 @@ private fun RegisterEnterDateTimePreview() {
 
         Column {
             RegisterEnterDateTime(
-                contactDate = contactDate,
+                contactDate = contactDate.toString(),
                 onDateSelected = { contactDate = it },
-                contactTime = contactTime,
+                contactTime = contactTime.toString(),
                 onTimeSelected = { contactTime = it },
             )
         }

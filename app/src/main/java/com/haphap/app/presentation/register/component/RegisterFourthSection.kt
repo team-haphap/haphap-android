@@ -32,8 +32,8 @@ import java.time.format.DateTimeFormatter
 fun RegisterFourthSection(
     recruitName: String,
     recruitProcess: String,
-    contactDate: LocalDate?,
-    contactTime: LocalTime?,
+    contactDate: String?,
+    contactTime: String?,
     selectedResult: PassResultStatusButton,
     isAlarmAgreed: Boolean,
     onAlarmAgreeToggled: (Boolean) -> Unit,
@@ -64,7 +64,7 @@ fun RegisterFourthSection(
         Spacer(modifier = Modifier.height(36.dp))
 
         Text(
-            text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과", // 수정: DONT_KNOW일 때 라벨 분기
+            text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과",
             style = HapHapTheme.typography.body.b18,
             color = HapHapTheme.colors.gray800,
         )
@@ -74,14 +74,14 @@ fun RegisterFourthSection(
         if (contactDate != null && contactTime != null) {
             Row {
                 ConfirmInfoBox(
-                    text = contactDate.format(dateFormatter),
+                    text = LocalDate.parse(contactDate).format(dateFormatter),
                     modifier = Modifier.weight(1f),
                 )
 
                 Spacer(modifier = Modifier.width(12.dp))
 
                 ConfirmInfoBox(
-                    text = contactTime.format(timeFormatter),
+                    text = LocalTime.parse(contactTime).format(timeFormatter),
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -147,8 +147,8 @@ private fun RegisterFourthSectionPreview() {
         RegisterFourthSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
-            contactDate = LocalDate.of(2026, 6, 11),
-            contactTime = LocalTime.of(21, 33),
+            contactDate = "2026-06-11",
+            contactTime = "21:33",
             selectedResult = PassResultStatusButton.PASS,
             isAlarmAgreed = isAlarmAgreed,
             onAlarmAgreeToggled = { isAlarmAgreed = it },

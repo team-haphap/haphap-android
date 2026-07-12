@@ -2,49 +2,43 @@ package com.haphap.app.presentation.register
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import java.time.LocalDate
-import java.time.LocalTime
+import kotlinx.collections.immutable.toImmutableList
 
 sealed interface RegisterContract {
     @Immutable
     data class State(
         val step: Int = 1,
         val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
+        val registerInfo: RegisterModel = RegisterModel(),
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
         val selectedAnnounce: RegisterDropDownItemModel? = null,
         val announceListUiState: RegisterUiState = RegisterUiState.Idle,
         val processList: ImmutableList<RegisterProcessModel> = persistentListOf(),
         val processListUiState: RegisterUiState = RegisterUiState.Idle,
-        val selectedProcessId: Int? = null,
 
         val selectedResult: PassResultStatusButton? = null,
-        val previousRegisteredResult: PassResultStatusButton? = null,
+//        val previousRegisteredResult: PassResultStatusButton? = null,
         val isChangeModalVisible: Boolean = false,
-
-        val contactDate: LocalDate? = null,
-        val contactTime: LocalTime? = null,
-        val selectedChannels: PersistentList<NotificationChannelType> = persistentListOf(),
-
-        val isAlarmAgreed: Boolean = false,
-        val isTermsAgreed: Boolean = false,
 
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
         val isButtonEnabled: Boolean = false,
     ) {
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
-                selectedChannels = if (selectedChannels.contains(channel)) {
-                    selectedChannels.remove(channel)
-                } else {
-                    selectedChannels.add(channel)
-                }
+                registerInfo = registerInfo.copy(
+                    contactedMethod = if (registerInfo.contactedMethod.contains(channel)) {
+                        (registerInfo.contactedMethod - channel).toImmutableList()
+                    } else {
+                        (registerInfo.contactedMethod + channel).toImmutableList()
+                    }
+                )
             )
     }
 

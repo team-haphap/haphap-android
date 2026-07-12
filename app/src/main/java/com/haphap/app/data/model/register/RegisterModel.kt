@@ -1,15 +1,17 @@
 package com.haphap.app.data.model.register
 
-import com.haphap.app.presentation.register.type.RegisterContactedMethodType
+import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.RegisterResultType
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class RegisterModel(
-    val postingId: Int,
-    val stageId: Int,
-    val result: RegisterResultType,
-    val contactedDate: String,
-    val contactedTime: String,
-    val contactedMethod: RegisterContactedMethodType,
-    val anonymous: Boolean,
-    val alarmEnabled: Boolean,
+    val postingId: Int? = null,
+    val stageId: Int? = null,
+    val result: RegisterResultType? = null,
+    val contactedDate: String? = null,
+    val contactedTime: String? = null,
+    val contactedMethod: ImmutableList<NotificationChannelType> = persistentListOf(),
+    val anonymous: Boolean = false,
+    val alarmEnabled: Boolean = false,
 )

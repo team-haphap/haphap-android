@@ -10,7 +10,6 @@ import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.type.RegisterContactedMethodType
 import com.haphap.app.presentation.register.type.RegisterResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -56,10 +55,9 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 selectedAnnounce = item,
-                selectedProcessId = null,
+                registerInfo = it.registerInfo.copy(postingId = item.id, stageId = null),
                 processList = persistentListOf(),
                 processListUiState = RegisterUiState.Loading,
-                previousRegisteredResult = null,
                 isButtonEnabled = false,
             )
         }
@@ -67,6 +65,7 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
+                    // TODO: 더미 데이터 삭제
                     processList = DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID[item.id] ?: persistentListOf(),
                     processListUiState = RegisterUiState.Success,
                 )
@@ -77,8 +76,7 @@ class RegisterViewModel @Inject constructor(
     fun onProcessSelected(id: Int) {
         _uiState.update {
             it.copy(
-                selectedProcessId = id,
-                previousRegisteredResult = null,
+                registerInfo = it.registerInfo.copy(stageId = id),
                 isButtonEnabled = it.selectedAnnounce != null,
             )
         }
@@ -90,30 +88,18 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onResultSelected(result: PassResultStatusButton) {
-        val previous = _uiState.value.previousRegisteredResult
+        _uiState.update {
+            it.copy(selectedResult = result, isButtonEnabled = true)
+        }
 
-        when {
-            previous == result -> {
-                // TODO: 동일 공고-전형-결과 재등록 -> 중복 등록 토스트 트리거
-            }
-
-            previous != null && previous != result -> {
+        if (result == PassResultStatusButton.DONT_KNOW) {
                 _uiState.update {
                     it.copy(
-                        selectedResult = result,
-                        isChangeModalVisible = true,
-                        isButtonEnabled = true,
+                        registerInfo = it.registerInfo.copy(contactedDate = null, contactedTime = null),
                     )
                 }
             }
-
-            else -> {
-                _uiState.update {
-                    it.copy(selectedResult = result, isButtonEnabled = true)
-                }
-            }
         }
-    }
 
     fun onChangeModalConfirmClick() {
         _uiState.update { it.copy(isChangeModalVisible = false) }
@@ -125,7 +111,7 @@ class RegisterViewModel @Inject constructor(
                 isChangeModalVisible = false,
                 step = 1,
                 selectedResult = null,
-                isButtonEnabled = it.selectedAnnounce != null && it.selectedProcessId != null
+                isButtonEnabled = it.selectedAnnounce != null && it.registerInfo.stageId != null
             )
         }
     }
@@ -138,9 +124,9 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 step = nextStep,
                 isButtonEnabled = if (nextStep == 3) {
-                    it.contactDate != null && it.contactTime != null && it.selectedChannels.isNotEmpty()
+                    it.registerInfo.contactedDate != null && it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty()
                 } else {
-                    it.isTermsAgreed
+                    it.registerInfo.anonymous
                 },
             )
         }
@@ -149,8 +135,8 @@ class RegisterViewModel @Inject constructor(
     fun onDateSelected(date: LocalDate) {
         _uiState.update {
             it.copy(
-                contactDate = date,
-                isButtonEnabled = it.contactTime != null && it.selectedChannels.isNotEmpty(),
+                registerInfo = it.registerInfo.copy(contactedDate = date.toString()),
+                isButtonEnabled = it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty(),
             )
         }
     }
@@ -158,8 +144,8 @@ class RegisterViewModel @Inject constructor(
     fun onTimeSelected(time: LocalTime) {
         _uiState.update {
             it.copy(
-                contactTime = time,
-                isButtonEnabled = it.contactDate != null && it.selectedChannels.isNotEmpty(),
+                registerInfo = it.registerInfo.copy(contactedTime = time.toString()),
+                isButtonEnabled = it.registerInfo.contactedDate != null && it.registerInfo.contactedMethod.isNotEmpty(),
             )
         }
     }
@@ -168,16 +154,16 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             val toggled = it.toggleNotificationChannel(channel)
             toggled.copy(
-                isButtonEnabled = toggled.contactDate != null &&
-                    toggled.contactTime != null &&
-                    toggled.selectedChannels.isNotEmpty(),
+                isButtonEnabled = toggled.registerInfo.contactedDate != null &&
+                    toggled.registerInfo.contactedTime != null &&
+                    toggled.registerInfo.contactedMethod.isNotEmpty(),
             )
         }
     }
 
     fun onStep3NextClick() {
         if (!_uiState.value.isButtonEnabled) return
-        _uiState.update { it.copy(step = 4, isButtonEnabled = it.isTermsAgreed) }
+        _uiState.update { it.copy(step = 4, isButtonEnabled = it.registerInfo.anonymous) }
     }
 
     fun onBackClick() {
@@ -190,23 +176,23 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 step = previousStep,
                 isButtonEnabled = when (previousStep) {
-                    1 -> it.selectedAnnounce != null && it.selectedProcessId != null
+                    1 -> it.selectedAnnounce != null && it.registerInfo.stageId != null
                     2 -> it.selectedResult != null
-                    3 -> it.contactDate != null && it.contactTime != null && it.selectedChannels.isNotEmpty()
-                    else -> it.isTermsAgreed
+                    3 -> it.registerInfo.contactedDate != null && it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty()
+                    else -> it.registerInfo.anonymous
                 },
             )
         }
     }
 
     fun onAlarmAgreeToggled(checked: Boolean) {
-        _uiState.update { it.copy(isAlarmAgreed = checked) }
+        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(alarmEnabled = checked)) }
     }
 
     fun onTermAgreeToggled(checked: Boolean) {
         _uiState.update {
             it.copy(
-                isTermsAgreed = checked,
+                registerInfo = it.registerInfo.copy(anonymous = checked),
                 isButtonEnabled = checked && it.registerUiState !is RegisterUiState.Loading
             )
         }
@@ -237,30 +223,13 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun RegisterContract.State.toRegisterModel(): RegisterModel =
-        RegisterModel(
-            postingId = selectedAnnounce?.id ?: 0,
-            stageId = selectedProcessId ?: 0,
-            result = selectedResult.toRegisterResultType(),
-            contactedDate = contactDate?.toString().orEmpty(),
-            contactedTime = contactTime?.toString().orEmpty(),
-            contactedMethod = selectedChannels.first().toRegisterContactedMethodType(),
-            anonymous = isTermsAgreed,
-            alarmEnabled = isAlarmAgreed,
-        )
+        registerInfo.copy(result = selectedResult.toRegisterResultType())
 
     private fun PassResultStatusButton?.toRegisterResultType(): RegisterResultType =
         when (this) {
             PassResultStatusButton.PASS -> RegisterResultType.PASS
             PassResultStatusButton.FAILED -> RegisterResultType.FAIL
             PassResultStatusButton.DONT_KNOW, null -> RegisterResultType.PENDING
-        }
-
-    private fun NotificationChannelType.toRegisterContactedMethodType(): RegisterContactedMethodType =
-        when (this) {
-            NotificationChannelType.SMS -> RegisterContactedMethodType.SMS
-            NotificationChannelType.EMAIL -> RegisterContactedMethodType.EMAIL
-            NotificationChannelType.CALL -> RegisterContactedMethodType.PHONE_CALL
-            NotificationChannelType.WEB -> RegisterContactedMethodType.MY_PAGE
         }
 
     companion object {
