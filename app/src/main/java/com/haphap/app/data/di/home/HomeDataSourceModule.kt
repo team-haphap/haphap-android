@@ -13,7 +13,7 @@ import javax.inject.Singleton
 abstract class HomeDataSourceModule {
     @Binds
     @Singleton
-    abstract fun bindsHomeBannerDataSource(
+    abstract fun bindsHomeDataSource(
         homeDataSourceImpl: HomeDataSourceImpl
     ): HomeDataSource
 }
