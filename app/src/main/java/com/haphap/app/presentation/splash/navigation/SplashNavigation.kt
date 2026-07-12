@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.navOptions
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.home.navigation.navigateToHome
@@ -23,20 +23,16 @@ fun NavGraphBuilder.splashGraph(
     navController: NavController,
 ) {
     composable<Splash> {
-        SplashRoute (
+        SplashRoute(
             navigateToHome = {
                 navController.navigateToHome(
-                navOptions = navOptions {
-                    popUpTo<Splash> {inclusive = true}
-                    launchSingleTop = true
-                })
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
             },
             navigateToLogin = {
                 navController.navigateToLogin(
-                navOptions = navOptions {
-                    popUpTo<Splash> {inclusive = true}
-                    launchSingleTop = true
-                })
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
             },
             modifier = Modifier.padding(innerPadding),
         )

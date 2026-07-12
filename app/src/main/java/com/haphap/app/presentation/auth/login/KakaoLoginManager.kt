@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.auth
+package com.haphap.app.presentation.auth.login
 
 import android.content.Context
 import com.kakao.sdk.auth.model.OAuthToken
@@ -6,6 +6,9 @@ import com.kakao.sdk.common.model.AuthError
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 class KakaoLoginManager {
 
@@ -86,11 +89,11 @@ class KakaoLoginManager {
                     || description.contains("net::")
         }
 
-        return error is java.net.UnknownHostException
-                || error is java.net.SocketTimeoutException
-                || error is java.io.IOException
-                || error.cause is java.net.UnknownHostException
-                || error.cause is java.net.SocketTimeoutException
-                || error.cause is java.io.IOException
+        return error is UnknownHostException
+                || error is SocketTimeoutException
+                || error is IOException
+                || error.cause is UnknownHostException
+                || error.cause is SocketTimeoutException
+                || error.cause is IOException
     }
 }

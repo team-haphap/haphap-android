@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.auth
+package com.haphap.app.presentation.auth.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -37,7 +37,6 @@ import com.haphap.app.core.state.UiState
 
 @Composable
 fun LoginRoute(
-    navigateToHome: () -> Unit,
     navigateToSignUpComplete: (userName: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
