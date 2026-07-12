@@ -61,14 +61,7 @@ fun RegisterRoute(
                 4 -> viewModel.onRegisterClick()
                 5 -> {
                     if (uiState.selectedResult == PassResultStatusButton.PASS) {
-                        navigateToPassCard(
-                            RegisterPassCardModel(
-                                recruitName = uiState.selectedAnnounce?.text.orEmpty(),
-                                companyName = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
-                                logoUrl = "",
-                                backgroundImageUrl = "",
-                            )
-                        )
+                        // TODO: 합격 카드 네비연결
                     } else {
                         when (val entryPoint = uiState.entryPoint) {
                             RegisterContract.RegisterSideEffect.Home -> navigateToHome()

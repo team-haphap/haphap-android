@@ -29,6 +29,7 @@ fun NavController.navigateToRegisterPassCard(
     navOptions: NavOptions? = null,
 ) = navigate(
     RegisterPassCard(
+        userName = passCard.userName,
         recruitName = passCard.recruitName,
         companyName = passCard.companyName,
         logoUrl = passCard.logoUrl,
@@ -65,6 +66,7 @@ fun NavGraphBuilder.registerGraph(
         val route = backStackEntry.toRoute<RegisterPassCard>()
         RegisterPassCardRoute(
             passCardModel = RegisterPassCardModel(
+                userName = route.userName,
                 recruitName = route.recruitName,
                 companyName = route.companyName,
                 logoUrl = route.logoUrl,
@@ -81,6 +83,7 @@ data class Register(val jobId: Long? = null) : MainTabRoute
 
 @Serializable
 data class RegisterPassCard(
+    val userName: String,
     val recruitName: String,
     val companyName: String,
     val logoUrl: String,

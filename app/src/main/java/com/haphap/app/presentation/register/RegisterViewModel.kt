@@ -5,12 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterModel
-import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.type.RegisterResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,9 +25,6 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<Register>()
-    private val entryPoint : RegisterContract.RegisterSideEffect = route.jobId?.let { jobId ->
-        RegisterContract.RegisterSideEffect.JobDetail(jobId)
-    } ?: RegisterContract.RegisterSideEffect.Home
     private val _uiState = MutableStateFlow(RegisterContract.State())
     val uiState = _uiState.asStateFlow()
 
@@ -44,7 +38,8 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    announceList = DUMMY_ANNOUNCE_LIST,
+                    // TODO: 추후 연동
+                    // announceList = ,
                     announceListUiState = RegisterUiState.Success,
                 )
             }
@@ -65,8 +60,8 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    // TODO: 더미 데이터 삭제
-                    processList = DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID[item.id] ?: persistentListOf(),
+                    // TODO: API 연동
+//                    processList = DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID[item.id] ?: persistentListOf(),
                     processListUiState = RegisterUiState.Success,
                 )
             }
@@ -209,9 +204,6 @@ class RegisterViewModel @Inject constructor(
                 )
             }
 
-            val registerModel = _uiState.value.toRegisterModel()
-            // TODO: registerModel을 Repository에 전달하여 실제 등록 API 호출
-
             _uiState.update {
                 it.copy(
                     registerUiState = RegisterUiState.Success,
@@ -220,45 +212,5 @@ class RegisterViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun RegisterContract.State.toRegisterModel(): RegisterModel =
-        registerInfo.copy(result = selectedResult.toRegisterResultType())
-
-    private fun PassResultStatusButton?.toRegisterResultType(): RegisterResultType =
-        when (this) {
-            PassResultStatusButton.PASS -> RegisterResultType.PASS
-            PassResultStatusButton.FAILED -> RegisterResultType.FAIL
-            PassResultStatusButton.DONT_KNOW, null -> RegisterResultType.PENDING
-        }
-
-    companion object {
-        private val DUMMY_ANNOUNCE_LIST = persistentListOf(
-            RegisterDropDownItemModel(id = 1, text = "카카오 2026 신입 개발자 공개 채용"),
-            RegisterDropDownItemModel(id = 2, text = "네이버 2026 신입 개발자 공개 채용"),
-            RegisterDropDownItemModel(id = 3, text = "라인 2026 신입 기획자 공개 채용"),
-        )
-
-        private val DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID = mapOf(
-            1 to persistentListOf(
-                RegisterProcessModel(id = 1, text = "서류"),
-                RegisterProcessModel(id = 2, text = "AI 역량 검사"),
-                RegisterProcessModel(id = 3, text = "1차면접"),
-                RegisterProcessModel(id = 4, text = "2차면접"),
-                RegisterProcessModel(id = 5, text = "임원면접"),
-                RegisterProcessModel(id = 6, text = "최종"),
-            ),
-            2 to persistentListOf(
-                RegisterProcessModel(id = 7, text = "서류"),
-                RegisterProcessModel(id = 8, text = "코딩테스트"),
-                RegisterProcessModel(id = 9, text = "면접"),
-            ),
-            3 to persistentListOf(
-                RegisterProcessModel(id = 10, text = "서류"),
-                RegisterProcessModel(id = 11, text = "과제전형"),
-                RegisterProcessModel(id = 12, text = "면접"),
-                RegisterProcessModel(id = 13, text = "최종"),
-            ),
-        )
     }
 }

@@ -24,7 +24,6 @@ sealed interface RegisterContract {
         val processListUiState: RegisterUiState = RegisterUiState.Idle,
 
         val selectedResult: PassResultStatusButton? = null,
-//        val previousRegisteredResult: PassResultStatusButton? = null,
         val isChangeModalVisible: Boolean = false,
 
         val registerUiState: RegisterUiState = RegisterUiState.Idle,

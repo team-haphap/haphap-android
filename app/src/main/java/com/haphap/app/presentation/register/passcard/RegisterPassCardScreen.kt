@@ -34,7 +34,6 @@ fun RegisterPassCardRoute(
     modifier: Modifier = Modifier,
 ) {
     RegisterPassCardScreen(
-        userName = "userName",
         passCardModel = passCardModel,
         onHomeClick = navigateToHome,
         modifier = modifier,
@@ -43,7 +42,6 @@ fun RegisterPassCardRoute(
 
 @Composable
 fun RegisterPassCardScreen(
-    userName: String,
     passCardModel: RegisterPassCardModel,
     onHomeClick: () -> Unit,
     modifier : Modifier = Modifier,
@@ -57,7 +55,7 @@ fun RegisterPassCardScreen(
         Spacer(modifier = Modifier.height(36.dp))
 
         Text(
-            text = "${userName}님의 합격을 축하드려요!",
+            text = "${passCardModel.userName}님의 합격을 축하드려요!",
             style = HapHapTheme.typography.subtitle.b22,
             color = HapHapTheme.colors.gray800,
         )
@@ -144,8 +142,8 @@ fun RegisterPassCardScreen(
 private fun RegisterPassCardScreenPreview() {
     HapHapTheme {
         RegisterPassCardScreen(
-            userName = "박연수",
             passCardModel = RegisterPassCardModel(
+                userName = "박연수",
                 recruitName = "2027 신입 채용 공고~~~~~~~~~~~~~~~~~~~~",
                 companyName = "카카오",
                 logoUrl = "",
