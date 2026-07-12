@@ -95,6 +95,13 @@ class SearchViewModel @Inject constructor(
 
     fun deleteRecentSearchItem(id: Long) = viewModelScope.launch {
         searchRepository.deleteRecentSearchItem(id)
+            .onSuccess {
+                Timber.d("삭제 성공했습니다.")
+            }
+            .onFailure {
+                Timber.d("삭제 실패했습니다.")
+
+            }
     }
 
 
