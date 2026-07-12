@@ -46,6 +46,7 @@ private fun CalendarScreen(
         modifier = modifier,
     ) {
         HapHapCustomCalendar(
+            selectedDate = uiState.selectedDate,
             onClick = onCalendarDateClick,
         )
 
