@@ -6,7 +6,7 @@ import com.haphap.app.data.mapper.auth.toModel
 import com.haphap.app.data.model.auth.KakaoLoginModel
 import com.haphap.app.data.remote.datasource.api.auth.AuthDataSource
 import com.haphap.app.data.remote.dto.auth.KakaoLoginRequestDto
-import com.haphap.app.data.remote.dto.requireData
+import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.repository.api.auth.AuthRepository
 import jakarta.inject.Inject
 
@@ -16,7 +16,7 @@ class AuthRepositoryImpl @Inject constructor(
 ): AuthRepository {
     override suspend fun postKakaoLogin(accessToken: String): Result<KakaoLoginModel> =
         suspendRunCatching {
-            val response = authDataSource.postKakaoLogin(KakaoLoginRequestDto(accessToken)).requireData()
+            val response = authDataSource.postKakaoLogin(KakaoLoginRequestDto(accessToken)).checkData()
 
 
             localTokenDataSource.setAccessToken(response.accessToken)

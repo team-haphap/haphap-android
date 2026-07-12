@@ -19,12 +19,12 @@ data class BaseResponse<T>(
     val data: T? = null,
 )
 
-fun <T> BaseResponse<T>.requireData(): T {
-    if (status != HTTP_OK && status != HTTP_CREATED) throw IllegalStateException("API request failed.")
-    return data ?: throw IllegalStateException("Successful response but data was null.")
+fun <T> BaseResponse<T>.checkData(): T {
+    if (status != HTTP_OK && status != HTTP_CREATED) throw IllegalStateException("Successful response but data was null.")
+    return data ?: throw IllegalStateException("API request failed")
 }
 
-fun <T> BaseResponse<T>.requireNoContent(): T? {
-    if (status != HTTP_NO_CONTENT) throw IllegalStateException("API request failed.")
+fun <T> BaseResponse<T>.checkNullData(): T? {
+    if (status != HTTP_NO_CONTENT) throw IllegalStateException("API request failed")
     return data
 }
