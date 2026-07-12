@@ -17,14 +17,9 @@ class SearchRepositoryImpl @Inject constructor(
             localRecentSearchDataSource.setSearchKeyword(searchText = searchText)
         }
 
-    override suspend fun getRecentSearchItem(): Result<Flow<List<RecentSearchItemModel>>> =
-        suspendRunCatching {
-            val data = localRecentSearchDataSource.getSearchKeyword()
-
-            data.map { entities ->
-                entities.map { it.toModel() }
-            }
-        }
+    override fun getRecentSearchItem(): Flow<List<RecentSearchItemModel>> =
+        localRecentSearchDataSource.getSearchKeyword()
+            .map { entities -> entities.map { it.toModel() } }
 
     override suspend fun deleteRecentSearchItem(id: Long): Result<Unit> =
         suspendRunCatching {

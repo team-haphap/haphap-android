@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
     suspend fun saveRecentSearchItem(searchText: String): Result<Unit>
-    suspend fun getRecentSearchItem(): Result<Flow<List<RecentSearchItemModel>>>
+    fun getRecentSearchItem(): Flow<List<RecentSearchItemModel>>
     suspend fun deleteRecentSearchItem(id: Long): Result<Unit>
 }
