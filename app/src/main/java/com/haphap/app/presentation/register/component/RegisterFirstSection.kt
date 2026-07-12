@@ -22,7 +22,6 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterProcessModel
-import com.haphap.app.presentation.register.RegisterUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -32,7 +31,7 @@ fun RegisterFirstSection(
     selectedAnnounce: RegisterDropDownItemModel?,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
     processList: ImmutableList<RegisterProcessModel>,
-    processListUiState: RegisterUiState,
+    isProcessListSuccess: Boolean,
     selectedProcessId: Int?,
     onProcessSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -69,7 +68,7 @@ fun RegisterFirstSection(
 
             Spacer(modifier = Modifier.height(9.dp))
 
-            if (processListUiState == RegisterUiState.Success) {
+            if (isProcessListSuccess) {
                 ProcessButtonGrid(
                     processList = processList,
                     selectedProcessId = selectedProcessId,
@@ -147,7 +146,7 @@ private fun RegisterFirstSectionPreview() {
             selectedAnnounce = selectedAnnounce,
             onAnnounceSelected = { selectedAnnounce = it },
             processList = processList,
-            processListUiState = RegisterUiState.Success,
+            isProcessListSuccess = true,
             selectedProcessId = selectedProcessId,
             onProcessSelected = { selectedProcessId = it },
         )

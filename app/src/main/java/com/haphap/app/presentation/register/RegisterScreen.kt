@@ -168,7 +168,7 @@ private fun RegisterScreen(
                     selectedAnnounce = uiState.selectedAnnounce,
                     onAnnounceSelected = onAnnounceSelected,
                     processList = uiState.processList,
-                    processListUiState = uiState.processListUiState,
+                    isProcessListSuccess = uiState.processListUiState == RegisterUiState.Success,
                     selectedProcessId = uiState.selectedProcessId,
                     onProcessSelected = onProcessSelected,
                     modifier = Modifier.fillMaxSize(),
