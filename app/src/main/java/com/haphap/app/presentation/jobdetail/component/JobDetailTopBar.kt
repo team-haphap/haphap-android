@@ -4,14 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +45,7 @@ fun JobDetailTopBar(
             tint = HapHapTheme.colors.gray800,
             modifier = Modifier
                 .size(30.dp)
-                .noRippleClickable(onClick = onBackClick)
+                .noRippleClickable(onClick = onBackClick),
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -58,7 +56,7 @@ fun JobDetailTopBar(
             tint = HapHapTheme.colors.gray700,
             modifier = Modifier
                 .size(44.dp)
-                .noRippleClickable(onClick = onAlarmClick)
+                .noRippleClickable(onClick = onAlarmClick),
         )
 
         Icon(
@@ -67,7 +65,7 @@ fun JobDetailTopBar(
             tint = HapHapTheme.colors.gray700,
             modifier = Modifier
                 .size(44.dp)
-                .noRippleClickable(onClick = onMoreClick)
+                .noRippleClickable(onClick = onMoreClick),
         )
     }
 }
@@ -80,7 +78,7 @@ private fun JobDetailTopBarPreview() {
         JobDetailTopBar(
             onBackClick = {},
             onAlarmClick = {},
-            onMoreClick = {}
+            onMoreClick = {},
         )
     }
 }

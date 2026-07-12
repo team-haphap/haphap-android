@@ -3,6 +3,7 @@ package com.haphap.app.presentation.jobdetail.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,12 +32,13 @@ fun JobStageStepRow(
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
-        modifier = modifier.padding(horizontal = 12.dp),
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items(
             items = steps,
-            key = { it.stageId }
+            key = { it.stageId },
         ) { step ->
             JobStageStep(
                 number = step.number,
