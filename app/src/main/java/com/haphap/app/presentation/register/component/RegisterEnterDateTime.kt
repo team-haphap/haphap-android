@@ -147,7 +147,7 @@ fun RegisterEnterTime(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(onClick = { isBottomSheetVisible = true })
-            .padding(vertical = 12.dp, horizontal = 14.dp),
+            .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

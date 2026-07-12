@@ -88,7 +88,7 @@ private fun ProcessButtonGrid(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         processList.chunked(COLUMN_COUNT).forEach { rowItems ->
             Row(
