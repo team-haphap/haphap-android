@@ -117,8 +117,7 @@ private fun JobDetailScreen(
                 .padding(innerPadding)
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 item { Spacer(modifier = Modifier.height(12.dp)) }
 
