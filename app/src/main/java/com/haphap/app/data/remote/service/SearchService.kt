@@ -24,8 +24,8 @@ interface SearchService {
         @Query("category")
         category: String,
         @Query("page")
-        page: String,
+        page: Int,
         @Query("size")
-        size: String,
+        size: Int,
     ): BaseResponse<SearchResultListResponseDto>
 }
