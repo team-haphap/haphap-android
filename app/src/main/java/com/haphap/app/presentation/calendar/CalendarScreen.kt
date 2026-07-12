@@ -86,11 +86,11 @@ private fun CalendarScreenPreview() {
         CalendarScreen(
             uiState = CalendarContract.State(
                 calendarCardList = persistentListOf(
-                    CalendarListCardModel(1L, "2026 신입 개발자 공개채용", "서류", 32, ""),
-                    CalendarListCardModel(2L, "2026 신입 개발자 공개채용", "서류", 32, ""),
-                    CalendarListCardModel(3L, "2026 신입 개발자 공개채용", "서류", 32, ""),
-                    CalendarListCardModel(4L, "2026 신입 개발자 공개채용", "서류", 32, ""),
-                    CalendarListCardModel(5L, "2026 신입 개발자 공개채용", "서류", 32, ""),
+                    CalendarListCardModel(1, "2026 신입 개발자 공개채용", "서류", 32, ""),
+                    CalendarListCardModel(2, "2026 신입 개발자 공개채용", "서류", 32, ""),
+                    CalendarListCardModel(3, "2026 신입 개발자 공개채용", "서류", 32, ""),
+                    CalendarListCardModel(4, "2026 신입 개발자 공개채용", "서류", 32, ""),
+                    CalendarListCardModel(5, "2026 신입 개발자 공개채용", "서류", 32, ""),
                 ),
             ),
             onCalendarDateClick = {},
