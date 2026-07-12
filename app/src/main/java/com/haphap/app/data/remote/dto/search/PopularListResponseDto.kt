@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PopularListResponseDto(
     @SerialName("postings")
-    val postings: List<PostingDto>,
+    val postings: List<PopularItemDto>,
 )
 
 @Serializable
-data class PostingDto(
+data class PopularItemDto(
     @SerialName("id")
     val id: Int,
     @SerialName("title")
@@ -19,8 +19,6 @@ data class PostingDto(
     val companyName: String,
     @SerialName("category")
     val category: String,
-    @SerialName("content")
-    val content: String,
     @SerialName("nextStage")
     val nextStage: String,
     @SerialName("daysUntilNextStage")
