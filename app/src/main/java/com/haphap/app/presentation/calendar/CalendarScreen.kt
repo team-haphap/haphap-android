@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.calendar.CalendarListCardModel
 import com.haphap.app.presentation.calendar.component.CalendarListCardComponent
+import com.haphap.app.presentation.calendar.component.CalendarListCardEmptyComponent
 import com.haphap.app.presentation.calendar.component.HapHapCustomCalendar
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -50,24 +51,28 @@ private fun CalendarScreen(
             onClick = onCalendarDateClick,
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = HapHapTheme.colors.gray100)
-                .padding(horizontal = 20.dp),
-            contentPadding = PaddingValues(vertical = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            items(
-                items = uiState.calendarCardList,
-                key = { it.id },
-            ) { card ->
-                CalendarListCardComponent(
-                    titleText = card.titleText,
-                    stage = card.stage,
-                    participantCount = card.participantCount,
-                    imageUrl = card.imageUrl,
-                )
+        if (uiState.calendarCardList.isEmpty()) {
+            CalendarListCardEmptyComponent()
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = HapHapTheme.colors.gray100)
+                    .padding(horizontal = 20.dp),
+                contentPadding = PaddingValues(vertical = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                items(
+                    items = uiState.calendarCardList,
+                    key = { it.id },
+                ) { card ->
+                    CalendarListCardComponent(
+                        titleText = card.titleText,
+                        stage = card.stage,
+                        participantCount = card.participantCount,
+                        imageUrl = card.imageUrl,
+                    )
+                }
             }
         }
     }
