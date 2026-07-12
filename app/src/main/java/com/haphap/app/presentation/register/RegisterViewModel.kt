@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.RegisterContactedMethodType
+import com.haphap.app.presentation.register.type.RegisterResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -90,7 +93,7 @@ class RegisterViewModel @Inject constructor(
 
         when {
             previous == result -> {
-                // TODO: 동일 공고-전형-결과 재등록 -> 중복 등록 토스트 트리거 (팀원 구현 컴포넌트 연동 예정)
+                // TODO: 동일 공고-전형-결과 재등록 -> 중복 등록 토스트 트리거
             }
 
             previous != null && previous != result -> {
@@ -212,6 +215,9 @@ class RegisterViewModel @Inject constructor(
                 )
             }
 
+            val registerModel = _uiState.value.toRegisterModel()
+            // TODO: registerModel을 Repository에 전달하여 실제 등록 API 호출
+
             _uiState.update {
                 it.copy(
                     registerUiState = RegisterUiState.Success,
@@ -222,9 +228,36 @@ class RegisterViewModel @Inject constructor(
             }
         }
     }
-    companion object {
-        // 수정: 전체 플로우 테스트용 더미 데이터. API 연동 시 전부 제거하고 Repository 호출로 대체 예정.
 
+    private fun RegisterContract.State.toRegisterModel(): RegisterModel =
+        RegisterModel(
+            postingId = selectedAnnounce?.id ?: 0,
+            stageId = selectedProcessId ?: 0,
+            result = selectedResult.toRegisterResultType(),
+            contactedDate = contactDate?.toString().orEmpty(),
+            contactedTime = contactTime?.toString().orEmpty(),
+            contactedMethod = selectedChannels.firstOrNull()?.toRegisterContactedMethodType()
+                ?: RegisterContactedMethodType.ETC,
+            anonymous = isTermsAgreed,
+            alarmEnabled = isAlarmAgreed,
+        )
+
+    private fun PassResultStatusButton?.toRegisterResultType(): RegisterResultType =
+        when (this) {
+            PassResultStatusButton.PASS -> RegisterResultType.PASS
+            PassResultStatusButton.FAILED -> RegisterResultType.FAIL
+            PassResultStatusButton.DONT_KNOW, null -> RegisterResultType.PENDING
+        }
+
+    private fun NotificationChannelType.toRegisterContactedMethodType(): RegisterContactedMethodType =
+        when (this) {
+            NotificationChannelType.SMS -> RegisterContactedMethodType.SMS
+            NotificationChannelType.EMAIL -> RegisterContactedMethodType.EMAIL
+            NotificationChannelType.CALL -> RegisterContactedMethodType.PHONE_CALL
+            NotificationChannelType.WEB -> RegisterContactedMethodType.MY_PAGE
+        }
+
+    companion object {
         private val DUMMY_ANNOUNCE_LIST = persistentListOf(
             RegisterDropDownItemModel(id = 1, text = "카카오 2026 신입 개발자 공개 채용"),
             RegisterDropDownItemModel(id = 2, text = "네이버 2026 신입 개발자 공개 채용"),
