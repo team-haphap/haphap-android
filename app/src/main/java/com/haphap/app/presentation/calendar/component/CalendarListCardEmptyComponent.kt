@@ -31,7 +31,7 @@ fun CalendarListCardEmptyComponent(
         verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar_error_53),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
             contentDescription = null,
             modifier = Modifier.size(53.dp),
             tint = HapHapTheme.colors.gray200,
