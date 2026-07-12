@@ -43,7 +43,7 @@ fun SearchRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when(sideEffect) {
