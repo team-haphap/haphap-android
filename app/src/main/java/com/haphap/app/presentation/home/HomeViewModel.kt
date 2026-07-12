@@ -24,6 +24,7 @@ class HomeViewModel @Inject constructor(
         fetchBannerList()
         fetchCountCard()
         fetchAnnouncements()
+        fetchRecentPostings()
     }
 
     private fun fetchBannerList() {
@@ -62,9 +63,30 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateSelectedChips(category: String){
+    private fun fetchRecentPostings() {
+        val selectedChips = _uiState.value.categoryChipState.selectedChips
+
+        val categoryParam = if (selectedChips.contains("전체")) {
+            null
+        } else {
+            selectedChips.joinToString(",")
+        }
+
+        viewModelScope.launch {
+            homeRepository.getRecentPostings(categoryParam)
+                .onSuccess { list ->
+                    _uiState.update { it.copy(recentCardList = list.toPersistentList()) }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "최근 등록 공고 조회 실패")
+                }
+        }
+    }
+
+    fun updateSelectedChips(category: String) {
         _uiState.update {
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
+        fetchRecentPostings()
     }
 }
