@@ -2,9 +2,11 @@ package com.haphap.app.data.mapper.home
 
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
+import com.haphap.app.data.model.home.RecentCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
 import com.haphap.app.data.remote.dto.home.HomeAnnouncementsDto
 import com.haphap.app.data.remote.dto.home.HomeBannerItemDto
+import com.haphap.app.data.remote.dto.home.HomeRecentPostingsDto
 import com.haphap.app.data.remote.dto.home.HomeTodayResponseDto
 
 fun HomeBannerItemDto.toModel(): BannerItemModel =
@@ -28,4 +30,15 @@ fun HomeAnnouncementsDto.toModel(): TodayExpectedCardModel =
         category = category,
         stageName = stageName,
         title = title,
+    )
+
+fun HomeRecentPostingsDto.toModel(): RecentCardModel =
+    RecentCardModel(
+        id = id,
+        imageUrl = imageUrl,
+        title = title,
+        companyName = companyName,
+        category = category,
+        nextStage = nextStage ?: "null",
+        dayUntilNextStage = daysUntilNextStage ?: 0,
     )
