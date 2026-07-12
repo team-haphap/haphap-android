@@ -18,20 +18,20 @@ data class JobDetailDto(
 
 @Serializable
 data class JobDetailSummaryDto(
-    @SerialName("registeredCount") val registeredCount: Long,
+    @SerialName("registeredCount") val registeredCount: Int,
     @SerialName("profileImages") val profileImages: List<ParticipantProfileDto>,
-    @SerialName("additionalParticipantCount") val additionalParticipantCount: Long,
+    @SerialName("additionalParticipantCount") val additionalParticipantCount: Int,
 )
 
 @Serializable
 data class ParticipantProfileDto(
-    @SerialName("userId") val userId: Long,
+    @SerialName("userId") val userId: Int,
     @SerialName("profileImageUrl") val profileImageUrl: String,
 )
 
 @Serializable
 data class JobDetailRegistrationDto(
-    @SerialName("registrationId") val registrationId: Long,
+    @SerialName("registrationId") val registrationId: Int,
     @SerialName("feedCreatedAt") val feedCreatedAt: String,
     @SerialName("nickName") val nickName: String,
     @SerialName("registrationResult") val registrationResult: String,
