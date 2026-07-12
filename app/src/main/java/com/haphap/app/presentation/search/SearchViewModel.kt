@@ -46,7 +46,7 @@ class SearchViewModel @Inject constructor(
             .debounce(SEARCH_NETWORK_DEBOUNCE)
             .distinctUntilChanged()
             .collectLatest { searchInputText ->
-                if (searchInputText.isEmpty()) {
+                if (searchInputText.isBlank()) {
                     _uiState.update {
                         it.copy(
                             searchAutoCompleteUiState = SearchUiState.Idle,
@@ -66,7 +66,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchClick() = viewModelScope.launch {
-        if (searchInputState.text.isEmpty()) {
+        if (searchInputState.text.isBlank()) {
             _sideEffect.send(OnShowToast("검색어를 입력해주세요"))
         } else {
             searchRepository.saveRecentSearchItem(searchInputState.text.toString())
