@@ -1,10 +1,10 @@
-package com.haphap.app.data.repository.impl.search
+package com.haphap.app.data.repository.impl
 
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalSearchDataSource
 import com.haphap.app.data.mapper.search.toModel
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.repository.api.search.SearchRepository
+import com.haphap.app.data.repository.api.SearchRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,7 +22,8 @@ class SearchRepositoryImpl @Inject constructor(
             val data = localRecentSearchDataSource.getSearchKeyword()
 
             data.map { entities ->
-                entities.map { it.toModel() } }
+                entities.map { it.toModel() }
+            }
         }
 
     override suspend fun deleteRecentSearchItem(id: Long): Result<Unit> =

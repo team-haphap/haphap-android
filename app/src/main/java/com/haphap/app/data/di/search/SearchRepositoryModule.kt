@@ -1,9 +1,7 @@
 package com.haphap.app.data.di.search
 
-import com.haphap.app.data.repository.api.auth.AuthRepository
-import com.haphap.app.data.repository.api.search.SearchRepository
-import com.haphap.app.data.repository.impl.auth.AuthRepositoryImpl
-import com.haphap.app.data.repository.impl.search.SearchRepositoryImpl
+import com.haphap.app.data.repository.api.SearchRepository
+import com.haphap.app.data.repository.impl.SearchRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

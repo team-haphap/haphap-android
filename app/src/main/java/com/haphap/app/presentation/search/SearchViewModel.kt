@@ -4,7 +4,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haphap.app.data.repository.api.search.SearchRepository
+import com.haphap.app.data.repository.api.SearchRepository
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
