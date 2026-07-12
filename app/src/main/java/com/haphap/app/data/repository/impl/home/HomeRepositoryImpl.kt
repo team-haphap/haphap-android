@@ -4,6 +4,7 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.home.toModel
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
+import com.haphap.app.data.model.home.TodayExpectedCardModel
 import com.haphap.app.data.remote.datasource.api.home.HomeDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.repository.api.home.HomeRepository
@@ -27,6 +28,14 @@ class HomeRepositoryImpl @Inject constructor(
             homeDataSource.getCountCard()
                 .checkData()
                 .toModel()
+        }
+
+    override suspend fun getAnnouncements(): Result<List<TodayExpectedCardModel>> =
+        suspendRunCatching {
+            homeDataSource.getAnnouncements()
+                .checkData()
+                .postings
+                .map { it.toModel() }
         }
 }
 
