@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.register.pass_card
+package com.haphap.app.presentation.register.passcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

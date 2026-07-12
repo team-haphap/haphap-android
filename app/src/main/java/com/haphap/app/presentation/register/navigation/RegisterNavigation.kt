@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.navigation.navigateToHome
-import com.haphap.app.presentation.register.pass_card.RegisterPassCardRoute
+import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import com.haphap.app.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
 
