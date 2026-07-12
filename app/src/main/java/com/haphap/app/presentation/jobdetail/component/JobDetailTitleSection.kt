@@ -31,8 +31,7 @@ fun JobDetailTitleSection(
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        )
-    {
+    ) {
         Text(
             text = companyName,
             style = HapHapTheme.typography.body.b14,

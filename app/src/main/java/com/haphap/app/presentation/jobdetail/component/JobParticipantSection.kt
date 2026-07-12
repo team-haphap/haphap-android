@@ -2,12 +2,12 @@ package com.haphap.app.presentation.jobdetail.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -27,9 +27,6 @@ import com.haphap.app.core.designsystem.type.StatusChipType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-private const val AvatarSize = 36
-private const val AvatarStep = 26
-
 @Composable
 fun JobParticipantSection(
     registeredCount: Int,
@@ -37,7 +34,9 @@ fun JobParticipantSection(
     additionalCount: Int,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.padding(horizontal = 20.dp),
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = R.drawable.img_fire),
@@ -59,40 +58,37 @@ fun JobParticipantSection(
             color = HapHapTheme.colors.gray600,
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        if (profileImages.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            val avatarRowWidth = if (profileImages.isEmpty()) {
-                0.dp
-            } else {
-                AvatarStep.dp * (profileImages.size - 1) + AvatarSize.dp
-            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy((-10).dp),
+                ) {
+                    profileImages.take(4).forEach { imageUrl ->
+                        UrlImage(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(shape = CircleShape)
+                                .border(
+                                    width = 1.dp,
+                                    color = HapHapTheme.colors.white,
+                                    shape = CircleShape,
+                                ),
+                            url = imageUrl,
+                            placeholderDrawable = R.drawable.ic_launcher_background,
+                        )
+                    }
+                }
 
-            Box(modifier = Modifier.width(avatarRowWidth)) {
-                profileImages.forEachIndexed { index, imageUrl ->
-                    UrlImage(
-                        modifier = Modifier
-                            .offset(x = AvatarStep.dp * index)
-                            .size(AvatarSize.dp)
-                            .clip(shape = CircleShape)
-                            .border(
-                                width = 1.dp,
-                                color = HapHapTheme.colors.white,
-                                shape = CircleShape,
-                            ),
-                        url = imageUrl,
-                        placeholderDrawable = R.drawable.ic_launcher_background,
+                Spacer(modifier = Modifier.width(14.dp))
+
+                if (additionalCount > 0) {
+                    HapHapStatusChip(
+                        text = "+${additionalCount}",
+                        type = StatusChipType.COUNT,
                     )
                 }
-            }
-
-            Spacer(modifier = Modifier.width(14.dp))
-
-            if (additionalCount > 0) {
-                HapHapStatusChip(
-                    text = "+${additionalCount}",
-                    type = StatusChipType.COUNT,
-                )
             }
         }
     }
