@@ -5,6 +5,7 @@ import com.haphap.app.data.remote.service.home.HomeService
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.home.HomeAnnouncementsResponseDto
 import com.haphap.app.data.remote.dto.home.HomeBannerListDto
+import com.haphap.app.data.remote.dto.home.HomePostingsResponseDto
 import com.haphap.app.data.remote.dto.home.HomeTodayResponseDto
 import jakarta.inject.Inject
 
@@ -24,4 +25,7 @@ class HomeDataSourceImpl @Inject constructor(
         return homeService.getAnnouncements()
     }
 
+    override suspend fun getRecentPostings(category: String?): BaseResponse<HomePostingsResponseDto> {
+        return homeService.getRecentPostings(category)
+    }
 }
