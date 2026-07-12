@@ -69,6 +69,13 @@ class SearchViewModel @Inject constructor(
             _sideEffect.send(OnShowToast("검색어를 입력해주세요"))
         } else {
             searchRepository.saveRecentSearchItem(searchInputState.text.toString())
+                .onSuccess {
+                    Timber.d("저장 성공했습니다.")
+                }
+                .onFailure {
+                    Timber.d("저장 실패했습니다.")
+
+                }
             _uiState.update { it.copy(searchAutoCompleteUiState = SearchUiState.Idle) }
             //Todo: 검색 결과 api 호출
         }
