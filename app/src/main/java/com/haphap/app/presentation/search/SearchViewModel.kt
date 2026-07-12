@@ -38,6 +38,7 @@ class SearchViewModel @Inject constructor(
     init {
         observeSearchInput()
         getRecentSearchList()
+        getPopularList()
     }
 
     @OptIn(FlowPreview::class)
@@ -90,6 +91,28 @@ class SearchViewModel @Inject constructor(
         }.onFailure {
             Timber.e("$it 불러오기 실패했습니다.")
         }
+    }
+
+
+    fun getPopularList() = viewModelScope.launch {
+        _uiState.update { it.copy(trendJobListUiState = SearchUiState.Loading) }
+        searchRepository.getPopularList()
+            .onSuccess { result ->
+                _uiState.update {
+                    it.copy(
+                        trendJobList = result.toImmutableList(),
+                        trendJobListUiState = SearchUiState.Success
+                    )
+                }
+            }
+            .onFailure { error ->
+                Timber.e("인기 공고 리스트를 불러오지 못했습니다. $error")
+                _uiState.update {
+                    it.copy(
+                        trendJobListUiState = SearchUiState.Failure("$error")
+                    )
+                }
+            }
     }
 
     fun deleteRecentSearchItem(id: Long) = viewModelScope.launch {
