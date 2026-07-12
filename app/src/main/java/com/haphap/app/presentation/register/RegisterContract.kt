@@ -2,8 +2,8 @@ package com.haphap.app.presentation.register
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
+import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
@@ -37,12 +37,7 @@ sealed interface RegisterContract {
 
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
         val isButtonEnabled: Boolean = false,
-
-        val passShareInfo: RegisterPassCardModel? = null,
     ) {
-        val section: RegisterSection
-            get() = if (step <= 3) RegisterSection.Input else RegisterSection.Result
-
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
                 selectedChannels = if (selectedChannels.contains(channel)) {
@@ -52,23 +47,11 @@ sealed interface RegisterContract {
                 }
             )
     }
-}
 
-enum class NotificationChannelType(val text: String) {
-    SMS("문자"),
-    EMAIL("이메일"),
-    CALL("전화"),
-    WEB("기업 홈페이지"),
-}
-
-sealed interface RegisterSideEffect {
-    data object Home: RegisterSideEffect
-    data class JobDetail(val jobId: Long) : RegisterSideEffect
-}
-
-sealed interface RegisterSection {
-    data object Input : RegisterSection
-    data object Result : RegisterSection
+    sealed interface RegisterSideEffect {
+        data object Home : RegisterSideEffect
+        data class JobDetail(val jobId: Long) : RegisterSideEffect
+    }
 }
 
 sealed interface RegisterUiState {

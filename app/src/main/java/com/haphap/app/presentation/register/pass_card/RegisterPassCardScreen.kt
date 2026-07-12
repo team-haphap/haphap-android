@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.register
+package com.haphap.app.presentation.register.pass_card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -85,7 +85,7 @@ fun RegisterPassCardScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
-                .aspectRatio(312f/540f)
+                .aspectRatio(312f / 540f)
                 .clip(RoundedCornerShape(18.dp))
         ) {
             UrlImage(

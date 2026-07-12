@@ -8,6 +8,7 @@ import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
+import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.RegisterContactedMethodType
 import com.haphap.app.presentation.register.type.RegisterResultType
@@ -28,9 +29,9 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<Register>()
-    private val entryPoint : RegisterSideEffect = route.jobId?.let { jobId ->
-        RegisterSideEffect.JobDetail(jobId)
-    } ?: RegisterSideEffect.Home
+    private val entryPoint : RegisterContract.RegisterSideEffect = route.jobId?.let { jobId ->
+        RegisterContract.RegisterSideEffect.JobDetail(jobId)
+    } ?: RegisterContract.RegisterSideEffect.Home
     private val _uiState = MutableStateFlow(RegisterContract.State())
     val uiState = _uiState.asStateFlow()
 
@@ -229,7 +230,6 @@ class RegisterViewModel @Inject constructor(
                 it.copy(
                     registerUiState = RegisterUiState.Success,
                     step = 5,
-                    passShareInfo = null,
                     isButtonEnabled = true,
                 )
             }

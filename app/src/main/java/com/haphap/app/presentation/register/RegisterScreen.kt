@@ -20,6 +20,7 @@ import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.presentation.register.component.RegisterFirstSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterTopBar
+import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.component.RegisterFifthSection
 import com.haphap.app.presentation.register.component.RegisterFourthSection
@@ -59,18 +60,17 @@ fun RegisterRoute(
                 3 -> viewModel.onStep3NextClick()
                 4 -> viewModel.onRegisterClick()
                 5 -> {
-                    val passCardInfo = uiState.passShareInfo
-                    if (passCardInfo != null) {
+                    if (uiState.selectedResult == PassResultStatusButton.PASS) {
                         navigateToPassCard(
                             uiState.selectedAnnounce?.text.orEmpty(),
-                            passCardInfo.companyName,
-                            passCardInfo.logoUrl,
-                            passCardInfo.backgroundImageUrl
+                            "",
+                            "",
+                            "",
                         )
                     } else {
                         when (val entryPoint = uiState.entryPoint) {
-                            RegisterSideEffect.Home -> navigateToHome()
-                            is RegisterSideEffect.JobDetail -> navigateToJobDetail(entryPoint.jobId)
+                            RegisterContract.RegisterSideEffect.Home -> navigateToHome()
+                            is RegisterContract.RegisterSideEffect.JobDetail -> navigateToJobDetail(entryPoint.jobId)
                         }
                     }
                 }
