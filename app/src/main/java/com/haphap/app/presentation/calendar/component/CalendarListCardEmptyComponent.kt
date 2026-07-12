@@ -28,7 +28,7 @@ fun CalendarListCardEmptyComponent(
             .fillMaxSize()
             .background(color = HapHapTheme.colors.gray100),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar_error_53),
@@ -36,8 +36,6 @@ fun CalendarListCardEmptyComponent(
             modifier = Modifier.size(53.dp),
             tint = HapHapTheme.colors.gray200,
         )
-
-        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = "발표 예상 공고가 없습니다",
