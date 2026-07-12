@@ -1,7 +1,5 @@
 package com.haphap.app.presentation.jobdetail.component
 
-import com.haphap.app.presentation.jobdetail.type.JobResultCardType
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.presentation.jobdetail.type.JobResultCardType
 
 @Composable
 fun JobResultCard(
@@ -46,8 +45,8 @@ fun JobResultCard(
                     color = HapHapTheme.colors.gray100,
                     shape = RoundedCornerShape(
                         bottomStart = 8.dp,
-                        bottomEnd = 8.dp
-                    )
+                        bottomEnd = 8.dp,
+                    ),
                 )
                 .padding(vertical = 4.dp, horizontal = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
