@@ -2,7 +2,7 @@ package com.haphap.app.presentation.register
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassShareModel
+import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.ImmutableList
@@ -15,7 +15,6 @@ sealed interface RegisterContract {
     @Immutable
     data class State(
         val step: Int = 1,
-        val isPassShareVisible: Boolean = false,
         val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
@@ -39,7 +38,7 @@ sealed interface RegisterContract {
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
         val isButtonEnabled: Boolean = false,
 
-        val passShareInfo: RegisterPassShareModel? = null,
+        val passShareInfo: RegisterPassCardModel? = null,
     ) {
         val section: RegisterSection
             get() = if (step <= 3) RegisterSection.Input else RegisterSection.Result

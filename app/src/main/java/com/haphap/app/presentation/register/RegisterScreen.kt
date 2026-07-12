@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.register
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +18,9 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.presentation.register.component.RegisterFirstSection
-import com.haphap.app.presentation.register.component.RegisterPassCardSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.data.model.register.RegisterPassShareModel
 import com.haphap.app.presentation.register.component.RegisterFifthSection
 import com.haphap.app.presentation.register.component.RegisterFourthSection
 import com.haphap.app.presentation.register.component.RegisterSecondSection
@@ -37,29 +34,11 @@ fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Long) -> Unit,
+    navigateToPassCard: (recruitName: String, companyName: String, logoUrl: String, backgroundImageUrl: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    if (uiState.isPassShareVisible) {
-        val passShareModel = uiState.passShareInfo ?: RegisterPassShareModel(
-            companyName = "",
-            logoUrl = "",
-            backgroundImageUrl = "",
-        )
-
-        RegisterPassCardSection(
-            userName = "userName",
-            recruitName = uiState.selectedAnnounce?.text.orEmpty(),
-            passShareModel = passShareModel,
-            onHomeClick = navigateToHome,
-            modifier = modifier
-                .fillMaxSize()
-                .background(HapHapTheme.colors.white),
-        )
-        return
-    }
 
     RegisterScreen(
         uiState = uiState,
@@ -80,8 +59,14 @@ fun RegisterRoute(
                 3 -> viewModel.onStep3NextClick()
                 4 -> viewModel.onRegisterClick()
                 5 -> {
-                    if (uiState.selectedResult == PassResultStatusButton.PASS) {
-                        viewModel.onPassShareEntryClick()
+                    val passCardInfo = uiState.passShareInfo
+                    if (passCardInfo != null) {
+                        navigateToPassCard(
+                            uiState.selectedAnnounce?.text.orEmpty(),
+                            passCardInfo.companyName,
+                            passCardInfo.logoUrl,
+                            passCardInfo.backgroundImageUrl
+                        )
                     } else {
                         when (val entryPoint = uiState.entryPoint) {
                             RegisterSideEffect.Home -> navigateToHome()

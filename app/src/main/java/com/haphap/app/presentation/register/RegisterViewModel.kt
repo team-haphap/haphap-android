@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassShareModel
+import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.PassResultStatusButton
@@ -231,11 +231,6 @@ class RegisterViewModel @Inject constructor(
             }
         }
     }
-
-    fun onPassShareEntryClick() {
-        _uiState.update { it.copy(isPassShareVisible = true) }
-    }
-
     companion object {
         // 수정: 전체 플로우 테스트용 더미 데이터. API 연동 시 전부 제거하고 Repository 호출로 대체 예정.
 
@@ -274,17 +269,17 @@ class RegisterViewModel @Inject constructor(
 
         // key: 공고id -> 합격 축하 카드 정보 (PASS_SHARE 화면 테스트용)
         private val DUMMY_PASS_SHARE_INFO_BY_ANNOUNCE_ID = mapOf(
-            1 to RegisterPassShareModel(
+            1 to RegisterPassCardModel(
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
             ),
-            2 to RegisterPassShareModel(
+            2 to RegisterPassCardModel(
                 companyName = "네이버",
                 logoUrl = "",
                 backgroundImageUrl = "",
             ),
-            3 to RegisterPassShareModel(
+            3 to RegisterPassCardModel(
                 companyName = "라인",
                 logoUrl = "",
                 backgroundImageUrl = "",

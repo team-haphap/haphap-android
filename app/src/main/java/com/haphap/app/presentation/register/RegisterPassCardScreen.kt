@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.register.component
+package com.haphap.app.presentation.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,13 +25,35 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.data.model.register.RegisterPassShareModel
+import com.haphap.app.data.model.register.RegisterPassCardModel
 
 @Composable
-fun RegisterPassCardSection(
+fun RegisterPassCardRoute(
+    recruitName: String,
+    companyName: String,
+    logoUrl: String,
+    backgroundImageUrl: String,
+    navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    RegisterPassCardScreen(
+        userName = "userName",
+        recruitName = recruitName,
+        passShareModel = RegisterPassCardModel(
+            companyName = companyName,
+            logoUrl = logoUrl,
+            backgroundImageUrl = backgroundImageUrl,
+        ),
+        onHomeClick = navigateToHome,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun RegisterPassCardScreen(
     userName: String,
     recruitName: String,
-    passShareModel: RegisterPassShareModel,
+    passShareModel: RegisterPassCardModel,
     onHomeClick: () -> Unit,
     modifier : Modifier = Modifier,
 ) {
@@ -128,12 +150,12 @@ fun RegisterPassCardSection(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterPassCardSectionPreview() {
+private fun RegisterPassCardScreenPreview() {
     HapHapTheme {
-        RegisterPassCardSection(
+        RegisterPassCardScreen(
             userName = "박연수",
             recruitName = "2026 신입 개발자 공개 채용~~~~~~~~~~~~~~~~",
-            passShareModel = RegisterPassShareModel(
+            passShareModel = RegisterPassCardModel(
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
