@@ -24,7 +24,7 @@ fun JobDetailReportEmptyComponent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = HapHapTheme.colors.gray100),
+            .background(color = HapHapTheme.colors.white),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
     ) {

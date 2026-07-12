@@ -39,6 +39,7 @@ import com.haphap.app.data.model.detail.JobResultModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
+import com.haphap.app.presentation.jobdetail.component.JobDetailReportEmptyComponent
 import com.haphap.app.presentation.jobdetail.component.JobDetailTitleSection
 import com.haphap.app.presentation.jobdetail.component.JobDetailTopBar
 import com.haphap.app.presentation.jobdetail.component.JobParticipantSection
@@ -216,16 +217,23 @@ private fun JobDetailScreen(
 
                 item { Spacer(modifier = Modifier.height(12.dp)) }
 
-                items(
-                    items = uiState.reports,
-                    key = { it.id },
-                ) { report ->
-                    JobStepReportItem(
-                        time = report.time,
-                        nickName = report.nickName,
-                        result = report.result,
-                        stage = report.stage,
-                    )
+                if (uiState.reports.isEmpty()) {
+                    item {
+                        JobDetailReportEmptyComponent(
+                        )
+                    }
+                } else {
+                    items(
+                        items = uiState.reports,
+                        key = { it.id },
+                    ) { report ->
+                        JobStepReportItem(
+                            time = report.time,
+                            nickName = report.nickName,
+                            result = report.result,
+                            stage = report.stage,
+                        )
+                    }
                 }
 
                 item { Spacer(modifier = Modifier.height(12.dp)) }
@@ -285,13 +293,7 @@ private fun JobDetailScreenPreview() {
                     profileImages = persistentListOf("", "", "", ""),
                     additionalParticipantCount = 129,
                 ),
-                reports = persistentListOf(
-                    JobStepReportModel(1, "12:21", "익명의 라이언", JobStepReportType.PASS, "서류"),
-                    JobStepReportModel(2, "12:21", "익명의 라이언", JobStepReportType.FAIL, "서류"),
-                    JobStepReportModel(3, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                    JobStepReportModel(4, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                    JobStepReportModel(5, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                ),
+                reports = persistentListOf(),
             ),
             onBackClick = {},
             onAlarmClick = {},
