@@ -32,49 +32,53 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.data.model.home.BannerItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
 
 @Composable
 fun HomeBannerSection(
-    banners: ImmutableList<String>,
+    bannerList: ImmutableList<BannerItemModel>,
     modifier: Modifier = Modifier,
-    state: HomeBannerState = rememberHomeBannerState(banners = banners),
 ) {
-    if (banners.isEmpty()) return
+    if (bannerList.isEmpty()) return
+
+    val visibleBannerList = remember(bannerList) { bannerList.take(5).toPersistentList() }
+    val state = rememberHomeBannerState(bannerList = visibleBannerList)
 
     state.HandleAutoScroll()
 
-    Column(modifier = modifier.padding(vertical = 8.dp)) {
+    Column(modifier = modifier) {
         HorizontalPager(
             state = state.pagerState,
             contentPadding = PaddingValues(horizontal = 30.dp),
             pageSpacing = 12.dp,
         ) { page ->
-            val index = page % banners.size
-            BannerCard(imageUrl = banners[index])
+            val index = page % visibleBannerList.size
+            BannerCard(imageUrl = visibleBannerList[index].imageUrl)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 space = 6.dp,
                 alignment = Alignment.CenterHorizontally,
             ),
         ) {
-            val currentIndex = state.pagerState.currentPage % banners.size
+            val currentIndex = state.pagerState.currentPage % visibleBannerList.size
 
-            repeat(banners.size) { index ->
+            repeat(visibleBannerList.size) { index ->
                 val isSelected = currentIndex == index
 
                 Box(
                     modifier = Modifier
                         .size(8.dp)
                         .clip(CircleShape)
-                        .background(color = if (isSelected) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray200)
+                        .background(color = if (isSelected) HapHapTheme.colors.sub200 else HapHapTheme.colors.gray200)
                 )
             }
         }
@@ -102,17 +106,17 @@ class HomeBannerState(
     }
 
     companion object {
-        private const val AUTO_SCROLL_DELAY = 5000L
+        private const val AUTO_SCROLL_DELAY = 3000L
     }
 }
 
 @Composable
 private fun rememberHomeBannerState(
-    banners: ImmutableList<String>
+    bannerList: ImmutableList<BannerItemModel>
 ): HomeBannerState {
     val pagerState = rememberPagerState(
-        initialPage = if (banners.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % banners.size),
-        pageCount = { if (banners.isEmpty()) 0 else Int.MAX_VALUE }
+        initialPage = if (bannerList.isEmpty()) 0 else (Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % bannerList.size),
+        pageCount = { if (bannerList.isEmpty()) 0 else Int.MAX_VALUE }
     )
     return remember(pagerState) {
         HomeBannerState(pagerState)
@@ -166,7 +170,13 @@ private fun BannerCard(
 private fun HomeBannerSectionPreview() {
     HapHapTheme {
         HomeBannerSection(
-            banners = persistentListOf("", "", "", "", "")
+            bannerList = persistentListOf(
+                BannerItemModel(id = 1, imageUrl = ""),
+                BannerItemModel(id = 2, imageUrl = ""),
+                BannerItemModel(id = 3, imageUrl = ""),
+                BannerItemModel(id = 4, imageUrl = ""),
+                BannerItemModel(id = 5, imageUrl = ""),
+            )
         )
     }
 }

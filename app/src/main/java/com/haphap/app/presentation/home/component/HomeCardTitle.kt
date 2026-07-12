@@ -24,7 +24,9 @@ fun HomeCardTitle(
     onMoreClick: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -61,7 +63,7 @@ fun HomeCardTitle(
 private fun HomeCardTitlePreview() {
     HapHapTheme {
         Column(
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+            modifier = Modifier.padding(vertical = 12.dp)
         ) {
             HomeCardTitle(
                 title = "최근 결과가 올라온 공고",
