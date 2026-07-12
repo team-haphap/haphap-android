@@ -123,7 +123,7 @@ private fun JobDetailScreen(
                 item {
                     JobDetailTitleSection(
                         companyName = uiState.titleInfo.companyName,
-                        jobTitle = uiState.titleInfo.jobTitle,
+                        jobTitle = uiState.titleInfo.postingTitle,
                         keywords = uiState.titleInfo.keywords,
                         statusText = uiState.titleInfo.currentState,
                     )
@@ -272,7 +272,7 @@ private fun JobDetailScreenPreview() {
             uiState = JobDetailContract.State(
                 titleInfo = JobTitleModel(
                     companyName = "카카오 에너지",
-                    jobTitle = "태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획",
+                    postingTitle = "태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획",
                     keywords = persistentListOf("사업/기획", "양재 본사", "UXUI"),
                     currentState = "1차 면접 진행 중",
                 ),
