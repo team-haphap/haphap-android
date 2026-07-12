@@ -99,7 +99,7 @@ fun SearchDefaultSection(
                     stage = it.nextStage,
                     dDay = it.dDay,
                     company = it.companyName,
-                    description = it.content,
+                    description = it.title,
                     onCardClick = { onCardClick(it.id) },
                     modifier = Modifier.widthIn(max = 186.dp)
                 )
