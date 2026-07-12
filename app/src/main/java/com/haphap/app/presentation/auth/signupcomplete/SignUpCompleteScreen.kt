@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.auth
+package com.haphap.app.presentation.auth.signupcomplete
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,15 +23,15 @@ import com.haphap.app.core.designsystem.type.ButtonType
 
 @Composable
 fun SignUpCompleteRoute(
-    modifier: Modifier = Modifier,
     userName: String,
     navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     SignUpCompleteScreen(
         userName = userName.ifBlank { "사용자" },
         navigateToHome = navigateToHome,
         modifier = modifier,
-        )
+    )
 }
 
 @Composable
@@ -39,7 +39,7 @@ fun SignUpCompleteScreen(
     userName: String,
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    ) {
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -59,29 +59,28 @@ fun SignUpCompleteScreen(
             style = HapHapTheme.typography.body.m14,
             color = HapHapTheme.colors.gray500,
         )
+        Spacer(modifier = Modifier.weight(188f))
 
-        Column(
+        Image(
+            painter = painterResource(R.drawable.img_logo),
+            contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.height(172.dp))
+                .size(width = 64.dp, height = 68.dp)
+                .align(Alignment.CenterHorizontally),
+        )
 
-            Image(
-                painter = painterResource(R.drawable.img_logo),
-                contentDescription = null,
-                modifier = Modifier.size(width = 48.dp, height = 50.dp),
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Image(
+            painter = painterResource(R.drawable.img_text_logo),
+            contentDescription = null,
+            modifier = Modifier
+                .size(width = 191.dp, height = 29.dp)
+                .align(Alignment.CenterHorizontally),
+        )
 
-            Image(
-                painter = painterResource(R.drawable.img_text_logo),
-                contentDescription = null,
-                modifier = Modifier.size(width = 191.dp, height = 30.dp),
-            )
-        }
+
+        Spacer(modifier = Modifier.weight(265f))
 
         HapHapBasicButton(
             text = "시작하기",

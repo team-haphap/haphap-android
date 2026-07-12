@@ -1,17 +1,13 @@
 package com.haphap.app.presentation.search.component
 
-import android.R.attr.category
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,15 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.card.HapHapCard
-import com.haphap.app.core.designsystem.component.chip.FilterChipContent
-import com.haphap.app.core.designsystem.component.chip.HapHapFilterChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.search.ChipListModel
 import com.haphap.app.data.model.search.SearchResultModel
-import com.haphap.app.presentation.search.SearchContract.State.Companion.DEFAULT_CHIP_LIST
+import com.haphap.app.presentation.common.component.HapHapCategoryChipList
+import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -45,39 +39,17 @@ fun SearchResultSection(
     Column(
         modifier = modifier,
     ) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp)
-        ) {
-            item {
-                HapHapFilterChip(
-                    content = FilterChipContent.IconContent(
-                        iconRes = R.drawable.ic_filter_20,
-                    ),
-                    onFilterClick = {},
-                    isFilterSelected = false
-                )
+        HapHapCategoryChipList(
+            chipList = chipList,
+            selectedChips = selectedChips,
+            onFilterClick = onFilterClick,
+        )
 
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-
-            items(
-                items = chipList,
-                key = { it.id },
-            ) {
-                HapHapFilterChip(
-                    content = FilterChipContent.TextContent(it.category),
-                    onFilterClick = { onFilterClick(it.category) },
-                    isFilterSelected = selectedChips.contains(it.category),
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-        }
+        Spacer(modifier = Modifier.height(10.dp))
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(vertical = 12.dp, horizontal = 20.dp),
+            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
@@ -104,18 +76,13 @@ fun SearchResultSection(
 @Composable
 private fun SearchResultSectionPreview() {
     HapHapTheme {
-        var selectedChips by remember { mutableStateOf(persistentListOf("전체")) }
+        var categoryChipState by remember { mutableStateOf(CategoryChipState()) }
 
         SearchResultSection(
-            chipList = DEFAULT_CHIP_LIST,
-            selectedChips = selectedChips,
+            chipList = categoryChipState.chipList,
+            selectedChips = categoryChipState.selectedChips,
             onFilterClick = { category ->
-                selectedChips = when {
-                    category == "전체" -> persistentListOf("전체")
-                    selectedChips.size == 1 && selectedChips.contains("전체") -> selectedChips
-                    selectedChips.contains("전체") -> selectedChips.remove("전체")
-                    else -> selectedChips.remove("전체").add(category)
-                }
+                categoryChipState = categoryChipState.toggle(category)
             },
             searchResultList = persistentListOf(
                 SearchResultModel(

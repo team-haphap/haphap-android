@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.auth
+package com.haphap.app.presentation.auth.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,20 +22,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.state.UiState
 
 @Composable
 fun LoginRoute(
-    navigateToHome: () -> Unit,
     navigateToSignUpComplete: (userName: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
@@ -123,23 +122,23 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(29.dp))
 
-        Button(
-            onClick = onKakaoLoginClick,
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 13.dp, bottom = 12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = HapHapTheme.colors.yellow,
-                contentColor = HapHapTheme.colors.gray800,
-            ),
-            shape = RoundedCornerShape(8.dp),
-            elevation = ButtonDefaults.buttonElevation(0.dp),
+                .noRippleClickable(onClick = onKakaoLoginClick)
+                .background(
+                    color = HapHapTheme.colors.yellow,
+                    shape = RoundedCornerShape(8.dp),
+                )
+                .padding(vertical = 13.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_login_kakao_logo),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_login_kakao_logo),
                 contentDescription = null,
-                tint = Color.Unspecified,
-                modifier = Modifier.size(21.dp),
+                tint = HapHapTheme.colors.gray800,
+                modifier = Modifier.size(20.dp),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -150,6 +149,8 @@ fun LoginScreen(
                 color = HapHapTheme.colors.gray800,
             )
         }
+
+        Spacer(modifier = Modifier.height(13.dp))
     }
 }
 
