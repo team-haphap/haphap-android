@@ -5,11 +5,19 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.haphap.app.data.local.database.RecentSearchEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class RecentSearchDao {
+
+    @Transaction
+    open suspend fun saveRecentSearchItem(recentSearchEntity: RecentSearchEntity) {
+        removeDuplicatedText(recentSearchEntity.searchText)
+        insertRecentItem(recentSearchEntity)
+        trimRecentSearchItems()
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertRecentItem(recentSearchEntity: RecentSearchEntity)

@@ -11,15 +11,13 @@ class LocalSearchDataSourceImpl @Inject constructor(
 ) : LocalSearchDataSource {
 
     override suspend fun setSearchKeyword(searchText: String) {
-        recentSearchDao.removeDuplicatedText(searchText)
-        recentSearchDao.insertRecentItem(
+        recentSearchDao.saveRecentSearchItem(
             RecentSearchEntity(
                 id = 0,
                 searchText = searchText,
-                searchedAt = System.currentTimeMillis()
+                searchedAt = System.currentTimeMillis(),
             )
         )
-        recentSearchDao.trimRecentSearchItems()
     }
 
     override fun getSearchKeyword(): Flow<List<RecentSearchEntity>> =
