@@ -40,7 +40,7 @@ fun CalendarListCardEmptyComponent(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "오늘 발표 예상 공고가 없습니다",
+            text = "발표 예상 공고가 없습니다",
             color = HapHapTheme.colors.gray400,
             style = HapHapTheme.typography.caption.sb12,
         )
