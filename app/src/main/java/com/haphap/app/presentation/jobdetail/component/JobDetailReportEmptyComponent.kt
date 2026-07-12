@@ -1,0 +1,52 @@
+package com.haphap.app.presentation.jobdetail.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.haphap.app.R
+import com.haphap.app.core.designsystem.theme.HapHapTheme
+
+@Composable
+fun JobDetailReportEmptyComponent(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = HapHapTheme.colors.gray100),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
+    ) {
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
+            contentDescription = null,
+            modifier = Modifier.size(53.dp),
+            tint = HapHapTheme.colors.gray200,
+        )
+
+        Text(
+            text = "오늘은 아직 공유된 결과가 없어요.",
+            color = HapHapTheme.colors.gray400,
+            style = HapHapTheme.typography.caption.sb12,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun JobDetailReportEmptyComponentPreview() {
+    HapHapTheme {
+        JobDetailReportEmptyComponent()
+    }
+}
