@@ -1,9 +1,11 @@
 package com.haphap.app.core.designsystem.component.toast
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +25,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 @Composable
 fun HapHapToast(
     text: String,
+    isAlarm: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -32,22 +35,25 @@ fun HapHapToast(
                 color = HapHapTheme.colors.gray600,
                 shape = RoundedCornerShape(6.dp),
             )
-            .padding(4.dp),
+            .padding(horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_top_bar_alarm_default_44),
-            contentDescription = null,
-            modifier = Modifier.size(32.dp),
-            tint = HapHapTheme.colors.white,
-        )
+        if(isAlarm){
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_top_bar_alarm_default_44),
+                contentDescription = null,
+                modifier = Modifier.size(32.dp),
+                tint = HapHapTheme.colors.white,
+            )
+        }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(6.dp))
 
         Text(
             text = text,
             style = HapHapTheme.typography.body.sb13,
             color = HapHapTheme.colors.white,
+            modifier = Modifier.padding(vertical = 11.dp)
         )
 
     }
@@ -57,8 +63,18 @@ fun HapHapToast(
 @Composable
 private fun HapHapToastPreview() {
     HapHapTheme{
-        HapHapToast(
-            text = "이미 등록한 공고입니다"
-        )
+        Column{
+            HapHapToast(
+                text = "이미 등록한 공고입니다",
+                isAlarm = true,
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            HapHapToast(
+                text = "이미 등록한 공고입니다",
+                isAlarm = false,
+            )
+        }
     }
 }
