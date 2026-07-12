@@ -12,8 +12,9 @@ import com.haphap.app.presentation.jobdetail.JobDetailRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToJobDetail(
+    postingId: Long,
     navOptions: NavOptions? = null,
-) = navigate(JobDetail, navOptions)
+) = navigate(JobDetail(postingId), navOptions)
 
 fun NavGraphBuilder.jobDetailGraph(
     innerPadding: PaddingValues,
@@ -26,4 +27,4 @@ fun NavGraphBuilder.jobDetailGraph(
 }
 
 @Serializable
-data object JobDetail : Route
+data class JobDetail(val postingId: Long) : Route
