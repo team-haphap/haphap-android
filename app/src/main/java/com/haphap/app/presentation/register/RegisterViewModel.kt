@@ -5,13 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -41,7 +39,6 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(announceListUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
-            delay(300)
             _uiState.update {
                 it.copy(
                     announceList = DUMMY_ANNOUNCE_LIST,
@@ -64,7 +61,6 @@ class RegisterViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            delay(300)
             _uiState.update {
                 it.copy(
                     processList = DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID[item.id] ?: persistentListOf(),
@@ -75,12 +71,10 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onProcessSelected(id: Int) {
-        val announceId = _uiState.value.selectedAnnounce?.id
-        val previousResult = DUMMY_PREVIOUS_RESULTS["$announceId-$id"]
         _uiState.update {
             it.copy(
                 selectedProcessId = id,
-                previousRegisteredResult = previousResult,
+                previousRegisteredResult = null,
                 isButtonEnabled = it.selectedAnnounce != null,
             )
         }
@@ -217,15 +211,12 @@ class RegisterViewModel @Inject constructor(
                     isButtonEnabled = false
                 )
             }
-            delay(300)
 
-            // 수정: 전체 플로우 테스트를 위한 임시 하드코딩 (API 연동 전까지만 사용)
-            val announceId = _uiState.value.selectedAnnounce?.id
             _uiState.update {
                 it.copy(
                     registerUiState = RegisterUiState.Success,
                     step = 5,
-                    passShareInfo = DUMMY_PASS_SHARE_INFO_BY_ANNOUNCE_ID[announceId],
+                    passShareInfo = null,
                     isButtonEnabled = true,
                 )
             }
@@ -259,30 +250,6 @@ class RegisterViewModel @Inject constructor(
                 RegisterProcessModel(id = 11, text = "과제전형"),
                 RegisterProcessModel(id = 12, text = "면접"),
                 RegisterProcessModel(id = 13, text = "최종"),
-            ),
-        )
-
-        // key: "공고id-전형id" -> 이전에 등록된 결과 (변경 모달 테스트용)
-        private val DUMMY_PREVIOUS_RESULTS = mapOf(
-            "1-1" to PassResultStatusButton.FAILED,
-        )
-
-        // key: 공고id -> 합격 축하 카드 정보 (PASS_SHARE 화면 테스트용)
-        private val DUMMY_PASS_SHARE_INFO_BY_ANNOUNCE_ID = mapOf(
-            1 to RegisterPassCardModel(
-                companyName = "카카오",
-                logoUrl = "",
-                backgroundImageUrl = "",
-            ),
-            2 to RegisterPassCardModel(
-                companyName = "네이버",
-                logoUrl = "",
-                backgroundImageUrl = "",
-            ),
-            3 to RegisterPassCardModel(
-                companyName = "라인",
-                logoUrl = "",
-                backgroundImageUrl = "",
             ),
         )
     }
