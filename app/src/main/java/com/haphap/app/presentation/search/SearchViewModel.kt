@@ -73,7 +73,7 @@ class SearchViewModel @Inject constructor(
                     Timber.d("저장 성공했습니다.")
                 }
                 .onFailure {
-                    Timber.d("저장 실패했습니다.")
+                    Timber.e("$it 저장 실패했습니다.")
 
                 }
             _uiState.update { it.copy(searchAutoCompleteUiState = SearchUiState.Idle) }
@@ -89,7 +89,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
             .onFailure {
-                Timber.e(it)
+                Timber.e("$it 불러오기 실패했습니다.")
             }
     }
 
@@ -99,7 +99,7 @@ class SearchViewModel @Inject constructor(
                 Timber.d("삭제 성공했습니다.")
             }
             .onFailure {
-                Timber.d("삭제 실패했습니다.")
+                Timber.e("$it 삭제 실패했습니다.")
 
             }
     }
