@@ -17,25 +17,25 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.model.register.RegisterPassCardModel
+import com.haphap.app.presentation.register.component.RegisterFifthSection
 import com.haphap.app.presentation.register.component.RegisterFirstSection
+import com.haphap.app.presentation.register.component.RegisterFourthSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
+import com.haphap.app.presentation.register.component.RegisterSecondSection
+import com.haphap.app.presentation.register.component.RegisterThirdSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.component.RegisterFifthSection
-import com.haphap.app.presentation.register.component.RegisterFourthSection
-import com.haphap.app.presentation.register.component.RegisterSecondSection
-import com.haphap.app.presentation.register.component.RegisterThirdSection
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.collections.find
 
 @Composable
 fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Long) -> Unit,
-    navigateToPassCard: (recruitName: String, companyName: String, logoUrl: String, backgroundImageUrl: String) -> Unit,
+    navigateToPassCard: (passCard: RegisterPassCardModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
@@ -62,15 +62,19 @@ fun RegisterRoute(
                 5 -> {
                     if (uiState.selectedResult == PassResultStatusButton.PASS) {
                         navigateToPassCard(
-                            uiState.selectedAnnounce?.text.orEmpty(),
-                            "",
-                            "",
-                            "",
+                            RegisterPassCardModel(
+                                recruitName = uiState.selectedAnnounce?.text.orEmpty(),
+                                companyName = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
+                                logoUrl = "",
+                                backgroundImageUrl = "",
+                            )
                         )
                     } else {
                         when (val entryPoint = uiState.entryPoint) {
                             RegisterContract.RegisterSideEffect.Home -> navigateToHome()
-                            is RegisterContract.RegisterSideEffect.JobDetail -> navigateToJobDetail(entryPoint.jobId)
+                            is RegisterContract.RegisterSideEffect.JobDetail -> navigateToJobDetail(
+                                entryPoint.jobId
+                            )
                         }
                     }
                 }

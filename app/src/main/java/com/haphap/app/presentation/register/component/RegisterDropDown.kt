@@ -118,7 +118,7 @@ fun RegisterDropDown(
 val RegisterDropDownItemHeight = 50.dp
 
 @Composable
-fun RegisterDropDownItem(
+private fun RegisterDropDownItem(
     text: String,
     isSelected: Boolean,
     onClick: () -> Unit,

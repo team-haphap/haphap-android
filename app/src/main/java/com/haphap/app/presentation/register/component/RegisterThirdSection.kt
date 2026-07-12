@@ -87,19 +87,17 @@ private fun NotificationChannelGrid(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 rowItems.forEach { channel ->
-                    key(channel) {
-                        HapHapBasicButton(
-                            text = channel.text,
-                            textStyle = HapHapTheme.typography.body.sb14,
-                            colorType = if (selectedChannels.contains(channel)) {
-                                ButtonType.Selected
-                            } else {
-                                ButtonType.UnSelected
-                            },
-                            onClick = { onChannelToggled(channel) },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
+                    HapHapBasicButton(
+                        text = channel.text,
+                        textStyle = HapHapTheme.typography.body.sb14,
+                        colorType = if (selectedChannels.contains(channel)) {
+                            ButtonType.Selected
+                        } else {
+                            ButtonType.UnSelected
+                        },
+                        onClick = { onChannelToggled(channel) },
+                        modifier = Modifier.weight(1f),
+                    )
                 }
 
                 repeat(COLUMN_COUNT - rowItems.size) {

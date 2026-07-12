@@ -38,11 +38,13 @@ fun RegisterEnterDateTime(
     onDateSelected: (LocalDate) -> Unit,
     contactTime: String?,
     onTimeSelected: (LocalTime) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
 
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(9.dp),
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -82,7 +84,7 @@ fun RegisterEnterDateTime(
 }
 
 @Composable
-fun RegisterEnterDate(
+private fun RegisterEnterDate(
     value: String,
     placeholder: String,
     onDateSelected: (LocalDate) -> Unit,
@@ -130,7 +132,7 @@ fun RegisterEnterDate(
 }
 
 @Composable
-fun RegisterEnterTime(
+private fun RegisterEnterTime(
     value: String,
     placeholder: String,
     onTimeSelected: (LocalTime) -> Unit,

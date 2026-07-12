@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.MainTabRoute
+import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import com.haphap.app.presentation.register.RegisterRoute
@@ -24,17 +25,14 @@ fun NavController.navigateToRegisterFromJobDetail(
 ) = navigate(Register(jobId = jobId), navOptions)
 
 fun NavController.navigateToRegisterPassCard(
-    recruitName: String,
-    companyName: String,
-    logoUrl: String,
-    backgroundImageUrl: String,
+    passCard: RegisterPassCardModel,
     navOptions: NavOptions? = null,
 ) = navigate(
     RegisterPassCard(
-        recruitName = recruitName,
-        companyName = companyName,
-        logoUrl = logoUrl,
-        backgroundImageUrl = backgroundImageUrl,
+        recruitName = passCard.recruitName,
+        companyName = passCard.companyName,
+        logoUrl = passCard.logoUrl,
+        backgroundImageUrl = passCard.backgroundImageUrl,
     ),
     navOptions,
 )
@@ -50,12 +48,13 @@ fun NavGraphBuilder.registerGraph(
             navigateToJobDetail = { jobId ->
                 // TODO: 상세 페이지 네비게이션 함수 추가 예정
             },
-            navigateToPassCard = { recruitName, companyName, logoUrl, backgroundImageUrl ->
+            navigateToPassCard = { passCard ->
                 navController.navigateToRegisterPassCard(
-                    recruitName = recruitName,
-                    companyName = companyName,
-                    logoUrl = logoUrl,
-                    backgroundImageUrl = backgroundImageUrl,
+                    passCard = passCard
+//                    recruitName = recruitName,
+//                    companyName = companyName,
+//                    logoUrl = logoUrl,
+//                    backgroundImageUrl = backgroundImageUrl,
                 )
             },
             modifier = Modifier.padding(innerPadding),
@@ -65,10 +64,12 @@ fun NavGraphBuilder.registerGraph(
     composable<RegisterPassCard> { backStackEntry ->
         val route = backStackEntry.toRoute<RegisterPassCard>()
         RegisterPassCardRoute(
-            recruitName = route.recruitName,
-            companyName = route.companyName,
-            logoUrl = route.logoUrl,
-            backgroundImageUrl = route.backgroundImageUrl,
+            passCardModel = RegisterPassCardModel(
+                recruitName = route.recruitName,
+                companyName = route.companyName,
+                logoUrl = route.logoUrl,
+                backgroundImageUrl = route.backgroundImageUrl,
+            ),
             navigateToHome = { navController.navigateToHome() },
             modifier = Modifier.padding(innerPadding),
         )

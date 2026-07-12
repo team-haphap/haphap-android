@@ -29,21 +29,13 @@ import com.haphap.app.data.model.register.RegisterPassCardModel
 
 @Composable
 fun RegisterPassCardRoute(
-    recruitName: String,
-    companyName: String,
-    logoUrl: String,
-    backgroundImageUrl: String,
+    passCardModel: RegisterPassCardModel,
     navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     RegisterPassCardScreen(
         userName = "userName",
-        recruitName = recruitName,
-        passShareModel = RegisterPassCardModel(
-            companyName = companyName,
-            logoUrl = logoUrl,
-            backgroundImageUrl = backgroundImageUrl,
-        ),
+        passCardModel = passCardModel,
         onHomeClick = navigateToHome,
         modifier = modifier,
     )
@@ -52,8 +44,7 @@ fun RegisterPassCardRoute(
 @Composable
 fun RegisterPassCardScreen(
     userName: String,
-    recruitName: String,
-    passShareModel: RegisterPassCardModel,
+    passCardModel: RegisterPassCardModel,
     onHomeClick: () -> Unit,
     modifier : Modifier = Modifier,
 ) {
@@ -89,7 +80,7 @@ fun RegisterPassCardScreen(
                 .clip(RoundedCornerShape(18.dp))
         ) {
             UrlImage(
-                url = passShareModel.backgroundImageUrl,
+                url = passCardModel.backgroundImageUrl,
                 placeholderDrawable = R.drawable.ic_launcher_background,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -103,7 +94,7 @@ fun RegisterPassCardScreen(
                 horizontalAlignment = Alignment.Start,
             ) {
                 UrlImage(
-                    url = passShareModel.logoUrl,
+                    url = passCardModel.logoUrl,
                     placeholderDrawable = R.drawable.ic_launcher_background,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
@@ -113,7 +104,7 @@ fun RegisterPassCardScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "${passShareModel.companyName} $recruitName",
+                    text = "${passCardModel.companyName} ${passCardModel.recruitName}",
                     style = HapHapTheme.typography.body.b18,
                     color = HapHapTheme.colors.primary100,
                     textAlign = TextAlign.Start,
@@ -154,8 +145,8 @@ private fun RegisterPassCardScreenPreview() {
     HapHapTheme {
         RegisterPassCardScreen(
             userName = "박연수",
-            recruitName = "2026 신입 개발자 공개 채용~~~~~~~~~~~~~~~~",
-            passShareModel = RegisterPassCardModel(
+            passCardModel = RegisterPassCardModel(
+                recruitName = "2027 신입 채용 공고~~~~~~~~~~~~~~~~~~~~",
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
