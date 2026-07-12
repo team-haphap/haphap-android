@@ -31,7 +31,7 @@ fun JobResultTabRow(
     ) {
         itemsIndexed(
             items = stages,
-            key = { index, _ -> index }
+            key = { index, _ -> index },
         ) { index, stage ->
             HapHapFilterChip(
                 content = FilterChipContent.TextContent(stage),

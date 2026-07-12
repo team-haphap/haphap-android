@@ -37,9 +37,9 @@ fun JobStepReportItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .background(color = HapHapTheme.colors.white)
+            .background(color = HapHapTheme.colors.white),
     ) {
-     Row(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 20.dp),
@@ -80,7 +80,7 @@ fun JobStepReportItem(
         }
         HorizontalDivider(
             thickness = 1.dp,
-            color = HapHapTheme.colors.gray100
+            color = HapHapTheme.colors.gray100,
         )
     }
 }

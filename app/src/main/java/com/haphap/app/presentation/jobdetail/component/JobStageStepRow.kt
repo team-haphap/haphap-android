@@ -38,7 +38,7 @@ fun JobStageStepRow(
     ) {
         items(
             items = steps,
-            key = { it.stageId }
+            key = { it.stageId },
         ) { step ->
             JobStageStep(
                 number = step.number,

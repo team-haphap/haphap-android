@@ -35,7 +35,7 @@ fun JobParticipantSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 20.dp)
+        modifier = modifier.padding(horizontal = 20.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
