@@ -82,6 +82,9 @@ class SearchViewModel @Inject constructor(
                     _uiState.update { it.copy(recentSearchList = list.toImmutableList()) }
                 }
             }
+            .onFailure {
+                Timber.e(it)
+            }
     }
 
     fun deleteRecentSearchItem(id: Long) = viewModelScope.launch {
