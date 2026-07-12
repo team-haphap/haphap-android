@@ -25,13 +25,13 @@ import java.time.temporal.ChronoUnit
 
 @Composable
 fun HapHapCustomCalendar(
+    selectedDate: LocalDate?,
     onClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ){
     val pageCount = Int.MAX_VALUE
     val startPage = Int.MAX_VALUE / 2
     val baseMonth = remember { YearMonth.now() }
-    var selectedDate by rememberSaveable { mutableStateOf<LocalDate?>(null) }
     var showDateBottomSheet by rememberSaveable { mutableStateOf(false) }
     var pickedDate by remember { mutableStateOf<LocalDate?>(null) }
     val coroutineScope = rememberCoroutineScope()
@@ -69,10 +69,7 @@ fun HapHapCustomCalendar(
             CalendarGrid(
                 yearMonth = yearMonth,
                 selectedDate = selectedDate,
-                onClick = { day ->
-                    selectedDate = day
-                    onClick(day)
-                },
+                onClick = onClick,
             )
         }
 
@@ -87,7 +84,6 @@ fun HapHapCustomCalendar(
             onCancelClick = { showDateBottomSheet = false },
             onConfirmClick = {
                 pickedDate?.let { date ->
-                    selectedDate = date
                     onClick(date)
                     val targetPage = startPage + ChronoUnit.MONTHS.between(baseMonth, YearMonth.from(date))
                     coroutineScope.launch {
@@ -111,7 +107,7 @@ private fun HapHapCustomCalendarPreview() {
                 .padding(horizontal = 12.dp)
                 .padding(top = 50.dp),
         ) {
-            HapHapCustomCalendar(onClick = {})
+            HapHapCustomCalendar(selectedDate = null, onClick = {})
         }
     }
 }
