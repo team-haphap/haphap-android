@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.calendar.type.DayType
-import com.haphap.app.presentation.calendar.type.PresentChance
 import com.haphap.app.presentation.calendar.type.defaultDaysOfWeek
 import kotlinx.collections.immutable.ImmutableList
 import java.time.DayOfWeek
@@ -50,19 +49,8 @@ fun CalendarGrid(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 week.forEach { day ->
-                    // TODO: presentChance 색상 확인용 임시 매핑, 실제 데이터 연결되면 제거
-                    val testPresentChance = when (day.dayOfMonth) {
-                        2 -> PresentChance.VERY_LOW
-                        4 -> PresentChance.LOW
-                        6 -> PresentChance.MEDIUM
-                        8 -> PresentChance.HIGH
-                        10 -> PresentChance.VERY_HIGH
-                        else -> PresentChance.NONE
-                    }
-
                     val dayType = if (YearMonth.from(day) == yearMonth) {
                         DayType.InMonth(
-                            presentChance = testPresentChance,
                             isToday = day == today,
                             isSelected = day == selectedDate,
                         )
