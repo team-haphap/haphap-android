@@ -29,7 +29,7 @@ enum class MainTab(
     REGISTER(
         iconRes = R.drawable.ic_bottom_bar_register_24,
         titleRes = "등록",
-        route = Register,
+        route = Register(),
     ),
     CALENDAR(
         iconRes = R.drawable.ic_bottom_bar_calendar_24,
