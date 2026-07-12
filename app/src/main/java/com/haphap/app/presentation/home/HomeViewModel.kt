@@ -22,6 +22,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         fetchBannerList()
+        fetchCountCard()
     }
 
     private fun fetchBannerList() {
@@ -32,6 +33,18 @@ class HomeViewModel @Inject constructor(
                 }
                 .onFailure { e ->
                     Timber.e(e, "배너 리스트 조회 실패")
+                }
+        }
+    }
+
+    private fun fetchCountCard() {
+        viewModelScope.launch {
+            homeRepository.getCountCard()
+                .onSuccess { count ->
+                    _uiState.update { it.copy(countCardModel = count) }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "카운트카드 조회 실패")
                 }
         }
     }
