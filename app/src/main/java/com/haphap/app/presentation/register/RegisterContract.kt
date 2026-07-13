@@ -48,6 +48,13 @@ sealed interface RegisterContract {
         data object Home : RegisterSideEffect
         data class JobDetail(val jobId: Long) : RegisterSideEffect
     }
+
+    sealed class SideEffect {
+        data class OnShowToast (
+            val message: String,
+            val isAlarm: Boolean = true,
+        ): SideEffect()
+    }
 }
 
 sealed interface RegisterUiState {

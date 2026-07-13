@@ -5,16 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.model.register.RegistrationCheckModel
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.RegisterResultType
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -31,6 +35,9 @@ class RegisterViewModel @Inject constructor(
     private val route = savedStateHandle.toRoute<Register>()
     private val _uiState = MutableStateFlow(RegisterContract.State())
     val uiState = _uiState.asStateFlow()
+
+    private val _sideEffect = Channel<RegisterContract.SideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
         loadAnnounceList()
@@ -115,7 +122,13 @@ class RegisterViewModel @Inject constructor(
         }
 
     fun onChangeModalConfirmClick() {
-        _uiState.update { it.copy(isChangeModalVisible = false) }
+        _uiState.update {
+            it.copy(
+                isChangeModalVisible = false,
+                selectedResult = null,
+                isButtonEnabled = false,
+            )
+        }
     }
 
     fun onChangeModalCancelClick() {
@@ -130,10 +143,32 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onStep2NextClick() {
-        val result = _uiState.value.selectedResult ?: return
+        val currentState = _uiState.value
+        val result = currentState.selectedResult ?: return
+        val postingId = currentState.registerInfo.postingId ?: return
+        val stageId = currentState.registerInfo.stageId ?: return
+
+        viewModelScope.launch {
+            registrationRepository.checkRegistration(postingId, stageId)
+                .onSuccess { checkResult ->
+                    when (checkResult) {
+                        RegistrationCheckModel.NEW -> advanceFromStep2(result)
+
+                        RegistrationCheckModel.CONFIRM_REQUIRED -> {
+                            _uiState.update { it.copy(isChangeModalVisible = true) }
+                        }
+
+                        RegistrationCheckModel.DUPLICATE -> {
+                            _sideEffect.send(OnShowToast("이미 등록한 공고입니다."))
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun advanceFromStep2(result: PassResultStatusButton) {
         _uiState.update {
             val nextStep = if (result == PassResultStatusButton.DONT_KNOW) 4 else 3
-
             it.copy(
                 step = nextStep,
                 isButtonEnabled = if (nextStep == 3) {
