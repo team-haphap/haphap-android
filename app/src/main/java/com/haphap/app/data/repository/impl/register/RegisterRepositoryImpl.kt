@@ -10,6 +10,7 @@ import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.data.remote.datasource.api.register.RegisterDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.dto.register.RegisterRequestDto
+import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.type.RegisterResultType
 import retrofit2.HttpException
@@ -51,10 +52,15 @@ class RegisterRepositoryImpl @Inject constructor(
             postingDataSource.postRegistration(request).checkData().toModel()
         }
 
-    override suspend fun checkRegistration(postingId: Int, stageId: Int): Result<RegistrationCheckModel> =
+    override suspend fun checkRegistration(
+        postingId: Int,
+        stageId: Int,
+        result: RegisterResultType,
+    ): Result<RegistrationCheckModel> =
         suspendRunCatching {
             try {
-                val response = postingDataSource.getRegistrationCheck(postingId, stageId)
+                val request = RegistrationCheckRequestDto(result = result.name)
+                val response = postingDataSource.getRegistrationCheck(postingId, stageId, request)
                 when (response.code) {
                     REGISTRATION_CONFIRM_REQUIRED_CODE -> RegistrationCheckModel.CONFIRM_REQUIRED
                     else -> RegistrationCheckModel.NEW
