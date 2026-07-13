@@ -11,6 +11,9 @@ data class CategoryChipState(
     val chipList: ImmutableList<ChipListModel> = DEFAULT_CHIP_LIST,
     val selectedChips: PersistentList<String> = persistentListOf("전체"),
 ) {
+    val queryCategoryList: List<String>?
+        get() = selectedChips.takeUnless { it.singleOrNull() == "전체" }
+
     fun toggle(category: String): CategoryChipState =
         copy(
             selectedChips = when {
