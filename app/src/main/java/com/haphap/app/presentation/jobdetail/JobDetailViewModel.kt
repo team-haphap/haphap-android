@@ -28,7 +28,7 @@ class JobDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(JobDetailContract.State())
     val uiState = _uiState.asStateFlow()
 
-    private val _sideEffect = Channel<JobDetailContract.SideEffect>()
+    private val _sideEffect = Channel<JobDetailContract.SideEffect>(Channel.BUFFERED)
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
