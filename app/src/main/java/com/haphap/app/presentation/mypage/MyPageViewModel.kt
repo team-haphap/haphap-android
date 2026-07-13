@@ -11,6 +11,6 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
 
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MyPageUiState())
-    val uiState: StateFlow<MyPageUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(MyPageContract.State())
+    val uiState: StateFlow<MyPageContract.State> = _uiState.asStateFlow()
 }

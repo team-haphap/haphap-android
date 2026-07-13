@@ -41,6 +41,7 @@ fun MainNavHost(
 
         homeGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         jobListGraph(
@@ -49,6 +50,7 @@ fun MainNavHost(
 
         registerGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         calendarGraph(

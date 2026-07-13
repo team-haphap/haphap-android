@@ -28,7 +28,7 @@ import com.haphap.app.core.designsystem.component.card.HapHapCard
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.data.model.search.RecentSearchListModel
+import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.TrendJobListModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -36,9 +36,9 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SearchDefaultSection(
-    recentSearchList: ImmutableList<RecentSearchListModel>,
+    recentSearchList: ImmutableList<RecentSearchItemModel>,
     trendJobList: ImmutableList<TrendJobListModel>,
-    onDeleteClick: (Int) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -152,17 +152,17 @@ private fun SearchDefaultSectionPreview() {
     HapHapTheme {
         SearchDefaultSection(
             recentSearchList = persistentListOf(
-                RecentSearchListModel(
+                RecentSearchItemModel(
                     id = 1,
                     keyword = "2026 신입 공개 채용",
                     date = "01.22"
                 ),
-                RecentSearchListModel(
+                RecentSearchItemModel(
                     id = 2,
                     keyword = "2026 신입 공개 채용",
                     date = "01.22"
                 ),
-                RecentSearchListModel(
+                RecentSearchItemModel(
                     id = 3,
                     keyword = "2026 신입 공개 채용 채용채용채용채용채용채용채용",
                     date = "01.22"

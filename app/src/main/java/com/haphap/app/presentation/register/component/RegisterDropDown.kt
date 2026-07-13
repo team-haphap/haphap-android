@@ -2,6 +2,7 @@ package com.haphap.app.presentation.register.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,8 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.presentation.register.type.RegisterDropDownItemType
+import com.haphap.app.presentation.register.type.toStyle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -57,7 +60,7 @@ fun RegisterDropDown(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(onClick = { isExpanded = !isExpanded })
-            .padding(vertical = 15.dp, horizontal = 10.dp),
+            .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -82,7 +85,7 @@ fun RegisterDropDown(
     if (isExpanded) {
         Spacer(modifier = Modifier.height(12.dp))
 
-        val listHeight = RegisterDropDownItemHeight * items.size.coerceAtMost(MAX_VISIBLE_ITEMS)
+        val listHeight = RegisterDropDownItemHeight * items.size.coerceAtMost(MAX_VISIBLE_ITEMS) + 12.dp
 
         LazyColumn(
             modifier = Modifier
@@ -92,7 +95,7 @@ fun RegisterDropDown(
                     color = HapHapTheme.colors.gray50,
                     shape = RoundedCornerShape(10.dp),
                 )
-                .padding(horizontal = 11.dp),
+                .padding(horizontal = 11.dp, vertical = 6.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(
@@ -109,6 +112,39 @@ fun RegisterDropDown(
                 )
             }
         }
+    }
+}
+
+val RegisterDropDownItemHeight = 50.dp
+
+@Composable
+private fun RegisterDropDownItem(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val style = (if (isSelected) RegisterDropDownItemType.SELECTED else RegisterDropDownItemType.UNSELECTED)
+        .toStyle(HapHapTheme.colors)
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = style.backgroundColor,
+                shape = RoundedCornerShape(8.dp),
+            )
+            .noRippleClickable(onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 15.dp),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Text(
+            text = text,
+            style = HapHapTheme.typography.body.sb14,
+            color = style.textColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
