@@ -1,14 +1,22 @@
 package com.haphap.app.data.mapper.search
 
 import com.haphap.app.data.local.database.RecentSearchEntity
+import com.haphap.app.data.model.search.RangeModel
 import com.haphap.app.data.model.search.RecentSearchItemModel
+import com.haphap.app.data.model.search.RelatedKeywordItemModel
+import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
+import com.haphap.app.data.model.search.SearchPopularItemModel
 import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.data.model.search.SearchResultPageModel
-import com.haphap.app.data.model.search.SearchPopularItemModel
+import com.haphap.app.data.model.search.SearchingModel
+import com.haphap.app.data.remote.dto.search.AutoCompleteShortcutDto
+import com.haphap.app.data.remote.dto.search.HighlightRangeDto
 import com.haphap.app.data.remote.dto.search.PopularItemDto
 import com.haphap.app.data.remote.dto.search.PopularListResponseDto
+import com.haphap.app.data.remote.dto.search.RelatedKeywordDto
 import com.haphap.app.data.remote.dto.search.SearchResultItemDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
+import com.haphap.app.data.remote.dto.search.SearchingListDto
 import kotlinx.collections.immutable.toImmutableList
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -48,4 +56,28 @@ fun SearchResultItemDto.toModel(): SearchResultItemModel = SearchResultItemModel
     stage = nextStage,
     dDay = dDay,
     title = title,
+)
+
+
+fun SearchingListDto.toModel(): SearchingModel = SearchingModel(
+    relatedPostings = relatedPostings.map { it.toModel() }.toImmutableList(),
+    relatedKeywords = relatedKeywords.map { it.toModel() }.toImmutableList(),
+)
+
+fun AutoCompleteShortcutDto.toModel(): SearchAutoCompleteItemModel = SearchAutoCompleteItemModel(
+    id = postingId,
+    imageUrl = imageUrl,
+    text = name,
+    highlightLength = highlightRanges.first().toModel(),
+)
+
+fun RelatedKeywordDto.toModel(): RelatedKeywordItemModel = RelatedKeywordItemModel(
+    id = keywordId,
+    text = name,
+    highlightLength = highlightRanges.first().toModel(),
+)
+
+fun HighlightRangeDto.toModel(): RangeModel = RangeModel(
+    start = start,
+    end = end,
 )
