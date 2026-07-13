@@ -4,7 +4,7 @@ import com.haphap.app.data.local.database.RecentSearchEntity
 import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.data.model.search.SearchResultPageModel
-import com.haphap.app.data.model.search.TrendJobItemModel
+import com.haphap.app.data.model.search.SearchPopularItemModel
 import com.haphap.app.data.remote.dto.search.PopularItemDto
 import com.haphap.app.data.remote.dto.search.PopularListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchResultItemDto
@@ -21,9 +21,9 @@ fun RecentSearchEntity.toModel(): RecentSearchItemModel = RecentSearchItemModel(
 )
 
 
-fun PopularListResponseDto.toModel(): List<TrendJobItemModel> = postings.map { it.toModel() }
+fun PopularListResponseDto.toModel(): List<SearchPopularItemModel> = postings.map { it.toModel() }
 
-fun PopularItemDto.toModel(): TrendJobItemModel = TrendJobItemModel(
+fun PopularItemDto.toModel(): SearchPopularItemModel = SearchPopularItemModel(
     id = id,
     imageUrl = imageUrl,
     category = category,

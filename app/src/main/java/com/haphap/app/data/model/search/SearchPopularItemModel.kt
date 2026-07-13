@@ -1,6 +1,6 @@
 package com.haphap.app.data.model.search
 
-data class TrendJobItemModel(
+data class SearchPopularItemModel(
     val id: Int,
     val imageUrl: String,
     val category: String,

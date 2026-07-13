@@ -5,7 +5,7 @@ import com.haphap.app.data.local.datasource.api.LocalSearchDataSource
 import com.haphap.app.data.mapper.search.toModel
 import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.SearchResultPageModel
-import com.haphap.app.data.model.search.TrendJobItemModel
+import com.haphap.app.data.model.search.SearchPopularItemModel
 import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.repository.api.SearchRepository
@@ -31,7 +31,7 @@ class SearchRepositoryImpl @Inject constructor(
             localRecentSearchDataSource.deleteSearchKeyword(id)
         }
 
-    override suspend fun getPopularList(): Result<List<TrendJobItemModel>> =
+    override suspend fun getPopularList(): Result<List<SearchPopularItemModel>> =
         suspendRunCatching {
             remoteSearchDataSource.getPopularList().checkData().toModel()
         }
