@@ -53,7 +53,7 @@ fun HomeRoute(
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = {},
         onListCardClick = {},
-        onButtonClick = { viewModel.onRefreshClick() },
+        onButtonClick = viewModel::onRefreshClick,
         modifier = modifier,
     )
 }

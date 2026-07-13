@@ -20,6 +20,6 @@ interface HomeService {
 
     @GET("api/v1/postings")
     suspend fun getRecentPostings(
-        @Query("category") category: String? = null
+        @Query("category") category: List<String>? = null
     ): BaseResponse<HomePostingsResponseDto>
 }

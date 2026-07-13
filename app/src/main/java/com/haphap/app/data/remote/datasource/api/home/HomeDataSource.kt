@@ -10,5 +10,5 @@ interface HomeDataSource {
     suspend fun getBannerList(): BaseResponse<HomeBannerListDto>
     suspend fun getCountCard(): BaseResponse<HomeTodayResponseDto>
     suspend fun getAnnouncements(): BaseResponse<HomeAnnouncementsResponseDto>
-    suspend fun getRecentPostings(category: String?): BaseResponse<HomePostingsResponseDto>
+    suspend fun getRecentPostings(category: List<String>?): BaseResponse<HomePostingsResponseDto>
 }

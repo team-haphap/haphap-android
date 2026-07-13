@@ -9,5 +9,5 @@ interface HomeRepository {
     suspend fun getBannerList(): Result<List<BannerItemModel>>
     suspend fun getCountCard(): Result<CountCardModel>
     suspend fun getAnnouncements(): Result<List<TodayExpectedCardModel>>
-    suspend fun getRecentPostings(category: String?): Result<List<RecentCardModel>>
+    suspend fun getRecentPostings(category: List<String>?): Result<List<RecentCardModel>>
 }

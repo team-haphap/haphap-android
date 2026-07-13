@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
         val categoryParam = if (selectedChips.contains("전체")) {
             null
         } else {
-            selectedChips.joinToString(",")
+            selectedChips.toList()
         }
 
         viewModelScope.launch {

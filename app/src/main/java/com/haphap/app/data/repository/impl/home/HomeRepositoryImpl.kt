@@ -39,7 +39,7 @@ class HomeRepositoryImpl @Inject constructor(
                 .map { it.toModel() }
         }
 
-    override suspend fun getRecentPostings(category: String?): Result<List<RecentCardModel>> =
+    override suspend fun getRecentPostings(category: List<String>?): Result<List<RecentCardModel>> =
         suspendRunCatching {
             homeDataSource.getRecentPostings(category)
                 .checkData()
