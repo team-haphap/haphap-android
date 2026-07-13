@@ -2,8 +2,8 @@ package com.haphap.app.presentation.search
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.model.search.RelatedKeywordListModel
-import com.haphap.app.data.model.search.SearchAutoCompleteModel
+import com.haphap.app.data.model.search.RelatedKeywordItemModel
+import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
 import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.data.model.search.SearchPopularItemModel
 import com.haphap.app.presentation.common.state.CategoryChipState
@@ -13,8 +13,8 @@ import kotlinx.collections.immutable.persistentListOf
 sealed interface SearchContract {
     @Immutable
     data class State(
-        val searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel> = persistentListOf(),
-        val relatedKeywordList: ImmutableList<RelatedKeywordListModel> = persistentListOf(),
+        val searchAutoCompleteList: ImmutableList<SearchAutoCompleteItemModel> = persistentListOf(),
+        val relatedKeywordList: ImmutableList<RelatedKeywordItemModel> = persistentListOf(),
         val categoryChipState: CategoryChipState = CategoryChipState(),
         val searchResultList: ImmutableList<SearchResultItemModel> = persistentListOf(),
         val recentSearchList: ImmutableList<RecentSearchItemModel> = persistentListOf(),
