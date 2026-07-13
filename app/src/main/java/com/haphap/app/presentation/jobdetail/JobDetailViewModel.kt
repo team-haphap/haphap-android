@@ -19,13 +19,14 @@ class JobDetailViewModel @Inject constructor(
     private val jobDetailRepository: JobDetailRepository,
 ) : ViewModel() {
 
-    private val postingId: Long = savedStateHandle.toRoute<JobDetail>().postingId
+    private val postingId: Int = savedStateHandle.toRoute<JobDetail>().postingId
 
     private val _uiState = MutableStateFlow(JobDetailContract.State())
     val uiState = _uiState.asStateFlow()
 
     init {
         fetchJobPostingDetail()
+        fetchJobPostingStageStatuses()
     }
 
     fun updateSelectedTab(index: Int) {
@@ -55,6 +56,26 @@ class JobDetailViewModel @Inject constructor(
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
                                 msg = throwable.message ?: "공고 상세 조회 중 오류가 발생했습니다.",
+                            ),
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun fetchJobPostingStageStatuses() {
+        viewModelScope.launch {
+            jobDetailRepository.getJobPostingStageStatuses(postingId)
+                .onSuccess { stages ->
+                    _uiState.update { currentState ->
+                        currentState.copy(stages = stages)
+                    }
+                }
+                .onFailure { throwable ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            uiState = JobDetailUiState.Failure(
+                                msg = throwable.message ?: "전형 단계 진행 상태 조회 중 오류가 발생했습니다.",
                             ),
                         )
                     }
