@@ -74,7 +74,10 @@ fun SearchRoute(
         onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
         onBackClick = {},
         onSearchClick = viewModel::onSearchClick,
-        onRecentItemClick = viewModel::onSearchItemClick,
+        onRecentItemClick = {
+            viewModel.onSearchItemClick(it)
+            focusManager.clearFocus()
+        },
         onAutoCompleteItemClick = {},
         onRelatedItemClick = {
             viewModel.onSearchItemClick(it)

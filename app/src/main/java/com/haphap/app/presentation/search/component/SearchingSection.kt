@@ -47,7 +47,7 @@ fun SearchingSection(
     Column(
         modifier = modifier
             .padding(top = 12.dp)
-            .padding(horizontal = 20.dp),   
+            .padding(horizontal = 20.dp),
     ) {
         searchAutoCompleteList.forEach {
             SearchResultItem(
