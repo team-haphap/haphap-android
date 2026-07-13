@@ -91,8 +91,8 @@ fun SearchResultSection(
 
             SearchUiState.Empty -> {// TODO: 빈화면 추가 }
             }
-            is SearchUiState.Failure, SearchUiState.Idle -> TODO()
-            SearchUiState.Loading ->  TODO()
+            is SearchUiState.Failure, SearchUiState.Idle -> {}
+            SearchUiState.Loading ->  {}
         }
     }
 }
