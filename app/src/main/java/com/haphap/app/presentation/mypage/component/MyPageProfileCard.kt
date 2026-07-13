@@ -28,7 +28,7 @@ fun MyPageProfileCard(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.padding(horizontal = 36.dp),
+        modifier = modifier.padding(horizontal = 38.dp),
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_mypage),
