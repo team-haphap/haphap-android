@@ -24,6 +24,13 @@ sealed interface JobDetailContract {
         val reports: ImmutableList<JobStepReportModel> = persistentListOf(),
         val uiState: JobDetailUiState = JobDetailUiState.Idle,
     )
+
+    sealed class SideEffect {
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = true,
+        ) : SideEffect()
+    }
 }
 
 sealed interface JobDetailUiState {
