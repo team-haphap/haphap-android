@@ -24,7 +24,7 @@ fun RegisterProgressBar(
     Row (
         modifier = modifier
             .fillMaxWidth()
-            .padding(20.dp),
+            .padding(horizontal = 15.dp, vertical = 17.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         repeat(totalSteps) { steps ->

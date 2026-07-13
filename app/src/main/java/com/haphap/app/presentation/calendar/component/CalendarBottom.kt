@@ -18,8 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.calendar.type.PresentChance
-import com.haphap.app.presentation.calendar.type.toColor
+import com.haphap.app.core.designsystem.type.PresentChanceType
+import com.haphap.app.core.designsystem.type.toColor
 
 @Composable
 fun CalendarBottom(
@@ -56,8 +56,8 @@ fun CalendarBottom(
 
             Spacer(modifier = Modifier.width(2.dp))
 
-            PresentChance.entries
-                .filter { it != PresentChance.NONE }
+            PresentChanceType.entries
+                .filter { it != PresentChanceType.NONE }
                 .forEach { presentChance ->
                     Box(
                         modifier = Modifier

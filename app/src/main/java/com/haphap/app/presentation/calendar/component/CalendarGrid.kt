@@ -11,9 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.calendar.type.DayType
+import com.haphap.app.core.extensions.toDayType
+import com.haphap.app.data.model.calendar.CalendarModel
+import com.haphap.app.core.designsystem.type.PresentChanceType
 import com.haphap.app.presentation.calendar.type.defaultDaysOfWeek
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -22,6 +25,7 @@ import java.time.YearMonth
 fun CalendarGrid(
     yearMonth: YearMonth,
     selectedDate: LocalDate?,
+    calendarModel: ImmutableList<CalendarModel>,
     onClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     daysOfWeek: ImmutableList<DayOfWeek> = defaultDaysOfWeek,
@@ -35,6 +39,7 @@ fun CalendarGrid(
             firstDay.plusDays((offset - dayIndex).toLong())
         }.chunked(7)
     }
+    val likelihoodByDate = calendarModel.associateBy({ it.date }, { it.likelihood })
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -48,16 +53,11 @@ fun CalendarGrid(
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                week.forEach { day ->
-                    val dayType = if (YearMonth.from(day) == yearMonth) {
-                        DayType.InMonth(
-                            isToday = day == today,
-                            isSelected = day == selectedDate,
-                        )
-                    } else {
-                        DayType.OutMonth
-                    }
-
+                val weekWithType = week.map { day ->
+                    val likelihood = likelihoodByDate[day] ?: PresentChanceType.NONE
+                    day to day.toDayType(day, yearMonth, today, selectedDate, likelihood)
+                }
+                weekWithType.forEach { (day, dayType) ->
                     CalendarDayItem(
                         day = day,
                         dayType = dayType,
@@ -77,6 +77,7 @@ private fun CalendarGridPreview() {
         CalendarGrid(
             yearMonth = YearMonth.now(),
             selectedDate = LocalDate.now(),
+            calendarModel = persistentListOf(),
             onClick = {},
         )
     }

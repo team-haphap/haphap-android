@@ -50,6 +50,7 @@ fun MainNavHost(
 
         registerGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         calendarGraph(
