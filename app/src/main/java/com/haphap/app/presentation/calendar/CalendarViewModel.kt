@@ -3,7 +3,6 @@ package com.haphap.app.presentation.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.extensions.toDateString
-import com.haphap.app.core.state.UiState
 import com.haphap.app.data.repository.api.calendar.CalendarRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
@@ -47,6 +47,7 @@ class CalendarViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e(throwable)
                     _uiState.update {
                         it.copy(calendarUiState = CalendarUiState.Failure(throwable.message ?: "오류"))
                     }
@@ -69,6 +70,7 @@ class CalendarViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e(throwable)
                     _uiState.update {
                         it.copy(calendarPostingsUiState = CalendarUiState.Failure(throwable.message ?: "오류"))
                     }
