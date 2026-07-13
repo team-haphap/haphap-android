@@ -55,7 +55,7 @@ class SearchViewModel @Inject constructor(
                         )
                     }
                 } else {
-                    // Todo: api 호출
+                    //Todo: 자동완성 api 호출
                 }
             }
     }
@@ -64,6 +64,7 @@ class SearchViewModel @Inject constructor(
         _uiState.update {
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
+        getSearchResultList()
     }
 
     fun onSearchClick() = viewModelScope.launch {
@@ -78,8 +79,13 @@ class SearchViewModel @Inject constructor(
                     Timber.e("$it 저장 실패했습니다.")
 
                 }
-            _uiState.update { it.copy(searchAutoCompleteUiState = SearchUiState.Idle) }
-            //Todo: 검색 결과 api 호출
+            _uiState.update {
+                it.copy(
+                    searchAutoCompleteUiState = SearchUiState.Idle,
+                    searchResultListUiState = SearchUiState.Loading,
+                )
+            }
+            getSearchResultList()
         }
     }
 
@@ -126,9 +132,48 @@ class SearchViewModel @Inject constructor(
             }
     }
 
+    fun getSearchResultList(hasNextPage: Boolean = false) = viewModelScope.launch {
+        val currentState = uiState.value
+        if (hasNextPage && !currentState.hasNextSearchResult) return@launch
+
+        val requestPage = if (hasNextPage) currentState.searchResultPage + 1 else 0
+
+        _uiState.update { it.copy(searchResultListUiState = SearchUiState.Loading) }
+        val category = currentState.categoryChipState.queryCategoryList
+        searchRepository.getSearchResultList(
+            q = searchInputState.text.toString(),
+            category = category,
+            page = requestPage,
+            size = DEFAULT_PAGE_SIZE,
+        )
+            .onSuccess { result ->
+                _uiState.update {
+                    it.copy(
+                        searchResultList = if (hasNextPage) {
+                            (it.searchResultList + result.results).toImmutableList()
+                        } else {
+                            result.results
+                        },
+                        searchResultListUiState = SearchUiState.Success,
+                        searchResultPage = result.page,
+                        hasNextSearchResult = result.hasNext,
+                    )
+                }
+            }
+            .onFailure { error ->
+                Timber.e("검색 결과 리스트를 불러오지 못했습니다. $error")
+                _uiState.update {
+                    it.copy(
+                        searchResultListUiState = SearchUiState.Failure("$error")
+                    )
+                }
+            }
+    }
+
 
     companion object {
         private const val SEARCH_NETWORK_DEBOUNCE = 500L
+        private const val DEFAULT_PAGE_SIZE = 20
     }
 
 }
