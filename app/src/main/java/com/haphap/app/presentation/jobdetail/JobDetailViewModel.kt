@@ -26,6 +26,7 @@ class JobDetailViewModel @Inject constructor(
 
     init {
         fetchJobPostingDetail()
+        fetchJobPostingStages()
         fetchJobPostingStageStatuses()
     }
 
@@ -56,6 +57,26 @@ class JobDetailViewModel @Inject constructor(
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
                                 msg = throwable.message ?: "공고 상세 조회 중 오류가 발생했습니다.",
+                            ),
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun fetchJobPostingStages() {
+        viewModelScope.launch {
+            jobDetailRepository.getJobPostingStages(postingId)
+                .onSuccess { resultTabs ->
+                    _uiState.update { currentState ->
+                        currentState.copy(resultTabs = resultTabs)
+                    }
+                }
+                .onFailure { throwable ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            uiState = JobDetailUiState.Failure(
+                                msg = throwable.message ?: "전형 단계 조회 중 오류가 발생했습니다.",
                             ),
                         )
                     }
