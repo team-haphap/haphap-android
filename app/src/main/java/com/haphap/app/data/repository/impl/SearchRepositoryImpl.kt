@@ -4,6 +4,7 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalSearchDataSource
 import com.haphap.app.data.mapper.search.toModel
 import com.haphap.app.data.model.search.RecentSearchItemModel
+import com.haphap.app.data.model.search.SearchResultPageModel
 import com.haphap.app.data.model.search.TrendJobItemModel
 import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -34,4 +35,20 @@ class SearchRepositoryImpl @Inject constructor(
         suspendRunCatching {
             remoteSearchDataSource.getPopularList().checkData().toModel()
         }
+
+    override suspend fun getSearchResultList(
+        q: String?,
+        category: List<String>?,
+        page: Int?,
+        size: Int?,
+    ): Result<SearchResultPageModel> =
+        suspendRunCatching {
+            remoteSearchDataSource.getSearchResultList(
+                q = q,
+                category = category,
+                page = page,
+                size = size,
+            ).checkData().toModel()
+        }
+
 }
