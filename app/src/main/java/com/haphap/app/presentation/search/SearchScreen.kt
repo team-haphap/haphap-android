@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,11 +46,12 @@ fun SearchRoute(
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
-                when(sideEffect) {
+                when (sideEffect) {
                     is OnShowToast -> {
                         showToast.invoke(sideEffect.message, sideEffect.isAlarm)
                     }
@@ -74,7 +76,10 @@ fun SearchRoute(
         onSearchClick = viewModel::onSearchClick,
         onRecentItemClick = viewModel::onSearchItemClick,
         onAutoCompleteItemClick = {},
-        onRelatedItemClick = viewModel::onSearchItemClick,
+        onRelatedItemClick = {
+            viewModel.onSearchItemClick(it)
+            focusManager.clearFocus()
+        },
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onResultCardClick = {},
         onDeleteClick = viewModel::deleteRecentSearchItem,
