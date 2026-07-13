@@ -41,6 +41,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun HomeRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
+    navigateToJobList: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -48,11 +49,11 @@ fun HomeRoute(
     HomeScreen(
         uiState = uiState,
         onSearchBarClick = navigateToSearch,
-        onMoreClick = {},
+        onMoreClick = navigateToJobList,
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = {},
         onListCardClick = {},
-        onButtonClick = {},
+        onButtonClick = { viewModel.onRefreshClick() },
         modifier = modifier,
     )
 }

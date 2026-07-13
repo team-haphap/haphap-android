@@ -21,10 +21,19 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
+        fetchAll()
+    }
+
+    private fun fetchAll() {
         fetchBannerList()
         fetchCountCard()
         fetchAnnouncements()
         fetchRecentPostings()
+    }
+
+    fun onRefreshClick() {
+        fetchAll()
+        Timber.d("refresh clicked") //Todo: 추후 삭제
     }
 
     private fun fetchBannerList() {
