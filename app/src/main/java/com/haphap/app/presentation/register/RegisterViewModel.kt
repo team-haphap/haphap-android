@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -57,6 +58,7 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    Timber.e(e, "loadAnnounceList failed")
                     _uiState.update {
                         it.copy(announceListUiState = RegisterUiState.Failure(e.message ?: "공고 목록을 불러오지 못했습니다."))
                     }
@@ -86,6 +88,7 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    Timber.e(e, "onAnnounceSelected getPostingStages failed")
                     _uiState.update {
                         it.copy(processListUiState = RegisterUiState.Failure(e.message ?: "전형 목록을 불러오지 못했습니다."))
                     }
@@ -122,46 +125,40 @@ class RegisterViewModel @Inject constructor(
         }
 
     fun onChangeModalConfirmClick() {
-        _uiState.update {
-            it.copy(
-                isChangeModalVisible = false,
-                selectedResult = null,
-                isButtonEnabled = false,
-            )
-        }
+        val result = _uiState.value.selectedResult ?: return
+        _uiState.update { it.copy(isChangeModalVisible = false) }
+        advanceFromStep2(result)
     }
 
     fun onChangeModalCancelClick() {
-        _uiState.update {
-            it.copy(
-                isChangeModalVisible = false,
-                step = 1,
-                selectedResult = null,
-                isButtonEnabled = it.selectedAnnounce != null && it.registerInfo.stageId != null
-            )
-        }
+        _uiState.update { it.copy(isChangeModalVisible = false) }
     }
 
     fun onStep2NextClick() {
         val currentState = _uiState.value
-        val result = currentState.selectedResult ?: return
+        val selectedResult = currentState.selectedResult ?: return
         val postingId = currentState.registerInfo.postingId ?: return
         val stageId = currentState.registerInfo.stageId ?: return
+        val result = selectedResult.toRegisterResultType()
 
         viewModelScope.launch {
-            registrationRepository.checkRegistration(postingId, stageId)
+            registrationRepository.checkRegistration(postingId, stageId, result)
                 .onSuccess { checkResult ->
                     when (checkResult) {
-                        RegistrationCheckModel.NEW -> advanceFromStep2(result)
-
+                        RegistrationCheckModel.NEW -> advanceFromStep2(selectedResult)
                         RegistrationCheckModel.CONFIRM_REQUIRED -> {
                             _uiState.update { it.copy(isChangeModalVisible = true) }
                         }
-
                         RegistrationCheckModel.DUPLICATE -> {
-                            _sideEffect.send(OnShowToast("이미 등록한 공고입니다."))
+                            _sideEffect.send(OnShowToast("이미 등록한 결과입니다."))
+                            _uiState.update {
+                                it.copy(selectedResult = null, isButtonEnabled = false)
+                            }
                         }
                     }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "onStep2NextClick checkRegistration failed")
                 }
         }
     }
@@ -271,6 +268,7 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    Timber.e(e, "onRegisterClick postRegistration failed")
                     _uiState.update {
                         it.copy(
                             registerUiState = RegisterUiState.Failure(e.message ?: "상태 등록에 실패했습니다."),

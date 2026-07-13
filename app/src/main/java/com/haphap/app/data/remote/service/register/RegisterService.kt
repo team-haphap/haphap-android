@@ -26,7 +26,7 @@ interface RegisterService {
         @Body request: RegisterRequestDto,
     ): BaseResponse<RegistrationResponseDto>
 
-    @HTTP(method = "GET", path = "api/v1/registrations/{postingId}/{stageId}", hasBody = true)
+    @POST("api/v1/registrations/{postingId}/{stageId}")
     suspend fun getRegistrationCheck(
         @Path("postingId") postingId: Int,
         @Path("stageId") stageId: Int,

@@ -14,6 +14,7 @@ import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.type.RegisterResultType
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(
@@ -69,6 +70,7 @@ class RegisterRepositoryImpl @Inject constructor(
                 if (e.code() == HTTP_CONFLICT) {
                     RegistrationCheckModel.DUPLICATE
                 } else {
+                    Timber.e(e, "checkRegistration failed - HTTP ${e.code()}")
                     throw e
                 }
             }
