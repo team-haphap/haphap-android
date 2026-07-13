@@ -5,20 +5,32 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AutoCompleteListDto(
-    @SerialName("results")
-    val results: List<AutoCompleteItemDto>,
+    @SerialName("shortcuts")
+    val shortcuts: List<AutoCompleteShortcutDto>,
+    @SerialName("relatedKeywords")
+    val relatedKeywords: List<RelatedKeywordDto>,
 )
 
 @Serializable
-data class AutoCompleteItemDto(
-    @SerialName("type")
-    val type: String,
+data class AutoCompleteShortcutDto(
+    @SerialName("postingId")
+    val postingId: Int,
+    @SerialName("name")
+    val name: String,
+    @SerialName("imageUrl")
+    val imageUrl: String,
+    @SerialName("highlightRanges")
+    val highlightRanges: List<HighlightRangeDto>,
+)
+
+@Serializable
+data class RelatedKeywordDto(
+    @SerialName("keywordId")
+    val keywordId: Int,
     @SerialName("name")
     val name: String,
     @SerialName("highlightRanges")
     val highlightRanges: List<HighlightRangeDto>,
-    @SerialName("postingId")
-    val postingId: Int? = null,
 )
 
 @Serializable
