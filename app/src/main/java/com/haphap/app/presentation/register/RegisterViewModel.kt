@@ -9,6 +9,7 @@ import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.RegisterResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val postingRepository: RegisterRepository,
+    private val registrationRepository: RegisterRepository,
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<Register>()
@@ -210,23 +212,43 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onRegisterClick() {
-        if (!_uiState.value.isButtonEnabled) return
+        val currentState = _uiState.value
+        if (!currentState.isButtonEnabled) return
+
+        val result = currentState.selectedResult?.toRegisterResultType() ?: return
+        val registerInfo = currentState.registerInfo.copy(result = result)
+
+        _uiState.update {
+            it.copy(registerUiState = RegisterUiState.Loading, isButtonEnabled = false)
+        }
 
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    registerUiState = RegisterUiState.Loading,
-                    isButtonEnabled = false
-                )
-            }
-
-            _uiState.update {
-                it.copy(
-                    registerUiState = RegisterUiState.Success,
-                    step = 5,
-                    isButtonEnabled = true,
-                )
-            }
+            registrationRepository.postRegistration(registerInfo)
+                .onSuccess { registrationModel ->
+                    _uiState.update {
+                        it.copy(
+                            registerInfo = registerInfo,
+                            registrationResult = registrationModel,
+                            registerUiState = RegisterUiState.Success,
+                            step = 5,
+                            isButtonEnabled = true,
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            registerUiState = RegisterUiState.Failure(e.message ?: "상태 등록에 실패했습니다."),
+                            isButtonEnabled = true,
+                        )
+                    }
+                }
         }
     }
+}
+
+private fun PassResultStatusButton.toRegisterResultType(): RegisterResultType = when (this) {
+    PassResultStatusButton.PASS -> RegisterResultType.PASS
+    PassResultStatusButton.FAILED -> RegisterResultType.FAIL
+    PassResultStatusButton.DONT_KNOW -> RegisterResultType.PENDING
 }
