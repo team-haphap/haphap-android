@@ -36,6 +36,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
+import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
@@ -281,7 +282,13 @@ private fun JobDetailScreenPreview() {
                     JobStepModel(2, 2, "서류", JobStepStatus.COMPLETED),
                     JobStepModel(3, 3, "1차면접", JobStepStatus.IN_PROGRESS),
                 ),
-                resultTabs = persistentListOf("서류", "인적성", "코딩테스트", "1차면접", "2차면접"),
+                resultTabs = persistentListOf(
+                    JobResultTabModel(1, "서류"),
+                    JobResultTabModel(2, "인적성"),
+                    JobResultTabModel(3, "코딩테스트"),
+                    JobResultTabModel(4, "1차면접"),
+                    JobResultTabModel(5, "2차면접"),
+                ),
                 selectedTab = selectedTab,
                 result = JobResultModel(
                     passCount = 12,
