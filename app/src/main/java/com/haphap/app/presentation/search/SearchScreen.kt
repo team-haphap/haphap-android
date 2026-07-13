@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -20,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -40,6 +41,8 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val gridState = rememberLazyGridState()
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
@@ -55,10 +58,18 @@ fun SearchRoute(
         }
     }
 
+    LaunchedEffect(
+        uiState.searchResultList,
+    ) {
+        gridState.scrollToItem(0)
+    }
+
     //Todo: 화면 연결
     SearchScreen(
         state = viewModel.searchInputState,
         uiState = uiState,
+        gridState = gridState,
+        onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
         onBackClick = {},
         onSearchClick = viewModel::onSearchClick,
         onAutoCompleteItemClick = {},
@@ -76,6 +87,8 @@ fun SearchRoute(
 private fun SearchScreen(
     state: TextFieldState,
     uiState: SearchContract.State,
+    gridState: LazyGridState,
+    onLoadMoreSearchList: () -> Unit,
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
     onAutoCompleteItemClick: (Int) -> Unit,
@@ -132,11 +145,14 @@ private fun SearchScreen(
 
             SearchSection.Result ->
                 SearchResultSection(
+                    searchResultUiState = uiState.searchResultListUiState,
+                    listState = gridState,
                     chipList = uiState.categoryChipState.chipList,
                     selectedChips = uiState.categoryChipState.selectedChips,
                     onFilterClick = onFilterClick,
                     searchResultList = uiState.searchResultList,
                     onCardClick = onResultCardClick,
+                    onLoadMoreSearchList = onLoadMoreSearchList,
                 )
         }
     }
@@ -150,6 +166,7 @@ private fun SearchScreenPreview() {
         SearchScreen(
             state = TextFieldState(),
             uiState = SearchContract.State(),
+            gridState = LazyGridState(),
             onBackClick = {},
             onSearchClick = {},
             onAutoCompleteItemClick = {},
@@ -158,6 +175,7 @@ private fun SearchScreenPreview() {
             onResultCardClick = {},
             onDeleteClick = {},
             onTrendCardClick = {},
+            onLoadMoreSearchList = {},
         )
     }
 }
