@@ -1,6 +1,5 @@
 package com.haphap.app.data.di.register
 
-import com.haphap.app.core.network.di.NoAuth
 import com.haphap.app.data.remote.service.register.RegisterService
 import dagger.Module
 import dagger.Provides
@@ -16,6 +15,6 @@ object RegisterServiceModule {
     @Provides
     @Singleton
     fun provideRegisterService(
-        @NoAuth retrofit: Retrofit
+        retrofit: Retrofit
     ): RegisterService = retrofit.create()
 }
