@@ -23,4 +23,8 @@ class RegisterDataSourceImpl @Inject constructor(
     override suspend fun postRegistration(request: RegisterRequestDto): BaseResponse<RegistrationResponseDto> {
         return postingService.postRegistration(request)
     }
+
+    override suspend fun getRegistrationCheck(postingId: Int, stageId: Int): BaseResponse<Unit> {
+        return postingService.getRegistrationCheck(postingId, stageId)
+    }
 }

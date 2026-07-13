@@ -10,4 +10,5 @@ interface RegisterDataSource {
     suspend fun getPostingNames(): BaseResponse<RegisterNameListResponseDto>
     suspend fun getPostingStages(postingId: Int): BaseResponse<RegisterStageListResponseDto>
     suspend fun postRegistration(request: RegisterRequestDto): BaseResponse<RegistrationResponseDto>
+    suspend fun getRegistrationCheck(postingId: Int, stageId: Int): BaseResponse<Unit>
 }
