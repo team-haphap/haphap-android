@@ -47,7 +47,7 @@ fun SearchingSection(
     Column(
         modifier = modifier
             .padding(top = 12.dp)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp),   
     ) {
         searchAutoCompleteList.forEach {
             SearchResultItem(
@@ -166,7 +166,7 @@ private fun RelatedKeywordItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.noRippleClickable(onClick = onClick),
     ) {
         Text(
             text = buildAnnotatedString {
@@ -192,15 +192,14 @@ private fun RelatedKeywordItem(
             imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_20),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
-            modifier = Modifier.noRippleClickable(onClick = onClick),
         )
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 private fun SearchingSectionPreview() {
-    HapHapTheme{
+    HapHapTheme {
         SearchingSection(
             searchAutoCompleteList = persistentListOf(
                 SearchAutoCompleteItemModel(
