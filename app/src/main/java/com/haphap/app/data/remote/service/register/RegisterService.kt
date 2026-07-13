@@ -4,9 +4,11 @@ import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.register.RegisterNameListResponseDto
 import com.haphap.app.data.remote.dto.register.RegisterRequestDto
 import com.haphap.app.data.remote.dto.register.RegisterStageListResponseDto
+import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.remote.dto.register.RegistrationResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -24,9 +26,10 @@ interface RegisterService {
         @Body request: RegisterRequestDto,
     ): BaseResponse<RegistrationResponseDto>
 
-    @GET("api/v1/registrations/{postingId}/{stageId}")
+    @HTTP(method = "GET", path = "api/v1/registrations/{postingId}/{stageId}", hasBody = true)
     suspend fun getRegistrationCheck(
         @Path("postingId") postingId: Int,
         @Path("stageId") stageId: Int,
+        @Body request: RegistrationCheckRequestDto,
     ): BaseResponse<Unit>
 }

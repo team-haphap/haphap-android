@@ -5,6 +5,7 @@ import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.register.RegisterNameListResponseDto
 import com.haphap.app.data.remote.dto.register.RegisterRequestDto
 import com.haphap.app.data.remote.dto.register.RegisterStageListResponseDto
+import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.remote.dto.register.RegistrationResponseDto
 import com.haphap.app.data.remote.service.register.RegisterService
 import jakarta.inject.Inject
@@ -24,7 +25,11 @@ class RegisterDataSourceImpl @Inject constructor(
         return postingService.postRegistration(request)
     }
 
-    override suspend fun getRegistrationCheck(postingId: Int, stageId: Int): BaseResponse<Unit> {
-        return postingService.getRegistrationCheck(postingId, stageId)
+    override suspend fun getRegistrationCheck(
+        postingId: Int,
+        stageId: Int,
+        request: RegistrationCheckRequestDto,
+    ): BaseResponse<Unit> {
+        return postingService.getRegistrationCheck(postingId, stageId, request)
     }
 }
