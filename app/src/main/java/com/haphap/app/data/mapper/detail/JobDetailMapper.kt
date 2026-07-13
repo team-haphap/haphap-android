@@ -2,10 +2,12 @@ package com.haphap.app.data.mapper.detail
 
 import com.haphap.app.data.model.detail.JobDetailModel
 import com.haphap.app.data.model.detail.JobParticipantModel
+import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
 import com.haphap.app.data.remote.dto.detail.JobDetailDto
+import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
 import com.haphap.app.presentation.jobdetail.type.JobStepReportType
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
@@ -48,6 +50,18 @@ fun JobDetailDto.toJobStepReportModels(): ImmutableList<JobStepReportModel> {
             stage = dto.stage,
         )
     }.toImmutableList()
+}
+
+fun JobDetailStageListDto.toResultTabModels(): ImmutableList<JobResultTabModel> {
+    return stages
+        .sortedBy { it.orderIndex }
+        .map { dto ->
+            JobResultTabModel(
+                stageId = dto.stageId,
+                stageName = dto.stageName,
+            )
+        }
+        .toImmutableList()
 }
 
 fun JobDetailStageStatusListDto.toJobStepModels(): ImmutableList<JobStepModel> {
