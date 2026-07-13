@@ -79,7 +79,7 @@ fun RegisterRoute(
                 4 -> viewModel.onRegisterClick()
                 5 -> {
                     if (uiState.selectedResult == PassResultStatusButton.PASS) {
-                        // TODO: 합격 카드 네비연결
+                        uiState.registrationResult?.card?.let { navigateToPassCard(it) }
                     } else {
                         when (val entryPoint = uiState.entryPoint) {
                             RegisterContract.RegisterSideEffect.Home -> navigateToHome()
