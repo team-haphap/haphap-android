@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.bottomsheet.HapHapDateBottomSheet
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.data.model.calendar.CalendarModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
@@ -26,7 +30,9 @@ import java.time.temporal.ChronoUnit
 @Composable
 fun HapHapCustomCalendar(
     selectedDate: LocalDate?,
+    calendarModel: ImmutableList<CalendarModel>,
     onClick: (LocalDate) -> Unit,
+    onMonthChange: (YearMonth) -> Unit,
     modifier: Modifier = Modifier,
 ){
     val pageCount = Int.MAX_VALUE
@@ -41,6 +47,10 @@ fun HapHapCustomCalendar(
         pageCount = { pageCount },
     )
     val currentYearMonth = baseMonth.plusMonths((pagerState.currentPage - startPage).toLong())
+
+    LaunchedEffect(currentYearMonth) {
+        onMonthChange(currentYearMonth)
+    }
 
     Column(
         modifier = modifier.padding(horizontal = 20.dp, vertical = 12.dp)
@@ -69,6 +79,7 @@ fun HapHapCustomCalendar(
             CalendarGrid(
                 yearMonth = yearMonth,
                 selectedDate = selectedDate,
+                calendarModel = calendarModel,
                 onClick = onClick,
             )
         }
@@ -107,7 +118,12 @@ private fun HapHapCustomCalendarPreview() {
                 .padding(horizontal = 12.dp)
                 .padding(top = 50.dp),
         ) {
-            HapHapCustomCalendar(selectedDate = null, onClick = {})
+            HapHapCustomCalendar(
+                selectedDate = null,
+                calendarModel = persistentListOf(),
+                onClick = {},
+                onMonthChange = {},
+            )
         }
     }
 }
