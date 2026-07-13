@@ -2,9 +2,11 @@ package com.haphap.app.data.repository.impl.detail
 
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.detail.toJobDetailModel
+import com.haphap.app.data.mapper.detail.toJobResultModel
 import com.haphap.app.data.mapper.detail.toJobStepModels
 import com.haphap.app.data.mapper.detail.toResultTabModels
 import com.haphap.app.data.model.detail.JobDetailModel
+import com.haphap.app.data.model.detail.JobResultModel
 import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.remote.datasource.api.detail.JobDetailDataSource
@@ -36,5 +38,12 @@ class JobDetailRepositoryImpl @Inject constructor(
             jobDetailDataSource.getJobPostingStageStatuses(postingId)
                 .checkData()
                 .toJobStepModels()
+        }
+
+    override suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): Result<JobResultModel> =
+        suspendRunCatching {
+            jobDetailDataSource.getJobPostingStageStatistic(postingId, stageId)
+                .checkData()
+                .toJobResultModel()
         }
 }
