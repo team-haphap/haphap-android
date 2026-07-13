@@ -20,12 +20,10 @@ class MyPageViewModel @Inject constructor(
     val uiState: StateFlow<MyPageContract.State> = _uiState.asStateFlow()
 
     init {
-        myPage()
+        getMyPage()
     }
 
-    fun myPage() {
-        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
-
+    fun getMyPage() {
         viewModelScope.launch {
             myPageRepository.getMyPage()
                 .onSuccess { model ->
@@ -50,5 +48,7 @@ class MyPageViewModel @Inject constructor(
                     }
                 }
         }
+
+        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
     }
 }
