@@ -84,7 +84,7 @@ fun JobDetailRoute(
         onAlarmClick = viewModel::onAlarmClick,
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
-        onRefreshClick = {},
+        onRefreshClick = viewModel::onRefreshClick,
         onRegisterClick = {},
         modifier = modifier,
     )
