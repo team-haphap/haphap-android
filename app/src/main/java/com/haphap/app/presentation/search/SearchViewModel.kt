@@ -110,6 +110,12 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchItemClick(keyword: String) {
         searchInputState.setTextAndPlaceCursorAtEnd(keyword)
+        _uiState.update {
+            it.copy(
+                searchAutoCompleteUiState = SearchUiState.Idle,
+                storedSearchText = keyword,
+            )
+        }
         getSearchResultList()
     }
 
