@@ -51,10 +51,10 @@ fun JobDetailDto.toJobStepReportModels(): ImmutableList<JobStepReportModel> {
 }
 
 fun JobDetailStageStatusListDto.toJobStepModels(): ImmutableList<JobStepModel> {
-    return stages.mapIndexed { index, dto ->
+    return stages.map { dto ->
         JobStepModel(
             stageId = dto.stageId,
-            number = index + 1,
+            number = dto.orderIndex,
             stageName = dto.stageName,
             status = JobStepStatus.valueOf(dto.status),
         )

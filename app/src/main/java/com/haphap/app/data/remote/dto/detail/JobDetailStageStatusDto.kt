@@ -12,6 +12,7 @@ data class JobDetailStageStatusListDto(
 @Serializable
 data class JobDetailStageStatusDto(
     @SerialName("stageId") val stageId: Int,
+    @SerialName("orderIndex") val orderIndex: Int,
     @SerialName("stageName") val stageName: String,
     @SerialName("status") val status: String,
 )
