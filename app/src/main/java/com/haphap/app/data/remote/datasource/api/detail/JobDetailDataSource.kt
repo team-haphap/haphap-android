@@ -14,4 +14,8 @@ interface JobDetailDataSource {
     suspend fun getJobPostingStageStatuses(postingId: Int): BaseResponse<JobDetailStageStatusListDto>
 
     suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): BaseResponse<JobDetailStageStatisticDto>
+
+    suspend fun setAlarms(postingId: Int): BaseResponse<Unit>
+
+    suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit>
 }
