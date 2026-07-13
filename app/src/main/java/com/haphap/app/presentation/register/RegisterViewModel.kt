@@ -48,7 +48,7 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(announceListUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
-            postingRepository.getPostingNames()
+            postingRepository.getRegisterPostNames()
                 .onSuccess { list ->
                     _uiState.update {
                         it.copy(
@@ -78,7 +78,7 @@ class RegisterViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            postingRepository.getPostingStages(item.id)
+            postingRepository.getRegisterPostStages(item.id)
                 .onSuccess { list ->
                     _uiState.update {
                         it.copy(
@@ -142,7 +142,7 @@ class RegisterViewModel @Inject constructor(
         val result = selectedResult.toRegisterResultType()
 
         viewModelScope.launch {
-            registrationRepository.checkRegistration(postingId, stageId, result)
+            registrationRepository.postCheckRegistration(postingId, stageId, result)
                 .onSuccess { checkResult ->
                     when (checkResult) {
                         RegistrationCheckModel.NEW -> advanceFromStep2(selectedResult)
@@ -255,7 +255,7 @@ class RegisterViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            registrationRepository.postRegistration(registerInfo)
+            registrationRepository.postRegister(registerInfo)
                 .onSuccess { registrationModel ->
                     _uiState.update {
                         it.copy(

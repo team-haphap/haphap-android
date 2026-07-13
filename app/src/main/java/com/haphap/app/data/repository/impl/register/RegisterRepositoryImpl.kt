@@ -21,17 +21,17 @@ class RegisterRepositoryImpl @Inject constructor(
     private val postingDataSource: RegisterDataSource,
 ) : RegisterRepository {
 
-    override suspend fun getPostingNames(): Result<List<RegisterDropDownItemModel>> =
+    override suspend fun getRegisterPostNames(): Result<List<RegisterDropDownItemModel>> =
         suspendRunCatching {
-            postingDataSource.getPostingNames().checkData().postings.map { it.toModel() }
+            postingDataSource.getRegisterPostNames().checkData().postings.map { it.toModel() }
         }
 
-    override suspend fun getPostingStages(postingId: Int): Result<List<RegisterProcessModel>> =
+    override suspend fun getRegisterPostStages(postingId: Int): Result<List<RegisterProcessModel>> =
         suspendRunCatching {
-            postingDataSource.getPostingStages(postingId).checkData().stages.map { it.toModel() }
+            postingDataSource.getRegisterPostStages(postingId).checkData().stages.map { it.toModel() }
         }
     
-    override suspend fun postRegistration(registerInfo: RegisterModel): Result<RegistrationModel> =
+    override suspend fun postRegister(registerInfo: RegisterModel): Result<RegistrationModel> =
         suspendRunCatching {
             val postingId = requireNotNull(registerInfo.postingId) { "postingId is required" }
             val stageId = requireNotNull(registerInfo.stageId) { "stageId is required" }
@@ -50,10 +50,10 @@ class RegisterRepositoryImpl @Inject constructor(
                 alarmEnabled = registerInfo.alarmEnabled,
             )
 
-            postingDataSource.postRegistration(request).checkData().toModel()
+            postingDataSource.postRegister(request).checkData().toModel()
         }
 
-    override suspend fun checkRegistration(
+    override suspend fun postCheckRegistration(
         postingId: Int,
         stageId: Int,
         result: RegisterResultType,
@@ -61,7 +61,7 @@ class RegisterRepositoryImpl @Inject constructor(
         suspendRunCatching {
             try {
                 val request = RegistrationCheckRequestDto(result = result.name)
-                val response = postingDataSource.getRegistrationCheck(postingId, stageId, request)
+                val response = postingDataSource.getRegisterCheck(postingId, stageId, request)
                 when (response.code) {
                     REGISTRATION_CONFIRM_REQUIRED_CODE -> RegistrationCheckModel.CONFIRM_REQUIRED
                     else -> RegistrationCheckModel.NEW
