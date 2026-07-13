@@ -7,6 +7,7 @@ import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -41,4 +42,9 @@ interface JobDetailService {
     suspend fun deleteAlarms(
         @Path("postingId") postingId: Int,
     ): BaseResponse<Unit>
+
+    @PATCH("api/v1/postings/{postingId}/views")
+    suspend fun recordView(
+        @Path("postingId") postingId: Int,
+    )
 }
