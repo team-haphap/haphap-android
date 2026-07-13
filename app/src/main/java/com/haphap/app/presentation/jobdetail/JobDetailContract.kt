@@ -3,6 +3,7 @@ package com.haphap.app.presentation.jobdetail
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
+import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
@@ -16,7 +17,7 @@ sealed interface JobDetailContract {
         val bannerImageUrl: String = "",
         val isAlarmActive: Boolean = false,
         val stages: ImmutableList<JobStepModel> = persistentListOf(),
-        val resultTabs: ImmutableList<String> = persistentListOf(),
+        val resultTabs: ImmutableList<JobResultTabModel> = persistentListOf(),
         val selectedTab: Int = 0,
         val result: JobResultModel = JobResultModel(),
         val participant: JobParticipantModel = JobParticipantModel(),
