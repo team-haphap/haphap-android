@@ -44,9 +44,12 @@ fun JobDetailDto.toJobParticipantModel(): JobParticipantModel {
 
 fun JobDetailDto.toJobStepReportModels(): ImmutableList<JobStepReportModel> {
     return registrations.take(15).map { dto ->
+        val time = runCatching {
+            dto.feedCreatedAt.substring(startIndex = 11, endIndex = 16)
+        }.getOrDefault("")
         JobStepReportModel(
             id = dto.registrationId,
-            time = dto.feedCreatedAt.substring(startIndex = 11, endIndex = 16),
+            time = time,
             nickName = dto.nickName,
             result = JobStepReportType.valueOf(dto.registrationResult),
             stage = dto.stage,
