@@ -25,6 +25,7 @@ fun NavGraphBuilder.jobDetailGraph(
     composable<JobDetail> { backStackEntry ->
         val route = backStackEntry.toRoute<JobDetail>()
         JobDetailRoute(
+            navigateBack = { navController.popBackStack() },
             navigateToRegister = {
                 navController.navigateToRegisterFromJobDetail(jobId = route.postingId.toLong())
             },
