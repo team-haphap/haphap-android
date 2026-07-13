@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.HomeRoute
+import com.haphap.app.presentation.joblist.navigation.navigateToJobList
 import com.haphap.app.presentation.search.navigation.navigateToSearch
 import kotlinx.serialization.Serializable
 
@@ -23,7 +24,8 @@ fun NavGraphBuilder.homeGraph(
     composable<Home> {
         HomeRoute(
             modifier = Modifier.padding(innerPadding),
-            navigateToSearch = navController::navigateToSearch
+            navigateToSearch = navController::navigateToSearch,
+            navigateToJobList = navController::navigateToJobList,
         )
     }
 }
