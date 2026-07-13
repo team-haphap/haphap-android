@@ -61,7 +61,7 @@ fun SearchRoute(
     }
 
     LaunchedEffect(
-        uiState.searchResultList,
+        uiState.categoryChipState.chipList,
     ) {
         gridState.scrollToItem(0)
     }
