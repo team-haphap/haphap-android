@@ -33,7 +33,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun calendar(yearMonth: YearMonth) {
-        _uiState.update { it.copy(calendarUiState = UiState.Loading) }
+        _uiState.update { it.copy(calendarUiState = CalendarUiState.Loading) }
 
         calendarJob?.cancel()
         calendarJob = viewModelScope.launch {
@@ -41,21 +41,21 @@ class CalendarViewModel @Inject constructor(
                 .onSuccess { models ->
                     _uiState.update {
                         it.copy(
-                            calendarUiState = UiState.Success(models),
+                            calendarUiState = CalendarUiState.Success(models),
                             calendarModel = models.toPersistentList(),
                         )
                     }
                 }
                 .onFailure { throwable ->
                     _uiState.update {
-                        it.copy(calendarUiState = UiState.Failure(throwable.message ?: "오류"))
+                        it.copy(calendarUiState = CalendarUiState.Failure(throwable.message ?: "오류"))
                     }
                 }
         }
     }
 
     private fun calendarPostings(date: LocalDate) {
-        _uiState.update { it.copy(calendarPostingsUiState = UiState.Loading) }
+        _uiState.update { it.copy(calendarPostingsUiState = CalendarUiState.Loading) }
 
         calendarPostingsJob?.cancel()
         calendarPostingsJob = viewModelScope.launch {
@@ -63,14 +63,14 @@ class CalendarViewModel @Inject constructor(
                 .onSuccess { models ->
                     _uiState.update {
                         it.copy(
-                            calendarPostingsUiState = UiState.Success(models),
+                            calendarPostingsUiState = CalendarUiState.Success(models),
                             calendarCardList = models.toPersistentList(),
                         )
                     }
                 }
                 .onFailure { throwable ->
                     _uiState.update {
-                        it.copy(calendarPostingsUiState = UiState.Failure(throwable.message ?: "오류"))
+                        it.copy(calendarPostingsUiState = CalendarUiState.Failure(throwable.message ?: "오류"))
                     }
                 }
         }
