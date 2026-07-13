@@ -37,6 +37,20 @@ class JobDetailViewModel @Inject constructor(
         fetchJobPostingStageStatuses()
     }
 
+    fun onRefreshClick() {
+        viewModelScope.launch {
+            jobDetailRepository.getJobPostingDetail(postingId)
+                .onSuccess { model ->
+                    _uiState.update { currentState ->
+                        currentState.copy(reports = model.reports)
+                    }
+                }
+                .onFailure { throwable ->
+                    Timber.e("$throwable 실시간 전형 제보 조회 실패했습니다.")
+                }
+        }
+    }
+
     fun updateSelectedTab(index: Int) {
         _uiState.update { currentState ->
             currentState.copy(selectedTab = index)
