@@ -10,17 +10,15 @@ sealed interface MyPageContract {
         val nameText: String = "",
         val nickNameText: String = "",
         val emailText: String = "",
-        val myPageUiState: MyPageUiState<MyPageModel> = MyPageUiState.Idle,
+        val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
 }
 
-sealed interface MyPageUiState<out T> {
-    data object Idle : MyPageUiState<Nothing>
-    data object Loading : MyPageUiState<Nothing>
-    data class Success<T>(
-        val data: T,
-    ) : MyPageUiState<T>
+sealed interface MyPageUiState {
+    data object Idle : MyPageUiState
+    data object Loading : MyPageUiState
+    data object Success : MyPageUiState
     data class Failure(
         val msg: String,
-    ) : MyPageUiState<Nothing>
+    ) : MyPageUiState
 }

@@ -31,7 +31,7 @@ class MyPageViewModel @Inject constructor(
                 .onSuccess { model ->
                     _uiState.update {
                         it.copy(
-                            myPageUiState = MyPageUiState.Success(model),
+                            myPageUiState = MyPageUiState.Success,
                             profileUrl = model.profileImageUrl,
                             nameText = model.name,
                             nickNameText = model.anonymousName,
