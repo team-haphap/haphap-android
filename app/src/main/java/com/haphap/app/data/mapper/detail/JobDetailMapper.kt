@@ -2,12 +2,14 @@ package com.haphap.app.data.mapper.detail
 
 import com.haphap.app.data.model.detail.JobDetailModel
 import com.haphap.app.data.model.detail.JobParticipantModel
+import com.haphap.app.data.model.detail.JobResultModel
 import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
 import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
+import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
 import com.haphap.app.presentation.jobdetail.type.JobStepReportType
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
@@ -73,4 +75,12 @@ fun JobDetailStageStatusListDto.toJobStepModels(): ImmutableList<JobStepModel> {
             status = JobStepStatus.valueOf(dto.status),
         )
     }.toImmutableList()
+}
+
+fun JobDetailStageStatisticDto.toJobResultModel(): JobResultModel {
+    return JobResultModel(
+        passCount = passCount,
+        failCount = failCount,
+        pendingCount = pendingCount,
+    )
 }
