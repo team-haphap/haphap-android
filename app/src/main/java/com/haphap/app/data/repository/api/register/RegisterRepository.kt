@@ -3,9 +3,9 @@ package com.haphap.app.data.repository.api.register
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
+import com.haphap.app.data.model.register.RegisterResultType
 import com.haphap.app.data.model.register.RegistrationCheckModel
 import com.haphap.app.data.model.register.RegistrationModel
-import com.haphap.app.presentation.register.type.RegisterResultType
 
 interface RegisterRepository {
     suspend fun getRegisterPostNames(): Result<List<RegisterDropDownItemModel>>
