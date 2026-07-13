@@ -34,6 +34,9 @@ class JobDetailViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(selectedTab = index)
         }
+        _uiState.value.resultTabs.getOrNull(index)?.let { tab ->
+            fetchJobPostingStageStatistic(tab.stageId)
+        }
     }
 
     private fun fetchJobPostingDetail() {
@@ -71,12 +74,35 @@ class JobDetailViewModel @Inject constructor(
                     _uiState.update { currentState ->
                         currentState.copy(resultTabs = resultTabs)
                     }
+                    resultTabs.getOrNull(_uiState.value.selectedTab)?.let { tab ->
+                        fetchJobPostingStageStatistic(tab.stageId)
+                    }
                 }
                 .onFailure { throwable ->
                     _uiState.update { currentState ->
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
                                 msg = throwable.message ?: "전형 단계 조회 중 오류가 발생했습니다.",
+                            ),
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun fetchJobPostingStageStatistic(stageId: Int) {
+        viewModelScope.launch {
+            jobDetailRepository.getJobPostingStageStatistic(postingId, stageId)
+                .onSuccess { result ->
+                    _uiState.update { currentState ->
+                        currentState.copy(result = result)
+                    }
+                }
+                .onFailure { throwable ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            uiState = JobDetailUiState.Failure(
+                                msg = throwable.message ?: "전형별 집계 조회 중 오류가 발생했습니다.",
                             ),
                         )
                     }
