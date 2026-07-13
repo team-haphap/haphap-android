@@ -18,4 +18,6 @@ interface JobDetailRepository {
     suspend fun setJobPostingAlarm(postingId: Int): Result<String>
 
     suspend fun deleteJobPostingAlarm(postingId: Int): Result<String>
+
+    suspend fun recordView(postingId: Int): Result<Unit>
 }
