@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun CalendarListCardComponent(
@@ -32,6 +33,7 @@ fun CalendarListCardComponent(
     stage: String,
     participantCount: Int,
     imageUrl: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -39,7 +41,8 @@ fun CalendarListCardComponent(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.white)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .noRippleClickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CalendarListCardContent(
@@ -134,6 +137,7 @@ private fun CalendarListCardComponentPreview() {
             stage = "서류",
             participantCount = 32,
             imageUrl = "",
+            onClick = {},
             modifier = Modifier.padding(16.dp),
         )
     }
