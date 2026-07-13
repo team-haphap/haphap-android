@@ -1,6 +1,7 @@
 package com.haphap.app.presentation.search
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -97,6 +98,11 @@ class SearchViewModel @Inject constructor(
         }.onFailure {
             Timber.e("$it 불러오기 실패했습니다.")
         }
+    }
+
+    fun onRecentItemClick(keyword: String) {
+        searchInputState.setTextAndPlaceCursorAtEnd(keyword)
+        getSearchResultList()
     }
 
 

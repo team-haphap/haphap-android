@@ -72,6 +72,7 @@ fun SearchRoute(
         onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
         onBackClick = {},
         onSearchClick = viewModel::onSearchClick,
+        onRecentItemClick = viewModel::onRecentItemClick,
         onAutoCompleteItemClick = {},
         onRelatedItemClick = {},
         onFilterClick = { viewModel.updateSelectedChips(it) },
@@ -91,6 +92,7 @@ private fun SearchScreen(
     onLoadMoreSearchList: () -> Unit,
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
+    onRecentItemClick: (String) -> Unit,
     onAutoCompleteItemClick: (Int) -> Unit,
     onRelatedItemClick: (Int) -> Unit,
     onFilterClick: (String) -> Unit,
@@ -131,6 +133,7 @@ private fun SearchScreen(
                 SearchDefaultSection(
                     recentSearchList = uiState.recentSearchList,
                     trendJobList = uiState.trendJobList,
+                    onRecentItemClick = onRecentItemClick,
                     onDeleteClick = onDeleteClick,
                     onCardClick = onTrendCardClick,
                 )
@@ -167,6 +170,7 @@ private fun SearchScreenPreview() {
             state = TextFieldState(),
             uiState = SearchContract.State(),
             gridState = LazyGridState(),
+            onRecentItemClick = {},
             onBackClick = {},
             onSearchClick = {},
             onAutoCompleteItemClick = {},

@@ -38,6 +38,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun SearchDefaultSection(
     recentSearchList: ImmutableList<RecentSearchItemModel>,
     trendJobList: ImmutableList<SearchPopularItemModel>,
+    onRecentItemClick: (String) -> Unit,
     onDeleteClick: (Long) -> Unit,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -56,11 +57,12 @@ fun SearchDefaultSection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            recentSearchList.forEach {
+            recentSearchList.forEach { item ->
                 RecentSearchItem(
-                    keyword = it.keyword,
-                    date = it.date,
-                    onDeleteClick = { onDeleteClick(it.id) },
+                    keyword = item.keyword,
+                    date = item.date,
+                    onRecentItemClick = { onRecentItemClick(item.keyword) },
+                    onDeleteClick = { onDeleteClick(item.id) },
                 )
 
                 HorizontalDivider(
@@ -113,11 +115,14 @@ fun SearchDefaultSection(
 private fun RecentSearchItem(
     keyword: String,
     date: String,
+    onRecentItemClick: () -> Unit,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(vertical = 2.dp),
+        modifier = modifier
+            .padding(vertical = 2.dp)
+            .noRippleClickable(onClick = onRecentItemClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -197,6 +202,7 @@ private fun SearchDefaultSectionPreview() {
                     title = "공고명"
                 )
             ),
+            onRecentItemClick = {},
             onDeleteClick = {},
             onCardClick = {},
         )
