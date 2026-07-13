@@ -98,7 +98,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @NoAuth
     fun provideNoAuthRetrofit(
         @NoAuth client: OkHttpClient,
         factory: Converter.Factory,
