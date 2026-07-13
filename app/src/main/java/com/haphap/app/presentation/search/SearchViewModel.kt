@@ -101,7 +101,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun onRecentItemClick(keyword: String) {
+    fun onSearchItemClick(keyword: String) {
         searchInputState.setTextAndPlaceCursorAtEnd(keyword)
         getSearchResultList()
     }

@@ -41,7 +41,7 @@ fun SearchingSection(
     searchAutoCompleteList: ImmutableList<SearchAutoCompleteItemModel>,
     relatedKeywordList: ImmutableList<RelatedKeywordItemModel>,
     onAutoCompleteItemClick: (Int) -> Unit,
-    onRelatedItemClick: (Int) -> Unit,
+    onRelatedItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -80,7 +80,7 @@ fun SearchingSection(
             RelatedKeywordItem(
                 text = it.text,
                 highlightLength = it.highlightLength,
-                onClick = { onRelatedItemClick(it.id) },
+                onClick = { onRelatedItemClick(it.text) },
             )
 
             Spacer(modifier = Modifier.height(12.dp))
