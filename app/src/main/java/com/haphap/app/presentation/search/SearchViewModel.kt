@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.util.CoilUtils.result
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.repository.api.SearchRepository
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
@@ -56,7 +57,7 @@ class SearchViewModel @Inject constructor(
                         )
                     }
                 } else {
-                    //Todo: 자동완성 api 호출
+                    getSearchingList(searchInputState.text.toString())
                 }
             }
     }
@@ -135,6 +136,35 @@ class SearchViewModel @Inject constructor(
             .onFailure {
                 Timber.e("$it 삭제 실패했습니다.")
 
+            }
+    }
+
+    fun getSearchingList(q: String?) = viewModelScope.launch {
+        _uiState.update {
+            it.copy(
+                searchAutoCompleteUiState = SearchUiState.Loading,
+                relatedKeywordListUiState = SearchUiState.Loading,
+            )
+        }
+        searchRepository.getSearchingList(q = q)
+            .onSuccess { result ->
+                _uiState.update {
+                    it.copy(
+                        searchAutoCompleteList = result.relatedPostings,
+                        relatedKeywordList = result.relatedKeywords,
+                        searchAutoCompleteUiState = SearchUiState.Success,
+                        relatedKeywordListUiState = SearchUiState.Success,
+                    )
+                }
+            }
+            .onFailure { error ->
+                Timber.e("$error 자동 완성 호출에 실패했습니다")
+                _uiState.update { result ->
+                    result.copy(
+                        searchAutoCompleteUiState = SearchUiState.Failure("$error"),
+                        relatedKeywordListUiState = SearchUiState.Failure("$error"),
+                    )
+                }
             }
     }
 

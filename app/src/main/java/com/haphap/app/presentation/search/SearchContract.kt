@@ -4,8 +4,8 @@ import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.RelatedKeywordItemModel
 import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
-import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.data.model.search.SearchPopularItemModel
+import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -30,11 +30,8 @@ sealed interface SearchContract {
     ) {
         val section: SearchSection
             get() = when {
+                searchAutoCompleteUiState !is SearchUiState.Idle -> SearchSection.Searching
                 searchResultListUiState !is SearchUiState.Idle -> SearchSection.Result
-
-                searchAutoCompleteUiState is SearchUiState.Success
-                        || searchAutoCompleteUiState is SearchUiState.Empty -> SearchSection.Searching
-
                 else -> SearchSection.Default
             }
 
@@ -44,7 +41,7 @@ sealed interface SearchContract {
         data class OnShowToast(
             val message: String,
             val isAlarm: Boolean = false,
-        ): SideEffect()
+        ) : SideEffect()
     }
 }
 
