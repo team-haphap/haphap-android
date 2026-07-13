@@ -68,13 +68,13 @@ fun AutoCompleteShortcutDto.toModel(): SearchAutoCompleteItemModel = SearchAutoC
     id = postingId,
     imageUrl = imageUrl,
     text = name,
-    highlightLength = highlightRanges.first().toModel(),
+    highlightLength = highlightRanges.firstOrNull()?.toModel() ?: RangeModel(0, 0),
 )
 
 fun RelatedKeywordDto.toModel(): RelatedKeywordItemModel = RelatedKeywordItemModel(
     id = keywordId,
     text = name,
-    highlightLength = highlightRanges.first().toModel(),
+    highlightLength = highlightRanges.firstOrNull()?.toModel() ?: RangeModel(0, 0),
 )
 
 fun HighlightRangeDto.toModel(): RangeModel = RangeModel(
