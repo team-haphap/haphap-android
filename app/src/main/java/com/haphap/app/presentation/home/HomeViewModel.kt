@@ -33,7 +33,6 @@ class HomeViewModel @Inject constructor(
 
     fun onRefreshClick() {
         fetchAll()
-        Timber.d("refresh clicked") //Todo: 추후 삭제
     }
 
     private fun fetchBannerList() {
