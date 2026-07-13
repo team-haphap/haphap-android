@@ -8,6 +8,7 @@ import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.joblist.navigation.jobListGraph
+import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
 import com.haphap.app.presentation.search.navigation.searchGraph
@@ -46,6 +47,11 @@ fun MainNavHost(
 
         jobListGraph(
             innerPadding = innerPadding,
+        )
+
+        jobDetailGraph(
+            innerPadding = innerPadding,
+            navController = navController,
         )
 
         registerGraph(
