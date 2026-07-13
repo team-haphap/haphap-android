@@ -208,7 +208,7 @@ class SearchViewModel @Inject constructor(
 
 
     companion object {
-        private const val SEARCH_NETWORK_DEBOUNCE = 500L
+        private const val SEARCH_NETWORK_DEBOUNCE = 300L
         private const val DEFAULT_PAGE_SIZE = 20
     }
 
