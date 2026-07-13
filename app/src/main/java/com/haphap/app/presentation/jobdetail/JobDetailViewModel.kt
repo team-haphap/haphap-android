@@ -5,13 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.jobdetail.navigation.JobDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class JobDetailViewModel @Inject constructor(
@@ -23,6 +27,9 @@ class JobDetailViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(JobDetailContract.State())
     val uiState = _uiState.asStateFlow()
+
+    private val _sideEffect = Channel<JobDetailContract.SideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
         fetchJobPostingDetail()
@@ -56,6 +63,7 @@ class JobDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e("$throwable 공고 상세 조회 실패했습니다.")
                     _uiState.update { currentState ->
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
@@ -79,6 +87,7 @@ class JobDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e("$throwable 전형 단계 조회 실패했습니다.")
                     _uiState.update { currentState ->
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
@@ -99,6 +108,7 @@ class JobDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e("$throwable 전형별 집계 조회 실패했습니다.")
                     _uiState.update { currentState ->
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
@@ -119,6 +129,7 @@ class JobDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { throwable ->
+                    Timber.e("$throwable 전형 단계 진행 상태 조회 실패했습니다.")
                     _uiState.update { currentState ->
                         currentState.copy(
                             uiState = JobDetailUiState.Failure(
@@ -127,6 +138,36 @@ class JobDetailViewModel @Inject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun onAlarmClick() {
+        viewModelScope.launch {
+            val isAlarmActive = _uiState.value.isAlarmActive
+
+            if (isAlarmActive) {
+                jobDetailRepository.deleteJobPostingAlarm(postingId)
+                    .onSuccess {
+                        _uiState.update { currentState ->
+                            currentState.copy(isAlarmActive = false)
+                        }
+                        _sideEffect.send(OnShowToast(message = "알림 설정이 해제되었어요!"))
+                    }
+                    .onFailure { throwable ->
+                        Timber.e("$throwable 알람 해제 실패했습니다.")
+                    }
+            } else {
+                jobDetailRepository.setJobPostingAlarm(postingId)
+                    .onSuccess {
+                        _uiState.update { currentState ->
+                            currentState.copy(isAlarmActive = true)
+                        }
+                        _sideEffect.send(OnShowToast(message = "알림 설정이 완료되었어요!"))
+                    }
+                    .onFailure { throwable ->
+                        Timber.e("$throwable 알람 설정 실패했습니다.")
+                    }
+            }
         }
     }
 }
