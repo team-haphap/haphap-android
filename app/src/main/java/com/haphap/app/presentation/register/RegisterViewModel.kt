@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
+import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -21,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    // TODO: 공고/전형/등록 Repository 주입 (API 연동 시 하단 더미 데이터를 전부 대체)
+    private val postingRepository: RegisterRepository,
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<Register>()
@@ -36,13 +38,20 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(announceListUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    // TODO: 추후 연동
-                    // announceList = ,
-                    announceListUiState = RegisterUiState.Success,
-                )
-            }
+            postingRepository.getPostingNames()
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(
+                            announceList = list.toImmutableList(),
+                            announceListUiState = RegisterUiState.Success,
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(announceListUiState = RegisterUiState.Failure(e.message ?: "공고 목록을 불러오지 못했습니다."))
+                    }
+                }
         }
     }
 
@@ -58,13 +67,20 @@ class RegisterViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    // TODO: API 연동
-//                    processList = DUMMY_PROCESS_LIST_BY_ANNOUNCE_ID[item.id] ?: persistentListOf(),
-                    processListUiState = RegisterUiState.Success,
-                )
-            }
+            postingRepository.getPostingStages(item.id)
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(
+                            processList = list.toImmutableList(),
+                            processListUiState = RegisterUiState.Success,
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(processListUiState = RegisterUiState.Failure(e.message ?: "전형 목록을 불러오지 못했습니다."))
+                    }
+                }
         }
     }
 
