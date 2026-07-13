@@ -14,7 +14,16 @@ sealed interface CalendarContract {
         val selectedDate: LocalDate? = null,
         val calendarModel: ImmutableList<CalendarModel> = persistentListOf(),
         val calendarCardList: ImmutableList<CalendarPostingModel> = persistentListOf(),
-        val calendarUiState: UiState<List<CalendarModel>> = UiState.Idle,
-        val calendarPostingsUiState: UiState<List<CalendarPostingModel>> = UiState.Idle,
+        val calendarUiState: CalendarUiState = CalendarUiState.Idle,
+        val calendarPostingsUiState: CalendarUiState = CalendarUiState.Idle,
     )
+}
+
+sealed interface CalendarUiState {
+    data object Idle : CalendarUiState
+    data object Loading : CalendarUiState
+    data object Success : CalendarUiState
+    data class Failure(
+        val msg: String,
+    ) : CalendarUiState
 }
