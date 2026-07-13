@@ -41,6 +41,7 @@ class JobDetailViewModel @Inject constructor(
         viewModelScope.launch {
             jobDetailRepository.getJobPostingDetail(postingId)
                 .onSuccess { model ->
+                    Timber.d("실시간 전형 제보 새로고침 성공했습니다.")
                     _uiState.update { currentState ->
                         currentState.copy(reports = model.reports)
                     }
