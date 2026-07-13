@@ -20,12 +20,12 @@ interface SearchService {
     @GET("/api/v1/search/postings")
     suspend fun getSearchResultList(
         @Query("q")
-        q: String,
+        q: String? = null,
         @Query("category")
-        category: String,
+        category: List<String>? = null,
         @Query("page")
-        page: Int,
+        page: Int? = null,
         @Query("size")
-        size: Int,
+        size: Int? = null,
     ): BaseResponse<SearchResultListResponseDto>
 }
