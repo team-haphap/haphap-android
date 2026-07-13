@@ -27,6 +27,7 @@ sealed interface SearchContract {
 
         val searchResultPage: Int = 0,
         val hasNextSearchResult: Boolean = true,
+        val storedSearchText: String? = null,
     ) {
         val section: SearchSection
             get() = when {

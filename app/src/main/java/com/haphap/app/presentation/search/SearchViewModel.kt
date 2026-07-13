@@ -36,6 +36,7 @@ class SearchViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     val searchInputState = TextFieldState()
+    private val searchInputText = searchInputState.text
 
     init {
         observeSearchInput()
@@ -45,19 +46,25 @@ class SearchViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     private fun observeSearchInput() = viewModelScope.launch {
-        snapshotFlow { searchInputState.text }
+        snapshotFlow { searchInputText }
             .debounce(SEARCH_NETWORK_DEBOUNCE)
             .distinctUntilChanged()
             .collectLatest { searchInputText ->
-                if (searchInputText.isBlank()) {
-                    _uiState.update {
-                        it.copy(
-                            searchAutoCompleteUiState = SearchUiState.Idle,
-                            searchResultListUiState = SearchUiState.Idle,
-                        )
+                val text = searchInputText.toString()
+                when {
+                    text.isBlank() -> {
+                        _uiState.update {
+                            it.copy(
+                                searchAutoCompleteUiState = SearchUiState.Idle,
+                                searchResultListUiState = SearchUiState.Idle,
+                            )
+                        }
                     }
-                } else {
-                    getSearchingList(searchInputState.text.toString())
+
+                    text != _uiState.value.storedSearchText -> {
+                        _uiState.update { it.copy(searchResultListUiState = SearchUiState.Idle) }
+                        getSearchingList(text)
+                    }
                 }
             }
     }
@@ -70,10 +77,10 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchClick() = viewModelScope.launch {
-        if (searchInputState.text.isBlank()) {
+        if (searchInputText.isBlank()) {
             _sideEffect.send(OnShowToast("검색어를 입력해주세요"))
         } else {
-            searchRepository.saveRecentSearchItem(searchInputState.text.toString())
+            searchRepository.saveRecentSearchItem(searchInputText.toString())
                 .onSuccess {
                     Timber.d("저장 성공했습니다.")
                 }
@@ -85,6 +92,7 @@ class SearchViewModel @Inject constructor(
                 it.copy(
                     searchAutoCompleteUiState = SearchUiState.Idle,
                     searchResultListUiState = SearchUiState.Loading,
+                    storedSearchText = searchInputText.toString(),
                 )
             }
             getSearchResultList()
@@ -177,7 +185,7 @@ class SearchViewModel @Inject constructor(
         _uiState.update { it.copy(searchResultListUiState = SearchUiState.Loading) }
         val category = currentState.categoryChipState.queryCategoryList
         searchRepository.getSearchResultList(
-            q = searchInputState.text.toString(),
+            q = searchInputText.toString(),
             category = category,
             page = requestPage,
             size = DEFAULT_PAGE_SIZE,
