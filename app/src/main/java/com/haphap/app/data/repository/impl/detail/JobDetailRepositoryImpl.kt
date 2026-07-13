@@ -3,7 +3,9 @@ package com.haphap.app.data.repository.impl.detail
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.detail.toJobDetailModel
 import com.haphap.app.data.mapper.detail.toJobStepModels
+import com.haphap.app.data.mapper.detail.toResultTabModels
 import com.haphap.app.data.model.detail.JobDetailModel
+import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.remote.datasource.api.detail.JobDetailDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -20,6 +22,13 @@ class JobDetailRepositoryImpl @Inject constructor(
             jobDetailDataSource.getJobPostingDetail(postingId)
                 .checkData()
                 .toJobDetailModel()
+        }
+
+    override suspend fun getJobPostingStages(postingId: Int): Result<ImmutableList<JobResultTabModel>> =
+        suspendRunCatching {
+            jobDetailDataSource.getJobPostingStages(postingId)
+                .checkData()
+                .toResultTabModels()
         }
 
     override suspend fun getJobPostingStageStatuses(postingId: Int): Result<ImmutableList<JobStepModel>> =
