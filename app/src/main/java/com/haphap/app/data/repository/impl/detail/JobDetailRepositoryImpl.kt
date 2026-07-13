@@ -46,4 +46,22 @@ class JobDetailRepositoryImpl @Inject constructor(
                 .checkData()
                 .toJobResultModel()
         }
+
+    override suspend fun setJobPostingAlarm(postingId: Int): Result<String> =
+        suspendRunCatching {
+            val response = jobDetailDataSource.setAlarms(postingId)
+            check(response.status == HTTP_OK) { response.message }
+            response.message
+        }
+
+    override suspend fun deleteJobPostingAlarm(postingId: Int): Result<String> =
+        suspendRunCatching {
+            val response = jobDetailDataSource.deleteAlarms(postingId)
+            check(response.status == HTTP_OK) { response.message }
+            response.message
+        }
+
+    companion object {
+        private const val HTTP_OK = 200
+    }
 }
