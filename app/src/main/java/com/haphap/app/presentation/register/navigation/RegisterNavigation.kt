@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.data.model.register.RegisterPassCardModel
@@ -44,18 +45,30 @@ fun NavGraphBuilder.registerGraph(
 ) {
     composable<Register> {
         RegisterRoute(
-            navigateBack = { navController.popBackStack() },
-            navigateToHome = { navController.navigateToHome() },
+            navigateBack = {
+                if (!navController.popBackStack()) {
+                    navController.navigateToHome(
+                        navOptions = navOptions {
+                            popUpTo<Register> { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    )
+                }
+            },
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<Register> { inclusive = true }
+                        launchSingleTop = true
+                    }
+                )
+            },
             navigateToJobDetail = { jobId ->
                 // TODO: 상세 페이지 네비게이션 함수 추가 예정
             },
             navigateToPassCard = { passCard ->
                 navController.navigateToRegisterPassCard(
                     passCard = passCard
-//                    recruitName = recruitName,
-//                    companyName = companyName,
-//                    logoUrl = logoUrl,
-//                    backgroundImageUrl = backgroundImageUrl,
                 )
             },
             modifier = Modifier.padding(innerPadding),
@@ -72,7 +85,14 @@ fun NavGraphBuilder.registerGraph(
                 logoUrl = route.logoUrl,
                 backgroundImageUrl = route.backgroundImageUrl,
             ),
-            navigateToHome = { navController.navigateToHome() },
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navOptions {
+                        popUpTo<Register> { inclusive = true }
+                        launchSingleTop = true
+                    }
+                )
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }
