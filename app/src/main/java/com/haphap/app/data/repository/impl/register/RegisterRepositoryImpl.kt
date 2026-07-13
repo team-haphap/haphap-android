@@ -5,12 +5,14 @@ import com.haphap.app.data.mapper.register.toModel
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
+import com.haphap.app.data.model.register.RegistrationCheckModel
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.data.remote.datasource.api.register.RegisterDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.dto.register.RegisterRequestDto
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.type.RegisterResultType
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(
@@ -48,4 +50,26 @@ class RegisterRepositoryImpl @Inject constructor(
 
             postingDataSource.postRegistration(request).checkData().toModel()
         }
+
+    override suspend fun checkRegistration(postingId: Int, stageId: Int): Result<RegistrationCheckModel> =
+        suspendRunCatching {
+            try {
+                val response = postingDataSource.getRegistrationCheck(postingId, stageId)
+                when (response.code) {
+                    REGISTRATION_CONFIRM_REQUIRED_CODE -> RegistrationCheckModel.CONFIRM_REQUIRED
+                    else -> RegistrationCheckModel.NEW
+                }
+            } catch (e: HttpException) {
+                if (e.code() == HTTP_CONFLICT) {
+                    RegistrationCheckModel.DUPLICATE
+                } else {
+                    throw e
+                }
+            }
+        }
+
+    companion object {
+        private const val REGISTRATION_CONFIRM_REQUIRED_CODE = "REGISTRATION_CONFIRM_REQUIRED"
+        private const val HTTP_CONFLICT = 409
+    }
 }
