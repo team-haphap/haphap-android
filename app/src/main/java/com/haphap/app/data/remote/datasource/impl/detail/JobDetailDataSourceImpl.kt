@@ -24,4 +24,10 @@ class JobDetailDataSourceImpl @Inject constructor(
 
     override suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): BaseResponse<JobDetailStageStatisticDto> =
         jobDetailService.getJobPostingStageStatistic(postingId, stageId)
+
+    override suspend fun setAlarms(postingId: Int): BaseResponse<Unit> =
+        jobDetailService.setAlarms(postingId)
+
+    override suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit> =
+        jobDetailService.deleteAlarms(postingId)
 }
