@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.home.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.getBannerList()
                 .onSuccess { banners ->
-                    _uiState.update { it.copy(bannerList = banners.toPersistentList()) }
+                    _uiState.update { it.copy(bannerList = banners.toImmutableList()) }
                 }
                 .onFailure { e ->
                     Timber.e(e, "배너 목록 조회 실패")
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.getAnnouncements()
                 .onSuccess { list ->
-                    _uiState.update { it.copy(todayExpectedCardList = list.toPersistentList()) }
+                    _uiState.update { it.copy(todayExpectedCardList = list.toImmutableList()) }
                 }
                 .onFailure { e ->
                     Timber.e(e, "오늘 발표 예상 공고 조회 실패")
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.getRecentPostings(categoryParam)
                 .onSuccess { list ->
-                    _uiState.update { it.copy(recentCardList = list.toPersistentList()) }
+                    _uiState.update { it.copy(recentCardList = list.toImmutableList()) }
                 }
                 .onFailure { e ->
                     Timber.e(e, "최근 등록 공고 조회 실패")
