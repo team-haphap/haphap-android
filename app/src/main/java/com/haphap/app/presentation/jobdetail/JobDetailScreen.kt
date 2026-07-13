@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,21 +25,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
 import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
-import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
 import com.haphap.app.presentation.jobdetail.component.JobDetailReportEmptyComponent
 import com.haphap.app.presentation.jobdetail.component.JobDetailTitleSection
@@ -49,7 +54,6 @@ import com.haphap.app.presentation.jobdetail.component.JobResultTabRow
 import com.haphap.app.presentation.jobdetail.component.JobStageStepRow
 import com.haphap.app.presentation.jobdetail.component.JobStepReportItem
 import com.haphap.app.presentation.jobdetail.type.JobResultCardType
-import com.haphap.app.presentation.jobdetail.type.JobStepReportType
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.persistentListOf
 
@@ -59,11 +63,25 @@ fun JobDetailRoute(
     viewModel: JobDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> {
+                        showToast.invoke(sideEffect.message, sideEffect.isAlarm)
+                    }
+                }
+            }
+        }
+    }
 
     JobDetailScreen(
         uiState = uiState,
         onBackClick = {},
-        onAlarmClick = {},
+        onAlarmClick = viewModel::onAlarmClick,
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
         onRefreshClick = {},
