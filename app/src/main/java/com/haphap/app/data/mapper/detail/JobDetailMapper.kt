@@ -43,7 +43,7 @@ fun JobDetailDto.toJobParticipantModel(): JobParticipantModel {
 }
 
 fun JobDetailDto.toJobStepReportModels(): ImmutableList<JobStepReportModel> {
-    return registrations.map { dto ->
+    return registrations.take(15).map { dto ->
         JobStepReportModel(
             id = dto.registrationId,
             time = dto.feedCreatedAt.substring(startIndex = 11, endIndex = 16),
