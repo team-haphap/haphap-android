@@ -4,6 +4,7 @@ import com.haphap.app.data.remote.datasource.api.detail.JobDetailDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
+import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
 import com.haphap.app.data.remote.service.detail.JobDetailService
 import jakarta.inject.Inject
@@ -20,4 +21,7 @@ class JobDetailDataSourceImpl @Inject constructor(
 
     override suspend fun getJobPostingStageStatuses(postingId: Int): BaseResponse<JobDetailStageStatusListDto> =
         jobDetailService.getJobPostingStageStatuses(postingId)
+
+    override suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): BaseResponse<JobDetailStageStatisticDto> =
+        jobDetailService.getJobPostingStageStatistic(postingId, stageId)
 }
