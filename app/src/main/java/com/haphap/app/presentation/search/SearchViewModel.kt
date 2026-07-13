@@ -36,7 +36,6 @@ class SearchViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     val searchInputState = TextFieldState()
-    private val searchInputText = searchInputState.text
 
     init {
         observeSearchInput()
@@ -46,7 +45,7 @@ class SearchViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     private fun observeSearchInput() = viewModelScope.launch {
-        snapshotFlow { searchInputText }
+        snapshotFlow { searchInputState.text }
             .debounce(SEARCH_NETWORK_DEBOUNCE)
             .distinctUntilChanged()
             .collectLatest { searchInputText ->
@@ -77,10 +76,10 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchClick() = viewModelScope.launch {
-        if (searchInputText.isBlank()) {
+        if (searchInputState.text.isBlank()) {
             _sideEffect.send(OnShowToast("검색어를 입력해주세요"))
         } else {
-            searchRepository.saveRecentSearchItem(searchInputText.toString())
+            searchRepository.saveRecentSearchItem(searchInputState.text.toString())
                 .onSuccess {
                     Timber.d("저장 성공했습니다.")
                 }
@@ -92,7 +91,7 @@ class SearchViewModel @Inject constructor(
                 it.copy(
                     searchAutoCompleteUiState = SearchUiState.Idle,
                     searchResultListUiState = SearchUiState.Loading,
-                    storedSearchText = searchInputText.toString(),
+                    storedSearchText = searchInputState.text.toString(),
                 )
             }
             getSearchResultList()
@@ -185,7 +184,7 @@ class SearchViewModel @Inject constructor(
         _uiState.update { it.copy(searchResultListUiState = SearchUiState.Loading) }
         val category = currentState.categoryChipState.queryCategoryList
         searchRepository.getSearchResultList(
-            q = searchInputText.toString(),
+            q = searchInputState.text.toString(),
             category = category,
             page = requestPage,
             size = DEFAULT_PAGE_SIZE,
