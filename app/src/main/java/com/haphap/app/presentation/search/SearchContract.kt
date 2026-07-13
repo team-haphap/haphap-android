@@ -24,14 +24,16 @@ sealed interface SearchContract {
         val relatedKeywordListUiState: SearchUiState = SearchUiState.Idle,
         val searchResultListUiState: SearchUiState = SearchUiState.Idle,
         val searchUiState: SearchUiState = SearchUiState.Idle,
+
+        val searchResultPage: Int = 0,
+        val hasNextSearchResult: Boolean = true,
     ) {
         val section: SearchSection
             get() = when {
+                searchResultListUiState !is SearchUiState.Idle -> SearchSection.Result
+
                 searchAutoCompleteUiState is SearchUiState.Success
                         || searchAutoCompleteUiState is SearchUiState.Empty -> SearchSection.Searching
-
-                searchResultListUiState is SearchUiState.Success
-                        || searchResultListUiState is SearchUiState.Empty -> SearchSection.Result
 
                 else -> SearchSection.Default
             }
