@@ -35,6 +35,16 @@ class JobDetailViewModel @Inject constructor(
         fetchJobPostingDetail()
         fetchJobPostingStages()
         fetchJobPostingStageStatuses()
+        recordView()
+    }
+
+    private fun recordView() {
+        viewModelScope.launch {
+            jobDetailRepository.recordView(postingId)
+                .onFailure { throwable ->
+                    Timber.e("$throwable 공고 조회 기록 실패했습니다.")
+                }
+        }
     }
 
     fun onRefreshClick() {
