@@ -59,6 +59,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun JobDetailRoute(
+    navigateToRegister: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: JobDetailViewModel = hiltViewModel(),
 ) {
@@ -85,7 +86,7 @@ fun JobDetailRoute(
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
         onRefreshClick = viewModel::onRefreshClick,
-        onRegisterClick = {},
+        onRegisterClick = navigateToRegister,
         modifier = modifier,
     )
 }
