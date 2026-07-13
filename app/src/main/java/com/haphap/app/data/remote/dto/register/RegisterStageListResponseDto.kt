@@ -18,5 +18,5 @@ data class RegisterStageDto(
     @SerialName("stageName")
     val stageName: String,
     @SerialName("orderIndex")
-    val orderIndex: Int,
+    val orderIndex: Int? = null,
 )
