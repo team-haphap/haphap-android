@@ -2,6 +2,7 @@ package com.haphap.app.data.remote.service.detail
 
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.detail.JobDetailDto
+import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,6 +12,11 @@ interface JobDetailService {
     suspend fun getJobPostingDetail(
         @Path("postingId") postingId: Int,
     ): BaseResponse<JobDetailDto>
+
+    @GET("api/v1/postings/{postingId}/stages")
+    suspend fun getJobPostingStages(
+        @Path("postingId") postingId: Int,
+    ): BaseResponse<JobDetailStageListDto>
 
     @GET("api/v1/postings/{postingId}/statistics")
     suspend fun getJobPostingStageStatuses(
