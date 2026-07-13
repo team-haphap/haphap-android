@@ -101,7 +101,16 @@ class SearchViewModel @Inject constructor(
     fun getRecentSearchList() = viewModelScope.launch {
         suspendRunCatching {
             searchRepository.getRecentSearchItem().collect { list ->
-                _uiState.update { it.copy(recentSearchList = list.toImmutableList()) }
+                _uiState.update {
+                    it.copy(
+                        recentSearchList = list.toImmutableList(),
+                        recentSearchListUiState = if (list.isEmpty()) {
+                            SearchUiState.Empty
+                        } else {
+                            SearchUiState.Success
+                        },
+                    )
+                }
             }
         }.onFailure {
             Timber.e("$it 불러오기 실패했습니다.")
@@ -127,7 +136,11 @@ class SearchViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         trendJobList = result.toImmutableList(),
-                        trendJobListUiState = SearchUiState.Success
+                        trendJobListUiState = if (result.isEmpty()) {
+                            SearchUiState.Empty
+                        } else {
+                            SearchUiState.Success
+                        },
                     )
                 }
             }
@@ -198,12 +211,12 @@ class SearchViewModel @Inject constructor(
             .onSuccess { result ->
                 _uiState.update {
                     it.copy(
-                        searchResultList = if (hasNextPage) {
-                            (it.searchResultList + result.results).toImmutableList()
+                        searchResultList = result.results,
+                        searchResultListUiState = if (result.results.isEmpty()) {
+                            SearchUiState.Empty
                         } else {
-                            result.results
+                            SearchUiState.Success
                         },
-                        searchResultListUiState = SearchUiState.Success,
                         searchResultPage = result.page,
                         hasNextSearchResult = result.hasNext,
                     )

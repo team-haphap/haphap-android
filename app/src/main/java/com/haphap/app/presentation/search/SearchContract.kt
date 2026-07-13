@@ -20,6 +20,7 @@ sealed interface SearchContract {
         val recentSearchList: ImmutableList<RecentSearchItemModel> = persistentListOf(),
         val trendJobList: ImmutableList<SearchPopularItemModel> = persistentListOf(),
         val trendJobListUiState: SearchUiState = SearchUiState.Idle,
+        val recentSearchListUiState: SearchUiState = SearchUiState.Idle,
         val searchAutoCompleteUiState: SearchUiState = SearchUiState.Idle,
         val relatedKeywordListUiState: SearchUiState = SearchUiState.Idle,
         val searchResultListUiState: SearchUiState = SearchUiState.Idle,

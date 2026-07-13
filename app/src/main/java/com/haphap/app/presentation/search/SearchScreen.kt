@@ -139,6 +139,8 @@ private fun SearchScreen(
         when (uiState.section) {
             SearchSection.Default ->
                 SearchDefaultSection(
+                    recentSearchUiState = uiState.recentSearchListUiState,
+                    popularSearchUiState = uiState.trendJobListUiState,
                     recentSearchList = uiState.recentSearchList,
                     trendJobList = uiState.trendJobList,
                     onRecentItemClick = onRecentItemClick,

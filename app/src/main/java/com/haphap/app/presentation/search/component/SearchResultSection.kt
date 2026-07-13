@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -89,7 +90,11 @@ fun SearchResultSection(
                 }
             }
 
-            SearchUiState.Empty -> {// TODO: 빈화면 추가 }
+            SearchUiState.Empty -> {
+                IconEmptyComponent(
+                    text = "검색 결과가 없습니다",
+                    modifier = Modifier.padding(top = 186.dp),
+                )
             }
             is SearchUiState.Failure, SearchUiState.Idle -> {}
             SearchUiState.Loading ->  {}
