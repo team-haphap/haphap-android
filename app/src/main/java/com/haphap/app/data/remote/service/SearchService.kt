@@ -14,7 +14,7 @@ interface SearchService {
     @GET("api/v1/search/autocomplete")
     suspend fun getAutoCompleteList(
         @Query("q")
-        q: String,
+        q: String? = null,
     ): BaseResponse<AutoCompleteListDto>
 
     @GET("/api/v1/search/postings")
