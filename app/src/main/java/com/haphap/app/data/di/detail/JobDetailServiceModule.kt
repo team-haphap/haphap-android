@@ -1,6 +1,5 @@
 package com.haphap.app.data.di.detail
 
-import com.haphap.app.core.network.di.Auth
 import com.haphap.app.data.remote.service.detail.JobDetailService
 import dagger.Module
 import dagger.Provides
