@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
@@ -23,6 +23,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.data.model.list.JobItemModel
 import com.haphap.app.presentation.common.component.HapHapCategoryChipList
+import com.haphap.app.presentation.joblist.component.IconEmptyComponent
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -31,7 +32,7 @@ fun JobListRoute(
     viewModel: JobListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
+    
     JobListScreen(
         uiState = uiState,
         onSearchBarClick = {},
@@ -69,28 +70,42 @@ private fun JobListScreen(
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-        
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            items(
-                items = uiState.jobList,
-                key = { it.id }
-            ) {
-                HapHapCard(
-                    type = CardType.SMALL,
-                    imageUrl = it.imageUrl,
-                    text = it.category,
-                    stage = it.stage,
-                    dDay = it.dDay,
-                    company = it.title,
-                    description = it.content,
-                    onCardClick = { onCardClick(it.id) },
+
+        when (uiState.jobListUiState) {
+            JobListUiState.Success -> {
+                LazyVerticalGrid(
+                    columns = Fixed(2),
+                    contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    items(
+                        items = uiState.jobList,
+                        key = { it.id }
+                    ) {
+                        HapHapCard(
+                            type = CardType.SMALL,
+                            imageUrl = it.imageUrl,
+                            text = it.category,
+                            stage = it.stage,
+                            dDay = it.dDay,
+                            company = it.title,
+                            description = it.content,
+                            onCardClick = { onCardClick(it.id) },
+                        )
+                    }
+                }
+            }
+
+            JobListUiState.Empty -> {
+                IconEmptyComponent(
+                    text = "해당 카테고리에 등록된 공고가 없습니다",
+                    modifier = Modifier.padding(top = 190.dp),
                 )
             }
+
+            is JobListUiState.Failure, JobListUiState.Idle, JobListUiState.Loading -> {}
+
         }
     }
 }
