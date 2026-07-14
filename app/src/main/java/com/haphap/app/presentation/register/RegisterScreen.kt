@@ -19,6 +19,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
@@ -54,6 +57,9 @@ fun RegisterRoute(
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     is OnShowToast -> showToast.invoke(sideEffect.message, sideEffect.isAlarm)
+                    is NavigateToHome -> navigateToHome()
+                    is NavigateToJobDetail -> navigateToJobDetail(sideEffect.jobId)
+                    is NavigateToPassCard -> navigateToPassCard(sideEffect.passCard)
                 }
             }
         }
@@ -77,18 +83,7 @@ fun RegisterRoute(
                 2 -> viewModel.onStep2NextClick()
                 3 -> viewModel.onStep3NextClick()
                 4 -> viewModel.onRegisterClick()
-                5 -> {
-                    if (uiState.selectedResult == PassResultStatusButton.PASS) {
-                        uiState.registrationResult?.card?.let { navigateToPassCard(it) }
-                    } else {
-                        when (val entryPoint = uiState.entryPoint) {
-                            RegisterContract.RegisterSideEffect.Home -> navigateToHome()
-                            is RegisterContract.RegisterSideEffect.JobDetail -> navigateToJobDetail(
-                                entryPoint.jobId
-                            )
-                        }
-                    }
-                }
+                5 -> viewModel.onFinishClick()
             }
         },
         onBackClick = {

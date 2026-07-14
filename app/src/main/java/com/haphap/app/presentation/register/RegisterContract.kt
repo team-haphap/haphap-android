@@ -3,6 +3,7 @@ package com.haphap.app.presentation.register
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
+import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.presentation.register.type.NotificationChannelType
@@ -54,6 +55,16 @@ sealed interface RegisterContract {
             val message: String,
             val isAlarm: Boolean = true,
         ): SideEffect()
+
+        data object NavigateToHome : SideEffect()
+
+        data class NavigateToJobDetail(
+            val jobId: Int,
+        ) : SideEffect()
+
+        data class NavigateToPassCard(
+            val passCard: RegisterPassCardModel,
+        ) : SideEffect()
     }
 }
 

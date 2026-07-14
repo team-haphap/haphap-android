@@ -11,6 +11,9 @@ import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -309,6 +312,24 @@ class RegisterViewModel @Inject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun onFinishClick() {
+        val currentState = _uiState.value
+
+        viewModelScope.launch {
+            if (currentState.selectedResult == PassResultStatusButton.PASS) {
+                currentState.registrationResult?.card?.let { card ->
+                    _sideEffect.send(NavigateToPassCard(card))
+                }
+            } else {
+                when (val entryPoint = currentState.entryPoint) {
+                    RegisterContract.RegisterSideEffect.Home -> _sideEffect.send(NavigateToHome)
+                    is RegisterContract.RegisterSideEffect.JobDetail ->
+                        _sideEffect.send(NavigateToJobDetail(entryPoint.jobId))
+                }
+            }
         }
     }
 
