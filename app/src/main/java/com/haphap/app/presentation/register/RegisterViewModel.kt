@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.register
 
+import android.R.id.message
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -168,7 +170,8 @@ class RegisterViewModel @Inject constructor(
             it.copy(
                 step = nextStep,
                 isButtonEnabled = if (nextStep == 3) {
-                    it.registerInfo.contactedDate != null && it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty()
+                    isContactDateTimeValid(it.registerInfo.contactedDate, it.registerInfo.contactedTime) &&
+                        it.registerInfo.contactedMethod.isNotEmpty()
                 } else {
                     it.registerInfo.anonymous
                 },
@@ -177,20 +180,48 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onDateSelected(date: LocalDate) {
+        val updatedInfo = _uiState.value.registerInfo.copy(contactedDate = date.toString())
+        val isValid = isContactDateTimeValid(updatedInfo.contactedDate, updatedInfo.contactedTime)
+
         _uiState.update {
             it.copy(
-                registerInfo = it.registerInfo.copy(contactedDate = date.toString()),
-                isButtonEnabled = it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty(),
+                registerInfo = updatedInfo,
+                isButtonEnabled = isValid && updatedInfo.contactedMethod.isNotEmpty(),
             )
+        }
+
+        if (updatedInfo.contactedTime != null && !isValid) {
+            viewModelScope.launch {
+                _sideEffect.send(
+                    OnShowToast(
+                        message = "현재 시간 이후로는 선택할 수 없어요",
+                        isAlarm = false,
+                    )
+                )
+            }
         }
     }
 
     fun onTimeSelected(time: LocalTime) {
+        val updatedInfo = _uiState.value.registerInfo.copy(contactedTime = time.toString())
+        val isValid = isContactDateTimeValid(updatedInfo.contactedDate, updatedInfo.contactedTime)
+
         _uiState.update {
             it.copy(
-                registerInfo = it.registerInfo.copy(contactedTime = time.toString()),
-                isButtonEnabled = it.registerInfo.contactedDate != null && it.registerInfo.contactedMethod.isNotEmpty(),
+                registerInfo = updatedInfo,
+                isButtonEnabled = isValid && updatedInfo.contactedMethod.isNotEmpty(),
             )
+        }
+
+        if (updatedInfo.contactedDate != null && !isValid) {
+            viewModelScope.launch {
+                _sideEffect.send(
+                    OnShowToast(
+                        message = "현재 시간 이후로는 선택할 수 없어요",
+                        isAlarm = false,
+                    )
+                )
+            }
         }
     }
 
@@ -198,8 +229,7 @@ class RegisterViewModel @Inject constructor(
         _uiState.update {
             val toggled = it.toggleNotificationChannel(channel)
             toggled.copy(
-                isButtonEnabled = toggled.registerInfo.contactedDate != null &&
-                    toggled.registerInfo.contactedTime != null &&
+                isButtonEnabled = isContactDateTimeValid(toggled.registerInfo.contactedDate, toggled.registerInfo.contactedTime) &&
                     toggled.registerInfo.contactedMethod.isNotEmpty(),
             )
         }
@@ -222,7 +252,8 @@ class RegisterViewModel @Inject constructor(
                 isButtonEnabled = when (previousStep) {
                     1 -> it.selectedAnnounce != null && it.registerInfo.stageId != null
                     2 -> it.selectedResult != null
-                    3 -> it.registerInfo.contactedDate != null && it.registerInfo.contactedTime != null && it.registerInfo.contactedMethod.isNotEmpty()
+                    3 -> isContactDateTimeValid(it.registerInfo.contactedDate, it.registerInfo.contactedTime) &&
+                        it.registerInfo.contactedMethod.isNotEmpty()
                     else -> it.registerInfo.anonymous
                 },
             )
@@ -276,6 +307,12 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun isContactDateTimeValid(dateString: String?, timeString: String?): Boolean {
+        val date = dateString?.let(LocalDate::parse) ?: return false
+        val time = timeString?.let(LocalTime::parse) ?: return false
+        return !LocalDateTime.of(date, time).isAfter(LocalDateTime.now())
     }
 }
 
