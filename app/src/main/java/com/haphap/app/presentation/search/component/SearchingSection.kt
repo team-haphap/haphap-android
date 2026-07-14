@@ -112,7 +112,6 @@ private fun SearchResultItem(
                     color = HapHapTheme.colors.gray100,
                 ),
             url = imageUrl,
-            placeholderDrawable = R.drawable.ic_launcher_background,
             contentScale = ContentScale.Crop,
         )
 

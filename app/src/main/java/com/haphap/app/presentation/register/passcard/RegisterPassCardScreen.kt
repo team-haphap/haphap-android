@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
@@ -79,7 +78,6 @@ fun RegisterPassCardScreen(
         ) {
             UrlImage(
                 url = passCardModel.backgroundImageUrl,
-                placeholderDrawable = R.drawable.ic_launcher_background,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
@@ -93,7 +91,6 @@ fun RegisterPassCardScreen(
             ) {
                 UrlImage(
                     url = passCardModel.logoUrl,
-                    placeholderDrawable = R.drawable.ic_launcher_background,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.height(44.dp),

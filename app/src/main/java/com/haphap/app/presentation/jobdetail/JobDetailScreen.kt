@@ -32,7 +32,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
@@ -162,7 +161,6 @@ private fun JobDetailScreen(
                             .fillMaxWidth()
                             .aspectRatio(360f / 190f),
                         url = uiState.bannerImageUrl,
-                        placeholderDrawable = R.drawable.ic_launcher_background,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                     )
