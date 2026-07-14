@@ -25,6 +25,6 @@ fun <T> BaseResponse<T>.checkData(): T {
 }
 
 fun <T> BaseResponse<T>.checkNullData(): T? {
-    if (status != HTTP_NO_CONTENT) throw IllegalStateException("API request failed")
+    if (status != HTTP_OK && status != HTTP_NO_CONTENT) throw IllegalStateException("API request failed")
     return data
 }

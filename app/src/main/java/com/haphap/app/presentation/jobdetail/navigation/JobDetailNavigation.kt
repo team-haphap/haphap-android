@@ -9,21 +9,28 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.jobdetail.JobDetailRoute
+import com.haphap.app.presentation.register.navigation.navigateToRegisterFromJobDetail
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToJobDetail(
+    postingId: Int,
     navOptions: NavOptions? = null,
-) = navigate(JobDetail, navOptions)
+) = navigate(JobDetail(postingId), navOptions)
 
 fun NavGraphBuilder.jobDetailGraph(
     innerPadding: PaddingValues,
+    navController: NavController,
 ) {
     composable<JobDetail> {
         JobDetailRoute(
+            navigateBack = { navController.popBackStack() },
+            navigateToRegister = { jobId ->
+                navController.navigateToRegisterFromJobDetail(jobId = jobId)
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }
 }
 
 @Serializable
-data object JobDetail : Route
+data class JobDetail(val postingId: Int) : Route
