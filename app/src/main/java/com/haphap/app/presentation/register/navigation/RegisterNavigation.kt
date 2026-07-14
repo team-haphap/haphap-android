@@ -8,9 +8,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.home.navigation.navigateToHome
+import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import com.haphap.app.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
@@ -44,18 +46,27 @@ fun NavGraphBuilder.registerGraph(
 ) {
     composable<Register> {
         RegisterRoute(
-            navigateBack = { navController.popBackStack() },
-            navigateToHome = { navController.navigateToHome() },
+            navigateBack = {
+                if (!navController.popBackStack()) {
+                    navController.navigateToHome(
+                        navOptions = navController.clearBackStackNavOptions()
+                    )
+                }
+            },
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
             navigateToJobDetail = { jobId ->
-                // TODO: 상세 페이지 네비게이션 함수 추가 예정
+                navController.navigateToJobDetail(
+                    postingId = jobId,
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
             },
             navigateToPassCard = { passCard ->
                 navController.navigateToRegisterPassCard(
                     passCard = passCard
-//                    recruitName = recruitName,
-//                    companyName = companyName,
-//                    logoUrl = logoUrl,
-//                    backgroundImageUrl = backgroundImageUrl,
                 )
             },
             modifier = Modifier.padding(innerPadding),
@@ -72,7 +83,11 @@ fun NavGraphBuilder.registerGraph(
                 logoUrl = route.logoUrl,
                 backgroundImageUrl = route.backgroundImageUrl,
             ),
-            navigateToHome = { navController.navigateToHome() },
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }

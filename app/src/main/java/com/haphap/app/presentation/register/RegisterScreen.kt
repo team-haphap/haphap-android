@@ -8,12 +8,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
@@ -34,12 +43,27 @@ import java.time.LocalTime
 fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
-    navigateToJobDetail: (jobId: Long) -> Unit,
+    navigateToJobDetail: (jobId: Int) -> Unit,
     navigateToPassCard: (passCard: RegisterPassCardModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> showToast.invoke(sideEffect.message, sideEffect.isAlarm)
+                    is NavigateToHome -> navigateToHome()
+                    is NavigateToJobDetail -> navigateToJobDetail(sideEffect.jobId)
+                    is NavigateToPassCard -> navigateToPassCard(sideEffect.passCard)
+                }
+            }
+        }
+    }
 
     RegisterScreen(
         uiState = uiState,
@@ -59,18 +83,7 @@ fun RegisterRoute(
                 2 -> viewModel.onStep2NextClick()
                 3 -> viewModel.onStep3NextClick()
                 4 -> viewModel.onRegisterClick()
-                5 -> {
-                    if (uiState.selectedResult == PassResultStatusButton.PASS) {
-                        // TODO: 합격 카드 네비연결
-                    } else {
-                        when (val entryPoint = uiState.entryPoint) {
-                            RegisterContract.RegisterSideEffect.Home -> navigateToHome()
-                            is RegisterContract.RegisterSideEffect.JobDetail -> navigateToJobDetail(
-                                entryPoint.jobId
-                            )
-                        }
-                    }
-                }
+                5 -> viewModel.onFinishClick()
             }
         },
         onBackClick = {
