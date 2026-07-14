@@ -1,5 +1,6 @@
 package com.haphap.app.data.joblist
 
+import com.haphap.app.data.remote.service.JobListService
 import com.haphap.app.data.remote.service.home.HomeService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 object JobListServiceModule {
     @Provides
     @Singleton
-    fun provideHomeService(
+    fun provideJobListService(
         retrofit: Retrofit
-    ): HomeService = retrofit.create()
+    ): JobListService = retrofit.create()
 }
