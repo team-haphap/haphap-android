@@ -39,6 +39,7 @@ import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.NavigateToRegister
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
@@ -60,7 +61,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun JobDetailRoute(
     navigateBack: () -> Unit,
-    navigateToRegister: () -> Unit,
+    navigateToRegister: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: JobDetailViewModel = hiltViewModel(),
 ) {
@@ -75,6 +76,9 @@ fun JobDetailRoute(
                     is OnShowToast -> {
                         showToast.invoke(sideEffect.message, sideEffect.isAlarm)
                     }
+                    is NavigateToRegister -> {
+                        navigateToRegister(sideEffect.postingId)
+                    }
                 }
             }
         }
@@ -87,7 +91,7 @@ fun JobDetailRoute(
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
         onRefreshClick = viewModel::onRefreshClick,
-        onRegisterClick = navigateToRegister,
+        onRegisterClick = viewModel::onRegisterClick,
         modifier = modifier,
     )
 }

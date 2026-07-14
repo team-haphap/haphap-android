@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.NavigateToRegister
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.jobdetail.navigation.JobDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,12 @@ class JobDetailViewModel @Inject constructor(
                 .onFailure { throwable ->
                     Timber.e("$throwable 공고 조회 기록 실패했습니다.")
                 }
+        }
+    }
+
+    fun onRegisterClick() {
+        viewModelScope.launch {
+            _sideEffect.send(NavigateToRegister(postingId))
         }
     }
 

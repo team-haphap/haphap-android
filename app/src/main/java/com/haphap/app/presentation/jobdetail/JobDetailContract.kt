@@ -30,6 +30,10 @@ sealed interface JobDetailContract {
             val message: String,
             val isAlarm: Boolean = true,
         ) : SideEffect()
+
+        data class NavigateToRegister(
+            val postingId: Int,
+        ) : SideEffect()
     }
 }
 

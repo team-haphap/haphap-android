@@ -7,7 +7,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.jobdetail.JobDetailRoute
 import com.haphap.app.presentation.register.navigation.navigateToRegisterFromJobDetail
@@ -22,12 +21,11 @@ fun NavGraphBuilder.jobDetailGraph(
     innerPadding: PaddingValues,
     navController: NavController,
 ) {
-    composable<JobDetail> { backStackEntry ->
-        val route = backStackEntry.toRoute<JobDetail>()
+    composable<JobDetail> {
         JobDetailRoute(
             navigateBack = { navController.popBackStack() },
-            navigateToRegister = {
-                navController.navigateToRegisterFromJobDetail(jobId = route.postingId)
+            navigateToRegister = { jobId ->
+                navController.navigateToRegisterFromJobDetail(jobId = jobId)
             },
             modifier = Modifier.padding(innerPadding),
         )
