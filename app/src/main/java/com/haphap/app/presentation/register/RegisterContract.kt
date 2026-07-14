@@ -46,7 +46,7 @@ sealed interface RegisterContract {
 
     sealed interface RegisterSideEffect {
         data object Home : RegisterSideEffect
-        data class JobDetail(val jobId: Long) : RegisterSideEffect
+        data class JobDetail(val jobId: Int) : RegisterSideEffect
     }
 
     sealed class SideEffect {

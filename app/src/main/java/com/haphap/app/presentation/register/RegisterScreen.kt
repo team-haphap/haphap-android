@@ -40,7 +40,7 @@ import java.time.LocalTime
 fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
-    navigateToJobDetail: (jobId: Long) -> Unit,
+    navigateToJobDetail: (jobId: Int) -> Unit,
     navigateToPassCard: (passCard: RegisterPassCardModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
