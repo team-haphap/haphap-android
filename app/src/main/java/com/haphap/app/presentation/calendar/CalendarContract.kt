@@ -1,7 +1,6 @@
 package com.haphap.app.presentation.calendar
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.core.state.UiState
 import com.haphap.app.data.model.calendar.CalendarPostingModel
 import com.haphap.app.data.model.calendar.CalendarModel
 import kotlinx.collections.immutable.ImmutableList
