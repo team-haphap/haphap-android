@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells.Fixed
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +36,17 @@ fun JobListRoute(
     viewModel: JobListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    
+    val gridState = rememberLazyGridState()
+
+    LaunchedEffect(
+        uiState.categoryChipState.selectedChips
+    ) {
+        gridState.scrollToItem(0)
+    }
+
     JobListScreen(
         uiState = uiState,
+        gridState = gridState,
         onSearchBarClick = {},
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onCardClick = {},
@@ -45,6 +57,7 @@ fun JobListRoute(
 @Composable
 private fun JobListScreen(
     uiState: JobListContract.State,
+    gridState: LazyGridState,
     onSearchBarClick: () -> Unit,
     onFilterClick: (String) -> Unit,
     onCardClick: (Int) -> Unit,
@@ -75,6 +88,7 @@ private fun JobListScreen(
             JobListUiState.Success -> {
                 LazyVerticalGrid(
                     columns = Fixed(2),
+                    state = gridState,
                     contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -156,6 +170,7 @@ private fun JobListScreenPreview() {
                     ),
                 )
             ),
+            gridState = rememberLazyGridState(),
             onSearchBarClick = {},
             onFilterClick = {},
             onCardClick = {},
