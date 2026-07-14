@@ -31,17 +31,17 @@ import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.search.RangeModel
-import com.haphap.app.data.model.search.RelatedKeywordListModel
-import com.haphap.app.data.model.search.SearchAutoCompleteModel
+import com.haphap.app.data.model.search.RelatedKeywordItemModel
+import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SearchingSection(
-    searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel>,
-    relatedKeywordList: ImmutableList<RelatedKeywordListModel>,
+    searchAutoCompleteList: ImmutableList<SearchAutoCompleteItemModel>,
+    relatedKeywordList: ImmutableList<RelatedKeywordItemModel>,
     onAutoCompleteItemClick: (Int) -> Unit,
-    onRelatedItemClick: (Int) -> Unit,
+    onRelatedItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -80,7 +80,7 @@ fun SearchingSection(
             RelatedKeywordItem(
                 text = it.text,
                 highlightLength = it.highlightLength,
-                onClick = { onRelatedItemClick(it.id) },
+                onClick = { onRelatedItemClick(it.text) },
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -112,7 +112,6 @@ private fun SearchResultItem(
                     color = HapHapTheme.colors.gray100,
                 ),
             url = imageUrl,
-            placeholderDrawable = R.drawable.ic_launcher_background,
             contentScale = ContentScale.Crop,
         )
 
@@ -166,7 +165,7 @@ private fun RelatedKeywordItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.noRippleClickable(onClick = onClick),
     ) {
         Text(
             text = buildAnnotatedString {
@@ -192,18 +191,17 @@ private fun RelatedKeywordItem(
             imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_right_20),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
-            modifier = Modifier.noRippleClickable(onClick = onClick),
         )
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 private fun SearchingSectionPreview() {
-    HapHapTheme{
+    HapHapTheme {
         SearchingSection(
             searchAutoCompleteList = persistentListOf(
-                SearchAutoCompleteModel(
+                SearchAutoCompleteItemModel(
                     id = 1,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용",
@@ -212,7 +210,7 @@ private fun SearchingSectionPreview() {
                         end = 3,
                     ),
                 ),
-                SearchAutoCompleteModel(
+                SearchAutoCompleteItemModel(
                     id = 2,
                     imageUrl = "",
                     text = "카카오 기획 공개 채용 채용 채용채용채용채용채용채용",
@@ -223,7 +221,7 @@ private fun SearchingSectionPreview() {
                 ),
             ),
             relatedKeywordList = persistentListOf(
-                RelatedKeywordListModel(
+                RelatedKeywordItemModel(
                     id = 1,
                     text = "카카오",
                     highlightLength = RangeModel(
@@ -231,7 +229,7 @@ private fun SearchingSectionPreview() {
                         end = 3,
                     ),
                 ),
-                RelatedKeywordListModel(
+                RelatedKeywordItemModel(
                     id = 1,
                     text = "카카오 스타일",
                     highlightLength = RangeModel(
@@ -239,7 +237,7 @@ private fun SearchingSectionPreview() {
                         end = 3,
                     ),
                 ),
-                RelatedKeywordListModel(
+                RelatedKeywordItemModel(
                     id = 1,
                     text = "카카오 뱅크",
                     highlightLength = RangeModel(
@@ -247,7 +245,7 @@ private fun SearchingSectionPreview() {
                         end = 3,
                     ),
                 ),
-                RelatedKeywordListModel(
+                RelatedKeywordItemModel(
                     id = 1,
                     text = "카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵카카오 맵",
                     highlightLength = RangeModel(

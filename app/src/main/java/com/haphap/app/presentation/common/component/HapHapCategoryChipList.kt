@@ -17,7 +17,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.chip.FilterChipContent
 import com.haphap.app.core.designsystem.component.chip.HapHapFilterChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.data.model.search.ChipListModel
+import com.haphap.app.presentation.common.model.ChipListModel
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 

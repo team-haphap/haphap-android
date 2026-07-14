@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.home.BannerItemModel
@@ -138,7 +137,6 @@ private fun BannerCard(
                 .aspectRatio(300f / 198f)
                 .height(198.dp),
             url = imageUrl,
-            placeholderDrawable = R.drawable.ic_launcher_background,
             contentDescription = null,
             contentScale = ContentScale.Crop,
         )

@@ -1,4 +1,4 @@
-package com.haphap.app.data.model.search
+package com.haphap.app.presentation.common.model
 
 data class ChipListModel(
     val id: Int,
