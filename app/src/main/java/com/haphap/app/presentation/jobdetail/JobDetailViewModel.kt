@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.collections.immutable.toImmutableList
 import timber.log.Timber
 
 @HiltViewModel
@@ -105,7 +106,7 @@ class JobDetailViewModel @Inject constructor(
             jobDetailRepository.getJobPostingStages(postingId)
                 .onSuccess { resultTabs ->
                     _uiState.update { currentState ->
-                        currentState.copy(resultTabs = resultTabs)
+                        currentState.copy(resultTabs = resultTabs.toImmutableList())
                     }
                     resultTabs.getOrNull(_uiState.value.selectedTab)?.let { tab ->
                         fetchJobPostingStageStatistic(tab.stageId)
@@ -150,7 +151,7 @@ class JobDetailViewModel @Inject constructor(
             jobDetailRepository.getJobPostingStageStatuses(postingId)
                 .onSuccess { stages ->
                     _uiState.update { currentState ->
-                        currentState.copy(stages = stages)
+                        currentState.copy(stages = stages.toImmutableList())
                     }
                 }
                 .onFailure { throwable ->
