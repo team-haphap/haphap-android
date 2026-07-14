@@ -243,9 +243,7 @@ private fun JobDetailScreen(
                 item { Spacer(modifier = Modifier.height(12.dp)) }
 
                 if (uiState.reports.isEmpty()) {
-                    item {
-                        JobDetailReportEmptyComponent(
-                        )
+                    item { JobDetailReportEmptyComponent()
                     }
                 } else {
                     items(
