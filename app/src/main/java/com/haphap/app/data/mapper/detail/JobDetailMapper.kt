@@ -1,6 +1,6 @@
 package com.haphap.app.data.mapper.detail
 
-import com.haphap.app.core.util.toTimeFormat
+import com.haphap.app.core.extensions.toTimeFormat
 import com.haphap.app.data.model.detail.JobDetailModel
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
