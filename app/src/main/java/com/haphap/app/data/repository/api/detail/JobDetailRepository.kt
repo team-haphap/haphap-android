@@ -4,14 +4,13 @@ import com.haphap.app.data.model.detail.JobDetailModel
 import com.haphap.app.data.model.detail.JobResultModel
 import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
-import kotlinx.collections.immutable.ImmutableList
 
 interface JobDetailRepository {
     suspend fun getJobPostingDetail(postingId: Int): Result<JobDetailModel>
 
-    suspend fun getJobPostingStages(postingId: Int): Result<ImmutableList<JobResultTabModel>>
+    suspend fun getJobPostingStages(postingId: Int): Result<List<JobResultTabModel>>
 
-    suspend fun getJobPostingStageStatuses(postingId: Int): Result<ImmutableList<JobStepModel>>
+    suspend fun getJobPostingStageStatuses(postingId: Int): Result<List<JobStepModel>>
 
     suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): Result<JobResultModel>
 
