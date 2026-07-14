@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil3.util.CoilUtils.result
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.repository.api.SearchRepository
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
@@ -211,9 +210,14 @@ class SearchViewModel @Inject constructor(
         )
             .onSuccess { result ->
                 _uiState.update {
+                    val resultList = if (hasNextPage) {
+                        it.searchResultList + result.results
+                    } else {
+                        result.results
+                    }
                     it.copy(
-                        searchResultList = result.results,
-                        searchResultListUiState = if (result.results.isEmpty()) {
+                        searchResultList = resultList.toImmutableList(),
+                        searchResultListUiState = if (resultList.isEmpty()) {
                             SearchUiState.Empty
                         } else {
                             SearchUiState.Success

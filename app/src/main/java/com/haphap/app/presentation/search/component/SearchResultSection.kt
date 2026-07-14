@@ -64,7 +64,7 @@ fun SearchResultSection(
         )
 
         when(searchResultUiState){
-            SearchUiState.Success -> {
+            SearchUiState.Success, SearchUiState.Loading -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     state = listState,
@@ -97,7 +97,6 @@ fun SearchResultSection(
                 )
             }
             is SearchUiState.Failure, SearchUiState.Idle -> {}
-            SearchUiState.Loading ->  {}
         }
     }
 }
