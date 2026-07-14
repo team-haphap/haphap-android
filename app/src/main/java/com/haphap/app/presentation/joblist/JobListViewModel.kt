@@ -29,7 +29,7 @@ class JobListViewModel @Inject constructor(
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
         getJobList()
-    }w
+    }
 
     fun getJobList() = viewModelScope.launch {
         _uiState.update { it.copy(jobListUiState = JobListUiState.Loading) }
@@ -49,7 +49,7 @@ class JobListViewModel @Inject constructor(
             }
             .onFailure { error ->
                 Timber.e("$error 공고 리스트 조회에 실패했습니다.")
-                _uiState.update { it.copy( jobListUiState = JobListUiState.Failure("$error")) }
+                _uiState.update { it.copy(jobListUiState = JobListUiState.Failure("$error")) }
             }
     }
 
