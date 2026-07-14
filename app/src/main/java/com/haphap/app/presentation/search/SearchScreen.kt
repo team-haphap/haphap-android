@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -15,12 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -36,17 +38,26 @@ import com.haphap.app.presentation.search.component.SearchingSection
 
 @Composable
 fun SearchRoute(
+    navigateBack: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val gridState = rememberLazyGridState()
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
-                when(sideEffect) {
+                when (sideEffect) {
+                    SearchContract.SideEffect.NavigateBack -> navigateBack()
+
+                    is SearchContract.SideEffect.NavigateToJobDetail -> navigateToJobDetail(sideEffect.postingId)
+
                     is OnShowToast -> {
                         showToast.invoke(sideEffect.message, sideEffect.isAlarm)
                     }
@@ -55,18 +66,32 @@ fun SearchRoute(
         }
     }
 
-    //Todo: 화면 연결
+    LaunchedEffect(
+        uiState.categoryChipState.chipList,
+    ) {
+        gridState.scrollToItem(0)
+    }
+
     SearchScreen(
         state = viewModel.searchInputState,
         uiState = uiState,
-        onBackClick = {},
+        gridState = gridState,
+        onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
+        onBackClick = viewModel::onBackClick,
         onSearchClick = viewModel::onSearchClick,
-        onAutoCompleteItemClick = {},
-        onRelatedItemClick = {},
+        onRecentItemClick = {
+            viewModel.onSearchItemClick(it)
+            focusManager.clearFocus()
+        },
+        onAutoCompleteItemClick = { viewModel.onCardItemClick(it) },
+        onRelatedItemClick = {
+            viewModel.onSearchItemClick(it)
+            focusManager.clearFocus()
+        },
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onResultCardClick = {},
+        onResultCardClick = { viewModel.onCardItemClick(it) },
         onDeleteClick = viewModel::deleteRecentSearchItem,
-        onTrendCardClick = {},
+        onTrendCardClick = { viewModel.onCardItemClick(it) },
         modifier = modifier,
     )
 }
@@ -76,10 +101,13 @@ fun SearchRoute(
 private fun SearchScreen(
     state: TextFieldState,
     uiState: SearchContract.State,
+    gridState: LazyGridState,
+    onLoadMoreSearchList: () -> Unit,
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
+    onRecentItemClick: (String) -> Unit,
     onAutoCompleteItemClick: (Int) -> Unit,
-    onRelatedItemClick: (Int) -> Unit,
+    onRelatedItemClick: (String) -> Unit,
     onFilterClick: (String) -> Unit,
     onResultCardClick: (Int) -> Unit,
     onDeleteClick: (Long) -> Unit,
@@ -116,8 +144,11 @@ private fun SearchScreen(
         when (uiState.section) {
             SearchSection.Default ->
                 SearchDefaultSection(
+                    recentSearchUiState = uiState.recentSearchListUiState,
+                    popularSearchUiState = uiState.trendJobListUiState,
                     recentSearchList = uiState.recentSearchList,
                     trendJobList = uiState.trendJobList,
+                    onRecentItemClick = onRecentItemClick,
                     onDeleteClick = onDeleteClick,
                     onCardClick = onTrendCardClick,
                 )
@@ -132,11 +163,14 @@ private fun SearchScreen(
 
             SearchSection.Result ->
                 SearchResultSection(
+                    searchResultUiState = uiState.searchResultListUiState,
+                    listState = gridState,
                     chipList = uiState.categoryChipState.chipList,
                     selectedChips = uiState.categoryChipState.selectedChips,
                     onFilterClick = onFilterClick,
                     searchResultList = uiState.searchResultList,
                     onCardClick = onResultCardClick,
+                    onLoadMoreSearchList = onLoadMoreSearchList,
                 )
         }
     }
@@ -150,6 +184,8 @@ private fun SearchScreenPreview() {
         SearchScreen(
             state = TextFieldState(),
             uiState = SearchContract.State(),
+            gridState = LazyGridState(),
+            onRecentItemClick = {},
             onBackClick = {},
             onSearchClick = {},
             onAutoCompleteItemClick = {},
@@ -158,6 +194,7 @@ private fun SearchScreenPreview() {
             onResultCardClick = {},
             onDeleteClick = {},
             onTrendCardClick = {},
+            onLoadMoreSearchList = {},
         )
     }
 }

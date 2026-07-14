@@ -29,15 +29,19 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.CardType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.model.search.TrendJobListModel
+import com.haphap.app.data.model.search.SearchPopularItemModel
+import com.haphap.app.presentation.search.SearchUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 
 @Composable
 fun SearchDefaultSection(
+    recentSearchUiState: SearchUiState,
+    popularSearchUiState: SearchUiState,
     recentSearchList: ImmutableList<RecentSearchItemModel>,
-    trendJobList: ImmutableList<TrendJobListModel>,
+    trendJobList: ImmutableList<SearchPopularItemModel>,
+    onRecentItemClick: (String) -> Unit,
     onDeleteClick: (Long) -> Unit,
     onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -56,20 +60,34 @@ fun SearchDefaultSection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            recentSearchList.forEach {
-                RecentSearchItem(
-                    keyword = it.keyword,
-                    date = it.date,
-                    onDeleteClick = { onDeleteClick(it.id) },
-                )
+            when (recentSearchUiState) {
+                SearchUiState.Success -> {
+                    recentSearchList.forEach { item ->
+                        RecentSearchItem(
+                            keyword = item.keyword,
+                            date = item.date,
+                            onRecentItemClick = { onRecentItemClick(item.keyword) },
+                            onDeleteClick = { onDeleteClick(item.id) },
+                        )
 
-                HorizontalDivider(
-                    modifier = Modifier.fillMaxWidth(),
-                    thickness = 1.dp,
-                    color = HapHapTheme.colors.gray100,
-                )
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 1.dp,
+                            color = HapHapTheme.colors.gray100,
+                        )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+
+                SearchUiState.Empty -> {
+                    IconEmptyComponent(
+                        text = "최근 검색어가 없습니다",
+                        modifier = Modifier.padding(top = 24.dp),
+                    )
+                }
+
+                is SearchUiState.Failure, SearchUiState.Idle, SearchUiState.Loading -> {}
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -81,29 +99,41 @@ fun SearchDefaultSection(
             )
 
             Spacer(modifier = Modifier.height(12.dp))
-
         }
 
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(
-                items = trendJobList,
-                key = { it.id }
-            ) {
-                HapHapCard(
-                    type = CardType.BIG,
-                    imageUrl = it.imageUrl,
-                    text = it.text,
-                    stage = it.stage,
-                    dDay = it.dDay,
-                    company = it.company,
-                    description = it.description,
-                    onCardClick = { onCardClick(it.id) },
-                    modifier = Modifier.widthIn(max = 186.dp)
+        when (popularSearchUiState) {
+            SearchUiState.Success -> {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(
+                        items = trendJobList,
+                        key = { it.id }
+                    ) {
+                        HapHapCard(
+                            type = CardType.BIG,
+                            imageUrl = it.imageUrl,
+                            text = it.category,
+                            stage = it.nextStage,
+                            dDay = it.dDay,
+                            company = it.companyName,
+                            description = it.title,
+                            onCardClick = { onCardClick(it.id) },
+                            modifier = Modifier.widthIn(max = 186.dp)
+                        )
+                    }
+                }
+            }
+
+            SearchUiState.Empty -> {
+                EmptyComponent(
+                    text = "인기 공고가 없습니다",
                 )
             }
+
+            is SearchUiState.Failure, SearchUiState.Idle, SearchUiState.Loading -> {}
+
         }
     }
 }
@@ -113,11 +143,14 @@ fun SearchDefaultSection(
 private fun RecentSearchItem(
     keyword: String,
     date: String,
+    onRecentItemClick: () -> Unit,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(vertical = 2.dp),
+        modifier = modifier
+            .padding(vertical = 2.dp)
+            .noRippleClickable(onClick = onRecentItemClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -151,6 +184,8 @@ private fun RecentSearchItem(
 private fun SearchDefaultSectionPreview() {
     HapHapTheme {
         SearchDefaultSection(
+            recentSearchUiState = SearchUiState.Success,
+            popularSearchUiState = SearchUiState.Success,
             recentSearchList = persistentListOf(
                 RecentSearchItemModel(
                     id = 1,
@@ -169,34 +204,35 @@ private fun SearchDefaultSectionPreview() {
                 ),
             ),
             trendJobList = persistentListOf(
-                TrendJobListModel(
+                SearchPopularItemModel(
                     id = 1,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 ),
-                TrendJobListModel(
+                SearchPopularItemModel(
                     id = 2,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 ),
-                TrendJobListModel(
+                SearchPopularItemModel(
                     id = 3,
                     imageUrl = "",
-                    text = "개발",
-                    stage = "서류",
+                    category = "개발",
+                    nextStage = "서류",
                     dDay = 2,
-                    company = "카카오",
-                    description = "공고명"
+                    companyName = "카카오",
+                    title = "공고명"
                 )
             ),
+            onRecentItemClick = {},
             onDeleteClick = {},
             onCardClick = {},
         )

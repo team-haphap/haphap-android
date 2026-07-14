@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.chip.HapHapDeadlineChip
 import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
@@ -66,7 +65,6 @@ fun HapHapCard(
         Box(modifier = Modifier.fillMaxWidth()) {
             UrlImage(
                 url = imageUrl,
-                placeholderDrawable = R.drawable.ic_launcher_background,
                 contentScale = ContentScale.Crop,
                 contentDescription = company,
                 modifier = Modifier

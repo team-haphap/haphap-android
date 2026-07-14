@@ -76,7 +76,7 @@ fun JobParticipantSection(
                                     shape = CircleShape,
                                 ),
                             url = imageUrl,
-                            placeholderDrawable = R.drawable.ic_launcher_background,
+                            placeholderDrawable = R.drawable.img_profile,
                         )
                     }
                 }

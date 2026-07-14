@@ -43,7 +43,6 @@ fun MyPageProfileCard(
                 .aspectRatio(1f)
                 .clip(shape = CircleShape),
             url = profileImage,
-            placeholderDrawable = R.drawable.ic_launcher_background,
         )
 
         Column(

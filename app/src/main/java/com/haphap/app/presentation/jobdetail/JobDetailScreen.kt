@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,21 +25,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.haphap.app.R
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.NavigateToRegister
+import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
+import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
-import com.haphap.app.data.model.detail.JobStepReportModel
 import com.haphap.app.data.model.detail.JobTitleModel
+import com.haphap.app.presentation.jobdetail.component.JobDetailReportEmptyComponent
 import com.haphap.app.presentation.jobdetail.component.JobDetailTitleSection
 import com.haphap.app.presentation.jobdetail.component.JobDetailTopBar
 import com.haphap.app.presentation.jobdetail.component.JobParticipantSection
@@ -47,25 +54,43 @@ import com.haphap.app.presentation.jobdetail.component.JobResultTabRow
 import com.haphap.app.presentation.jobdetail.component.JobStageStepRow
 import com.haphap.app.presentation.jobdetail.component.JobStepReportItem
 import com.haphap.app.presentation.jobdetail.type.JobResultCardType
-import com.haphap.app.presentation.jobdetail.type.JobStepReportType
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun JobDetailRoute(
+    navigateBack: () -> Unit,
+    navigateToRegister: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: JobDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> {
+                        showToast.invoke(sideEffect.message, sideEffect.isAlarm)
+                    }
+                    is NavigateToRegister -> {
+                        navigateToRegister(sideEffect.postingId)
+                    }
+                }
+            }
+        }
+    }
 
     JobDetailScreen(
         uiState = uiState,
-        onBackClick = {},
-        onAlarmClick = {},
+        onBackClick = navigateBack,
+        onAlarmClick = viewModel::onAlarmClick,
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
-        onRefreshClick = {},
-        onRegisterClick = {},
+        onRefreshClick = viewModel::onRefreshClick,
+        onRegisterClick = viewModel::onRegisterClick,
         modifier = modifier,
     )
 }
@@ -122,7 +147,7 @@ private fun JobDetailScreen(
                 item {
                     JobDetailTitleSection(
                         companyName = uiState.titleInfo.companyName,
-                        jobTitle = uiState.titleInfo.jobTitle,
+                        jobTitle = uiState.titleInfo.postingTitle,
                         keywords = uiState.titleInfo.keywords,
                         statusText = uiState.titleInfo.currentState,
                     )
@@ -136,7 +161,6 @@ private fun JobDetailScreen(
                             .fillMaxWidth()
                             .aspectRatio(360f / 190f),
                         url = uiState.bannerImageUrl,
-                        placeholderDrawable = R.drawable.ic_launcher_background,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                     )
@@ -216,16 +240,21 @@ private fun JobDetailScreen(
 
                 item { Spacer(modifier = Modifier.height(12.dp)) }
 
-                items(
-                    items = uiState.reports,
-                    key = { it.id },
-                ) { report ->
-                    JobStepReportItem(
-                        time = report.time,
-                        nickName = report.nickName,
-                        result = report.result,
-                        stage = report.stage,
-                    )
+                if (uiState.reports.isEmpty()) {
+                    item { JobDetailReportEmptyComponent()
+                    }
+                } else {
+                    items(
+                        items = uiState.reports.take(15),
+                        key = { it.id },
+                    ) { report ->
+                        JobStepReportItem(
+                            time = report.time,
+                            nickName = report.nickName,
+                            result = report.result,
+                            stage = report.stage,
+                        )
+                    }
                 }
 
                 item { Spacer(modifier = Modifier.height(12.dp)) }
@@ -264,7 +293,7 @@ private fun JobDetailScreenPreview() {
             uiState = JobDetailContract.State(
                 titleInfo = JobTitleModel(
                     companyName = "카카오 에너지",
-                    jobTitle = "태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획",
+                    postingTitle = "태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획 태양광 사업 정책기획",
                     keywords = persistentListOf("사업/기획", "양재 본사", "UXUI"),
                     currentState = "1차 면접 진행 중",
                 ),
@@ -273,7 +302,13 @@ private fun JobDetailScreenPreview() {
                     JobStepModel(2, 2, "서류", JobStepStatus.COMPLETED),
                     JobStepModel(3, 3, "1차면접", JobStepStatus.IN_PROGRESS),
                 ),
-                resultTabs = persistentListOf("서류", "인적성", "코딩테스트", "1차면접", "2차면접"),
+                resultTabs = persistentListOf(
+                    JobResultTabModel(1, "서류"),
+                    JobResultTabModel(2, "인적성"),
+                    JobResultTabModel(3, "코딩테스트"),
+                    JobResultTabModel(4, "1차면접"),
+                    JobResultTabModel(5, "2차면접"),
+                ),
                 selectedTab = selectedTab,
                 result = JobResultModel(
                     passCount = 12,
@@ -285,13 +320,7 @@ private fun JobDetailScreenPreview() {
                     profileImages = persistentListOf("", "", "", ""),
                     additionalParticipantCount = 129,
                 ),
-                reports = persistentListOf(
-                    JobStepReportModel(1, "12:21", "익명의 라이언", JobStepReportType.PASS, "서류"),
-                    JobStepReportModel(2, "12:21", "익명의 라이언", JobStepReportType.FAIL, "서류"),
-                    JobStepReportModel(3, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                    JobStepReportModel(4, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                    JobStepReportModel(5, "12:21", "익명의 라이언", JobStepReportType.PENDING, "서류"),
-                ),
+                reports = persistentListOf(),
             ),
             onBackClick = {},
             onAlarmClick = {},

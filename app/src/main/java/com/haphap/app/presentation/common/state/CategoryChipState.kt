@@ -1,7 +1,7 @@
 package com.haphap.app.presentation.common.state
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.search.ChipListModel
+import com.haphap.app.presentation.common.model.ChipListModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -11,6 +11,9 @@ data class CategoryChipState(
     val chipList: ImmutableList<ChipListModel> = DEFAULT_CHIP_LIST,
     val selectedChips: PersistentList<String> = persistentListOf("전체"),
 ) {
+    val queryCategoryList: List<String>?
+        get() = selectedChips.takeUnless { it.singleOrNull() == "전체" }
+
     fun toggle(category: String): CategoryChipState =
         copy(
             selectedChips = when {
@@ -25,7 +28,7 @@ data class CategoryChipState(
         val DEFAULT_CHIP_LIST: ImmutableList<ChipListModel> = persistentListOf(
             ChipListModel(id = 1, category = "전체"),
             ChipListModel(id = 2, category = "기획"),
-            ChipListModel(id = 3, category = "마케팅/홍보"),
+            ChipListModel(id = 3, category = "디자인"),
             ChipListModel(id = 4, category = "인사"),
             ChipListModel(id = 5, category = "영업"),
             ChipListModel(id = 6, category = "개발/데이터"),

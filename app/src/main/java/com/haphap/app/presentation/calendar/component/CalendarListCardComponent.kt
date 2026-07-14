@@ -120,7 +120,6 @@ private fun CalendarListCardImage(
     ) {
         UrlImage(
             url = imageUrl,
-            placeholderDrawable = R.drawable.img_calendar_kakao,
             contentScale = ContentScale.Fit,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),

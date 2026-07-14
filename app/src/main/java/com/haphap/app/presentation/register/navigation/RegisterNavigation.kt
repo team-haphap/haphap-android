@@ -20,7 +20,7 @@ fun NavController.navigateToRegister(
 ) = navigate(Register(jobId = null), navOptions)
 
 fun NavController.navigateToRegisterFromJobDetail(
-    jobId: Long,
+    jobId: Int,
     navOptions: NavOptions? = null,
 ) = navigate(Register(jobId = jobId), navOptions)
 
@@ -79,7 +79,7 @@ fun NavGraphBuilder.registerGraph(
 }
 
 @Serializable
-data class Register(val jobId: Long? = null) : MainTabRoute
+data class Register(val jobId: Int? = null) : MainTabRoute
 
 @Serializable
 data class RegisterPassCard(
