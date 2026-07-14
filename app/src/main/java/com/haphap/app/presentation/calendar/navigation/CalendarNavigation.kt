@@ -12,7 +12,7 @@ import com.haphap.app.presentation.calendar.CalendarRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToCalendar(
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) = navigate(Calendar, navOptions)
 
 fun NavGraphBuilder.calendarGraph(
