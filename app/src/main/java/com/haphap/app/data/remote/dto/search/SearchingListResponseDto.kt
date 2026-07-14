@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchingListDto(
+data class SearchingListResponseDto(
     @SerialName("relatedPostings")
     val relatedPostings: List<AutoCompleteShortcutDto>,
     @SerialName("relatedKeywords")

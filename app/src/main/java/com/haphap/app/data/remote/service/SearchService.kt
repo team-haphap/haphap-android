@@ -3,7 +3,7 @@ package com.haphap.app.data.remote.service
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.search.PopularListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
-import com.haphap.app.data.remote.dto.search.SearchingListDto
+import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,7 +15,7 @@ interface SearchService {
     suspend fun getAutoCompleteList(
         @Query("q")
         q: String? = null,
-    ): BaseResponse<SearchingListDto>
+    ): BaseResponse<SearchingListResponseDto>
 
     @GET("/api/v1/search/postings")
     suspend fun getSearchResultList(

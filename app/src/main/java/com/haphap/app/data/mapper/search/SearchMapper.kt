@@ -16,7 +16,7 @@ import com.haphap.app.data.remote.dto.search.PopularListResponseDto
 import com.haphap.app.data.remote.dto.search.RelatedKeywordDto
 import com.haphap.app.data.remote.dto.search.SearchResultItemDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
-import com.haphap.app.data.remote.dto.search.SearchingListDto
+import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 import kotlinx.collections.immutable.toImmutableList
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -59,7 +59,7 @@ fun SearchResultItemDto.toModel(): SearchResultItemModel = SearchResultItemModel
 )
 
 
-fun SearchingListDto.toModel(): SearchingModel = SearchingModel(
+fun SearchingListResponseDto.toModel(): SearchingModel = SearchingModel(
     relatedPostings = relatedPostings.map { it.toModel() }.toImmutableList(),
     relatedKeywords = relatedKeywords.map { it.toModel() }.toImmutableList(),
 )

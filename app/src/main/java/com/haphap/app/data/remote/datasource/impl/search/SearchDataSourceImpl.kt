@@ -4,7 +4,7 @@ import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.search.PopularListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
-import com.haphap.app.data.remote.dto.search.SearchingListDto
+import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 import com.haphap.app.data.remote.service.SearchService
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class SearchDataSourceImpl @Inject constructor(
         return searchService.getPopularList()
     }
 
-    override suspend fun getSearchingList(q: String?): BaseResponse<SearchingListDto> {
+    override suspend fun getSearchingList(q: String?): BaseResponse<SearchingListResponseDto> {
         return searchService.getAutoCompleteList(q = q)
     }
 
