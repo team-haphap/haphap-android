@@ -72,13 +72,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchRecentPostings() {
-        val selectedChips = _uiState.value.categoryChipState.selectedChips
-
-        val categoryParam = if (selectedChips.contains("전체")) {
-            null
-        } else {
-            selectedChips.toList()
-        }
+        val categoryParam = _uiState.value.categoryChipState.queryCategoryList
 
         viewModelScope.launch {
             homeRepository.getRecentPostings(categoryParam)
