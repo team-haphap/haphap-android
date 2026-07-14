@@ -174,12 +174,13 @@ class SearchViewModel @Inject constructor(
         }
         searchRepository.getSearchingList(q = q)
             .onSuccess { result ->
+                val isEmpty = result.relatedPostings.isEmpty() && result.relatedKeywords.isEmpty()
                 _uiState.update {
                     it.copy(
                         searchAutoCompleteList = result.relatedPostings,
                         relatedKeywordList = result.relatedKeywords,
-                        searchAutoCompleteUiState = SearchUiState.Success,
-                        relatedKeywordListUiState = SearchUiState.Success,
+                        searchAutoCompleteUiState = if (isEmpty) SearchUiState.Empty else SearchUiState.Success,
+                        relatedKeywordListUiState = if (isEmpty) SearchUiState.Empty else SearchUiState.Success,
                     )
                 }
             }
