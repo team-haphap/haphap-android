@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.repository.api.SearchRepository
+import com.haphap.app.presentation.search.SearchContract.SideEffect
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -31,7 +32,7 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchContract.State())
     val uiState = _uiState.asStateFlow()
 
-    private val _sideEffect = Channel<SearchContract.SideEffect>()
+    private val _sideEffect = Channel<SideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
     val searchInputState = TextFieldState()
@@ -235,6 +236,14 @@ class SearchViewModel @Inject constructor(
                     )
                 }
             }
+    }
+
+    fun onBackClick() = viewModelScope.launch {
+        _sideEffect.send(SideEffect.NavigateBack)
+    }
+
+    fun onCardItemClick(id: Int) = viewModelScope.launch {
+        _sideEffect.send(SideEffect.NavigateToJobDetail(id))
     }
 
 

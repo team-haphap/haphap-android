@@ -40,6 +40,10 @@ sealed interface SearchContract {
     }
 
     sealed class SideEffect {
+        data object NavigateBack : SideEffect()
+        data class NavigateToJobDetail(
+            val postingId: Int,
+        ) : SideEffect()
         data class OnShowToast(
             val message: String,
             val isAlarm: Boolean = false,

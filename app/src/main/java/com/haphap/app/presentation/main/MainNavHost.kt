@@ -69,6 +69,7 @@ fun MainNavHost(
 
         searchGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
     }

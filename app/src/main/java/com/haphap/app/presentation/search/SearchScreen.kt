@@ -38,6 +38,8 @@ import com.haphap.app.presentation.search.component.SearchingSection
 
 @Composable
 fun SearchRoute(
+    navigateBack: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
@@ -52,6 +54,10 @@ fun SearchRoute(
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
+                    SearchContract.SideEffect.NavigateBack -> navigateBack()
+
+                    is SearchContract.SideEffect.NavigateToJobDetail -> navigateToJobDetail(sideEffect.postingId)
+
                     is OnShowToast -> {
                         showToast.invoke(sideEffect.message, sideEffect.isAlarm)
                     }
@@ -66,27 +72,26 @@ fun SearchRoute(
         gridState.scrollToItem(0)
     }
 
-    //Todo: 화면 연결
     SearchScreen(
         state = viewModel.searchInputState,
         uiState = uiState,
         gridState = gridState,
         onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
-        onBackClick = {},
+        onBackClick = viewModel::onBackClick,
         onSearchClick = viewModel::onSearchClick,
         onRecentItemClick = {
             viewModel.onSearchItemClick(it)
             focusManager.clearFocus()
         },
-        onAutoCompleteItemClick = {},
+        onAutoCompleteItemClick = { viewModel.onCardItemClick(it) },
         onRelatedItemClick = {
             viewModel.onSearchItemClick(it)
             focusManager.clearFocus()
         },
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onResultCardClick = {},
+        onResultCardClick = { viewModel.onCardItemClick(it) },
         onDeleteClick = viewModel::deleteRecentSearchItem,
-        onTrendCardClick = {},
+        onTrendCardClick = { viewModel.onCardItemClick(it) },
         modifier = modifier,
     )
 }
