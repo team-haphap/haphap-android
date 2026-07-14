@@ -67,6 +67,7 @@ fun MainNavHost(
 
         calendarGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         myPageGraph(
