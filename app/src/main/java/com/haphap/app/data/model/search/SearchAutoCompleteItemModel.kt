@@ -1,6 +1,6 @@
 package com.haphap.app.data.model.search
 
-data class SearchAutoCompleteModel(
+data class SearchAutoCompleteItemModel(
     val id: Int,
     val imageUrl: String,
     val text: String,

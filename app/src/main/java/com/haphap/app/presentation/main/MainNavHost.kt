@@ -1,5 +1,7 @@
 package com.haphap.app.presentation.main
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -24,6 +26,10 @@ fun MainNavHost(
     NavHost(
         navController = navController,
         startDestination = appState.startDestination,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
     ) {
         splashGraph(
             innerPadding = innerPadding,
@@ -69,6 +75,7 @@ fun MainNavHost(
 
         searchGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
     }

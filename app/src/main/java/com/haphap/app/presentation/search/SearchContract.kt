@@ -2,10 +2,10 @@ package com.haphap.app.presentation.search
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.model.search.RelatedKeywordListModel
-import com.haphap.app.data.model.search.SearchAutoCompleteModel
-import com.haphap.app.data.model.search.SearchResultModel
-import com.haphap.app.data.model.search.TrendJobListModel
+import com.haphap.app.data.model.search.RelatedKeywordItemModel
+import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
+import com.haphap.app.data.model.search.SearchPopularItemModel
+import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -13,36 +13,41 @@ import kotlinx.collections.immutable.persistentListOf
 sealed interface SearchContract {
     @Immutable
     data class State(
-        val searchAutoCompleteList: ImmutableList<SearchAutoCompleteModel> = persistentListOf(),
-        val relatedKeywordList: ImmutableList<RelatedKeywordListModel> = persistentListOf(),
+        val searchAutoCompleteList: ImmutableList<SearchAutoCompleteItemModel> = persistentListOf(),
+        val relatedKeywordList: ImmutableList<RelatedKeywordItemModel> = persistentListOf(),
         val categoryChipState: CategoryChipState = CategoryChipState(),
-        val searchResultList: ImmutableList<SearchResultModel> = persistentListOf(),
+        val searchResultList: ImmutableList<SearchResultItemModel> = persistentListOf(),
         val recentSearchList: ImmutableList<RecentSearchItemModel> = persistentListOf(),
-        val trendJobList: ImmutableList<TrendJobListModel> = persistentListOf(),
+        val trendJobList: ImmutableList<SearchPopularItemModel> = persistentListOf(),
         val trendJobListUiState: SearchUiState = SearchUiState.Idle,
+        val recentSearchListUiState: SearchUiState = SearchUiState.Idle,
         val searchAutoCompleteUiState: SearchUiState = SearchUiState.Idle,
         val relatedKeywordListUiState: SearchUiState = SearchUiState.Idle,
         val searchResultListUiState: SearchUiState = SearchUiState.Idle,
         val searchUiState: SearchUiState = SearchUiState.Idle,
+
+        val searchResultPage: Int = 0,
+        val hasNextSearchResult: Boolean = true,
+        val storedSearchText: String? = null,
     ) {
         val section: SearchSection
             get() = when {
-                searchAutoCompleteUiState is SearchUiState.Success
-                        || searchAutoCompleteUiState is SearchUiState.Empty -> SearchSection.Searching
-
-                searchResultListUiState is SearchUiState.Success
-                        || searchResultListUiState is SearchUiState.Empty -> SearchSection.Result
-
+                searchResultListUiState !is SearchUiState.Idle -> SearchSection.Result
+                searchAutoCompleteUiState is SearchUiState.Success -> SearchSection.Searching
                 else -> SearchSection.Default
             }
 
     }
 
     sealed class SideEffect {
+        data object NavigateBack : SideEffect()
+        data class NavigateToJobDetail(
+            val postingId: Int,
+        ) : SideEffect()
         data class OnShowToast(
             val message: String,
             val isAlarm: Boolean = false,
-        ): SideEffect()
+        ) : SideEffect()
     }
 }
 
