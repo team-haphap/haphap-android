@@ -1,4 +1,4 @@
-package com.haphap.app.data.model.register
+package com.haphap.app.presentation.register.type
 
 enum class RegisterResultType {
     PASS,
