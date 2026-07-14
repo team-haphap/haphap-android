@@ -41,6 +41,9 @@ class RegisterViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
+        route.jobId?.let { jobId ->
+            _uiState.update { it.copy(entryPoint = RegisterContract.RegisterSideEffect.JobDetail(jobId)) }
+        }
         loadAnnounceList()
     }
 
@@ -56,6 +59,7 @@ class RegisterViewModel @Inject constructor(
                             announceListUiState = RegisterUiState.Success,
                         )
                     }
+                    list.find { it.id == route.jobId }?.let(::onAnnounceSelected)
                 }
                 .onFailure { e ->
                     Timber.e(e, "loadAnnounceList failed")
