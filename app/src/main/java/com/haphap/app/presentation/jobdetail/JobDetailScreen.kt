@@ -245,7 +245,7 @@ private fun JobDetailScreen(
                     }
                 } else {
                     items(
-                        items = uiState.reports,
+                        items = uiState.reports.take(15),
                         key = { it.id },
                     ) { report ->
                         JobStepReportItem(
