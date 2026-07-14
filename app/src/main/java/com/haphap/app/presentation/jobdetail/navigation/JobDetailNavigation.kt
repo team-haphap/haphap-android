@@ -27,7 +27,7 @@ fun NavGraphBuilder.jobDetailGraph(
         JobDetailRoute(
             navigateBack = { navController.popBackStack() },
             navigateToRegister = {
-                navController.navigateToRegisterFromJobDetail(jobId = route.postingId.toLong())
+                navController.navigateToRegisterFromJobDetail(jobId = route.postingId)
             },
             modifier = Modifier.padding(innerPadding),
         )
