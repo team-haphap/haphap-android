@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.register
 
-import android.R.id.message
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
