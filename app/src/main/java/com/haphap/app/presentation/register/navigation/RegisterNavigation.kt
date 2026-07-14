@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import androidx.navigation.toRoute
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.home.navigation.navigateToHome
@@ -48,19 +49,13 @@ fun NavGraphBuilder.registerGraph(
             navigateBack = {
                 if (!navController.popBackStack()) {
                     navController.navigateToHome(
-                        navOptions = navOptions {
-                            popUpTo<Register> { inclusive = true }
-                            launchSingleTop = true
-                        }
+                        navOptions = navController.clearBackStackNavOptions()
                     )
                 }
             },
             navigateToHome = {
                 navController.navigateToHome(
-                    navOptions = navOptions {
-                        popUpTo<Register> { inclusive = true }
-                        launchSingleTop = true
-                    }
+                    navOptions = navController.clearBackStackNavOptions()
                 )
             },
             navigateToJobDetail = { jobId ->
@@ -87,10 +82,7 @@ fun NavGraphBuilder.registerGraph(
             ),
             navigateToHome = {
                 navController.navigateToHome(
-                    navOptions = navOptions {
-                        popUpTo<Register> { inclusive = true }
-                        launchSingleTop = true
-                    }
+                    navOptions = navController.clearBackStackNavOptions()
                 )
             },
             modifier = Modifier.padding(innerPadding),
