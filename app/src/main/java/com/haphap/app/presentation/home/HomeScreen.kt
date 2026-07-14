@@ -42,6 +42,7 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
     navigateToSearch: () -> Unit,
     navigateToJobList: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -51,8 +52,8 @@ fun HomeRoute(
         onSearchBarClick = navigateToSearch,
         onMoreClick = navigateToJobList,
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onRecentCardClick = {},
-        onListCardClick = {},
+        onRecentCardClick = navigateToJobDetail,
+        onListCardClick = navigateToJobDetail,
         onButtonClick = viewModel::onRefreshClick,
         modifier = modifier,
     )
