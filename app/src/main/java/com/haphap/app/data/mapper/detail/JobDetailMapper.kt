@@ -1,5 +1,6 @@
 package com.haphap.app.data.mapper.detail
 
+import com.haphap.app.core.util.toTimeFormat
 import com.haphap.app.data.model.detail.JobDetailModel
 import com.haphap.app.data.model.detail.JobParticipantModel
 import com.haphap.app.data.model.detail.JobResultModel
@@ -44,12 +45,9 @@ fun JobDetailDto.toJobParticipantModel(): JobParticipantModel {
 
 fun JobDetailDto.toJobStepReportModels(): ImmutableList<JobStepReportModel> {
     return registrations.map { dto ->
-        val time = runCatching {
-            dto.feedCreatedAt.substring(startIndex = 11, endIndex = 16)
-        }.getOrDefault("")
         JobStepReportModel(
             id = dto.registrationId,
-            time = time,
+            time = dto.feedCreatedAt.toTimeFormat(),
             nickName = dto.nickName,
             result = JobStepReportType.valueOf(dto.registrationResult),
             stage = dto.stage,
