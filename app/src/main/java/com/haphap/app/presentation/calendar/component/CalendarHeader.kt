@@ -28,7 +28,7 @@ fun CalendarHeader(
     onDateClick: () -> Unit,
     onBackClick: () -> Unit,
     onNextClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

@@ -93,7 +93,7 @@ fun MainScreen(
                     HapHapToast(
                         text = hapHapToastVisuals.message,
                         isAlarm = hapHapToastVisuals.isAlarm,
-                        modifier = Modifier.padding(20.dp),
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 70.dp),
                     )
                 }
             },

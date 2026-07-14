@@ -12,7 +12,7 @@ import com.haphap.app.presentation.mypage.MyPageRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToMyPage(
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) = navigate(MyPage, navOptions)
 
 fun NavGraphBuilder.myPageGraph(
