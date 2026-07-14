@@ -13,7 +13,6 @@ import com.haphap.app.data.remote.datasource.api.detail.JobDetailDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
 import javax.inject.Inject
-import kotlinx.collections.immutable.ImmutableList
 
 class JobDetailRepositoryImpl @Inject constructor(
     private val jobDetailDataSource: JobDetailDataSource,
@@ -26,14 +25,14 @@ class JobDetailRepositoryImpl @Inject constructor(
                 .toJobDetailModel()
         }
 
-    override suspend fun getJobPostingStages(postingId: Int): Result<ImmutableList<JobResultTabModel>> =
+    override suspend fun getJobPostingStages(postingId: Int): Result<List<JobResultTabModel>> =
         suspendRunCatching {
             jobDetailDataSource.getJobPostingStages(postingId)
                 .checkData()
                 .toResultTabModels()
         }
 
-    override suspend fun getJobPostingStageStatuses(postingId: Int): Result<ImmutableList<JobStepModel>> =
+    override suspend fun getJobPostingStageStatuses(postingId: Int): Result<List<JobStepModel>> =
         suspendRunCatching {
             jobDetailDataSource.getJobPostingStageStatuses(postingId)
                 .checkData()
