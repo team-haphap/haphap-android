@@ -44,9 +44,6 @@ class RegisterViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
-        route.jobId?.let { jobId ->
-            _uiState.update { it.copy(entryPoint = RegisterContract.RegisterSideEffect.JobDetail(jobId)) }
-        }
         loadAnnounceList()
     }
 
@@ -319,16 +316,15 @@ class RegisterViewModel @Inject constructor(
         val currentState = _uiState.value
 
         viewModelScope.launch {
+            val jobId = route.jobId
             if (currentState.selectedResult == PassResultStatusButton.PASS) {
                 currentState.registrationResult?.card?.let { card ->
                     _sideEffect.send(NavigateToPassCard(card))
                 }
+            } else if (jobId != null) {
+                _sideEffect.send(NavigateToJobDetail(jobId))
             } else {
-                when (val entryPoint = currentState.entryPoint) {
-                    RegisterContract.RegisterSideEffect.Home -> _sideEffect.send(NavigateToHome)
-                    is RegisterContract.RegisterSideEffect.JobDetail ->
-                        _sideEffect.send(NavigateToJobDetail(entryPoint.jobId))
-                }
+                _sideEffect.send(NavigateToHome)
             }
         }
     }

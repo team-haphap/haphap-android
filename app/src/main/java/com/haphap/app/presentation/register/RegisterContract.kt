@@ -16,7 +16,6 @@ sealed interface RegisterContract {
     @Immutable
     data class State(
         val step: Int = 1,
-        val entryPoint: RegisterSideEffect = RegisterSideEffect.Home,
         val registerInfo: RegisterModel = RegisterModel(),
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
@@ -43,11 +42,6 @@ sealed interface RegisterContract {
                     }
                 )
             )
-    }
-
-    sealed interface RegisterSideEffect {
-        data object Home : RegisterSideEffect
-        data class JobDetail(val jobId: Int) : RegisterSideEffect
     }
 
     sealed class SideEffect {
