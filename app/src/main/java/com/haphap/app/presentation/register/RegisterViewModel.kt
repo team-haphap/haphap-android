@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.presentation.register.type.RegisterResultType
-import com.haphap.app.data.model.register.RegistrationCheckModel
+import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
 import com.haphap.app.presentation.register.type.NotificationChannelType
@@ -144,11 +144,11 @@ class RegisterViewModel @Inject constructor(
             registerRepository.postCheckRegistration(postingId, stageId, result)
                 .onSuccess { checkResult ->
                     when (checkResult) {
-                        RegistrationCheckModel.NEW -> advanceFromStep2(selectedResult)
-                        RegistrationCheckModel.CONFIRM_REQUIRED -> {
+                        RegistrationCheckType.NEW -> advanceFromStep2(selectedResult)
+                        RegistrationCheckType.CONFIRM_REQUIRED -> {
                             _uiState.update { it.copy(isChangeModalVisible = true) }
                         }
-                        RegistrationCheckModel.DUPLICATE -> {
+                        RegistrationCheckType.DUPLICATE -> {
                             _sideEffect.send(OnShowToast("이미 등록한 결과입니다."))
                             _uiState.update {
                                 it.copy(selectedResult = null, isButtonEnabled = false)

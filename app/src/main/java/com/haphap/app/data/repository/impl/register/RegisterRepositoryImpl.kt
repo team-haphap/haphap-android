@@ -6,7 +6,7 @@ import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.presentation.register.type.RegisterResultType
-import com.haphap.app.data.model.register.RegistrationCheckModel
+import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.data.remote.datasource.api.register.RegisterDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -57,18 +57,18 @@ class RegisterRepositoryImpl @Inject constructor(
         postingId: Int,
         stageId: Int,
         result: RegisterResultType,
-    ): Result<RegistrationCheckModel> =
+    ): Result<RegistrationCheckType> =
         suspendRunCatching {
             try {
                 val request = RegistrationCheckRequestDto(result = result.name)
                 val response = postingDataSource.getRegisterCheck(postingId, stageId, request)
                 when (response.code) {
-                    REGISTRATION_CONFIRM_REQUIRED_CODE -> RegistrationCheckModel.CONFIRM_REQUIRED
-                    else -> RegistrationCheckModel.NEW
+                    REGISTRATION_CONFIRM_REQUIRED_CODE -> RegistrationCheckType.CONFIRM_REQUIRED
+                    else -> RegistrationCheckType.NEW
                 }
             } catch (e: HttpException) {
                 if (e.code() == HTTP_CONFLICT) {
-                    RegistrationCheckModel.DUPLICATE
+                    RegistrationCheckType.DUPLICATE
                 } else {
                     Timber.e(e, "checkRegistration failed - HTTP ${e.code()}")
                     throw e
