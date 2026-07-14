@@ -14,9 +14,9 @@ interface JobDetailRepository {
 
     suspend fun getJobPostingStageStatistic(postingId: Int, stageId: Int): Result<JobResultModel>
 
-    suspend fun setJobPostingAlarm(postingId: Int): Result<String>
+    suspend fun setJobPostingAlarm(postingId: Int): Result<Unit>
 
-    suspend fun deleteJobPostingAlarm(postingId: Int): Result<String>
+    suspend fun deleteJobPostingAlarm(postingId: Int): Result<Unit>
 
     suspend fun recordView(postingId: Int): Result<Unit>
 }

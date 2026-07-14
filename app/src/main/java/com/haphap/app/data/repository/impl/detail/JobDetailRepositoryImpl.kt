@@ -11,6 +11,7 @@ import com.haphap.app.data.model.detail.JobResultTabModel
 import com.haphap.app.data.model.detail.JobStepModel
 import com.haphap.app.data.remote.datasource.api.detail.JobDetailDataSource
 import com.haphap.app.data.remote.dto.checkData
+import com.haphap.app.data.remote.dto.checkNullData
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
 import javax.inject.Inject
 
@@ -46,26 +47,20 @@ class JobDetailRepositoryImpl @Inject constructor(
                 .toJobResultModel()
         }
 
-    override suspend fun setJobPostingAlarm(postingId: Int): Result<String> =
+    override suspend fun setJobPostingAlarm(postingId: Int): Result<Unit> =
         suspendRunCatching {
-            val response = jobDetailDataSource.setAlarms(postingId)
-            check(response.status == HTTP_OK) { response.message }
-            response.message
+            jobDetailDataSource.setAlarms(postingId).checkNullData()
+            Unit
         }
 
-    override suspend fun deleteJobPostingAlarm(postingId: Int): Result<String> =
+    override suspend fun deleteJobPostingAlarm(postingId: Int): Result<Unit> =
         suspendRunCatching {
-            val response = jobDetailDataSource.deleteAlarms(postingId)
-            check(response.status == HTTP_OK) { response.message }
-            response.message
+            jobDetailDataSource.deleteAlarms(postingId).checkNullData()
+            Unit
         }
 
     override suspend fun recordView(postingId: Int): Result<Unit> =
         suspendRunCatching {
             jobDetailDataSource.recordView(postingId)
         }
-
-    companion object {
-        private const val HTTP_OK = 200
-    }
 }
