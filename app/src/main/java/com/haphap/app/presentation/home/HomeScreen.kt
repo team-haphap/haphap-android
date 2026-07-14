@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
 import com.haphap.app.core.designsystem.component.searchbar.HapHapSearchBar
@@ -47,13 +51,35 @@ fun HomeRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is HomeContract.SideEffect.NavigateToSearch -> {
+                        navigateToSearch()
+                    }
+
+                    is HomeContract.SideEffect.NavigateToJobList -> {
+                        navigateToJobList()
+                    }
+
+                    is HomeContract.SideEffect.NavigateToJobDetail -> {
+                        navigateToJobDetail(sideEffect.postingId)
+                    }
+                }
+            }
+        }
+    }
+
     HomeScreen(
         uiState = uiState,
-        onSearchBarClick = navigateToSearch,
-        onMoreClick = navigateToJobList,
+        onSearchBarClick = viewModel::onSearchBarClick,
+        onMoreClick = viewModel::onMoreClick,
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onRecentCardClick = navigateToJobDetail,
-        onListCardClick = navigateToJobDetail,
+        onRecentCardClick = viewModel::onRecentCardClick,
+        onListCardClick = viewModel::onListCardClick,
         onButtonClick = viewModel::onRefreshClick,
         modifier = modifier,
     )
