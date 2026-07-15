@@ -84,7 +84,7 @@ fun HomeListCardComponent(
             )
 
             Text(
-                text = "[$stageName] 발표 예상",
+                text = "$stageName 발표 예상",
                 style = HapHapTheme.typography.caption.r10,
                 color = HapHapTheme.colors.gray600,
             )
@@ -108,7 +108,7 @@ private fun HomeListCardImage(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(6.dp))
+            .clip(shape = RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.white)
             .border(
                 color = HapHapTheme.colors.gray100,
