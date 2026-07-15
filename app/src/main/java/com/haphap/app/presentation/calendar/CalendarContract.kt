@@ -16,6 +16,10 @@ sealed interface CalendarContract {
         val calendarUiState: CalendarUiState<List<CalendarModel>> = CalendarUiState.Idle,
         val calendarPostingsUiState: CalendarUiState<List<CalendarPostingModel>> = CalendarUiState.Idle,
     )
+
+    sealed class SideEffect {
+        data class NavigateToJobDetail(val postingId: Int) : SideEffect()
+    }
 }
 
 sealed interface CalendarUiState<out T> {

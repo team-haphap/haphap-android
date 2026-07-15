@@ -1,7 +1,8 @@
 package com.haphap.app.presentation.main
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,8 @@ import com.haphap.app.presentation.register.navigation.registerGraph
 import com.haphap.app.presentation.search.navigation.searchGraph
 import com.haphap.app.presentation.splash.navigation.splashGraph
 
+private const val NavigationAnimationDurationMillis = 700
+
 @Composable
 fun MainNavHost(
     appState: MainAppState,
@@ -26,10 +29,8 @@ fun MainNavHost(
     NavHost(
         navController = navController,
         startDestination = appState.startDestination,
-        enterTransition = { EnterTransition.None },
-        exitTransition = { ExitTransition.None },
-        popEnterTransition = { EnterTransition.None },
-        popExitTransition = { ExitTransition.None },
+        enterTransition = { fadeIn(animationSpec = tween(NavigationAnimationDurationMillis)) },
+        exitTransition = { fadeOut(animationSpec = tween(NavigationAnimationDurationMillis)) },
     ) {
         splashGraph(
             innerPadding = innerPadding,
@@ -67,6 +68,7 @@ fun MainNavHost(
 
         calendarGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         myPageGraph(

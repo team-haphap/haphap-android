@@ -7,8 +7,10 @@ import com.haphap.app.data.repository.api.calendar.CalendarRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -24,12 +26,21 @@ class CalendarViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CalendarContract.State())
     val uiState = _uiState.asStateFlow()
 
+    private val _sideEffect = Channel<CalendarContract.SideEffect>(Channel.BUFFERED)
+    val sideEffect = _sideEffect.receiveAsFlow()
+
     private var calendarJob: Job? = null
     private var calendarPostingsJob: Job? = null
 
     fun updateSelectedDate(date: LocalDate) {
         _uiState.update { it.copy(selectedDate = date) }
         calendarPostings(date)
+    }
+
+    fun onCalendarCardClick(postingId: Int) {
+        viewModelScope.launch {
+            _sideEffect.send(CalendarContract.SideEffect.NavigateToJobDetail(postingId))
+        }
     }
 
     fun calendar(yearMonth: YearMonth) {
