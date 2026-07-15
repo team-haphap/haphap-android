@@ -12,6 +12,6 @@ class ViewCountDataSourceImpl @Inject constructor(
         return viewCountService.patchViewCount(postingId)
     }
 
-    override suspend fun patchRecordView(postingId: Int) =
+    override suspend fun patchRecordView(postingId: Int): BaseResponse<Unit> =
         viewCountService.patchRecordView(postingId)
 }
