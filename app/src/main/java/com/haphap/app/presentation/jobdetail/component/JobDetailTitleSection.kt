@@ -45,7 +45,7 @@ fun JobDetailTitleSection(
         )
 
         Row(
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             keywords.forEach { keyword ->
