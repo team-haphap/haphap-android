@@ -39,7 +39,7 @@ fun HapHapDeadlineChip(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "$stage 발표",
+            text = if (stage.isEmpty()) "발표" else "$stage 발표",
             style = HapHapTheme.typography.caption.m10,
             color = HapHapTheme.colors.gray600,
         )
