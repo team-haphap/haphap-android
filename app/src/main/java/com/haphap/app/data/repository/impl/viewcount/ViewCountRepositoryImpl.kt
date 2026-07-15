@@ -13,4 +13,9 @@ class ViewCountRepositoryImpl @Inject constructor(
         suspendRunCatching {
             viewCountDataSource.patchViewCount(postingId).checkNullData()
         }
+
+    override suspend fun patchRecordView(postingId: Int): Result<Unit> =
+        suspendRunCatching {
+            viewCountDataSource.patchRecordView(postingId)
+        }
 }

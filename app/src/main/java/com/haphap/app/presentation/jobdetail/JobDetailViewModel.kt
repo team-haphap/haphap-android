@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
+import com.haphap.app.data.repository.api.viewcount.ViewCountRepository
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.NavigateToRegister
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.jobdetail.navigation.JobDetail
@@ -23,6 +24,7 @@ import timber.log.Timber
 class JobDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val jobDetailRepository: JobDetailRepository,
+    private val viewCountRepository: ViewCountRepository,
 ) : ViewModel() {
 
     private val postingId: Int = savedStateHandle.toRoute<JobDetail>().postingId
@@ -38,11 +40,21 @@ class JobDetailViewModel @Inject constructor(
         fetchJobPostingStages()
         fetchJobPostingStageStatuses()
         recordView()
+        viewCount()
+    }
+
+    private fun viewCount() {
+        viewModelScope.launch {
+            viewCountRepository.patchViewCount(postingId)
+                .onFailure { throwable ->
+                    Timber.e("$throwable 공고 조회 기록 실패했습니다.")
+                }
+        }
     }
 
     private fun recordView() {
         viewModelScope.launch {
-            jobDetailRepository.recordView(postingId)
+            viewCountRepository.patchRecordView(postingId)
                 .onFailure { throwable ->
                     Timber.e("$throwable 공고 조회 기록 실패했습니다.")
                 }
