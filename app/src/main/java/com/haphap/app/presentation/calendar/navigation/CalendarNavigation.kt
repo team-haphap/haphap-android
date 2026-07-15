@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.calendar.CalendarRoute
+import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToCalendar(
@@ -17,9 +18,11 @@ fun NavController.navigateToCalendar(
 
 fun NavGraphBuilder.calendarGraph(
     innerPadding: PaddingValues,
+    navController: NavController,
 ) {
     composable<Calendar> {
         CalendarRoute(
+            navigateToJobDetail = navController::navigateToJobDetail,
             modifier = Modifier.padding(innerPadding),
         )
     }
