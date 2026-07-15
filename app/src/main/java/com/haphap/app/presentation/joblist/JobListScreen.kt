@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,16 +29,26 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun JobListRoute(
+    navigateToSearch: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: JobListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val gridState = rememberLazyGridState()
+
+    LaunchedEffect(
+        uiState.categoryChipState.selectedChips
+    ) {
+        gridState.scrollToItem(0)
+    }
 
     JobListScreen(
         uiState = uiState,
-        onSearchBarClick = {},
+        gridState = gridState,
+        onSearchBarClick = navigateToSearch,
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onCardClick = {},
+        onCardClick = { navigateToJobDetail(it) },
         modifier = modifier,
     )
 }
