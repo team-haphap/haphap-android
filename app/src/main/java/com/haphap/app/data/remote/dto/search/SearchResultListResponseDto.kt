@@ -26,7 +26,7 @@ data class SearchResultItemDto(
     @SerialName("categoryName")
     val categoryName: String,
     @SerialName("nextStage")
-    val nextStage: String,
+    val nextStage: String?,
     @SerialName("imageUrl")
     val imageUrl: String,
     @SerialName("dDay")
