@@ -58,9 +58,4 @@ class JobDetailRepositoryImpl @Inject constructor(
             jobDetailDataSource.deleteAlarms(postingId).checkNullData()
             Unit
         }
-
-    override suspend fun recordView(postingId: Int): Result<Unit> =
-        suspendRunCatching {
-            jobDetailDataSource.recordView(postingId)
-        }
 }

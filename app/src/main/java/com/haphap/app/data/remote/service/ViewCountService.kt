@@ -9,4 +9,9 @@ interface ViewCountService {
     suspend fun patchViewCount(
         @Path("postingId") postingId: Int,
     ): BaseResponse<Unit>
+
+    @PATCH("api/v1/postings/{postingId}/views")
+    suspend fun patchRecordView(
+        @Path("postingId") postingId: Int,
+    )
 }

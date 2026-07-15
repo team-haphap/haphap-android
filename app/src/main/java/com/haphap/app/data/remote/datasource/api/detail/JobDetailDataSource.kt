@@ -18,6 +18,4 @@ interface JobDetailDataSource {
     suspend fun setAlarms(postingId: Int): BaseResponse<Unit>
 
     suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit>
-
-    suspend fun recordView(postingId: Int)
 }
