@@ -103,15 +103,8 @@ fun RegisterPassCardScreen(
                     style = HapHapTheme.typography.body.b18,
                     color = HapHapTheme.colors.primary100,
                     textAlign = TextAlign.Start,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                )
-
-                Text(
-                    text = "기획 공개 채용에 합격했어요!",
-                    style = HapHapTheme.typography.body.b18,
-                    color = HapHapTheme.colors.primary100,
-                    textAlign = TextAlign.Start,
                 )
             }
         }
