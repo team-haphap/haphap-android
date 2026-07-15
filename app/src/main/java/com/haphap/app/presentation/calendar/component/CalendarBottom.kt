@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -45,6 +45,7 @@ fun CalendarBottom(
         Spacer(modifier = Modifier.width(16.dp))
 
         Row(
+            modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -54,20 +55,17 @@ fun CalendarBottom(
                 style = HapHapTheme.typography.caption.sb12,
             )
 
-            Spacer(modifier = Modifier.width(2.dp))
-
             PresentChanceType.entries
                 .filter { it != PresentChanceType.NONE }
                 .forEach { presentChance ->
                     Box(
                         modifier = Modifier
-                            .size(width = 25.dp, height = 8.dp)
+                            .weight(1f)
+                            .height(8.dp)
                             .clip(shape = CircleShape)
                             .background(color = presentChance.toColor(HapHapTheme.colors)),
                     )
                 }
-
-            Spacer(modifier = Modifier.width(2.dp))
 
             Text(
                 text = "높음",
