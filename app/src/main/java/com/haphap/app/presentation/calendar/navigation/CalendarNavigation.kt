@@ -22,9 +22,7 @@ fun NavGraphBuilder.calendarGraph(
 ) {
     composable<Calendar> {
         CalendarRoute(
-            navigateToJobDetail = { postingId ->
-                navController.navigateToJobDetail(postingId = postingId)
-            },
+            navigateToJobDetail = navController::navigateToJobDetail,
             modifier = Modifier.padding(innerPadding),
         )
     }
