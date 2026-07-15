@@ -33,7 +33,7 @@ class JobListViewModel @Inject constructor(
 
     fun getJobList() = viewModelScope.launch {
         _uiState.update { it.copy(jobListUiState = JobListUiState.Loading) }
-        val category = _uiState.value.categoryChipState.selectedChips
+        val category = _uiState.value.categoryChipState.queryCategoryList
         jobListRepository.getJobList(category = category)
             .onSuccess { result ->
                 _uiState.update {
