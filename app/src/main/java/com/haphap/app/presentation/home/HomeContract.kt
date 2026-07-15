@@ -18,4 +18,10 @@ sealed interface HomeContract {
         val todayExpectedCardList: ImmutableList<TodayExpectedCardModel> = persistentListOf(),
         val categoryChipState: CategoryChipState = CategoryChipState(),
     )
+
+    sealed interface SideEffect {
+        data object NavigateToSearch : SideEffect
+        data object NavigateToJobList : SideEffect
+        data class NavigateToJobDetail(val postingId: Int) : SideEffect
+    }
 }
