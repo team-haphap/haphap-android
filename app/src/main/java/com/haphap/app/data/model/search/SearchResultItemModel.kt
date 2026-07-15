@@ -15,6 +15,6 @@ data class SearchResultItemModel(
     val companyName: String,
     val category: String,
     val stage: String,
-    val dDay: Int,
+    val dDay: String,
     val title: String,
 )

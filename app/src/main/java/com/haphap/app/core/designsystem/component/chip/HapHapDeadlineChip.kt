@@ -27,7 +27,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 @Composable
 fun HapHapDeadlineChip(
     stage: String,
-    dDay: Int,
+    dDay: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -44,7 +44,7 @@ fun HapHapDeadlineChip(
             color = HapHapTheme.colors.gray600,
         )
         Text(
-            text = "D-$dDay",
+            text = dDay,
             style = HapHapTheme.typography.caption.m10,
             color = HapHapTheme.colors.primary500,
         )
@@ -58,7 +58,7 @@ private fun HapHapDeadlineChipPreview() {
         Row(modifier = Modifier.padding(16.dp)) {
             HapHapDeadlineChip(
                 stage = "서류",
-                dDay = 2,
+                dDay = "D-2",
             )
         }
     }

@@ -30,5 +30,5 @@ data class SearchResultItemDto(
     @SerialName("imageUrl")
     val imageUrl: String,
     @SerialName("dDay")
-    val dDay: Int,
+    val dDay: String,
 )

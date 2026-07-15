@@ -12,7 +12,7 @@ private fun JobItemDto.toModel(): JobItemModel =
         imageUrl = imageUrl,
         category = category,
         stage = nextStage ?: "null",
-        dDay = daysUntilNextStage ?: 0,
+        dDay = daysUntilNextStage,
         title = companyName,
         content = title,
     )
