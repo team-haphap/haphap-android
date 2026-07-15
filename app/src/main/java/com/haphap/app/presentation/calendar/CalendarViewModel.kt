@@ -32,6 +32,10 @@ class CalendarViewModel @Inject constructor(
     private var calendarJob: Job? = null
     private var calendarPostingsJob: Job? = null
 
+    init {
+        updateSelectedDate(LocalDate.now())
+    }
+
     fun updateSelectedDate(date: LocalDate) {
         _uiState.update { it.copy(selectedDate = date) }
         calendarPostings(date)
