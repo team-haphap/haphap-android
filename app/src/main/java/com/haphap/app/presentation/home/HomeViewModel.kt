@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.home.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,6 +21,9 @@ class HomeViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(HomeContract.State())
     val uiState = _uiState.asStateFlow()
+
+    private val _sideEffect = Channel<HomeContract.SideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
         fetchAll()
@@ -72,13 +77,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchRecentPostings() {
-        val selectedChips = _uiState.value.categoryChipState.selectedChips
-
-        val categoryParam = if (selectedChips.contains("전체")) {
-            null
-        } else {
-            selectedChips.toList()
-        }
+        val categoryParam = _uiState.value.categoryChipState.queryCategoryList
 
         viewModelScope.launch {
             homeRepository.getRecentPostings(categoryParam)
@@ -96,5 +95,17 @@ class HomeViewModel @Inject constructor(
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
         fetchRecentPostings()
+    }
+
+    fun onSearchBarClick() = viewModelScope.launch {
+        _sideEffect.send(HomeContract.SideEffect.NavigateToSearch)
+    }
+
+    fun onMoreClick() = viewModelScope.launch {
+        _sideEffect.send(HomeContract.SideEffect.NavigateToJobList)
+    }
+
+    fun onCardClick(postingId: Int) = viewModelScope.launch {
+        _sideEffect.send(HomeContract.SideEffect.NavigateToJobDetail(postingId))
     }
 }
