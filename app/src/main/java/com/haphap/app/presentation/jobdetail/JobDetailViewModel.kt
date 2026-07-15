@@ -46,6 +46,9 @@ class JobDetailViewModel @Inject constructor(
     private fun viewCount() {
         viewModelScope.launch {
             viewCountRepository.patchViewCount(postingId)
+                .onSuccess { model ->
+                    Timber.e("$model 공고 조회 기록 성공했습니다.")
+                }
                 .onFailure { throwable ->
                     Timber.e("$throwable 공고 조회 기록 실패했습니다.")
                 }
@@ -55,6 +58,9 @@ class JobDetailViewModel @Inject constructor(
     private fun recordView() {
         viewModelScope.launch {
             viewCountRepository.patchRecordView(postingId)
+                .onSuccess { model ->
+                    Timber.e("$model 공고 조회 기록 성공했습니다.")
+                }
                 .onFailure { throwable ->
                     Timber.e("$throwable 공고 조회 기록 실패했습니다.")
                 }
