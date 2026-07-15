@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.fcm.FirebaseMessagingManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +23,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         askNotificationPermission()
-        FirebaseMessagingManager().getFcmToken()
         setContent {
             HapHapTheme {
                 MainScreen()
