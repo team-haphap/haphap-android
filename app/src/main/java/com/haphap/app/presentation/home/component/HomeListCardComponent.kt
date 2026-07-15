@@ -109,10 +109,10 @@ private fun HomeListCardImage(
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(8.dp))
-            .background(HapHapTheme.colors.white)
             .border(
                 color = HapHapTheme.colors.gray100,
                 width = 1.dp,
+                shape = RoundedCornerShape(8.dp),
             )
     ) {
         UrlImage(
