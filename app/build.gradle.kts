@@ -104,4 +104,8 @@ dependencies {
 
     // Auth
     implementation(libs.kakao.user.sdk)
+
+    //Room
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 }

@@ -19,11 +19,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun CalendarListCardComponent(
@@ -31,6 +33,7 @@ fun CalendarListCardComponent(
     stage: String,
     participantCount: Int,
     imageUrl: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -38,7 +41,8 @@ fun CalendarListCardComponent(
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.white)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .noRippleClickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CalendarListCardContent(
@@ -47,6 +51,8 @@ fun CalendarListCardComponent(
             participantCount = participantCount,
             modifier = Modifier.weight(1f),
         )
+
+        Spacer(modifier = Modifier.width(4.dp))
 
         CalendarListCardImage(
             imageUrl = imageUrl,
@@ -67,6 +73,8 @@ private fun CalendarListCardContent(
             text = titleText,
             style = HapHapTheme.typography.body.sb14,
             color = HapHapTheme.colors.gray800,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -112,7 +120,6 @@ private fun CalendarListCardImage(
     ) {
         UrlImage(
             url = imageUrl,
-            placeholderDrawable = R.drawable.img_calendar_kakao,
             contentScale = ContentScale.Fit,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
@@ -129,6 +136,7 @@ private fun CalendarListCardComponentPreview() {
             stage = "서류",
             participantCount = 32,
             imageUrl = "",
+            onClick = {},
             modifier = Modifier.padding(16.dp),
         )
     }

@@ -2,6 +2,8 @@ package com.haphap.app.core.designsystem.component.image
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +17,7 @@ import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 /**
  * URL을 통해 이미지를 비동기로 로드하여 표시하는 Composable입니다.
@@ -38,24 +41,30 @@ fun UrlImage(
     contentDescription: String? = null,
 ) {
     if (LocalInspectionMode.current) {
-        placeholderDrawable?.let { drawableRes ->
+        if (placeholderDrawable != null) {
             Image(
-                painter = painterResource(drawableRes),
+                painter = painterResource(placeholderDrawable),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
                 modifier = modifier,
             )
+        } else {
+            Box(modifier = modifier.background(HapHapTheme.colors.gray50))
         }
         return
     }
 
     val fallbackContent: @Composable () -> Unit = {
-        placeholderDrawable?.let { drawableRes ->
+        if (placeholderDrawable != null) {
             Image(
-                painter = painterResource(drawableRes),
+                painter = painterResource(placeholderDrawable),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
                 modifier = modifier,
+            )
+        } else {
+            Box(
+                modifier = modifier.background(HapHapTheme.colors.gray50),
             )
         }
     }

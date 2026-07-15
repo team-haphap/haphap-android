@@ -73,7 +73,12 @@ fun HapHapSearchTextField(
             imageVector = ImageVector.vectorResource(ic_search_32),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
-            modifier = Modifier.noRippleClickable(onClick = onSearch),
+            modifier = Modifier.noRippleClickable(
+                onClick = {
+                    onSearch()
+                    focusManager.clearFocus()
+                }
+            ),
         )
     }
 }

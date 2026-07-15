@@ -8,9 +8,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.Route
-import com.haphap.app.presentation.auth.LoginRoute
-import com.haphap.app.presentation.auth.SignUpCompleteRoute
+import com.haphap.app.presentation.auth.login.LoginRoute
+import com.haphap.app.presentation.auth.signupcomplete.SignUpCompleteRoute
+import com.haphap.app.presentation.home.navigation.navigateToHome
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToLogin(
@@ -24,28 +26,35 @@ fun NavController.navigateToSignUpComplete(
 
 fun NavGraphBuilder.authGraph(
     innerPadding: PaddingValues,
-    navigateToHome: () -> Unit,
-    navigateToSignUpComplete: (userName: String) -> Unit,
+    navController: NavController,
 ) {
     composable<Login> {
         LoginRoute(
-            navigateToHome = navigateToHome,
-            navigateToSignUpComplete = navigateToSignUpComplete,
+            navigateToSignUpComplete = { userName ->
+                navController.navigateToSignUpComplete(
+                    userName = userName,
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
+            },
             modifier = Modifier.padding(innerPadding),
-            )
+        )
     }
 }
 
 fun NavGraphBuilder.signUpCompleteGraph(
     innerPadding: PaddingValues,
-    navigateToHome: () -> Unit,
+    navController: NavController,
 ) {
     composable<SignUpComplete> { backStackEntry ->
         val route = backStackEntry.toRoute<SignUpComplete>()
         SignUpCompleteRoute(
-            modifier = Modifier.padding(innerPadding),
             userName = route.userName,
-            navigateToHome = navigateToHome,
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
+            modifier = Modifier.padding(innerPadding),
         )
     }
 }
