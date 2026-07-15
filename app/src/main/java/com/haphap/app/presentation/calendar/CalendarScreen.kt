@@ -10,15 +10,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.calendar.CalendarPostingModel
+import com.haphap.app.presentation.calendar.CalendarContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.calendar.component.CalendarListCardComponent
 import com.haphap.app.presentation.calendar.component.CalendarListCardEmptyComponent
 import com.haphap.app.presentation.calendar.component.HapHapCustomCalendar
@@ -29,15 +34,27 @@ import java.time.YearMonth
 
 @Composable
 fun CalendarRoute(
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is NavigateToJobDetail -> navigateToJobDetail(sideEffect.postingId)
+                }
+            }
+        }
+    }
 
     CalendarScreen(
         uiState = uiState,
         onCalendarDateClick = viewModel::updateSelectedDate,
-        onCalendarCardClick = {},
+        onCalendarCardClick = viewModel::onCalendarCardClick,
         onCalendarMonthChange = viewModel::calendar,
         modifier = modifier,
     )
