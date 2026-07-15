@@ -78,8 +78,8 @@ fun HomeRoute(
         onSearchBarClick = viewModel::onSearchBarClick,
         onMoreClick = viewModel::onMoreClick,
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onRecentCardClick = viewModel::onRecentCardClick,
-        onListCardClick = viewModel::onListCardClick,
+        onRecentCardClick = viewModel::onCardClick,
+        onListCardClick = viewModel::onCardClick,
         onButtonClick = viewModel::onRefreshClick,
         modifier = modifier,
     )

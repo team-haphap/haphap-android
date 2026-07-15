@@ -105,11 +105,7 @@ class HomeViewModel @Inject constructor(
         _sideEffect.send(HomeContract.SideEffect.NavigateToJobList)
     }
 
-    fun onRecentCardClick(postingId: Int) = viewModelScope.launch {
-        _sideEffect.send(HomeContract.SideEffect.NavigateToJobDetail(postingId))
-    }
-
-    fun onListCardClick(postingId: Int) = viewModelScope.launch {
+    fun onCardClick(postingId: Int) = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToJobDetail(postingId))
     }
 }
