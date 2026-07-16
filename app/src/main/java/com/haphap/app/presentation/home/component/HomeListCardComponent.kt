@@ -117,9 +117,8 @@ private fun HomeListCardImage(
     ) {
         UrlImage(
             url = imageUrl,
-            placeholderDrawable = R.drawable.img_calendar_kakao,
             contentDescription = null,
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier.clip(shape = RoundedCornerShape(8.dp)),
         )
     }
 }
