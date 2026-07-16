@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,6 +31,8 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun JobListRoute(
+    navigateToSearch: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: JobListViewModel = hiltViewModel(),
 ) {
@@ -47,9 +48,9 @@ fun JobListRoute(
     JobListScreen(
         uiState = uiState,
         gridState = gridState,
-        onSearchBarClick = {},
+        onSearchBarClick = navigateToSearch,
         onFilterClick = { viewModel.updateSelectedChips(it) },
-        onCardClick = {},
+        onCardClick = { navigateToJobDetail(it) },
         modifier = modifier,
     )
 }
@@ -137,7 +138,7 @@ private fun JobListScreenPreview() {
                         imageUrl = "",
                         category = "개발",
                         stage = "서류",
-                        dDay = 2,
+                        dDay = "D-2",
                         title = "카카오",
                         content = "공고 설명",
                     ),
@@ -146,7 +147,7 @@ private fun JobListScreenPreview() {
                         imageUrl = "",
                         category = "개발",
                         stage = "서류",
-                        dDay = 2,
+                        dDay = "D-2",
                         title = "카카오",
                         content = "공고 설명",
                     ),
@@ -155,7 +156,7 @@ private fun JobListScreenPreview() {
                         imageUrl = "",
                         category = "개발",
                         stage = "서류",
-                        dDay = 2,
+                        dDay = "D-2",
                         title = "카카오",
                         content = "공고 설명",
                     ),
@@ -164,7 +165,7 @@ private fun JobListScreenPreview() {
                         imageUrl = "",
                         category = "개발",
                         stage = "서류",
-                        dDay = 2,
+                        dDay = "D-2",
                         title = "카카오",
                         content = "공고 설명",
                     ),

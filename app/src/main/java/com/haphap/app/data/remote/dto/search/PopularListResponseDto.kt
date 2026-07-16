@@ -22,7 +22,7 @@ data class PopularItemDto(
     @SerialName("nextStage")
     val nextStage: String,
     @SerialName("daysUntilNextStage")
-    val daysUntilNextStage: Int,
+    val daysUntilNextStage: String,
     @SerialName("imageUrl")
     val imageUrl: String,
 )

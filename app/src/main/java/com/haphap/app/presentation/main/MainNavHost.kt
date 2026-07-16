@@ -54,6 +54,7 @@ fun MainNavHost(
 
         jobListGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         jobDetailGraph(
