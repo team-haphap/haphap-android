@@ -1,25 +1,40 @@
 package com.haphap.app.core.fcm
 
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
+import javax.inject.Inject
+import kotlin.coroutines.resume
 
-class FirebaseMessagingManager {
+class FirebaseMessagingManager @Inject constructor() {
 
-    fun getFcmToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+    suspend fun getFcmToken(): String? = suspendCancellableCoroutine { continuation ->
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.tag(TAG).e("Fetching FCM registration token failed ${task.exception}")
-                return@OnCompleteListener
+                Timber.tag(TAG).e("FCM Token 불러오기 실패했습니다. ${task.exception}")
+                continuation.resume(null)
+                return@addOnCompleteListener
             }
 
-            // token 받아오기
             val token = task.result
             Timber.tag(TAG).d("토큰 : $token")
+            continuation.resume(token)
+        }
+    }
 
-            // 서버 토큰 전송
+    suspend fun getInstallationId(): String? = suspendCancellableCoroutine { continuation ->
+        FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Timber.tag(TAG).e("FireBaseInstallations id 불러오기 실패했습니다 : ${task.exception}")
+                continuation.resume(null)
+                return@addOnCompleteListener
+            }
 
-        })
+            val installationId = task.result
+            Timber.tag(TAG).d("device ID : $installationId")
+            continuation.resume(installationId)
+        }
     }
 
     companion object {
