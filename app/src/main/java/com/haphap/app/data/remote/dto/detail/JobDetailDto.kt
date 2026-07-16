@@ -14,6 +14,7 @@ data class JobDetailDto(
     @SerialName("companyImageUrl") val companyImageUrl: String,
     @SerialName("summary") val summary: JobDetailSummaryDto,
     @SerialName("registrations") val registrations: List<JobDetailRegistrationDto>,
+    @SerialName("alarmEnabled") val alarmEnabled: Boolean,
 )
 
 @Serializable

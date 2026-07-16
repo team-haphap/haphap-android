@@ -8,4 +8,5 @@ data class JobDetailModel(
     val bannerImageUrl: String = "",
     val participant: JobParticipantModel = JobParticipantModel(),
     val reports: ImmutableList<JobStepReportModel> = persistentListOf(),
+    val alarmEnabled: Boolean,
 )
