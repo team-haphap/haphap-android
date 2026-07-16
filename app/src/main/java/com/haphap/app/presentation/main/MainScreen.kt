@@ -2,6 +2,7 @@ package com.haphap.app.presentation.main
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -15,11 +16,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.component.toast.HapHapToast
 import com.haphap.app.core.designsystem.component.toast.HapHapToastVisuals
+import com.haphap.app.core.designsystem.component.toast.LocalToastBottomInset
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.presentation.main.component.MainBottomBar
 import com.haphap.app.presentation.main.component.MainTab
@@ -52,9 +55,12 @@ fun MainScreen(
     }
 
     var job by remember { mutableStateOf<Job?>(null) }
+    val toastBottomInset = remember { mutableStateOf(0.dp) }
+    var toastDisplayBottomInset by remember { mutableStateOf(0.dp) }
 
     val onShowToast: (String, Boolean) -> Unit = { message, isAlarm ->
         job?.cancel()
+        toastDisplayBottomInset = toastBottomInset.value
         job = coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
 
@@ -74,35 +80,50 @@ fun MainScreen(
 
     CompositionLocalProvider(
         LocalToastTrigger provides onShowToast,
+        LocalToastBottomInset provides toastBottomInset,
     ) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            bottomBar = {
-                MainBottomBar(
-                    isVisible = isBottomBarVisible,
-                    tabs = MainTab.entries.toPersistentList(),
-                    currentTab = currentTab,
-                    onTabSelected = appState::navigate,
-                    modifier = Modifier.navigationBarsPadding()
-                )
-            },
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState) { data ->
-                    val hapHapToastVisuals = data.visuals as HapHapToastVisuals
-
-                    HapHapToast(
-                        text = hapHapToastVisuals.message,
-                        isAlarm = hapHapToastVisuals.isAlarm,
-                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 70.dp),
+        Box(modifier = Modifier.fillMaxSize()) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                bottomBar = {
+                    MainBottomBar(
+                        isVisible = isBottomBarVisible,
+                        tabs = MainTab.entries.toPersistentList(),
+                        currentTab = currentTab,
+                        onTabSelected = appState::navigate,
+                        modifier = Modifier.navigationBarsPadding()
                     )
-                }
-            },
-        ) { innerPadding ->
+                },
+            ) { innerPadding ->
 
-            MainNavHost(
-                appState = appState,
-                innerPadding = innerPadding,
-            )
+                MainNavHost(
+                    appState = appState,
+                    innerPadding = innerPadding,
+                )
+            }
+
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding(),
+            ) { data ->
+                val hapHapToastVisuals = data.visuals as HapHapToastVisuals
+
+                HapHapToast(
+                    text = hapHapToastVisuals.message,
+                    isAlarm = hapHapToastVisuals.isAlarm,
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                        .padding(
+                            bottom = if (toastDisplayBottomInset > 20.dp) {
+                                toastDisplayBottomInset
+                            } else {
+                                0.dp
+                            },
+                        ),
+                )
+            }
         }
     }
 }
