@@ -70,9 +70,7 @@ fun HapHapBottomSheet(
         dragHandle = null,
     ) {
         Column(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(top = 16.dp, bottom = 33.dp),
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             content = {
                 var rowHeight by remember { mutableStateOf(0.dp) }
 
