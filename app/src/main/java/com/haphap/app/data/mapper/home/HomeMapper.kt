@@ -39,7 +39,6 @@ fun HomeRecentPostingsDto.toModel(): RecentCardModel =
         title = title,
         companyName = companyName,
         category = category,
-        nextStage = nextStage ?: "null",
-        dayUntilNextStage = daysUntilNextStage ?: 0,
-        //Todo: 상의 후 null값 변경 예정
+        nextStage = nextStage ?: "",
+        dayUntilNextStage = daysUntilNextStage,
     )

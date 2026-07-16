@@ -30,7 +30,4 @@ class JobDetailDataSourceImpl @Inject constructor(
 
     override suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit> =
         jobDetailService.deleteAlarms(postingId)
-
-    override suspend fun recordView(postingId: Int) =
-        jobDetailService.recordView(postingId)
 }

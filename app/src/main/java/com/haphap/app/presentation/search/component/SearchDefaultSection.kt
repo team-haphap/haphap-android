@@ -209,7 +209,7 @@ private fun SearchDefaultSectionPreview() {
                     imageUrl = "",
                     category = "개발",
                     nextStage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     companyName = "카카오",
                     title = "공고명"
                 ),
@@ -218,7 +218,7 @@ private fun SearchDefaultSectionPreview() {
                     imageUrl = "",
                     category = "개발",
                     nextStage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     companyName = "카카오",
                     title = "공고명"
                 ),
@@ -227,7 +227,7 @@ private fun SearchDefaultSectionPreview() {
                     imageUrl = "",
                     category = "개발",
                     nextStage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     companyName = "카카오",
                     title = "공고명"
                 )

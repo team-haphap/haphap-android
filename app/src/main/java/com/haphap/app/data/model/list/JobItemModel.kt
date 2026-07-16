@@ -5,7 +5,7 @@ data class JobItemModel(
     val imageUrl: String,
     val category: String,
     val stage: String,
-    val dDay: Int,
+    val dDay: String,
     val title: String,
     val content: String,
 )

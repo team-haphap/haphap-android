@@ -33,7 +33,7 @@ sealed interface SearchContract {
         val section: SearchSection
             get() = when {
                 searchResultListUiState !is SearchUiState.Idle -> SearchSection.Result
-                searchAutoCompleteUiState is SearchUiState.Success -> SearchSection.Searching
+                searchAutoCompleteList.isNotEmpty() || relatedKeywordList.isNotEmpty() -> SearchSection.Searching
                 else -> SearchSection.Default
             }
 

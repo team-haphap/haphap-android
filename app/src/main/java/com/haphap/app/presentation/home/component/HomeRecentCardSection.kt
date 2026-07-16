@@ -76,7 +76,7 @@ private fun HomeRecentCardSectionPreview() {
                     title = "공고명",
                     category = "개발/데이터",
                     nextStage = "서류",
-                    dayUntilNextStage = 2,
+                    dayUntilNextStage = "D-2",
                     companyName = "카카오",
                 ),
                 RecentCardModel(
@@ -85,7 +85,7 @@ private fun HomeRecentCardSectionPreview() {
                     title = "공고명",
                     category = "개발/데이터",
                     nextStage = "서류",
-                    dayUntilNextStage = 2,
+                    dayUntilNextStage = "D-2",
                     companyName = "카카오",
                 ),
                 RecentCardModel(
@@ -94,7 +94,7 @@ private fun HomeRecentCardSectionPreview() {
                     title = "공고명",
                     category = "인사",
                     nextStage = "서류",
-                    dayUntilNextStage = 2,
+                    dayUntilNextStage = "D-2",
                     companyName = "카카오",
                 ),
                 RecentCardModel(
@@ -103,7 +103,7 @@ private fun HomeRecentCardSectionPreview() {
                     title = "공고명",
                     category = "인사",
                     nextStage = "서류",
-                    dayUntilNextStage = 2,
+                    dayUntilNextStage = "D-2",
                     companyName = "카카오",
                 ),
             ),

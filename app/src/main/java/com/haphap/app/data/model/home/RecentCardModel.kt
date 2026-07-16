@@ -7,5 +7,5 @@ data class RecentCardModel(
     val companyName: String,
     val category: String,
     val nextStage: String,
-    val dayUntilNextStage: Int,
+    val dayUntilNextStage: String,
 )
