@@ -122,7 +122,7 @@ private fun SearchResultSectionPreview() {
                     companyName = "카카오",
                     category = "개발",
                     stage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     title = "공고 설명",
                 ),
                 SearchResultItemModel(
@@ -131,7 +131,7 @@ private fun SearchResultSectionPreview() {
                     companyName = "카카오",
                     category = "개발",
                     stage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     title = "공고 설명",
                 ),
                 SearchResultItemModel(
@@ -140,7 +140,7 @@ private fun SearchResultSectionPreview() {
                     companyName = "카카오",
                     category = "개발",
                     stage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     title = "공고 설명",
                 ),
                 SearchResultItemModel(
@@ -149,7 +149,7 @@ private fun SearchResultSectionPreview() {
                     companyName = "카카오",
                     category = "개발",
                     stage = "서류",
-                    dDay = 2,
+                    dDay = "D-2",
                     title = "공고 설명",
                 ),
             ),
