@@ -1,7 +1,9 @@
 package com.haphap.app.data.di.local
 
+import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalSearchDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
+import com.haphap.app.data.local.datasource.impl.LocalFcmDataSourceImpl
 import com.haphap.app.data.local.datasource.impl.LocalSearchDataSourceImpl
 import com.haphap.app.data.local.datasource.impl.LocalTokenDataSourceImpl
 import dagger.Binds
@@ -25,4 +27,10 @@ abstract class LocalDataSourceModule {
     abstract fun bindLocalRecentSearchDataSource(
         localRecentSearchDataSourceImpl: LocalSearchDataSourceImpl
     ): LocalSearchDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalDeviceDataSource(
+        localFcmDataSourceImpl: LocalFcmDataSourceImpl
+    ): LocalFcmDataSource
 }

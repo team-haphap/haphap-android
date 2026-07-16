@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.google.services)
 }
 
 val properties = Properties().apply {
@@ -92,6 +93,11 @@ dependencies {
     // Logging
     implementation(libs.timber)
     implementation(libs.lottie.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
 
     // Core Library Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
