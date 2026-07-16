@@ -11,8 +11,8 @@ private fun JobItemDto.toModel(): JobItemModel =
         id = id,
         imageUrl = imageUrl,
         category = category,
-        stage = nextStage ?: "null",
-        dDay = daysUntilNextStage ?: 0,
+        stage = nextStage ?: "",
+        dDay = daysUntilNextStage,
         title = companyName,
         content = title,
     )

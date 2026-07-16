@@ -56,6 +56,7 @@ class SearchViewModel @Inject constructor(
                             it.copy(
                                 searchAutoCompleteUiState = SearchUiState.Idle,
                                 searchResultListUiState = SearchUiState.Idle,
+                                storedSearchText = null,
                             )
                         }
                     }

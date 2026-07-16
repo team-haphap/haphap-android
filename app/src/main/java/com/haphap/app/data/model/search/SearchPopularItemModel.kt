@@ -5,7 +5,7 @@ data class SearchPopularItemModel(
     val imageUrl: String,
     val category: String,
     val nextStage: String,
-    val dDay: Int,
+    val dDay: String,
     val companyName: String,
     val title: String,
 )

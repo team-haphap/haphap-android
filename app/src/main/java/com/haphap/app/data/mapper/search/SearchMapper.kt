@@ -53,7 +53,7 @@ fun SearchResultItemDto.toModel(): SearchResultItemModel = SearchResultItemModel
     imageUrl = imageUrl,
     companyName = companyName,
     category = categoryName,
-    stage = nextStage,
+    stage = nextStage ?: "",
     dDay = dDay,
     title = title,
 )
