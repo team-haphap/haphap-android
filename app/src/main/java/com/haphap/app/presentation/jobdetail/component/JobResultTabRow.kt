@@ -28,6 +28,7 @@ fun JobResultTabRow(
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
+        modifier = modifier,
         contentPadding = PaddingValues(horizontal = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
