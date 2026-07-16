@@ -84,7 +84,7 @@ fun HomeListCardComponent(
             )
 
             Text(
-                text = "[$stageName] 발표 예상",
+                text = "$stageName 발표 예상",
                 style = HapHapTheme.typography.caption.r10,
                 color = HapHapTheme.colors.gray600,
             )
@@ -108,18 +108,17 @@ private fun HomeListCardImage(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(6.dp))
-            .background(HapHapTheme.colors.white)
+            .clip(shape = RoundedCornerShape(8.dp))
             .border(
                 color = HapHapTheme.colors.gray100,
                 width = 1.dp,
+                shape = RoundedCornerShape(8.dp),
             )
     ) {
         UrlImage(
             url = imageUrl,
-            placeholderDrawable = R.drawable.img_calendar_kakao,
             contentDescription = null,
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier.clip(shape = RoundedCornerShape(8.dp)),
         )
     }
 }
