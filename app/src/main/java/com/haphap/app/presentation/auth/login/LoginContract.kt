@@ -10,7 +10,6 @@ sealed interface LoginContract {
 
     sealed class SideEffect {
         data class NavigateToSignUpComplete(val userName: String) : SideEffect()
-        data class OnShowToast(val message: String) : SideEffect()
     }
 }
 

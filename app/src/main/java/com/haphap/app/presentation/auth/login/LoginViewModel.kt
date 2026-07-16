@@ -2,11 +2,8 @@ package com.haphap.app.presentation.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haphap.app.core.state.UiState
-import com.haphap.app.data.model.auth.KakaoLoginModel
 import com.haphap.app.data.repository.api.auth.AuthRepository
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
-import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,9 +37,6 @@ class LoginViewModel @Inject constructor(
             }
             .onFailure { throwable ->
                 _uiState.update { it.copy(loginUiState = LoginUiState.Failure) }
-                _sideEffect.send(
-                    OnShowToast(throwable.message ?: "로그인 처리 중 오류가 발생했습니다.")
-                )
             }
     }
 }

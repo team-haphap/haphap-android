@@ -34,7 +34,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
-import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.circular_progress_indicator.HapHapCircularProgressIndicator
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -57,9 +56,6 @@ fun LoginRoute(
                 when (sideEffect) {
                     is NavigateToSignUpComplete -> {
                         navigateToSignUpComplete(sideEffect.userName)
-                    }
-                    is OnShowToast -> {
-                        Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
