@@ -100,7 +100,8 @@ private fun SearchResultItem(
     Row(
         modifier = modifier
             .padding(end = 7.dp)
-            .padding(vertical = 7.dp),
+            .padding(vertical = 7.dp)
+            .noRippleClickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         UrlImage(
@@ -150,8 +151,7 @@ private fun SearchResultItem(
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
             modifier = Modifier
-                .size(20.dp)
-                .noRippleClickable(onClick = onClick),
+                .size(20.dp),
         )
     }
 
