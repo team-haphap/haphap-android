@@ -125,7 +125,7 @@ private fun RegisterScreen(
                         isText = true,
                     )
 
-                    if (uiState.step < 3) {
+                    if (uiState.step <= 3) {
                         RegisterProgressBar(
                             progress = uiState.step,
                             totalSteps = 3,
