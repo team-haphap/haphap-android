@@ -5,6 +5,7 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.remote.datasource.api.alarm.AlarmDataSource
 import com.haphap.app.data.remote.dto.alarm.AlarmDeviceRequestDto
+import com.haphap.app.data.remote.dto.checkNullData
 import com.haphap.app.data.repository.api.alarm.AlarmRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.sync.Mutex
@@ -65,7 +66,7 @@ class AlarmRepositoryImpl @Inject constructor(
                 fcmToken = fcmToken,
                 deviceType = DEVICE_TYPE,
             )
-        )
+        ).checkNullData()
 
         localFcmDataSource.setFcmToken(fcmToken)
     }
