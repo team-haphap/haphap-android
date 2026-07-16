@@ -18,7 +18,22 @@ class AlarmRepositoryImpl @Inject constructor(
 ) : AlarmRepository {
 
     private val registerMutex = Mutex()
+
+    override suspend fun registerDeviceId(): Result<Unit> {
+
+        return suspendRunCatching {
+            val fcmToken = firebaseMessagingManager.getFcmToken()
+                ?: throw IllegalStateException("FCM token is null")
+
+            registerMutex.withLock {
+                postAlarmDevice(fcmToken)
+            }
+        }.onSuccess {
+            Timber.tag(TAG).d("디바이스 등록 성공")
+        }.onFailure {
+            Timber.tag(TAG).e(it, "디바이스 등록 실패")
         }
+    }
 
     override suspend fun updateFcmToken(newFcmToken: String): Result<Unit> {
 
