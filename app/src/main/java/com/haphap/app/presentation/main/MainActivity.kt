@@ -48,6 +48,9 @@ class MainActivity : ComponentActivity() {
 
     private fun extractPostingId(intent: Intent): Int? {
         val postingId = intent.getIntExtra(HapHapFirebaseMessagingService.MESSAGE_POSTING_ID, -1)
+        if (postingId != -1) {
+            intent.removeExtra(HapHapFirebaseMessagingService.MESSAGE_POSTING_ID)
+        }
         return postingId.takeIf { it != -1 }
     }
 
