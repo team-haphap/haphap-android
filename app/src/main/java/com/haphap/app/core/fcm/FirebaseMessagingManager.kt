@@ -11,29 +11,33 @@ class FirebaseMessagingManager @Inject constructor() {
 
     suspend fun getFcmToken(): String? = suspendCancellableCoroutine { continuation ->
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Timber.tag(TAG).e("FCM Token 불러오기 실패했습니다. ${task.exception}")
-                continuation.resume(null)
-                return@addOnCompleteListener
-            }
+            if (continuation.isActive) {
+                if (!task.isSuccessful) {
+                    Timber.tag(TAG).e("FCM Token 불러오기 실패했습니다. ${task.exception}")
+                    continuation.resume(null)
+                    return@addOnCompleteListener
+                }
 
-            val token = task.result
-            Timber.tag(TAG).d("토큰 : $token")
-            continuation.resume(token)
+                val token = task.result
+                Timber.tag(TAG).d("토큰 : $token")
+                continuation.resume(token)
+            }
         }
     }
 
     suspend fun getInstallationId(): String? = suspendCancellableCoroutine { continuation ->
         FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Timber.tag(TAG).e("FireBaseInstallations id 불러오기 실패했습니다 : ${task.exception}")
-                continuation.resume(null)
-                return@addOnCompleteListener
-            }
+            if (continuation.isActive) {
+                if (!task.isSuccessful) {
+                    Timber.tag(TAG).e("FireBaseInstallations id 불러오기 실패했습니다 : ${task.exception}")
+                    continuation.resume(null)
+                    return@addOnCompleteListener
+                }
 
-            val installationId = task.result
-            Timber.tag(TAG).d("device ID : $installationId")
-            continuation.resume(installationId)
+                val installationId = task.result
+                Timber.tag(TAG).d("device ID : $installationId")
+                continuation.resume(installationId)
+            }
         }
     }
 
