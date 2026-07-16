@@ -11,6 +11,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +25,7 @@ import com.haphap.app.core.designsystem.component.toast.HapHapToast
 import com.haphap.app.core.designsystem.component.toast.HapHapToastVisuals
 import com.haphap.app.core.designsystem.component.toast.LocalToastBottomInset
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.main.component.MainBottomBar
 import com.haphap.app.presentation.main.component.MainTab
 import kotlinx.collections.immutable.toPersistentList
@@ -36,10 +38,19 @@ private const val TOAST_DURATION = 3000L
 @Composable
 fun MainScreen(
     appState: MainAppState = rememberMainAppState(),
+    extractedPostingId: Int? = null,
+    resetExtractedPostingId: () -> Unit = {},
 ) {
     val currentTab by appState.currentTab.collectAsStateWithLifecycle()
     val isBottomBarVisible by appState.isBottomBarVisible.collectAsStateWithLifecycle()
     val isHomeTab = currentTab == MainTab.HOME
+
+    LaunchedEffect(extractedPostingId, currentTab) {
+        if (extractedPostingId != null && currentTab != null) {
+            appState.navController.navigateToJobDetail(extractedPostingId)
+            resetExtractedPostingId()
+        }
+    }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
