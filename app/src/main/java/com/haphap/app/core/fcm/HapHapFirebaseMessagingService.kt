@@ -98,9 +98,9 @@ class HapHapFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
+        const val MESSAGE_POSTING_ID = "postingId"
         private const val MESSAGE_TITLE = "title"
         private const val MESSAGE_BODY = "body"
-        private const val MESSAGE_POSTING_ID = "postingId"
         private const val CHANNEL_ID = "haphap_default_channel"
         private const val CHANNEL_NAME = "일반 알림"
     }
