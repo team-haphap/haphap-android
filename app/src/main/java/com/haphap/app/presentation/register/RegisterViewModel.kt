@@ -154,7 +154,7 @@ class RegisterViewModel @Inject constructor(
                             _uiState.update { it.copy(isChangeModalVisible = true) }
                         }
                         RegistrationCheckType.DUPLICATE -> {
-                            _sideEffect.send(OnShowToast("이미 등록한 결과입니다."))
+                            _sideEffect.send(OnShowToast("이미 등록한 결과입니다"))
                             _uiState.update {
                                 it.copy(selectedResult = null, isButtonEnabled = false)
                             }

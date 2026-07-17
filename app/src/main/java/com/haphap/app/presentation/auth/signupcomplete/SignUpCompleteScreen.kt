@@ -55,7 +55,7 @@ fun SignUpCompleteScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "지원자들의 결과를 확인하고 내 상태도 등록해보세요.",
+            text = "지원자들의 결과를 확인하고 내 상태도 등록해보세요",
             style = HapHapTheme.typography.body.m14,
             color = HapHapTheme.colors.gray500,
         )
