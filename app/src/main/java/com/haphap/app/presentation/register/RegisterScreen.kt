@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -18,6 +21,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
+import com.haphap.app.core.designsystem.component.toast.LocalToastBottomInset
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
@@ -114,6 +118,13 @@ private fun RegisterScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val density = LocalDensity.current
+    val toastBottomInset = LocalToastBottomInset.current
+
+    DisposableEffect(Unit) {
+        onDispose { toastBottomInset.value = 0.dp }
+    }
+
     Scaffold(
         modifier = modifier,
         containerColor = HapHapTheme.colors.white,
@@ -148,7 +159,10 @@ private fun RegisterScreen(
                 onClick = onNextClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp),
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .onSizeChanged { size ->
+                        toastBottomInset.value = with(density) { size.height.toDp() }
+                    },
             )
         }
     ) { innerPadding ->
