@@ -51,7 +51,7 @@ fun HomeListCardSection(
                     }
             }
 
-            Spacer(modifier = Modifier.height(52.dp))
+            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }
