@@ -23,6 +23,7 @@ fun JobDetailDto.toJobDetailModel(): JobDetailModel {
         bannerImageUrl = companyImageUrl,
         participant = toJobParticipantModel(),
         reports = toJobStepReportModels(),
+        alarmEnabled = alarmEnabled,
     )
 }
 

@@ -28,7 +28,7 @@ fun MyPageTopSection(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "${nameText}님의 합격 여정을 합합이 응원할게요.",
+            text = "${nameText}님의 합격 여정을 합합이 응원할게요",
             color = HapHapTheme.colors.gray500,
             style = HapHapTheme.typography.body.m14,
         )

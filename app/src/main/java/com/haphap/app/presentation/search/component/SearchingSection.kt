@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -47,7 +49,8 @@ fun SearchingSection(
     Column(
         modifier = modifier
             .padding(top = 12.dp)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         searchAutoCompleteList.forEach {
             SearchResultItem(
@@ -100,7 +103,8 @@ private fun SearchResultItem(
     Row(
         modifier = modifier
             .padding(end = 7.dp)
-            .padding(vertical = 7.dp),
+            .padding(vertical = 7.dp)
+            .noRippleClickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         UrlImage(
@@ -150,8 +154,7 @@ private fun SearchResultItem(
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
             modifier = Modifier
-                .size(20.dp)
-                .noRippleClickable(onClick = onClick),
+                .size(20.dp),
         )
     }
 

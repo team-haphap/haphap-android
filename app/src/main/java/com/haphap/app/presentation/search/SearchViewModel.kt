@@ -10,6 +10,7 @@ import com.haphap.app.data.repository.api.SearchRepository
 import com.haphap.app.presentation.search.SearchContract.SideEffect
 import com.haphap.app.presentation.search.SearchContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -54,7 +55,10 @@ class SearchViewModel @Inject constructor(
                     text.isBlank() -> {
                         _uiState.update {
                             it.copy(
+                                searchAutoCompleteList = persistentListOf(),
+                                relatedKeywordList = persistentListOf(),
                                 searchAutoCompleteUiState = SearchUiState.Idle,
+                                relatedKeywordListUiState = SearchUiState.Idle,
                                 searchResultListUiState = SearchUiState.Idle,
                                 storedSearchText = null,
                             )

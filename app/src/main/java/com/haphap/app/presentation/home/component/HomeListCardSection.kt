@@ -28,7 +28,7 @@ fun HomeListCardSection(
     ) {
         if (todayExpectedCardList.isEmpty()) {
             HomeEmptyComponent(
-                text = "오늘 발표 예상 공고가 없습니다.",
+                text = "오늘 발표 예상 공고가 없습니다",
             )
         } else {
             Column(
@@ -51,7 +51,7 @@ fun HomeListCardSection(
                     }
             }
 
-            Spacer(modifier = Modifier.height(52.dp))
+            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }

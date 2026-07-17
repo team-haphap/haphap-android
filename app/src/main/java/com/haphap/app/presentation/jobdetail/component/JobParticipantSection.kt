@@ -53,7 +53,7 @@ fun JobParticipantSection(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "이 공고에 지원한 사람들이 자신의 전형 결과를 등록하고 있어요.",
+            text = "이 공고에 지원한 사람들이 자신의 전형 결과를 등록하고 있어요",
             style = HapHapTheme.typography.caption.m12,
             color = HapHapTheme.colors.gray600,
         )

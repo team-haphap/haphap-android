@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.auth.login
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,11 +32,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.circular_progress_indicator.HapHapCircularProgressIndicator
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
 
 @Composable
 fun LoginRoute(
@@ -71,9 +70,7 @@ fun LoginRoute(
                 onSuccess = { kakaoAccessToken ->
                     viewModel.kakaoLogin(kakaoAccessToken)
                 },
-                onFailure = {
-                    Toast.makeText(context, "잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
-                },
+                onFailure = {},
             )
         },
         modifier = modifier,
@@ -131,7 +128,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 Text(
-                    text = "회원 서비스 이용을 위해 로그인해주세요.",
+                    text = "회원 서비스 이용을 위해 로그인해주세요",
                     style = HapHapTheme.typography.caption.r10,
                     color = HapHapTheme.colors.gray600,
                 )

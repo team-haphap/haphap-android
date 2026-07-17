@@ -109,6 +109,7 @@ class JobDetailViewModel @Inject constructor(
                             bannerImageUrl = model.bannerImageUrl,
                             participant = model.participant,
                             reports = model.reports,
+                            isAlarmActive = model.alarmEnabled,
                             uiState = JobDetailUiState.Success,
                         )
                     }

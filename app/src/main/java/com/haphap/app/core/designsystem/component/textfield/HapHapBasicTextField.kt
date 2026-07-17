@@ -1,6 +1,7 @@
 package com.haphap.app.core.designsystem.component.textfield
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,8 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,6 +68,9 @@ fun HapHapBasicTextField(
     cursorColor: Color = textColor,
     suffix: (@Composable () -> Unit)? = null,
 ) {
+    val internalInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val isFocused by internalInteractionSource.collectIsFocusedAsState()
+
     BasicTextField(
         state = state,
         modifier = modifier,
@@ -81,12 +87,12 @@ fun HapHapBasicTextField(
         decorator = { innerTextField ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-            ){
+            ) {
                 Box(
                     modifier = Modifier.weight(1f),
                     contentAlignment = Alignment.CenterStart
-                ){
-                    if (state.text.isEmpty()) {
+                ) {
+                    if (!isFocused && state.text.isEmpty()) {
                         Text(
                             text = placeholder,
                             color = placeholderColor,
@@ -106,7 +112,7 @@ fun HapHapBasicTextField(
 private fun HapHapBasicTextFieldPreview() {
     val state = rememberTextFieldState(initialText = "")
 
-    HapHapTheme{
+    HapHapTheme {
         HapHapBasicTextField(
             state = state,
             textColor = HapHapTheme.colors.gray800,

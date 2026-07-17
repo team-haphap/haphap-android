@@ -34,7 +34,7 @@ fun HomeRecentCardSection(
         if (recentCardList.isEmpty()) {
 
             HomeEmptyComponent(
-                text = "최근 결과가 올라온 공고가 없습니다.",
+                text = "최근 결과가 올라온 공고가 없습니다",
             )
         } else {
             LazyRow(

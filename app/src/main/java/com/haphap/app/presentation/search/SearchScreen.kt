@@ -4,9 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.input.TextFieldState
@@ -117,6 +122,7 @@ private fun SearchScreen(
     Column(
         modifier = modifier
             .background(color = HapHapTheme.colors.white)
+            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
             .padding(top = 10.dp),
     ) {
         Row(
@@ -151,6 +157,7 @@ private fun SearchScreen(
                     onRecentItemClick = onRecentItemClick,
                     onDeleteClick = onDeleteClick,
                     onCardClick = onTrendCardClick,
+                    modifier = Modifier.weight(1f),
                 )
 
             SearchSection.Searching ->
@@ -159,6 +166,7 @@ private fun SearchScreen(
                     relatedKeywordList = uiState.relatedKeywordList,
                     onAutoCompleteItemClick = onAutoCompleteItemClick,
                     onRelatedItemClick = onRelatedItemClick,
+                    modifier = Modifier.weight(1f),
                 )
 
             SearchSection.Result ->
@@ -171,6 +179,7 @@ private fun SearchScreen(
                     searchResultList = uiState.searchResultList,
                     onCardClick = onResultCardClick,
                     onLoadMoreSearchList = onLoadMoreSearchList,
+                    modifier = Modifier.weight(1f),
                 )
         }
     }
