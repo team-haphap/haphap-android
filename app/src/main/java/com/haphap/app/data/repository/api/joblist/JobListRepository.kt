@@ -1,4 +1,4 @@
-package com.haphap.app.data.repository.api
+package com.haphap.app.data.repository.api.joblist
 
 import com.haphap.app.data.model.list.JobItemModel
 

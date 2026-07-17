@@ -4,7 +4,7 @@ import com.haphap.app.data.remote.datasource.api.auth.AuthDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.auth.KakaoLoginRequestDto
 import com.haphap.app.data.remote.dto.auth.KakaoLoginResponseDto
-import com.haphap.app.data.remote.service.auth.AuthService
+import com.haphap.app.data.remote.service.AuthService
 import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(

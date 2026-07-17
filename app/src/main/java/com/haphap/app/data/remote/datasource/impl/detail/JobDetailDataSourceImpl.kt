@@ -6,7 +6,7 @@ import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
-import com.haphap.app.data.remote.service.detail.JobDetailService
+import com.haphap.app.data.remote.service.JobDetailService
 import jakarta.inject.Inject
 
 class JobDetailDataSourceImpl @Inject constructor(

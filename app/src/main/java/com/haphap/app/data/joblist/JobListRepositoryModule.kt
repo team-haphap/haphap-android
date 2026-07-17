@@ -1,7 +1,7 @@
 package com.haphap.app.data.joblist
 
-import com.haphap.app.data.repository.api.JobListRepository
-import com.haphap.app.data.repository.impl.JobListRepositoryImpl
+import com.haphap.app.data.repository.api.joblist.JobListRepository
+import com.haphap.app.data.repository.impl.joblist.JobListRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

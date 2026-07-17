@@ -2,7 +2,7 @@ package com.haphap.app.presentation.joblist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haphap.app.data.repository.api.JobListRepository
+import com.haphap.app.data.repository.api.joblist.JobListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow

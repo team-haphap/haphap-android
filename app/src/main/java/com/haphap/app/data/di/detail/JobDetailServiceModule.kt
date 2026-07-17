@@ -1,6 +1,6 @@
 package com.haphap.app.data.di.detail
 
-import com.haphap.app.data.remote.service.detail.JobDetailService
+import com.haphap.app.data.remote.service.JobDetailService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
