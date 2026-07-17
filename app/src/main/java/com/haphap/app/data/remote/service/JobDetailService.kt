@@ -1,4 +1,4 @@
-package com.haphap.app.data.remote.service.detail
+package com.haphap.app.data.remote.service
 
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.detail.JobDetailDto

@@ -1,6 +1,6 @@
 package com.haphap.app.data.di.register
 
-import com.haphap.app.data.remote.service.register.RegisterService
+import com.haphap.app.data.remote.service.RegisterService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

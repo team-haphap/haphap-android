@@ -1,9 +1,8 @@
-package com.haphap.app.data.repository.api
+package com.haphap.app.data.repository.api.search
 
-import com.airbnb.lottie.L
 import com.haphap.app.data.model.search.RecentSearchItemModel
-import com.haphap.app.data.model.search.SearchResultPageModel
 import com.haphap.app.data.model.search.SearchPopularItemModel
+import com.haphap.app.data.model.search.SearchResultPageModel
 import com.haphap.app.data.model.search.SearchingModel
 import kotlinx.coroutines.flow.Flow
 

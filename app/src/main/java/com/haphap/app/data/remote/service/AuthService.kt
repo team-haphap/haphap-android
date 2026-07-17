@@ -1,4 +1,4 @@
-package com.haphap.app.data.remote.service.auth
+package com.haphap.app.data.remote.service
 
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.auth.KakaoLoginRequestDto

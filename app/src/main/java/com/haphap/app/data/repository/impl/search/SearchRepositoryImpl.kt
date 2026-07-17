@@ -1,4 +1,4 @@
-package com.haphap.app.data.repository.impl
+package com.haphap.app.data.repository.impl.search
 
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalSearchDataSource
@@ -9,7 +9,7 @@ import com.haphap.app.data.model.search.SearchResultPageModel
 import com.haphap.app.data.model.search.SearchingModel
 import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.checkData
-import com.haphap.app.data.repository.api.SearchRepository
+import com.haphap.app.data.repository.api.search.SearchRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -7,7 +7,7 @@ import com.haphap.app.data.remote.dto.register.RegisterRequestDto
 import com.haphap.app.data.remote.dto.register.RegisterStageListResponseDto
 import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.remote.dto.register.RegistrationResponseDto
-import com.haphap.app.data.remote.service.register.RegisterService
+import com.haphap.app.data.remote.service.RegisterService
 import jakarta.inject.Inject
 
 class RegisterDataSourceImpl @Inject constructor(

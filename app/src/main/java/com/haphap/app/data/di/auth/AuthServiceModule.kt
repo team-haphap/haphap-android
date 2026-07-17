@@ -1,7 +1,7 @@
 package com.haphap.app.data.di.auth
 
 import com.haphap.app.core.network.di.Auth
-import com.haphap.app.data.remote.service.auth.AuthService
+import com.haphap.app.data.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
