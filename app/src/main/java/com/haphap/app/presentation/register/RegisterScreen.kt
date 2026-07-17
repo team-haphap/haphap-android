@@ -118,12 +118,6 @@ private fun RegisterScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val density = LocalDensity.current
-    val toastBottomInset = LocalToastBottomInset.current
-
-    DisposableEffect(Unit) {
-        onDispose { toastBottomInset.value = 0.dp }
-    }
 
     Scaffold(
         modifier = modifier,
@@ -159,10 +153,7 @@ private fun RegisterScreen(
                 onClick = onNextClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
-                    .onSizeChanged { size ->
-                        toastBottomInset.value = with(density) { size.height.toDp() }
-                    },
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
             )
         }
     ) { innerPadding ->
