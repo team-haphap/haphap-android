@@ -1,21 +1,34 @@
 # HAPHAP-ANDROID
----
+
 **합합**은 채용 공고 지원 이후 발생하는 정보 공백을 줄이기 위한 채용 결과 공유 플랫폼입니다.
 <br/><br/>
 사용자는 공고별 결과 현황, 전형 단계, 예상 발표일 등을 확인하며 현재 자신의 상황을 보다 명확하게 파악할 수 있습니다. 또한 알림, 합격 카드 등을 통해 지원 이후의 과정을 트래킹하고 합격에 대한 긍정적인 경험을 제공합니다.
 <br/>
 흩어져 있는 채용 결과 정보를 한곳에 모아 기다림의 시간을 함께 보내고, 더 선명한 정보 속에서 불확실성과 불안을 줄이도록 돕습니다.
-<br/>
+
+
 
 ## **✨ Contributors**
 
 |            😻이지민(LEAD)<br/>[@vahkjsdf](https://github.com/vahkjsdf)           |            😻박찬미<br/>[@chanmi1125](https://github.com/chanmi1125)            |            😻강승희<br/>[@seunghee0321](https://github.com/seunghee0321)         |                                                                          😻송서현<br/>[@Hiimynameiss](https://github.com/Hiimynameiss)                                                                          |               😻박지영<br/>[@jiyoung2ee](https://github.com/jiyoung2ee)          |
 |:--------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|
-| <img src="https://i.namu.wiki/i/Rti8L28WGRCPo4xGjg5KDzFhWGSRsmYH_F4wWPuKE6EfsYTBtWPG9NNC83oSsw-Ad6ZY2KcuWTSi06WAaXifYSvW39r1Pt3XXpXxHFTqR82_S14U4mozWroeU5uFO_PM0cc-oAZfbaaTmjXpLzitNA.webp" height="200" /> | <img src="https://i.namu.wiki/i/DGwSB9Pi-Ix9ZuM4xnka3eduALV7vkdhyJcZpPCj7cxUyIu262f96qKGyGcXNhv9vh4zClisSW-ZJihHBBUv_bEAXjoP5gGbB-Gn_CKkZ9D5RRDZ_yd2nO_BfxG8RDu3kDLPvTBAKuexGNAPsrpweA.webp" height="200" /> | <img src="https://i.namu.wiki/i/IRdFZU8JBhS1STIQyqdG53mIAIaYNy4kRwp2yuabNQ-kboh6IeElNcBMOHICjMnJpeYXcIojSC7KDZr0YK1QkEmMomcnKcxvkjzSeApMoyVWPvMkfHw6plr2fIpVAM--inXjhoOui-YN5lqk8A078g.webp" height="200" /> | <img src="https://i.namu.wiki/i/s0UwHGQBooU9zJ29DYPTtk42MzwcyirUugyKvcwLKb-hCeZu_LI4tmMDU3a9pvhBeSg0bxjK2ArojF_jUkvaB7PSQP8zkfj7o4hsal4Id12baTum_01ducXMvPTplieTIg5901dn3bkVVrwW5CZ5xA.webp" height="200" /> | <img src="https://i.namu.wiki/i/lTIDnZTRa9omGtUKKbJvSr5-45QgFCAK8Co47FwkMq8XQOBAJAb_hLDUBKCdsFevuTXaK9YtdIQi_wZzA3_WLrOmTzDm_B3lD604njxgEswL6Luyoxpi8CQcfhrte3cQE_Sej48912yXENc0nYcdiQ.webp" height="200" /> |
+| <img src="https://github.com/user-attachments/assets/60a5296c-6f83-4ac0-b37b-16d248ae8b20" width ="200" /> | <img src="https://github.com/user-attachments/assets/202fb383-ba66-4d6e-8a69-12a4df856b62" width="200" /> | <img src="https://github.com/user-attachments/assets/3e7f40c0-952d-4890-ad49-439916a4995e" width="200" /> | <img src="https://github.com/user-attachments/assets/5bfc278e-1571-444d-be11-5057f0aedbf5" width="200" /> | <img src="https://github.com/user-attachments/assets/125891c1-f8e5-4c91-be3f-c3732e7c5b93" width="200" /> |
 |                        `검색`, `알림`, `공고리스트`                               |                                `캘린더`                                          |                            `공고 상세페이지`                                      |                                                                                    `카카오 로그인`,<br/> `상태 등록하기`,<br/> `합격카드`                                                                                    |                                       `홈`                                       |
 
 <br/>
+<br/>
 
+## **💘 Contents**
+
+
+<img width="1920" height="1080" alt="93" src="https://github.com/user-attachments/assets/739d3c61-417e-4397-b040-8c4872296f1c" />
+<img width="1920" height="1080" alt="94" src="https://github.com/user-attachments/assets/0d63d740-2361-4806-800f-1fd322e7fe4f" />
+<img width="1920" height="1080" alt="95" src="https://github.com/user-attachments/assets/b8d34527-df3f-461a-8074-55c5bc69d306" />
+<img width="1920" height="1080" alt="97" src="https://github.com/user-attachments/assets/e40a4fd9-d26d-4851-ad9e-99fd24bea06f" />
+
+
+
+<br/>
 <br/>
 
 ## **⚒️ Tech Stacks**
