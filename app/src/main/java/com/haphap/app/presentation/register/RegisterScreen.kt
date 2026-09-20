@@ -8,15 +8,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -118,6 +121,17 @@ private fun RegisterScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val density = LocalDensity.current
+    val toastBottomInset = LocalToastBottomInset.current
+    var currentMeasuredInset by remember { mutableStateOf(0.dp) }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        toastBottomInset.value = currentMeasuredInset
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
+        toastBottomInset.value = 0.dp
+    }
 
     Scaffold(
         modifier = modifier,
@@ -153,7 +167,12 @@ private fun RegisterScreen(
                 onClick = onNextClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp),
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .onSizeChanged { size ->
+                        val measuredDp = with(density) { size.height.toDp() }
+                        currentMeasuredInset = measuredDp
+                        toastBottomInset.value = measuredDp
+                    },
             )
         }
     ) { innerPadding ->
