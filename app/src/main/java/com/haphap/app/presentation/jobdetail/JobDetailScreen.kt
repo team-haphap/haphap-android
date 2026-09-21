@@ -17,7 +17,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,11 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
@@ -112,9 +112,14 @@ private fun JobDetailScreen(
 ) {
     val density = LocalDensity.current
     val toastBottomInset = LocalToastBottomInset.current
+    var currentMeasuredInset by remember { mutableStateOf(0.dp) }
 
-    DisposableEffect(Unit) {
-        onDispose { toastBottomInset.value = 0.dp }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        toastBottomInset.value = currentMeasuredInset
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
+        toastBottomInset.value = 0.dp
     }
 
     Scaffold(
@@ -134,7 +139,9 @@ private fun JobDetailScreen(
                     .background(HapHapTheme.colors.white)
                     .padding(horizontal = 20.dp, vertical = 10.dp)
                     .onSizeChanged { size ->
-                        toastBottomInset.value = with(density) { size.height.toDp() }
+                        val measuredDp = with(density) { size.height.toDp() }
+                        currentMeasuredInset = measuredDp
+                        toastBottomInset.value = measuredDp
                     },
             ) {
                 HapHapBasicButton(
