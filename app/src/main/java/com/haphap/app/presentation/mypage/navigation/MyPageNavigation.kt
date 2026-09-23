@@ -7,7 +7,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
+import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.mypage.MyPageRoute
 import kotlinx.serialization.Serializable
 
@@ -17,9 +19,15 @@ fun NavController.navigateToMyPage(
 
 fun NavGraphBuilder.myPageGraph(
     innerPadding: PaddingValues,
+    navController: NavController,
 ) {
     composable<MyPage> {
         MyPageRoute(
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }

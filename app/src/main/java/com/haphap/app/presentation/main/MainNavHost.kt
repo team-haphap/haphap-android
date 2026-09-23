@@ -74,6 +74,7 @@ fun MainNavHost(
 
         myPageGraph(
             innerPadding = innerPadding,
+            navController = navController,
         )
 
         searchGraph(
