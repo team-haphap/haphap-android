@@ -59,8 +59,7 @@ private fun MyPageScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         MyPageTopBar(
             onBackClick = onBackClick,
