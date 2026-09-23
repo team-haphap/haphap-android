@@ -52,7 +52,7 @@ class MainAppState(
     val isBottomBarVisible: StateFlow<Boolean> = currentDestination
         .map { destination ->
             MainTab.entries
-                .filterNot { it == MainTab.REGISTER }
+                .filterNot { it == MainTab.REGISTER || it == MainTab.MYPAGE }
                 .any { tab -> destination?.hasRoute(tab.route::class) == true }
         }
         .stateIn(

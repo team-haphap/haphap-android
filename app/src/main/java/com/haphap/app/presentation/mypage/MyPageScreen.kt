@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.mypage.component.MyPageProfileCard
+import com.haphap.app.presentation.mypage.component.MyPageTopBar
 import com.haphap.app.presentation.mypage.component.MyPageTopSection
 
 @Composable
@@ -36,9 +36,15 @@ private fun MyPageScreen(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .padding(top = 43.dp),
+            .fillMaxSize(),
     ) {
+        MyPageTopBar(
+            onBackClick = {},
+            onSettingClick = {},
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         MyPageTopSection(
             nameText = uiState.nameText,
         )
