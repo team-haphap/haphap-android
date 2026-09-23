@@ -15,6 +15,7 @@ import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
 import com.haphap.app.presentation.search.navigation.searchGraph
+import com.haphap.app.presentation.setting.navigation.settingGraph
 import com.haphap.app.presentation.splash.navigation.splashGraph
 
 private const val NavigationAnimationDurationMillis = 700
@@ -73,6 +74,11 @@ fun MainNavHost(
         )
 
         myPageGraph(
+            innerPadding = innerPadding,
+            navController = navController,
+        )
+
+        settingGraph(
             innerPadding = innerPadding,
             navController = navController,
         )

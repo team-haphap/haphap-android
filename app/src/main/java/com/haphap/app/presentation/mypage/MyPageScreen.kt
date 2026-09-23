@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToSetting
 import com.haphap.app.presentation.mypage.component.MyPageProfileCard
 import com.haphap.app.presentation.mypage.component.MyPageTopBar
 import com.haphap.app.presentation.mypage.component.MyPageTopSection
@@ -24,6 +25,7 @@ import com.haphap.app.presentation.mypage.component.MyPageTopSection
 @Composable
 fun MyPageRoute(
     navigateToHome: () -> Unit,
+    navigateToSetting: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
@@ -35,6 +37,7 @@ fun MyPageRoute(
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     is NavigateToHome -> navigateToHome()
+                    is NavigateToSetting -> navigateToSetting()
                 }
             }
         }
@@ -43,6 +46,7 @@ fun MyPageRoute(
     MyPageScreen(
         uiState = uiState,
         onBackClick = viewModel::onBackClick,
+        onSettingClick = viewModel::onSettingClick,
         modifier = modifier,
     )
 }
@@ -51,6 +55,7 @@ fun MyPageRoute(
 private fun MyPageScreen(
     uiState: MyPageContract.State,
     onBackClick: () -> Unit,
+    onSettingClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -59,7 +64,7 @@ private fun MyPageScreen(
     ) {
         MyPageTopBar(
             onBackClick = onBackClick,
-            onSettingClick = {},
+            onSettingClick = onSettingClick,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -88,6 +93,7 @@ private fun MyPageScreenPreview() {
                 emailText = "yeonsoo1234@naver.com",
             ),
             onBackClick = {},
+            onSettingClick = {},
         )
     }
 }

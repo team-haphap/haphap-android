@@ -12,6 +12,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToSetting
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -61,6 +62,12 @@ class MyPageViewModel @Inject constructor(
     fun onBackClick() {
         viewModelScope.launch {
             _sideEffect.send(NavigateToHome)
+        }
+    }
+
+    fun onSettingClick() {
+        viewModelScope.launch {
+            _sideEffect.send(NavigateToSetting)
         }
     }
 }

@@ -11,6 +11,7 @@ import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.mypage.MyPageRoute
+import com.haphap.app.presentation.setting.navigation.navigateToSetting
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToMyPage(
@@ -27,6 +28,9 @@ fun NavGraphBuilder.myPageGraph(
                 navController.navigateToHome(
                     navOptions = navController.clearBackStackNavOptions()
                 )
+            },
+            navigateToSetting = {
+                navController.navigateToSetting()
             },
             modifier = Modifier.padding(innerPadding),
         )
