@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,5 +25,18 @@ class SettingViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _sideEffect.send(NavigateToMyPage)
         }
+    }
+
+    fun onLogoutClick() {
+        _uiState.update { it.copy(isLogoutDialogVisible = true) }
+    }
+
+    fun onLogoutDialogDismiss() {
+        _uiState.update { it.copy(isLogoutDialogVisible = false) }
+    }
+
+    fun onLogoutConfirm() {
+        _uiState.update { it.copy(isLogoutDialogVisible = false) }
+        // TODO: 로그아웃 처리
     }
 }

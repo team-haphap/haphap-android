@@ -3,6 +3,7 @@ package com.haphap.app.presentation.setting
 sealed interface SettingContract {
     data class State(
         val settingUiState: SettingUiState = SettingUiState.Idle,
+        val isLogoutDialogVisible: Boolean = false,
     )
 
     sealed interface SideEffect {

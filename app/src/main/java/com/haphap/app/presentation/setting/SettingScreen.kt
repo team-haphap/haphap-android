@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import com.haphap.app.presentation.setting.component.SettingMenuItem
@@ -44,6 +45,9 @@ fun SettingRoute(
     SettingScreen(
         uiState = uiState,
         onBackClick = viewModel::onBackClick,
+        onLogoutClick = viewModel::onLogoutClick,
+        onLogoutDialogDismiss = viewModel::onLogoutDialogDismiss,
+        onLogoutConfirm = viewModel::onLogoutConfirm,
         modifier = modifier,
     )
 }
@@ -52,8 +56,19 @@ fun SettingRoute(
 private fun SettingScreen(
     uiState: SettingContract.State,
     onBackClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onLogoutDialogDismiss: () -> Unit,
+    onLogoutConfirm: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (uiState.isLogoutDialogVisible) {
+        HapHapDialog(
+            content = "로그아웃 하시겠습니까?",
+            onDismiss = onLogoutDialogDismiss,
+            onConfirmClick = onLogoutConfirm,
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -87,6 +102,7 @@ private fun SettingScreen(
         SettingMenuItem(
             text = "로그아웃",
             textColor = HapHapTheme.colors.subred,
+            onClick = onLogoutClick,
         )
         SettingMenuItem(text = "회원 탈퇴")
     }
