@@ -60,6 +60,7 @@ fun RegisterSecondSection(
             content = "이전에 등록한 결과가 있습니다.\n선택한 결과로 변경할까요?",
             onDismiss = onChangeModalCancelClick,
             onConfirmClick = onChangeModalConfirmClick,
+            iconTrue = true,
         )
     }
 }

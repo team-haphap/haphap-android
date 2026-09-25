@@ -47,6 +47,7 @@ fun HapHapDialog(
     ) {
         Column(
             modifier = modifier
+                .padding(horizontal = 31.dp)
                 .fillMaxWidth()
                 .background(
                     color = HapHapTheme.colors.white,
@@ -81,7 +82,7 @@ fun HapHapDialog(
 
             Row(
                 modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(11.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 HapHapBasicButton(
                     text = "취소",
