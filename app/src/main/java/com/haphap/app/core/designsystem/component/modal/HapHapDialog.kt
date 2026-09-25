@@ -31,6 +31,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
  * @param content 다이얼로그 본문에 표시할 안내 문구
  * @param onDismiss 다이얼로그 바깥 영역 또는 "취소" 버튼 클릭 시 호출되는 콜백
  * @param onConfirmClick "확인" 버튼 클릭 시 호출되는 콜백
+ * @param iconTrue 다이얼로그에 아이콘이 있는 지 설정하는 변수
  */
 
 @Composable
@@ -39,6 +40,7 @@ fun HapHapDialog(
     onDismiss: () -> Unit,
     onConfirmClick: () -> Unit,
     modifier: Modifier = Modifier,
+    iconTrue: Boolean = false,
 ) {
     Dialog (
         onDismissRequest = onDismiss,
@@ -50,16 +52,23 @@ fun HapHapDialog(
                     color = HapHapTheme.colors.white,
                     shape = RoundedCornerShape(16.dp),
                 )
-                .padding(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 21.dp),
+                .padding(
+                    start = 19.dp,
+                    top = 16.dp,
+                    end = 19.dp,
+                    bottom = if (iconTrue) 21.dp else 16.dp,
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
-                contentDescription = null,
-                tint = HapHapTheme.colors.gray200,
-            )
+            if (iconTrue) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
+                    contentDescription = null,
+                    tint = HapHapTheme.colors.gray200,
+                )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             Text(
                 text = content,
@@ -98,9 +107,10 @@ fun HapHapDialog(
 private fun HapHapDialogPreview() {
     HapHapTheme {
         HapHapDialog(
-            content = "이전에 등록한 결과가 있습니다.\n결과를 변경할까요?",
+            content = "로그아웃 하시겠습니까?",
             onDismiss = {},
             onConfirmClick = {},
+            iconTrue = false,
         )
     }
 }
