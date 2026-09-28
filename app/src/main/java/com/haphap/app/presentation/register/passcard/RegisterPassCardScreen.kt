@@ -3,12 +3,14 @@ package com.haphap.app.presentation.register.passcard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,24 +19,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.data.model.register.RegisterPassCardModel
 
 @Composable
 fun RegisterPassCardRoute(
     passCardModel: RegisterPassCardModel,
     navigateToHome: () -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     RegisterPassCardScreen(
         passCardModel = passCardModel,
         onHomeClick = navigateToHome,
+        onSaveClick = onSaveClick,
         modifier = modifier,
     )
 }
@@ -43,6 +47,7 @@ fun RegisterPassCardRoute(
 fun RegisterPassCardScreen(
     passCardModel: RegisterPassCardModel,
     onHomeClick: () -> Unit,
+    onSaveClick: () -> Unit,
     modifier : Modifier = Modifier,
 ) {
     Column(
@@ -111,17 +116,25 @@ fun RegisterPassCardScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Text(
-            text = "홈으로",
-            style = HapHapTheme.typography.body.sb13.copy(
-                textDecoration = TextDecoration.Underline,
-            ),
-            color = HapHapTheme.colors.gray300,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .noRippleClickable(onClick = onHomeClick)
-        )
+        Row {
+            HapHapBasicButton(
+                text = "홈으로",
+                textStyle = HapHapTheme.typography.body.b18,
+                colorType = ButtonType.UnSelected,
+                onClick = onHomeClick,
+                modifier = Modifier.weight(1f),
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            HapHapBasicButton(
+                text = "저장하기",
+                textStyle = HapHapTheme.typography.body.b18,
+                colorType = ButtonType.Primary(enabled = true),
+                onClick = onSaveClick,
+                modifier = Modifier.weight(1f),
+            )
+        }
 
         Spacer(modifier = Modifier.height(37.dp))
     }
@@ -140,6 +153,7 @@ private fun RegisterPassCardScreenPreview() {
                 backgroundImageUrl = "",
             ),
             onHomeClick = {},
+            onSaveClick = {},
         )
     }
 }
