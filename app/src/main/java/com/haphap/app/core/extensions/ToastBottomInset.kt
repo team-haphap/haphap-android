@@ -2,8 +2,8 @@ package com.haphap.app.core.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
@@ -25,10 +25,10 @@ fun Modifier.toastBottomInset(): Modifier {
     val density = LocalDensity.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val toastBottomInset = LocalToastBottomInset.current
-    var currentMeasuredInset by remember { mutableStateOf(0.dp) }
+    var currentMeasuredInset by rememberSaveable { mutableFloatStateOf(0f) }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        toastBottomInset.value = currentMeasuredInset
+        toastBottomInset.value = currentMeasuredInset.dp
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
@@ -37,7 +37,7 @@ fun Modifier.toastBottomInset(): Modifier {
 
     return this.onSizeChanged { size ->
         val measuredDp = with(density) { size.height.toDp() }
-        currentMeasuredInset = measuredDp
+        currentMeasuredInset = measuredDp.value
 
         if (lifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED) {
             toastBottomInset.value = measuredDp
