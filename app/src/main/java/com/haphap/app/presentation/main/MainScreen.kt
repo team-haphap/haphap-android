@@ -104,7 +104,9 @@ fun MainScreen(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Scaffold(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding(),
                 bottomBar = {
                     MainBottomBar(
                         isVisible = isBottomBarVisible,
