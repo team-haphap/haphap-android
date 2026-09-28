@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -30,22 +33,23 @@ import com.haphap.app.data.model.register.RegisterPassCardModel
 
 @Composable
 fun RegisterPassCardRoute(
-    passCardModel: RegisterPassCardModel,
     navigateToHome: () -> Unit,
-    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: RegisterPassCardViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     RegisterPassCardScreen(
-        passCardModel = passCardModel,
+        uiState = uiState,
         onHomeClick = navigateToHome,
-        onSaveClick = onSaveClick,
+        onSaveClick = {},
         modifier = modifier,
     )
 }
 
 @Composable
 fun RegisterPassCardScreen(
-    passCardModel: RegisterPassCardModel,
+    uiState: RegisterPassCardContract.State,
     onHomeClick: () -> Unit,
     onSaveClick: () -> Unit,
     modifier : Modifier = Modifier,
@@ -59,7 +63,7 @@ fun RegisterPassCardScreen(
         Spacer(modifier = Modifier.height(36.dp))
 
         Text(
-            text = "${passCardModel.userName}님의 합격을 축하드려요!",
+            text = "${uiState.userName}님의 합격을 축하드려요!",
             style = HapHapTheme.typography.subtitle.b22,
             color = HapHapTheme.colors.gray800,
         )
@@ -82,7 +86,7 @@ fun RegisterPassCardScreen(
                 .clip(RoundedCornerShape(18.dp))
         ) {
             UrlImage(
-                url = passCardModel.backgroundImageUrl,
+                url = uiState.backgroundImageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
@@ -95,7 +99,7 @@ fun RegisterPassCardScreen(
                 horizontalAlignment = Alignment.Start,
             ) {
                 UrlImage(
-                    url = passCardModel.logoUrl,
+                    url = uiState.logoUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.height(44.dp),
@@ -104,7 +108,7 @@ fun RegisterPassCardScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "${passCardModel.companyName} ${passCardModel.recruitName}",
+                    text = "${uiState.companyName} ${uiState.recruitName}",
                     style = HapHapTheme.typography.body.b18,
                     color = HapHapTheme.colors.primary100,
                     textAlign = TextAlign.Start,
@@ -145,7 +149,7 @@ fun RegisterPassCardScreen(
 private fun RegisterPassCardScreenPreview() {
     HapHapTheme {
         RegisterPassCardScreen(
-            passCardModel = RegisterPassCardModel(
+            uiState = RegisterPassCardContract.State(
                 userName = "박연수",
                 recruitName = "2027 신입 채용 공고~~~~~~~~~~~~~~~~~~~~",
                 companyName = "카카오",
