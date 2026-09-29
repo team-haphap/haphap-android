@@ -22,19 +22,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 import java.text.NumberFormat
 import java.util.Locale
 
 
 @Composable
 fun HomePointChip(
+    point: Int,
+    onPointClick: () -> Unit,
     modifier: Modifier = Modifier,
-    point: Int = 100,
 ) {
     Row(
         modifier = modifier
             .clip(shape = CircleShape)
             .background(color = HapHapTheme.colors.gray100)
+            .noRippleClickable(onClick = onPointClick)
             .padding(horizontal = 6.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -63,9 +66,9 @@ private fun HomePointChipPreview() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(16.dp)
         ) {
-            HomePointChip()
-            HomePointChip(point = 300)
-            HomePointChip(point = 12345)
+            HomePointChip(onPointClick = {}, point = 100)
+            HomePointChip(onPointClick = {}, point = 300)
+            HomePointChip(onPointClick = {}, point = 12345)
         }
     }
 }
