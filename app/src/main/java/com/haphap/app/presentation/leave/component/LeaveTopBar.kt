@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.mypage.component
+package com.haphap.app.presentation.leave.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,16 +20,15 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
-fun MyPageTopBar(
+fun LeaveTopBar(
     onBackClick: () -> Unit,
-    onSettingClick: () -> Unit,
     modifier: Modifier = Modifier,
     isText: Boolean = true,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -42,29 +41,19 @@ fun MyPageTopBar(
         Spacer(modifier = Modifier.width(10.dp))
 
         if (isText) Text(
-            text = "마이페이지",
+            text = "회원 탈퇴",
             style = HapHapTheme.typography.subtitle.b20,
             color = HapHapTheme.colors.gray800,
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_setting_32),
-            contentDescription = null,
-            tint = Color.Unspecified,
-            modifier = Modifier.noRippleClickable(onClick = onSettingClick),
         )
     }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun MyPageTopBarPreview() {
+private fun LeaveTopBarPreview() {
     HapHapTheme {
-        MyPageTopBar(
+        LeaveTopBar(
             onBackClick = {},
-            onSettingClick = {},
         )
     }
 }
