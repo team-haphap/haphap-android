@@ -4,6 +4,7 @@ import com.haphap.app.BuildConfig
 import com.haphap.app.BuildConfig.BASE_URL
 import com.haphap.app.core.extensions.isJsonArray
 import com.haphap.app.core.extensions.isJsonObject
+import com.haphap.app.core.network.TokenAuthenticator
 import com.haphap.app.core.network.TokenInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -78,10 +79,12 @@ object NetworkModule {
     @NoAuth
     fun provideNoAuthOkHttpClient(
         loggingInterceptor: Interceptor,
-        tokenInterceptor: TokenInterceptor
+        tokenInterceptor: TokenInterceptor,
+        tokenAuthenticator: TokenAuthenticator,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(tokenInterceptor)
+        .authenticator(tokenAuthenticator)
         .build()
 
     @Provides
