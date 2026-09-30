@@ -7,6 +7,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -44,8 +45,11 @@ class TokenAuthenticator @Inject constructor(
                     .onFailure { Timber.e(it, "token reissue failed") }
                     .fold(
                         onSuccess = { tokens -> response.request.withAccessToken(tokens.accessToken) },
-                        onFailure = {
-                            expireSession()
+                        onFailure = { throwable ->
+                            // refreshToken이 무효한 경우에만 세션 만료 처리 (네트워크 오류, 5xx는 토큰 유지)
+                            if (throwable is HttpException && throwable.code() == HTTP_UNAUTHORIZED) {
+                                expireSession()
+                            }
                             null
                         },
                     )
@@ -76,5 +80,6 @@ class TokenAuthenticator @Inject constructor(
         private const val AUTHORIZATION = "Authorization"
         private const val BEARER = "Bearer"
         private const val MAX_RETRY_COUNT = 1
+        private const val HTTP_UNAUTHORIZED = 401
     }
 }
