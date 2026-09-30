@@ -1,21 +1,17 @@
 package com.haphap.app.core.network
 
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SessionExpiredNotifier @Inject constructor() {
-    private val _event = MutableSharedFlow<Unit>(
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
-    val event: SharedFlow<Unit> = _event.asSharedFlow()
+    private val _event = Channel<Unit>(Channel.CONFLATED)
+    val event: Flow<Unit> = _event.receiveAsFlow()
 
     fun notifySessionExpired() {
-        _event.tryEmit(Unit)
+        _event.trySend(Unit)
     }
 }
