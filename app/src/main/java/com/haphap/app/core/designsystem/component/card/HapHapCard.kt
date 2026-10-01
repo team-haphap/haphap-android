@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -58,8 +57,7 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(HapHapTheme.colors.gray100)
+            .background(HapHapTheme.colors.white)
             .noRippleClickable(onClick = onCardClick)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -69,29 +67,29 @@ fun HapHapCard(
                 contentDescription = company,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(4.dp))
                     .aspectRatio(type.imageRatio),
-            )
-
-            HapHapStatusChip(
-                text = text,
-                type = StatusChipType.CATEGORY,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(start = 10.dp, bottom = 8.dp),
             )
         }
 
-        Column(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
-        ) {
-            HapHapDeadlineChip(
-                stage = stage,
-                dDay = dDay,
-            )
+        Column(modifier = Modifier.padding(top = 6.dp)) {
+            Row {
+                HapHapStatusChip(
+                    text = text,
+                    type = StatusChipType.CATEGORY,
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                HapHapDeadlineChip(
+                    stage = stage,
+                    dDay = dDay,
+                )
+            }
 
             Spacer(modifier = Modifier.height(2.dp))
 
-            Column(modifier = Modifier.padding(start = 2.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 4.dp)) {
                 Text(
                     text = company,
                     style = HapHapTheme.typography.body.sb14,
@@ -103,7 +101,7 @@ fun HapHapCard(
                 Text(
                     text = description,
                     style = HapHapTheme.typography.caption.sb12,
-                    color = HapHapTheme.colors.gray600,
+                    color = HapHapTheme.colors.gray500,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -112,7 +110,7 @@ fun HapHapCard(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HapHapCardPreview() {
     HapHapTheme {
@@ -129,7 +127,7 @@ private fun HapHapCardPreview() {
                 company = "카카오",
                 description = "공고명공고명공고명공고명공고명공고명공고명공고명",
                 onCardClick = {},
-                modifier = Modifier.width(186.dp),
+                modifier = Modifier.width(155.dp),
             )
             HapHapCard(
                 type = CardType.SMALL,
