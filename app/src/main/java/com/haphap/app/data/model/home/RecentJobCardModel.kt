@@ -6,6 +6,6 @@ data class RecentJobCardModel (
     val companyName: String,
     val title: String,
     val position: String,
-    val nextStage: String,
+    val nextStage: String?,
     val dDayLabel: String,
 )

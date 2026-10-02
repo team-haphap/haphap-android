@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -33,7 +34,9 @@ fun HomePopularJobSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeCardTitle(
@@ -52,27 +55,34 @@ fun HomePopularJobSection(
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 20.dp)
-        ) {
-            items(
-                items = popularJobCardList.take(MAX_RECENT_CARD_COUNT),
-                key = { it.id },
-            ) {
-                HapHapCard(
-                    type = CardType.BIG,
-                    imageUrl = it.logoImageUrl,
-                    text = it.position,
-                    stage = it.nextStage,
-                    dDay = it.dDayLabel,
-                    company = it.companyName,
-                    description = it.title,
-                    onCardClick = { onPopularCardClick(it.id) },
-                    modifier = Modifier.width(155.dp)
-                )
+        if (popularJobCardList.isEmpty()) {
 
-                Spacer(modifier = Modifier.width(5.dp))
+            HomeEmptyComponent(
+                text = "최근 결과가 올라온 공고가 없습니다",
+            )
+        } else {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(
+                    items = popularJobCardList.take(MAX_RECENT_CARD_COUNT),
+                    key = { it.id },
+                ) {
+                    HapHapCard(
+                        type = CardType.BIG,
+                        imageUrl = it.logoImageUrl,
+                        text = it.position,
+                        stage = it.nextStage.orEmpty(),
+                        dDay = it.dDayLabel,
+                        company = it.companyName,
+                        description = it.title,
+                        onCardClick = { onPopularCardClick(it.id) },
+                        modifier = Modifier.width(155.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(5.dp))
+                }
             }
         }
     }

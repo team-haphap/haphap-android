@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -29,7 +30,9 @@ fun HomeRecentJobSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeCardTitle(
@@ -52,7 +55,7 @@ fun HomeRecentJobSection(
                     type = CardType.BIG,
                     imageUrl = it.logoImageUrl,
                     text = it.position,
-                    stage = it.nextStage,
+                    stage = it.nextStage.orEmpty(),
                     dDay = it.dDayLabel,
                     company = it.companyName,
                     description = it.title,
