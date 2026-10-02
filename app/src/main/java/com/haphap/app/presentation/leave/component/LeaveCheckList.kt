@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,7 +31,7 @@ import com.haphap.app.core.designsystem.component.textfield.HapHapBasicTextField
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
-private const val ETC_REASON_MAX_LENGTH = 200
+private const val ETC_REASON_MAX_LENGTH = 150
 
 @Composable
 fun LeaveCheckList(
@@ -77,19 +78,32 @@ fun LeaveCheckList(
         if (isEtc && checked) {
             Spacer(modifier = Modifier.height(2.dp))
 
-            HapHapBasicTextField(
-                state = etcReasonState,
-                textColor = HapHapTheme.colors.gray800,
-                textStyle = HapHapTheme.typography.caption.r12,
-                placeholder = "최대 200자까지 입력이 가능해요.",
-                placeholderColor = HapHapTheme.colors.gray300,
-                placeholderStyle = HapHapTheme.typography.caption.r12,
-                inputTransformation = InputTransformation.maxLength(ETC_REASON_MAX_LENGTH),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = HapHapTheme.colors.gray100)
-                    .padding(start = 18.dp, top = 7.dp, bottom = 7.dp),
-            )
+                    .padding(horizontal = 10.dp, vertical = 12.dp),
+            ) {
+                HapHapBasicTextField(
+                    state = etcReasonState,
+                    textColor = HapHapTheme.colors.gray500,
+                    textStyle = HapHapTheme.typography.caption.r11,
+                    placeholder = "최대 150자까지 입력이 가능해요.",
+                    placeholderColor = HapHapTheme.colors.gray300,
+                    placeholderStyle = HapHapTheme.typography.caption.r11,
+                    inputTransformation = InputTransformation.maxLength(ETC_REASON_MAX_LENGTH),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "${etcReasonState.text.length}/$ETC_REASON_MAX_LENGTH",
+                    color = HapHapTheme.colors.gray400,
+                    style = HapHapTheme.typography.caption.r11,
+                    modifier = Modifier.align(Alignment.End),
+                )
+            }
         }
     }
 }
