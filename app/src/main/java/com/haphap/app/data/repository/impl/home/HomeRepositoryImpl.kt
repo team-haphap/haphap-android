@@ -4,7 +4,10 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.home.toModel
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
+import com.haphap.app.data.model.home.MyApplicationCardModel
+import com.haphap.app.data.model.home.PopularJobCardModel
 import com.haphap.app.data.model.home.RecentCardModel
+import com.haphap.app.data.model.home.RecentJobCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
 import com.haphap.app.data.remote.datasource.api.home.HomeDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -44,6 +47,30 @@ class HomeRepositoryImpl @Inject constructor(
             homeDataSource.getRecentPostings(category)
                 .checkData()
                 .postings
+                .map { it.toModel() }
+        }
+
+    override suspend fun getRecentViews(): Result<List<RecentJobCardModel>> =
+        suspendRunCatching {
+            homeDataSource.getRecentViews()
+                .checkData()
+                .views
+                .map { it.toModel() }
+        }
+
+    override suspend fun getPopularPostings(category: List<String>?): Result<List<PopularJobCardModel>> =
+        suspendRunCatching {
+            homeDataSource.getPopularPostings(category)
+                .checkData()
+                .views
+                .map { it.toModel() }
+        }
+
+    override suspend fun getMyApplications(): Result<List<MyApplicationCardModel>> =
+        suspendRunCatching {
+            homeDataSource.getMyApplications()
+                .checkData()
+                .applications
                 .map { it.toModel() }
         }
 }
