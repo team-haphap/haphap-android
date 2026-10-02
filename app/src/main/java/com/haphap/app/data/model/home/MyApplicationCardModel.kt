@@ -4,6 +4,7 @@ data class MyApplicationCardModel (
     val id: Int,
     val logoImageUrl: String,
     val companyName: String,
+    val title: String,
     val position: String,
     val currentStageStatus: String,
     val dDayLabel: String,
