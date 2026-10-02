@@ -62,7 +62,7 @@ fun HomeBannerSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(top = 12.dp, bottom = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 space = 6.dp,
                 alignment = Alignment.CenterHorizontally,
