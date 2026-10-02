@@ -74,17 +74,21 @@ fun HapHapCard(
 
         Column(modifier = Modifier.padding(top = 6.dp)) {
             Row {
-                HapHapStatusChip(
-                    text = text,
-                    type = StatusChipType.CATEGORY,
-                )
+                if (text.isNotBlank()) {
+                    HapHapStatusChip(
+                        text = text,
+                        type = StatusChipType.CATEGORY,
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(4.dp))
 
-                HapHapDeadlineChip(
-                    stage = stage,
-                    dDay = dDay,
-                )
+                if (stage.isNotBlank() || dDay.isNotBlank()) {
+                    HapHapDeadlineChip(
+                        stage = stage,
+                        dDay = dDay,
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(2.dp))
