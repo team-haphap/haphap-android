@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.maxLength
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -91,14 +90,16 @@ fun LeaveCheckItem(
                     placeholder = "최대 150자까지 입력이 가능해요.",
                     placeholderColor = HapHapTheme.colors.gray300,
                     placeholderStyle = HapHapTheme.typography.caption.r11,
-                    inputTransformation = InputTransformation.maxLength(ETC_REASON_MAX_LENGTH),
+                    inputTransformation = InputTransformation {
+                        if (asCharSequence().trimStart().length > ETC_REASON_MAX_LENGTH) revertAllChanges()
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "${etcReasonState.text.length}/$ETC_REASON_MAX_LENGTH",
+                    text = "${etcReasonState.text.trimStart().length}/$ETC_REASON_MAX_LENGTH",
                     color = HapHapTheme.colors.gray400,
                     style = HapHapTheme.typography.caption.r11,
                     modifier = Modifier.align(Alignment.End),
