@@ -34,10 +34,9 @@ class HomeViewModel @Inject constructor(
         fetchCountCard()
         fetchAnnouncements()
         fetchRecentPostings()
-    }
-
-    fun onRefreshClick() {
-        fetchAll()
+        fetchMyApplications()
+        fetchRecentViews()
+        fetchPopularPostings()
     }
 
     private fun fetchBannerList() {
@@ -90,22 +89,68 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun fetchMyApplications() {
+        viewModelScope.launch {
+            homeRepository.getMyApplications()
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(myApplicationCardList = list.toImmutableList())
+                    }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "내 지원 조회 실패")
+                }
+        }
+    }
+
+    private fun fetchRecentViews() {
+        viewModelScope.launch {
+            homeRepository.getRecentViews()
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(recentJobCardList = list.toImmutableList())
+                    }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "최근 조회한 공고 조회 실패")
+                }
+        }
+    }
+
+    private fun fetchPopularPostings() {
+        val categoryParam = _uiState.value.categoryChipState.queryCategoryList
+
+        viewModelScope.launch {
+            homeRepository.getPopularPostings(categoryParam)
+                .onSuccess { list ->
+                    _uiState.update { it.copy(popularJobCardList = list.toImmutableList()) }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "인기 공고 조회 실패")
+                }
+        }
+    }
+
     fun updateSelectedChips(category: String) {
         _uiState.update {
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
         fetchRecentPostings()
+        fetchPopularPostings()
     }
 
     fun onSearchBarClick() = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToSearch)
     }
 
-    fun onMoreClick() = viewModelScope.launch {
-        _sideEffect.send(HomeContract.SideEffect.NavigateToJobList)
-    }
-
     fun onCardClick(postingId: Int) = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToJobDetail(postingId))
+    }
+
+    fun onBannerClick(linkUrl: String?) {
+        val url = linkUrl ?: return
+        viewModelScope.launch {
+            _sideEffect.send(HomeContract.SideEffect.OpenUrl(url))
+        }
     }
 }

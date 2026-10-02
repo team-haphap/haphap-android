@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +17,6 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.data.model.home.BannerItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -40,6 +39,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeBannerSection(
     bannerList: ImmutableList<BannerItemModel>,
+    onBannerClick: (String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (bannerList.isEmpty()) return
@@ -56,13 +56,17 @@ fun HomeBannerSection(
             pageSpacing = 12.dp,
         ) { page ->
             val index = page % visibleBannerList.size
-            BannerCard(imageUrl = visibleBannerList[index].imageUrl)
+            val banner = visibleBannerList[index]
+            BannerCard(
+                imageUrl = banner.imageUrl,
+                onBannerClick = { onBannerClick(banner.linkUrl) },
+            )
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 12.dp, bottom = 8.dp),
+                .padding(top = 12.dp, bottom = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 space = 6.dp,
                 alignment = Alignment.CenterHorizontally,
@@ -125,12 +129,14 @@ private fun rememberHomeBannerState(
 @Composable
 private fun BannerCard(
     imageUrl: String,
+    onBannerClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
+            .noRippleClickable(onClick = onBannerClick),
     ) {
         UrlImage(
             modifier = Modifier
@@ -140,26 +146,6 @@ private fun BannerCard(
             contentDescription = null,
             contentScale = ContentScale.Crop,
         )
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 16.dp, bottom = 14.dp),
-        ) {
-            Text(
-                text = "지원 이후, 보이지 않던\n기다림을 더욱 선명하게",
-                style = HapHapTheme.typography.body.b18,
-                color = HapHapTheme.colors.gray800,
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = "같은 공고 지원자들의 결과를 확인해보세요!",
-                style = HapHapTheme.typography.caption.sb10,
-                color = HapHapTheme.colors.gray400,
-            )
-        }
     }
 }
 
@@ -174,7 +160,8 @@ private fun HomeBannerSectionPreview() {
                 BannerItemModel(id = 3, imageUrl = ""),
                 BannerItemModel(id = 4, imageUrl = ""),
                 BannerItemModel(id = 5, imageUrl = ""),
-            )
+            ),
+            onBannerClick = {},
         )
     }
 }

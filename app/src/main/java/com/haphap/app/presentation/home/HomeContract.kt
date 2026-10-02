@@ -3,7 +3,10 @@ package com.haphap.app.presentation.home
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.home.BannerItemModel
 import com.haphap.app.data.model.home.CountCardModel
+import com.haphap.app.data.model.home.MyApplicationCardModel
+import com.haphap.app.data.model.home.PopularJobCardModel
 import com.haphap.app.data.model.home.RecentCardModel
+import com.haphap.app.data.model.home.RecentJobCardModel
 import com.haphap.app.data.model.home.TodayExpectedCardModel
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
@@ -17,11 +20,15 @@ sealed interface HomeContract {
         val recentCardList: ImmutableList<RecentCardModel> = persistentListOf(),
         val todayExpectedCardList: ImmutableList<TodayExpectedCardModel> = persistentListOf(),
         val categoryChipState: CategoryChipState = CategoryChipState(),
+        val myApplicationCardList: ImmutableList<MyApplicationCardModel> = persistentListOf(),
+        val recentJobCardList: ImmutableList<RecentJobCardModel> = persistentListOf(),
+        val popularJobCardList: ImmutableList<PopularJobCardModel> = persistentListOf(),
     )
 
     sealed interface SideEffect {
         data object NavigateToSearch : SideEffect
         data object NavigateToJobList : SideEffect
         data class NavigateToJobDetail(val postingId: Int) : SideEffect
+        data class OpenUrl(val url: String) : SideEffect
     }
 }
