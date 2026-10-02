@@ -1,13 +1,19 @@
 package com.haphap.app.presentation.leave
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
@@ -75,6 +81,7 @@ private fun LeaveScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
             .padding(horizontal = 20.dp),
     ) {
         LeaveTopBar(
@@ -84,6 +91,7 @@ private fun LeaveScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .verticalScroll(rememberScrollState()),
         ) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -97,6 +105,9 @@ private fun LeaveScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // TODO: 탈퇴 유의 사항 기입
+            Row(
+                modifier = Modifier.height(400.dp).background(color = HapHapTheme.colors.gray700)
+            ) { }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -128,7 +139,9 @@ private fun LeaveScreen(
             Spacer(modifier = Modifier.height(2.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 HapHapBasicButton(
