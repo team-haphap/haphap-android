@@ -24,6 +24,12 @@ class LocalFcmDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearFcmToken() {
+        dataStore.edit { prefs ->
+            prefs.remove(FCM_TOKEN)
+        }
+    }
+
     companion object {
         private val FCM_TOKEN = stringPreferencesKey("FCM_TOKEN")
     }
