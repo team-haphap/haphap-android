@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -23,19 +24,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.haphap.app.core.designsystem.component.button.HapHapRefreshButton
+import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.searchbar.HapHapSearchBar
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.home.BannerItemModel
-import com.haphap.app.data.model.home.CountCardModel
-import com.haphap.app.data.model.home.RecentCardModel
-import com.haphap.app.data.model.home.TodayExpectedCardModel
-import com.haphap.app.presentation.common.component.HapHapCategoryChipList
+import com.haphap.app.data.model.home.MyApplicationCardModel
+import com.haphap.app.data.model.home.PopularJobCardModel
+import com.haphap.app.data.model.home.RecentJobCardModel
 import com.haphap.app.presentation.home.component.HomeBannerSection
-import com.haphap.app.presentation.home.component.HomeCardTitle
-import com.haphap.app.presentation.home.component.HomeCountCardSection
-import com.haphap.app.presentation.home.component.HomeListCardSection
-import com.haphap.app.presentation.home.component.HomeRecentCardSection
+import com.haphap.app.presentation.home.component.HomeMyApplicationSection
+import com.haphap.app.presentation.home.component.HomePopularJobSection
+import com.haphap.app.presentation.home.component.HomeRecentJobSection
 import com.haphap.app.presentation.home.component.HomeTopBar
 import kotlinx.collections.immutable.persistentListOf
 
@@ -50,6 +49,7 @@ fun HomeRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -66,6 +66,10 @@ fun HomeRoute(
                     is HomeContract.SideEffect.NavigateToJobDetail -> {
                         navigateToJobDetail(sideEffect.postingId)
                     }
+
+                    is HomeContract.SideEffect.OpenUrl -> {
+                        runCatching { uriHandler.openUri(sideEffect.url) }
+                    }
                 }
             }
         }
@@ -74,11 +78,11 @@ fun HomeRoute(
     HomeScreen(
         uiState = uiState,
         onSearchBarClick = viewModel::onSearchBarClick,
-        onMoreClick = viewModel::onMoreClick,
+        onBannerClick = viewModel::onBannerClick,
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = viewModel::onCardClick,
         onListCardClick = viewModel::onCardClick,
-        onButtonClick = viewModel::onRefreshClick,
+        onPopularCardClick = viewModel::onCardClick,
         modifier = modifier,
     )
 }
@@ -87,11 +91,11 @@ fun HomeRoute(
 private fun HomeScreen(
     uiState: HomeContract.State,
     onSearchBarClick: () -> Unit,
-    onMoreClick: () -> Unit,
+    onBannerClick: (String?) -> Unit,
     onFilterClick: (String) -> Unit,
     onRecentCardClick: (Int) -> Unit,
     onListCardClick: (Int) -> Unit,
-    onButtonClick: () -> Unit,
+    onPopularCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -120,88 +124,57 @@ private fun HomeScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     HomeBannerSection(
-                        bannerList = uiState.bannerList
+                        bannerList = uiState.bannerList,
+                        onBannerClick = onBannerClick,
+                    )
+                }
+
+                if (uiState.myApplicationCardList.isNotEmpty()) {
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        HomeMyApplicationSection(
+                            myApplicationCardList = uiState.myApplicationCardList,
+                            onListCardClick = onListCardClick,
+                            onMoreClick = {}, //Todo: 추후 마이페이지 개발 후 연결
+                        )
+                    }
+                }
+
+                if (uiState.recentJobCardList.isNotEmpty()) {
+                    item {
+                        HomeRecentJobSection(
+                            recentJobCardList = uiState.recentJobCardList,
+                            onRecentCardClick = onRecentCardClick,
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+                }
+
+                item {
+                    HomePopularJobSection(
+                        popularJobCardList = uiState.popularJobCardList,
+                        categoryChipState = uiState.categoryChipState,
+                        onFilterClick = onFilterClick,
+                        onPopularCardClick = onPopularCardClick,
+
                     )
                 }
 
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    uiState.countCardModel?.let { countData ->
-                        HomeCountCardSection(
-                            countCardModel = countData,
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-                }
-
-                item {
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = HapHapTheme.colors.gray100,
+                    Image(
+                        painter = painterResource(id = R.drawable.img_home_banner), //Todo: 추후 핸드오프 예정
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
                     )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    HomeCardTitle(
-                        title = "최근 결과가 올라온 공고",
-                        description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
-                        isMore = true,
-                        onMoreClick = onMoreClick,
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    HapHapCategoryChipList(
-                        chipList = uiState.categoryChipState.chipList,
-                        selectedChips = uiState.categoryChipState.selectedChips,
-                        onFilterClick = onFilterClick,
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    HomeRecentCardSection(
-                        recentCardList = uiState.recentCardList,
-                        onRecentCardClick = onRecentCardClick,
-                    )
-
-                    Spacer(modifier = Modifier.height(36.dp))
-                }
-
-                item {
-                    HomeCardTitle(
-                        title = "오늘 발표 예상 공고",
-                        description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
-                        isMore = false,
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    HomeListCardSection(
-                        todayExpectedCardList = uiState.todayExpectedCardList,
-                        onListCardClick = onListCardClick,
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
                 }
             }
         }
-
-        HapHapRefreshButton(
-            onButtonClick = onButtonClick,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 10.dp, end = 20.dp),
-        )
     }
 }
 
@@ -220,84 +193,111 @@ private fun HomeScreenPreview() {
                     BannerItemModel(id = 5, imageUrl = ""),
                 ),
 
-                countCardModel = CountCardModel(
-                    cumulatedCount = 37,
-                    onGoingCount = 37,
-                    announcedCount = 37,
+                myApplicationCardList = persistentListOf(
+                    MyApplicationCardModel(
+                        id = 1,
+                        logoImageUrl = "",
+                        title = "2026 신입 공개채용",
+                        position = "개발/데이터",
+                        currentStageStatus = "서류 발표 중",
+                        dDayLabel = "D-2",
+                        companyName = "카카오",
+                    ),
+                    MyApplicationCardModel(
+                        id = 2,
+                        logoImageUrl = "",
+                        title = "2026 신입 공개채용",
+                        position = "개발/데이터",
+                        currentStageStatus = "서류 발표 중",
+                        dDayLabel = "D-2",
+                        companyName = "카카오",
+                    ),
                 ),
 
-                recentCardList = persistentListOf(
-                    RecentCardModel(
+                recentJobCardList = persistentListOf(
+                    RecentJobCardModel(
                         id = 1,
-                        imageUrl = "",
-                        category = "개발/데이터",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "개발/데이터",
                         nextStage = "서류",
-                        dayUntilNextStage = "D-2",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        title = "공고 설명",
                     ),
-                    RecentCardModel(
+                    RecentJobCardModel(
                         id = 2,
-                        imageUrl = "",
-                        category = "개발/데이터",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "인사",
                         nextStage = "서류",
-                        dayUntilNextStage = "D-2",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        title = "공고 설명",
                     ),
-                    RecentCardModel(
+                    RecentJobCardModel(
                         id = 3,
-                        imageUrl = "",
-                        category = "인사",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "개발/데이터",
                         nextStage = "서류",
-                        dayUntilNextStage = "D-2",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        title = "공고 설명",
                     ),
-                    RecentCardModel(
+                    RecentJobCardModel(
                         id = 4,
-                        imageUrl = "",
-                        category = "인사",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "인사",
                         nextStage = "서류",
-                        dayUntilNextStage = "D-2",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        title = "공고 설명",
                     ),
                 ),
 
-                todayExpectedCardList = persistentListOf(
-                    TodayExpectedCardModel(
+                popularJobCardList = persistentListOf(
+                    PopularJobCardModel(
                         id = 1,
-                        imageUrl = "",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "개발/데이터",
+                        nextStage = "서류",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        category = "개발/데이터",
-                        stageName = "전형",
-                        title = "2026 신입 공개채용",
                     ),
-                    TodayExpectedCardModel(
+                    PopularJobCardModel(
                         id = 2,
-                        imageUrl = "",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "인사",
+                        nextStage = "서류",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        category = "개발/데이터",
-                        stageName = "전형",
-                        title = "2026 신입 공개채용",
                     ),
-                    TodayExpectedCardModel(
+                    PopularJobCardModel(
                         id = 3,
-                        imageUrl = "",
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "개발/데이터",
+                        nextStage = "서류",
+                        dDayLabel = "D-2",
                         companyName = "카카오",
-                        category = "개발/데이터",
-                        stageName = "전형",
-                        title = "2026 신입 공개채용",
+                    ),
+                    PopularJobCardModel(
+                        id = 4,
+                        logoImageUrl = "",
+                        title = "공고명",
+                        position = "인사",
+                        nextStage = "서류",
+                        dDayLabel = "D-2",
+                        companyName = "카카오",
                     ),
                 ),
             ),
             onSearchBarClick = {},
-            onMoreClick = {},
+            onBannerClick = {},
             onFilterClick = {},
             onRecentCardClick = {},
             onListCardClick = {},
-            onButtonClick = {},
+            onPopularCardClick = {},
         )
     }
 }
