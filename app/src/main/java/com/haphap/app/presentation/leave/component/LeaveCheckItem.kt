@@ -34,7 +34,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 private const val ETC_REASON_MAX_LENGTH = 150
 
 @Composable
-fun LeaveCheckList(
+fun LeaveCheckItem(
     context: String,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -110,11 +110,11 @@ fun LeaveCheckList(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun LeaveCheckListPreview() {
+private fun LeaveCheckItemPreview() {
     var checked by remember { mutableStateOf(true) }
 
     HapHapTheme {
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "기타 (직접 입력)",
             onCheckedChange = { checked = it },
             checked = checked,

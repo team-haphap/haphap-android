@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
-import com.haphap.app.presentation.leave.component.LeaveCheckList
+import com.haphap.app.presentation.leave.component.LeaveCheckItem
 import com.haphap.app.presentation.leave.component.LeaveTopBar
 
 @Composable
@@ -65,27 +65,27 @@ private fun LeaveScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "취업 준비 활동이 끝났어요.",
             onCheckedChange = {},
         )
 
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "원하는 정보가 부족해요.",
             onCheckedChange = {},
         )
 
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "서비스를 잘 사용하지 않아요.",
             onCheckedChange = {},
         )
 
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "개인정보(보안) 유출이 걱정돼요.",
             onCheckedChange = {},
         )
 
-        LeaveCheckList(
+        LeaveCheckItem(
             context = "기타 (직접 입력)",
             onCheckedChange = {},
             isEtc = true,
