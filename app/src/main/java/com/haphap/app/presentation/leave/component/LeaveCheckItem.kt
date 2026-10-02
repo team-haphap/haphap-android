@@ -99,7 +99,6 @@ fun LeaveCheckItem(
                 val density = LocalDensity.current
 
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                    // 150자를 모두 입력했을 때의 높이를 처음부터 확보
                     val maxTextHeight = remember(constraints.maxWidth, textStyle) {
                         val maxTextLayout = textMeasurer.measure(
                             text = ETC_REASON_HEIGHT_SAMPLE_TEXT,
