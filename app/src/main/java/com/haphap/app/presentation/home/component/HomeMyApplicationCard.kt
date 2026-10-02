@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.image.UrlImage
@@ -27,6 +28,7 @@ import com.haphap.app.presentation.calendar.component.CalendarStatusChip
 fun HomeMyApplicationCard(
     imageUrl: String,
     companyName: String,
+    title: String,
     position: String,
     stageName: String,
     dDay: String,
@@ -61,7 +63,7 @@ fun HomeMyApplicationCard(
                 Spacer(modifier = Modifier.width(2.dp))
 
                 Text(
-                    text = position,
+                    text = title,
                     style = HapHapTheme.typography.caption.m12,
                     color = HapHapTheme.colors.gray400,
                 )
@@ -99,6 +101,7 @@ private fun HomeMyApplicationCardImage(
         UrlImage(
             url = imageUrl,
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier.clip(shape = RoundedCornerShape(8.dp)),
         )
     }
@@ -114,6 +117,7 @@ private fun HomeMyApplicationCardPreview() {
             HomeMyApplicationCard(
                 imageUrl = "",
                 companyName = "카카오",
+                title = "AI 서비스 기획",
                 position = "개발",
                 stageName = "1차 면접 발표 중",
                 dDay = "D-2",

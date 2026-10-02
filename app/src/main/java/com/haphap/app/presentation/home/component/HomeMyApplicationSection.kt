@@ -31,7 +31,7 @@ fun HomeMyApplicationSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 20.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.sub100),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -68,6 +68,7 @@ fun HomeMyApplicationSection(
                     HomeMyApplicationCard(
                         imageUrl = it.logoImageUrl,
                         companyName = it.companyName,
+                        title = it.title,
                         position = it.position,
                         stageName = it.currentStageStatus,
                         dDay = it.dDayLabel,
@@ -89,6 +90,7 @@ private fun HomeMyApplicationSectionPreview() {
                     id = 1,
                     logoImageUrl = "",
                     companyName = "카카오",
+                    title = "",
                     position = "개발/데이터",
                     currentStageStatus = "서류 전형",
                     dDayLabel = "D-3",
@@ -97,6 +99,7 @@ private fun HomeMyApplicationSectionPreview() {
                     id = 2,
                     logoImageUrl = "",
                     companyName = "네이버",
+                    title = "",
                     position = "개발/데이터",
                     currentStageStatus = "코딩테스트",
                     dDayLabel = "D-5",
@@ -105,6 +108,7 @@ private fun HomeMyApplicationSectionPreview() {
                     id = 3,
                     logoImageUrl = "",
                     companyName = "토스",
+                    title = "",
                     position = "개발/데이터",
                     currentStageStatus = "면접 전형",
                     dDayLabel = "D-7",
