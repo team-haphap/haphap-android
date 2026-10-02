@@ -16,4 +16,9 @@ sealed interface LeaveContract {
                 else -> true
             }
     }
+
+    sealed interface SideEffect {
+        data object NavigateToSetting : SideEffect
+        data object NavigateToLeaveComplete : SideEffect
+    }
 }

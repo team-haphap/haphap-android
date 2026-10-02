@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import com.haphap.app.presentation.setting.component.SettingMenuItem
 import com.haphap.app.presentation.setting.component.SettingSectionDivider
@@ -26,6 +27,7 @@ import com.haphap.app.presentation.setting.component.SettingTopBar
 @Composable
 fun SettingRoute(
     navigateBack: () -> Unit,
+    navigateToLeave: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
@@ -37,6 +39,7 @@ fun SettingRoute(
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     is NavigateToMyPage -> navigateBack()
+                    is NavigateToLeave -> navigateToLeave()
                 }
             }
         }
@@ -48,6 +51,7 @@ fun SettingRoute(
         onLogoutClick = viewModel::onLogoutClick,
         onLogoutDialogDismiss = viewModel::onLogoutDialogDismiss,
         onLogoutConfirm = viewModel::onLogoutConfirm,
+        onLeaveClick = viewModel::onLeaveClick,
         modifier = modifier,
     )
 }
@@ -59,6 +63,7 @@ private fun SettingScreen(
     onLogoutClick: () -> Unit,
     onLogoutDialogDismiss: () -> Unit,
     onLogoutConfirm: () -> Unit,
+    onLeaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (uiState.isLogoutDialogVisible) {
@@ -104,6 +109,9 @@ private fun SettingScreen(
             textColor = HapHapTheme.colors.subred,
             onClick = onLogoutClick,
         )
-        SettingMenuItem(text = "회원 탈퇴")
+        SettingMenuItem(
+            text = "회원 탈퇴",
+            onClick = onLeaveClick,
+        )
     }
 }

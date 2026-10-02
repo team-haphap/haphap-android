@@ -2,6 +2,7 @@ package com.haphap.app.presentation.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -38,5 +39,11 @@ class SettingViewModel @Inject constructor() : ViewModel() {
     fun onLogoutConfirm() {
         _uiState.update { it.copy(isLogoutDialogVisible = false) }
         // TODO: 로그아웃 처리
+    }
+
+    fun onLeaveClick() {
+        viewModelScope.launch {
+            _sideEffect.send(NavigateToLeave)
+        }
     }
 }

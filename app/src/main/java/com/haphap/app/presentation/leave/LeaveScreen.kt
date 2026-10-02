@@ -12,14 +12,20 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToLeaveComplete
+import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToSetting
 import com.haphap.app.presentation.leave.component.LeaveCheckItem
 import com.haphap.app.presentation.leave.component.LeaveTopBar
 import com.haphap.app.presentation.leave.type.LeaveReasonType
@@ -27,15 +33,28 @@ import com.haphap.app.presentation.leave.type.LeaveReasonType
 @Composable
 fun LeaveRoute(
     navigateBack: () -> Unit,
+    navigateToLeaveComplete: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LeaveViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is NavigateToSetting -> navigateBack()
+                    is NavigateToLeaveComplete -> navigateToLeaveComplete()
+                }
+            }
+        }
+    }
 
     LeaveScreen(
         uiState = uiState,
         etcReasonState = viewModel.etcReasonState,
-        onBackClick = navigateBack,
+        onBackClick = viewModel::onBackClick,
         onReasonClick = viewModel::onReasonClick,
         onLeaveClick = viewModel::onLeaveClick,
         modifier = modifier,

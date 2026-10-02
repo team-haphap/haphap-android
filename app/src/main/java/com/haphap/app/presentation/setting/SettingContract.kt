@@ -8,6 +8,7 @@ sealed interface SettingContract {
 
     sealed interface SideEffect {
         data object NavigateToMyPage : SideEffect
+        data object NavigateToLeave : SideEffect
     }
 }
 

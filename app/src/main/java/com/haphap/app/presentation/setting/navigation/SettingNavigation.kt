@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
+import com.haphap.app.presentation.leave.navigation.navigateToLeave
 import com.haphap.app.presentation.setting.SettingRoute
 import kotlinx.serialization.Serializable
 
@@ -22,6 +23,7 @@ fun NavGraphBuilder.settingGraph(
     composable<Setting> {
         SettingRoute(
             navigateBack = { navController.popBackStack() },
+            navigateToLeave = { navController.navigateToLeave() },
             modifier = Modifier.padding(innerPadding),
         )
     }
