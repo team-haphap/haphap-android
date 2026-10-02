@@ -1,13 +1,16 @@
 package com.haphap.app.presentation.leave.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -22,8 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.textfield.HapHapBasicTextField
@@ -31,6 +37,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
 private const val ETC_REASON_MAX_LENGTH = 150
+private val ETC_REASON_HEIGHT_SAMPLE_TEXT = "가".repeat(ETC_REASON_MAX_LENGTH)
 
 @Composable
 fun LeaveCheckItem(
@@ -52,6 +59,7 @@ fun LeaveCheckItem(
                 .noRippleClickable(
                     onClick = { onCheckedChange(!checked) }
                 ),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(
@@ -75,26 +83,47 @@ fun LeaveCheckItem(
         }
 
         if (isEtc && checked) {
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = HapHapTheme.colors.gray100)
+                    .background(
+                        color = HapHapTheme.colors.gray100,
+                        shape = RoundedCornerShape(12.dp),
+                    )
                     .padding(horizontal = 10.dp, vertical = 12.dp),
             ) {
-                HapHapBasicTextField(
-                    state = etcReasonState,
-                    textColor = HapHapTheme.colors.gray500,
-                    textStyle = HapHapTheme.typography.caption.r11,
-                    placeholder = "최대 150자까지 입력이 가능해요.",
-                    placeholderColor = HapHapTheme.colors.gray300,
-                    placeholderStyle = HapHapTheme.typography.caption.r11,
-                    inputTransformation = InputTransformation {
-                        if (asCharSequence().trimStart().length > ETC_REASON_MAX_LENGTH) revertAllChanges()
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                val textStyle = HapHapTheme.typography.caption.r11
+                val textMeasurer = rememberTextMeasurer()
+                val density = LocalDensity.current
+
+                BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                    // 150자를 모두 입력했을 때의 높이를 처음부터 확보
+                    val maxTextHeight = remember(constraints.maxWidth, textStyle) {
+                        val maxTextLayout = textMeasurer.measure(
+                            text = ETC_REASON_HEIGHT_SAMPLE_TEXT,
+                            style = textStyle,
+                            constraints = Constraints(maxWidth = constraints.maxWidth),
+                        )
+                        with(density) { maxTextLayout.size.height.toDp() }
+                    }
+
+                    HapHapBasicTextField(
+                        state = etcReasonState,
+                        textColor = HapHapTheme.colors.gray500,
+                        textStyle = textStyle,
+                        placeholder = "최대 150자까지 입력이 가능해요.",
+                        placeholderColor = HapHapTheme.colors.gray300,
+                        placeholderStyle = textStyle,
+                        inputTransformation = InputTransformation {
+                            if (asCharSequence().trimStart().length > ETC_REASON_MAX_LENGTH) revertAllChanges()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = maxTextHeight),
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 

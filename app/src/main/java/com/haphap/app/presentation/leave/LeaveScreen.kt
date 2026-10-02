@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -79,65 +81,71 @@ private fun LeaveScreen(
             onBackClick = onBackClick,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "탈퇴 유의사항",
-            style = HapHapTheme.typography.caption.m12,
-            color = HapHapTheme.colors.gray400,
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // TODO: 탈퇴 유의 사항 기입
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        HorizontalDivider(
-            color = HapHapTheme.colors.gray200,
-            thickness = 1.dp,
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "탈퇴 사유를 선택해주세요(필수)",
-            style = HapHapTheme.typography.body.sb14,
-            color = HapHapTheme.colors.gray700,
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        LeaveReasonType.entries.forEach { reason ->
-            LeaveCheckItem(
-                context = reason.text,
-                onCheckedChange = { onReasonClick(reason) },
-                checked = reason == uiState.selectedReason,
-                isEtc = reason == LeaveReasonType.ETC,
-                etcReasonState = etcReasonState,
-            )
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
         ) {
-            HapHapBasicButton(
-                text = "취소",
-                onClick = onBackClick,
-                modifier = Modifier.weight(1f),
-                textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Cancel,
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "탈퇴 유의사항",
+                style = HapHapTheme.typography.caption.m12,
+                color = HapHapTheme.colors.gray400,
             )
-            HapHapBasicButton(
-                text = "탈퇴하기",
-                onClick = onLeaveClick,
-                modifier = Modifier.weight(1f),
-                textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = uiState.isButtonEnabled),
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // TODO: 탈퇴 유의 사항 기입
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            HorizontalDivider(
+                color = HapHapTheme.colors.gray200,
+                thickness = 1.dp,
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "탈퇴 사유를 선택해주세요(필수)",
+                style = HapHapTheme.typography.body.sb14,
+                color = HapHapTheme.colors.gray700,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            LeaveReasonType.entries.forEach { reason ->
+                LeaveCheckItem(
+                    context = reason.text,
+                    onCheckedChange = { onReasonClick(reason) },
+                    checked = reason == uiState.selectedReason,
+                    isEtc = reason == LeaveReasonType.ETC,
+                    etcReasonState = etcReasonState,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                HapHapBasicButton(
+                    text = "취소",
+                    onClick = onBackClick,
+                    modifier = Modifier.weight(1f),
+                    textStyle = HapHapTheme.typography.body.b18,
+                    colorType = ButtonType.Cancel,
+                )
+                HapHapBasicButton(
+                    text = "탈퇴하기",
+                    onClick = onLeaveClick,
+                    modifier = Modifier.weight(1f),
+                    textStyle = HapHapTheme.typography.body.b18,
+                    colorType = ButtonType.Primary(enabled = uiState.isButtonEnabled),
+                )
+            }
         }
     }
 }
