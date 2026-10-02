@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -106,8 +107,14 @@ private fun LeaveScreen(
 
             // TODO: 탈퇴 유의 사항 기입
             Row(
-                modifier = Modifier.height(400.dp).background(color = HapHapTheme.colors.gray700)
-            ) { }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp)
+                    .background(
+                        color = HapHapTheme.colors.gray200,
+                        shape = RoundedCornerShape(19.dp),
+                    )
+            ) {}
 
             Spacer(modifier = Modifier.height(12.dp))
 
