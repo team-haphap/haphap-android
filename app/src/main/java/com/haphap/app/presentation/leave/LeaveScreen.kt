@@ -8,22 +8,46 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.presentation.leave.component.LeaveCheckItem
 import com.haphap.app.presentation.leave.component.LeaveTopBar
+import com.haphap.app.presentation.leave.type.LeaveReasonType
+
+@Composable
+fun LeaveRoute(
+    navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LeaveViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LeaveScreen(
+        uiState = uiState,
+        etcReasonState = viewModel.etcReasonState,
+        onBackClick = navigateBack,
+        onReasonClick = viewModel::onReasonClick,
+        onLeaveClick = viewModel::onLeaveClick,
+        modifier = modifier,
+    )
+}
 
 @Composable
 private fun LeaveScreen(
+    uiState: LeaveContract.State,
+    etcReasonState: TextFieldState,
     onBackClick: () -> Unit,
-    onReasonClick: () -> Unit,
-    onReasonEnter: () -> Unit,
+    onReasonClick: (LeaveReasonType) -> Unit,
     onLeaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -65,31 +89,15 @@ private fun LeaveScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        LeaveCheckItem(
-            context = "취업 준비 활동이 끝났어요.",
-            onCheckedChange = {},
-        )
-
-        LeaveCheckItem(
-            context = "원하는 정보가 부족해요.",
-            onCheckedChange = {},
-        )
-
-        LeaveCheckItem(
-            context = "서비스를 잘 사용하지 않아요.",
-            onCheckedChange = {},
-        )
-
-        LeaveCheckItem(
-            context = "개인정보(보안) 유출이 걱정돼요.",
-            onCheckedChange = {},
-        )
-
-        LeaveCheckItem(
-            context = "기타 (직접 입력)",
-            onCheckedChange = {},
-            isEtc = true,
-        )
+        LeaveReasonType.entries.forEach { reason ->
+            LeaveCheckItem(
+                context = reason.text,
+                onCheckedChange = { onReasonClick(reason) },
+                checked = reason == uiState.selectedReason,
+                isEtc = reason == LeaveReasonType.ETC,
+                etcReasonState = etcReasonState,
+            )
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -109,7 +117,7 @@ private fun LeaveScreen(
                 onClick = onLeaveClick,
                 modifier = Modifier.weight(1f),
                 textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = true),
+                colorType = ButtonType.Primary(enabled = uiState.isButtonEnabled),
             )
         }
     }
