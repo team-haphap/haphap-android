@@ -39,14 +39,14 @@ class TokenAuthenticator @Inject constructor(
                 }
 
                 suspendRunCatching { authService.reissue("$BEARER $refreshToken").checkData() }
-                    .onSuccess { tokens ->
-                        tokenDataSource.setAccessToken(tokens.accessToken)
-                        tokenDataSource.setRefreshToken(tokens.refreshToken)
-                    }
-                    .onFailure { Timber.e(it, "token reissue failed") }
                     .fold(
-                        onSuccess = { tokens -> response.request.withAccessToken(tokens.accessToken) },
+                        onSuccess = { tokens ->
+                            tokenDataSource.setAccessToken(tokens.accessToken)
+                            tokenDataSource.setRefreshToken(tokens.refreshToken)
+                            response.request.withAccessToken(tokens.accessToken)
+                        },
                         onFailure = { throwable ->
+                            Timber.e(throwable, "token reissue failed")
                             // refreshToken이 무효한 경우에만 세션 만료 처리 (네트워크 오류, 5xx는 토큰 유지)
                             if (throwable is HttpException && throwable.code() == HTTP_UNAUTHORIZED) {
                                 expireSession()
