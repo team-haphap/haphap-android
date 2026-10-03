@@ -14,22 +14,35 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
-import com.haphap.app.data.model.register.RegisterPassCardModel
+import com.haphap.app.core.image.rememberGalleryStoragePermissionHandler
+import com.haphap.app.presentation.register.passcard.RegisterPassCardContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.passcard.RegisterPassCardContract.SideEffect.OnShowToast
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterPassCardRoute(
@@ -38,11 +51,29 @@ fun RegisterPassCardRoute(
     viewModel: RegisterPassCardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+    val storagePermission = rememberGalleryStoragePermissionHandler(
+        onDenied = viewModel::onSavePermissionDenied,
+    )
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
+                    is NavigateToHome -> navigateToHome()
+                }
+            }
+        }
+    }
 
     RegisterPassCardScreen(
         uiState = uiState,
         onHomeClick = navigateToHome,
-        onSaveClick = {},
+        onSaveClick = { bitmap ->
+            storagePermission { viewModel.savePassCardImage(bitmap) }
+        },
         modifier = modifier,
     )
 }
