@@ -31,9 +31,6 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchAll() {
         fetchBannerList()
-        fetchCountCard()
-        fetchAnnouncements()
-        fetchRecentPostings()
         fetchMyApplications()
         fetchRecentViews()
         fetchPopularPostings()
@@ -47,44 +44,6 @@ class HomeViewModel @Inject constructor(
                 }
                 .onFailure { e ->
                     Timber.e(e, "배너 목록 조회 실패")
-                }
-        }
-    }
-
-    private fun fetchCountCard() {
-        viewModelScope.launch {
-            homeRepository.getCountCard()
-                .onSuccess { count ->
-                    _uiState.update { it.copy(countCardModel = count) }
-                }
-                .onFailure { e ->
-                    Timber.e(e, "오늘 집계 조회 실패")
-                }
-        }
-    }
-
-    private fun fetchAnnouncements() {
-        viewModelScope.launch {
-            homeRepository.getAnnouncements()
-                .onSuccess { list ->
-                    _uiState.update { it.copy(todayExpectedCardList = list.toImmutableList()) }
-                }
-                .onFailure { e ->
-                    Timber.e(e, "오늘 발표 예상 공고 조회 실패")
-                }
-        }
-    }
-
-    private fun fetchRecentPostings() {
-        val categoryParam = _uiState.value.categoryChipState.queryCategoryList
-
-        viewModelScope.launch {
-            homeRepository.getRecentPostings(categoryParam)
-                .onSuccess { list ->
-                    _uiState.update { it.copy(recentCardList = list.toImmutableList()) }
-                }
-                .onFailure { e ->
-                    Timber.e(e, "최근 등록 공고 조회 실패")
                 }
         }
     }
@@ -135,7 +94,6 @@ class HomeViewModel @Inject constructor(
         _uiState.update {
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
-        fetchRecentPostings()
         fetchPopularPostings()
     }
 
