@@ -91,7 +91,7 @@ private fun HomeMyApplicationCardImage(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(8.dp))
+            .clip(shape = RoundedCornerShape(5.dp))
             .border(
                 color = HapHapTheme.colors.gray100,
                 width = 1.dp,

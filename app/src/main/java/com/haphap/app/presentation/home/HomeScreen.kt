@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -105,8 +104,8 @@ private fun HomeScreen(
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             HomeTopBar(
-                point = 100,
-                onPointClick = {}, //Todo: 추후 마이페이지 개발 후 연결
+                point = 100, //Todo: 추후 마이페이지 개발 후 연결
+                onPointClick = {},
                 onProfileClick = {},
             )
 
@@ -118,7 +117,6 @@ private fun HomeScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(bottom = 12.dp),
             ) {
                 item {
                     Spacer(modifier = Modifier.height(8.dp))
@@ -163,15 +161,15 @@ private fun HomeScreen(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(16.dp))
-
                     Image(
-                        painter = painterResource(id = R.drawable.img_home_banner), //Todo: 추후 핸드오프 예정
+                        painter = painterResource(id = R.drawable.img_home_banner), //Todo: 추후 핸드오프 예정, 커뮤니티 화면으로 연결
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp),
+                            .padding(horizontal = 20.dp, vertical = 12.dp),
                     )
+
+                    Spacer(modifier = Modifier.height(64.dp))
                 }
             }
         }
