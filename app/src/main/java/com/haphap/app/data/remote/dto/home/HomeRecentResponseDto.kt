@@ -17,8 +17,8 @@ data class HomeRecentDto(
     val companyName: String,
     @SerialName("title")
     val title: String,
-    @SerialName("position")
-    val position: String,
+    @SerialName("category")
+    val category: String?,
     @SerialName("nextStage")
     val nextStage: String?,
     @SerialName("dDayLabel")

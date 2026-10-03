@@ -5,7 +5,7 @@ data class RecentJobCardModel (
     val logoImageUrl: String,
     val companyName: String,
     val title: String,
-    val position: String,
+    val category: String?,
     val nextStage: String?,
     val dDayLabel: String,
 )
