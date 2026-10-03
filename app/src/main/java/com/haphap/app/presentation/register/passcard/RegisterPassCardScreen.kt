@@ -51,9 +51,12 @@ fun RegisterPassCardRoute(
 fun RegisterPassCardScreen(
     uiState: RegisterPassCardContract.State,
     onHomeClick: () -> Unit,
-    onSaveClick: () -> Unit,
+    onSaveClick: (ImageBitmap) -> Unit,
     modifier : Modifier = Modifier,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val graphicsLayer = rememberGraphicsLayer()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -83,6 +86,12 @@ fun RegisterPassCardScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
                 .aspectRatio(312f / 540f)
+                .drawWithContent {
+                    graphicsLayer.record {
+                        this@drawWithContent.drawContent()
+                    }
+                    drawLayer(graphicsLayer)
+                }
                 .clip(RoundedCornerShape(18.dp))
         ) {
             UrlImage(
@@ -135,7 +144,12 @@ fun RegisterPassCardScreen(
                 text = "저장하기",
                 textStyle = HapHapTheme.typography.body.b18,
                 colorType = ButtonType.Primary(enabled = true),
-                onClick = onSaveClick,
+                onClick = {
+                    coroutineScope.launch {
+                        val bitmap = graphicsLayer.toImageBitmap()
+                        onSaveClick(bitmap)
+                    }
+                },
                 modifier = Modifier.weight(1f),
             )
         }
