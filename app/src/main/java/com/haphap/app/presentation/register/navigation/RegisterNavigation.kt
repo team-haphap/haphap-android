@@ -73,16 +73,8 @@ fun NavGraphBuilder.registerGraph(
         )
     }
 
-    composable<RegisterPassCard> { backStackEntry ->
-        val route = backStackEntry.toRoute<RegisterPassCard>()
+    composable<RegisterPassCard> {
         RegisterPassCardRoute(
-            passCardModel = RegisterPassCardModel(
-                userName = route.userName,
-                recruitName = route.recruitName,
-                companyName = route.companyName,
-                logoUrl = route.logoUrl,
-                backgroundImageUrl = route.backgroundImageUrl,
-            ),
             navigateToHome = {
                 navController.navigateToHome(
                     navOptions = navController.clearBackStackNavOptions()

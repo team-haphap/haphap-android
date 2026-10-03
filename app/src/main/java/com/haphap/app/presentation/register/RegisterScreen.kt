@@ -2,6 +2,7 @@ package com.haphap.app.presentation.register
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -118,6 +119,7 @@ private fun RegisterScreen(
     Scaffold(
         modifier = modifier,
         containerColor = HapHapTheme.colors.white,
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             if (uiState.step < 5) {
                 Column {
