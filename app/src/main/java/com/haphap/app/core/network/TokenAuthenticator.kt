@@ -2,6 +2,7 @@ package com.haphap.app.core.network
 
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
+import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.service.AuthService
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -37,8 +38,7 @@ class TokenAuthenticator @Inject constructor(
                     return@runBlocking null
                 }
 
-                suspendRunCatching { authService.reissue("$BEARER $refreshToken") }
-                    .mapCatching { requireNotNull(it.data) }
+                suspendRunCatching { authService.reissue("$BEARER $refreshToken").checkData() }
                     .onSuccess { tokens ->
                         tokenDataSource.setAccessToken(tokens.accessToken)
                         tokenDataSource.setRefreshToken(tokens.refreshToken)
