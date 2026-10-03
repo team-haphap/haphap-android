@@ -28,15 +28,19 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.haphap.app.core.designsystem.component.toast.HapHapToast
+import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.designsystem.component.toast.HapHapToastVisuals
 import com.haphap.app.core.designsystem.component.toast.LocalToastBottomInset
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.main.component.MainBottomBar
 import com.haphap.app.presentation.main.component.MainTab
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
 private const val TOAST_DURATION = 3000L
@@ -46,6 +50,7 @@ fun MainScreen(
     appState: MainAppState = rememberMainAppState(),
     extractedPostingId: Int? = null,
     resetExtractedPostingId: () -> Unit = {},
+    sessionExpiredEvent: Flow<Unit> = emptyFlow(),
 ) {
     val currentTab by appState.currentTab.collectAsStateWithLifecycle()
     val isBottomBarVisible by appState.isBottomBarVisible.collectAsStateWithLifecycle()
@@ -55,6 +60,14 @@ fun MainScreen(
         if (extractedPostingId != null && currentTab != null) {
             appState.navController.navigateToJobDetail(extractedPostingId)
             resetExtractedPostingId()
+        }
+    }
+
+    LaunchedEffect(sessionExpiredEvent) {
+        sessionExpiredEvent.collect {
+            appState.navController.navigateToLogin(
+                navOptions = appState.navController.clearBackStackNavOptions(),
+            )
         }
     }
 
