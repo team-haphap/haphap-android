@@ -108,6 +108,7 @@ fun HapHapCard(
                     color = HapHapTheme.colors.gray500,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(end = 24.dp),
                 )
             }
         }
