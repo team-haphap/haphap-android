@@ -94,7 +94,7 @@ fun RegisterPassCardScreen(
             .background(HapHapTheme.colors.white)
             .padding(horizontal = 20.dp),
     ) {
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = "${uiState.userName}님의 합격을 축하드려요!",
@@ -116,7 +116,7 @@ fun RegisterPassCardScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
-                .aspectRatio(312f / 540f)
+                .aspectRatio(296f / 524f)
                 .drawWithContent {
                     graphicsLayer.record {
                         this@drawWithContent.drawContent()
