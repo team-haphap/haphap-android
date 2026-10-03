@@ -185,7 +185,7 @@ fun RegisterPassCardScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(37.dp))
+        Spacer(modifier = Modifier.height(9.dp))
     }
 }
 
