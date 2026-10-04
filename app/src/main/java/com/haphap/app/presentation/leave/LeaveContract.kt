@@ -8,9 +8,10 @@ sealed interface LeaveContract {
     data class State(
         val selectedReason: LeaveReasonType? = null,
         val isEtcReasonBlank: Boolean = true,
+        val isLoading: Boolean = false,
     ) {
         val isButtonEnabled: Boolean
-            get() = when (selectedReason) {
+            get() = !isLoading && when (selectedReason) {
                 null -> false
                 LeaveReasonType.ETC -> !isEtcReasonBlank
                 else -> true
