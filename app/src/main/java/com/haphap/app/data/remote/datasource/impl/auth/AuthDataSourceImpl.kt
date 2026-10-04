@@ -17,7 +17,7 @@ class AuthDataSourceImpl @Inject constructor(
         return authService.kakaoLogin(requestDto)
     }
 
-    override suspend fun postLogout(requestDto: LogoutRequestDto): Response<Unit> {
-        return authService.logout(requestDto)
+    override suspend fun postLogout(authorization: String, requestDto: LogoutRequestDto): Response<Unit> {
+        return authService.logout(authorization, requestDto)
     }
 }

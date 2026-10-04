@@ -8,5 +8,5 @@ import retrofit2.Response
 
 interface AuthDataSource {
     suspend fun postKakaoLogin(requestDto: KakaoLoginRequestDto): BaseResponse<KakaoLoginResponseDto>
-    suspend fun postLogout(requestDto: LogoutRequestDto): Response<Unit>
+    suspend fun postLogout(authorization: String, requestDto: LogoutRequestDto): Response<Unit>
 }
