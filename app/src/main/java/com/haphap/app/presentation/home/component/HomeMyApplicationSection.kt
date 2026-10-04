@@ -101,7 +101,7 @@ private fun HomeMyApplicationSectionPreview() {
                     companyName = "네이버",
                     title = "",
                     category = "개발/데이터",
-                    currentStageStatus = "코딩테스트",
+                    currentStageStatus = "마감",
                     dDayLabel = "마감",
                 ),
                 MyApplicationCardModel(
