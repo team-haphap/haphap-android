@@ -102,7 +102,7 @@ private fun HomeMyApplicationSectionPreview() {
                     title = "",
                     category = "개발/데이터",
                     currentStageStatus = "코딩테스트",
-                    dDayLabel = "D-5",
+                    dDayLabel = "마감",
                 ),
                 MyApplicationCardModel(
                     id = 3,
@@ -111,7 +111,7 @@ private fun HomeMyApplicationSectionPreview() {
                     title = "",
                     category = "개발/데이터",
                     currentStageStatus = "면접 전형",
-                    dDayLabel = "D-7",
+                    dDayLabel = "발표 확인 중",
                 ),
             ),
             onListCardClick = {},
