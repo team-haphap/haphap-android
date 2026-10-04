@@ -38,7 +38,7 @@ class TokenAuthenticator @Inject constructor(
                     return@runBlocking null
                 }
 
-                suspendRunCatching { authService.reissue("$BEARER $refreshToken").checkData() }
+                suspendRunCatching { authService.postReissue("$BEARER $refreshToken").checkData() }
                     .fold(
                         onSuccess = { tokens ->
                             tokenDataSource.setAccessToken(tokens.accessToken)

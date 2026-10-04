@@ -15,7 +15,7 @@ interface AuthService {
     ): BaseResponse<KakaoLoginResponseDto>
 
     @POST("api/v1/auth/reissue")
-    suspend fun reissue(
+    suspend fun postReissue(
         @Header("Authorization") refreshToken: String,
     ): BaseResponse<ReissueResponseDto>
 }
