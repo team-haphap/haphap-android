@@ -3,6 +3,7 @@ package com.haphap.app.presentation.jobdetail.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -21,9 +22,13 @@ fun NavGraphBuilder.jobDetailGraph(
     innerPadding: PaddingValues,
     navController: NavController,
 ) {
-    composable<JobDetail> {
+    composable<JobDetail> { backStackEntry ->
         JobDetailRoute(
-            navigateBack = { navController.popBackStack() },
+            navigateBack = {
+                if (backStackEntry.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                    navController.popBackStack()
+                }
+            },
             navigateToRegister = { jobId ->
                 navController.navigateToRegisterFromJobDetail(jobId = jobId)
             },
