@@ -21,7 +21,7 @@ class TokenAuthenticator @Inject constructor(
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.retryCount() >= MAX_RETRY_COUNT) return null
 
-        val failedAccessToken = response.request.header(AUTHORIZATION)?.removePrefix("$BEARER ")
+        val failedAccessToken = response.request.header(AUTHORIZATION)?.removePrefix("$BEARER_PREFIX ")
 
         return synchronized(this) {
             runBlocking {
@@ -38,7 +38,7 @@ class TokenAuthenticator @Inject constructor(
                     return@runBlocking null
                 }
 
-                suspendRunCatching { authService.postReissue("$BEARER $refreshToken").checkData() }
+                suspendRunCatching { authService.postReissue("$BEARER_PREFIX $refreshToken").checkData() }
                     .fold(
                         onSuccess = { tokens ->
                             tokenDataSource.setAccessToken(tokens.accessToken)
@@ -64,7 +64,7 @@ class TokenAuthenticator @Inject constructor(
     }
 
     private fun Request.withAccessToken(accessToken: String): Request = newBuilder()
-        .header(AUTHORIZATION, "$BEARER $accessToken")
+        .header(AUTHORIZATION, "$BEARER_PREFIX $accessToken")
         .build()
 
     private fun Response.retryCount(): Int {
@@ -79,7 +79,7 @@ class TokenAuthenticator @Inject constructor(
 
     companion object {
         private const val AUTHORIZATION = "Authorization"
-        private const val BEARER = "Bearer"
+        private const val BEARER_PREFIX = "Bearer"
         private const val MAX_RETRY_COUNT = 1
         private const val HTTP_UNAUTHORIZED = 401
     }
