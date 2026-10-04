@@ -19,6 +19,7 @@ import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
 import com.haphap.app.presentation.setting.component.SettingMenuItem
 import com.haphap.app.presentation.setting.component.SettingSectionDivider
 import com.haphap.app.presentation.setting.component.SettingSectionTitle
@@ -28,6 +29,7 @@ import com.haphap.app.presentation.setting.component.SettingTopBar
 fun SettingRoute(
     navigateBack: () -> Unit,
     navigateToLeave: () -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
@@ -40,6 +42,7 @@ fun SettingRoute(
                 when (sideEffect) {
                     is NavigateToMyPage -> navigateBack()
                     is NavigateToLeave -> navigateToLeave()
+                    is NavigateToLogin -> navigateToLogin()
                 }
             }
         }

@@ -2,8 +2,10 @@ package com.haphap.app.presentation.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haphap.app.data.repository.api.auth.AuthRepository
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +17,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor() : ViewModel() {
+class SettingViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingContract.State())
     val uiState: StateFlow<SettingContract.State> = _uiState.asStateFlow()
 
@@ -37,8 +41,16 @@ class SettingViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onLogoutConfirm() {
-        _uiState.update { it.copy(isLogoutDialogVisible = false) }
-        // TODO: 로그아웃 처리
+        _uiState.update {
+            it.copy(
+                isLogoutDialogVisible = false,
+                settingUiState = SettingUiState.Loading,
+            )
+        }
+        viewModelScope.launch {
+            authRepository.postLogout()
+            _sideEffect.send(NavigateToLogin)
+        }
     }
 
     fun onLeaveClick() {
