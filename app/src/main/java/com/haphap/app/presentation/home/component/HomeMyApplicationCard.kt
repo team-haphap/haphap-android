@@ -19,10 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.core.designsystem.component.chip.HapHapInfoChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.InfoChipType
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.presentation.calendar.component.CalendarStatusChip
 
 @Composable
 fun HomeMyApplicationCard(
@@ -69,10 +70,12 @@ fun HomeMyApplicationCard(
                 )
             }
 
-            CalendarStatusChip(
-                chipText = stageName,
-                isExpectedStage = true,
-            )
+            if (stageName.isNotBlank()) {
+                HapHapInfoChip(
+                    chipText = stageName,
+                    type = InfoChipType.EXPECTED,
+                )
+            }
         }
 
         Text(
