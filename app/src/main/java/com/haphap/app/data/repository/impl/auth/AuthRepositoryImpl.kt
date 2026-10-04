@@ -33,15 +33,19 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun postLogout(): Result<Unit> =
         suspendRunCatching {
-            try {
+            val accessToken = localTokenDataSource.getAccessToken()
+
+            if (!accessToken.isNullOrBlank()) {
                 val deviceId = firebaseMessagingManager.getInstallationId()
                     ?: throw IllegalStateException("Device id is null")
-                val response = authDataSource.postLogout(LogoutRequestDto(deviceId))
-
-                if (!response.isSuccessful) throw HttpException(response)
-            } finally {
-                localTokenDataSource.clearTokens()
-                localFcmDataSource.clearFcmToken()
+                val response = authDataSource.postLogout(
+                    authorization = "Bearer $accessToken",
+                    requestDto = LogoutRequestDto(deviceId),
+                )
+                if (!response.isSuccessful && response.code() != 401) throw HttpException(response)
             }
+
+            localTokenDataSource.clearTokens()
+            localFcmDataSource.clearFcmToken()
         }
 }
