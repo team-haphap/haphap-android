@@ -48,6 +48,7 @@ fun HapHapDeadlineChip(
             style = HapHapTheme.typography.caption.m10,
             color = HapHapTheme.colors.gray700,
         )
+        //Todo: 추후 마감칩 추가
     }
 }
 
