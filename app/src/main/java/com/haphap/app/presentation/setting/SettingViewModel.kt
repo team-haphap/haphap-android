@@ -33,8 +33,8 @@ class SettingViewModel @Inject constructor(
     }
 
     fun onLogoutClick() {
-        if (_uiState.value.settingUiState is SettingUiState.Loading)
-            return _uiState.update { it.copy(isLogoutDialogVisible = true) }
+        if (_uiState.value.settingUiState is SettingUiState.Loading) return
+        _uiState.update { it.copy(isLogoutDialogVisible = true) }
     }
 
     fun onLogoutDialogDismiss() {
@@ -42,13 +42,13 @@ class SettingViewModel @Inject constructor(
     }
 
     fun onLogoutConfirm() {
-        if (_uiState.value.settingUiState is SettingUiState.Loading)
-            return _uiState.update {
-                it.copy(
-                    isLogoutDialogVisible = false,
-                    settingUiState = SettingUiState.Loading
-                )
-            }
+        if (_uiState.value.settingUiState is SettingUiState.Loading) return
+        _uiState.update {
+            it.copy(
+                isLogoutDialogVisible = false,
+                settingUiState = SettingUiState.Loading,
+            )
+        }
 
         viewModelScope.launch {
             authRepository.postLogout()

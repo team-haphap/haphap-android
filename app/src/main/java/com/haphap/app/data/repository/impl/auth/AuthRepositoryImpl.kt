@@ -44,8 +44,8 @@ class AuthRepositoryImpl @Inject constructor(
                 )
                 if (!response.isSuccessful && response.code() != 401) throw HttpException(response)
             }
-
-            localTokenDataSource.clearTokens()
+            
             localFcmDataSource.clearFcmToken()
+            localTokenDataSource.clearTokens()
         }
 }
