@@ -56,7 +56,6 @@ fun HomePopularJobSection(
         Spacer(modifier = Modifier.height(14.dp))
 
         if (popularJobCardList.isEmpty()) {
-
             HomeEmptyComponent(
                 text = "최근 결과가 올라온 공고가 없습니다",
             )
