@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
@@ -29,13 +28,12 @@ fun rememberGalleryStoragePermissionHandler(
     onDenied: () -> Unit,
 ): (onGranted: () -> Unit) -> Unit {
     val context = LocalContext.current
-    val currentOnDenied by rememberUpdatedState(onDenied)
     var pendingAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
-        if (isGranted) pendingAction?.invoke() else currentOnDenied()
+        if (isGranted) pendingAction?.invoke() else onDenied()
         pendingAction = null
     }
 
