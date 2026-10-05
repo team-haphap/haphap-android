@@ -12,7 +12,6 @@ import com.haphap.app.presentation.calendar.navigation.calendarGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.joblist.navigation.jobListGraph
 import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
-import com.haphap.app.presentation.leave.navigation.leaveCompleteGraph
 import com.haphap.app.presentation.leave.navigation.leaveGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
@@ -86,11 +85,6 @@ fun MainNavHost(
         )
 
         leaveGraph(
-            innerPadding = innerPadding,
-            navController = navController,
-        )
-
-        leaveCompleteGraph(
             innerPadding = innerPadding,
             navController = navController,
         )

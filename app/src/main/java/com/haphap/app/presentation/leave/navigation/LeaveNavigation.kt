@@ -46,12 +46,7 @@ fun NavGraphBuilder.leaveGraph(
             ),
         )
     }
-}
 
-fun NavGraphBuilder.leaveCompleteGraph(
-    innerPadding: PaddingValues,
-    navController: NavController,
-) {
     composable<LeaveComplete> {
         LeaveCompleteRoute(
             navigateToLogin = {
