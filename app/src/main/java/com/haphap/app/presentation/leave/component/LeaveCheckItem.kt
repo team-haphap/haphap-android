@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.textfield.HapHapBasicTextField
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.graphemeLength
 import com.haphap.app.core.extensions.noRippleClickable
 
 private const val ETC_REASON_MAX_LENGTH = 150
@@ -116,7 +117,7 @@ fun LeaveCheckItem(
                         placeholderColor = HapHapTheme.colors.gray300,
                         placeholderStyle = textStyle,
                         inputTransformation = InputTransformation {
-                            if (asCharSequence().trimStart().length > ETC_REASON_MAX_LENGTH) revertAllChanges()
+                            if (asCharSequence().trimStart().graphemeLength() > ETC_REASON_MAX_LENGTH) revertAllChanges()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -127,7 +128,7 @@ fun LeaveCheckItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "${etcReasonState.text.trimStart().length}/$ETC_REASON_MAX_LENGTH",
+                    text = "${etcReasonState.text.trimStart().graphemeLength()}/$ETC_REASON_MAX_LENGTH",
                     color = HapHapTheme.colors.gray400,
                     style = HapHapTheme.typography.caption.r11,
                     modifier = Modifier.align(Alignment.End),

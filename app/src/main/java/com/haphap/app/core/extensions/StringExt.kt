@@ -1,5 +1,6 @@
 package com.haphap.app.core.extensions
 
+import java.text.BreakIterator
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -17,4 +18,24 @@ fun String.toTimeFormat(pattern: String = "HH:mm"): String {
     return runCatching {
         LocalDateTime.parse(this).format(DateTimeFormatter.ofPattern(pattern))
     }.getOrDefault("")
+}
+
+/**
+ * 사람이 보는 글자(grapheme cluster) 단위로 길이를 센다.
+ *
+ * [CharSequence.length]는 UTF-16 Char 개수를 세기 때문에 이모지 하나가 2개 이상으로 세어지는 반면,
+ * 이 함수는 "😀", "👍🏻", "👨‍👩‍👧" 같은 이모지도 1글자로 센다.
+ *
+ * @receiver 길이를 셀 문자열
+ * @return 글자 수
+ */
+fun CharSequence.graphemeLength(): Int {
+    val iterator = BreakIterator.getCharacterInstance().apply { setText(this@graphemeLength.toString()) }
+
+    var count = 0
+    while (iterator.next() != BreakIterator.DONE) {
+        count++
+    }
+
+    return count
 }
