@@ -13,10 +13,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.fcm.HapHapFirebaseMessagingService
+import com.haphap.app.core.network.SessionExpiredNotifier
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var sessionExpiredNotifier: SessionExpiredNotifier
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -35,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     extractedPostingId = extractedPostingId,
                     resetExtractedPostingId = { extractedPostingId = null },
+                    sessionExpiredEvent = sessionExpiredNotifier.event,
                 )
             }
         }
