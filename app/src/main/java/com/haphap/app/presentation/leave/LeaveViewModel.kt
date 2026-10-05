@@ -70,7 +70,7 @@ class LeaveViewModel @Inject constructor(
                     null
                 },
             ).onSuccess { _sideEffect.send(NavigateToLeaveComplete) }
-                .onFailure { _uiState.update { it.copy(isLoading = false) } }
+             .onFailure { _uiState.update { it.copy(isLoading = false) } }
         }
     }
 }

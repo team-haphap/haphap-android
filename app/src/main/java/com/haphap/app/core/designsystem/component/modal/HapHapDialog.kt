@@ -32,7 +32,7 @@ import com.haphap.app.core.designsystem.type.ButtonType
  * @param content 다이얼로그 본문에 표시할 안내 문구
  * @param onDismiss 다이얼로그 바깥 영역 또는 "취소" 버튼 클릭 시 호출되는 콜백
  * @param onConfirmClick "확인" 버튼 클릭 시 호출되는 콜백
- * @param iconTrue 다이얼로그에 아이콘이 있는 지 설정하는 변수
+ * @param showIcon 다이얼로그에 아이콘이 있는 지 설정하는 변수
  */
 
 @Composable
@@ -41,7 +41,7 @@ fun HapHapDialog(
     onDismiss: () -> Unit,
     onConfirmClick: () -> Unit,
     modifier: Modifier = Modifier,
-    iconTrue: Boolean = false,
+    showIcon: Boolean = false,
 ) {
     Dialog (
         onDismissRequest = onDismiss,
@@ -59,11 +59,11 @@ fun HapHapDialog(
                     start = 19.dp,
                     top = 16.dp,
                     end = 19.dp,
-                    bottom = if (iconTrue) 21.dp else 16.dp,
+                    bottom = if (showIcon) 21.dp else 16.dp,
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            if (iconTrue) {
+            if (showIcon) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),
                     contentDescription = null,
@@ -113,7 +113,7 @@ private fun HapHapDialogPreview() {
             content = "로그아웃 하시겠습니까?",
             onDismiss = {},
             onConfirmClick = {},
-            iconTrue = false,
+            showIcon = false,
         )
     }
 }

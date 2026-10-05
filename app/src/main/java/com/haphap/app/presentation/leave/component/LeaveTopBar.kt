@@ -40,11 +40,13 @@ fun LeaveTopBar(
 
         Spacer(modifier = Modifier.width(10.dp))
 
-        if (isText) Text(
-            text = "회원 탈퇴",
-            style = HapHapTheme.typography.subtitle.b20,
-            color = HapHapTheme.colors.gray800,
-        )
+        if (isText) {
+            Text(
+                text = "회원 탈퇴",
+                style = HapHapTheme.typography.subtitle.b20,
+                color = HapHapTheme.colors.gray800,
+            )
+        }
     }
 }
 

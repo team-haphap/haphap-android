@@ -29,9 +29,7 @@ fun NavGraphBuilder.myPageGraph(
                     navOptions = navController.clearBackStackNavOptions()
                 )
             },
-            navigateToSetting = {
-                navController.navigateToSetting()
-            },
+            navigateToSetting = navController::navigateToSetting,
             modifier = Modifier.padding(innerPadding),
         )
     }

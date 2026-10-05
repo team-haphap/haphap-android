@@ -3,6 +3,7 @@ package com.haphap.app.presentation.setting.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontVariation.Setting
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -24,9 +25,13 @@ fun NavGraphBuilder.settingGraph(
 ) {
     composable<Setting> {
         SettingRoute(
-            navigateBack = { navController.popBackStack() },
-            navigateToLeave = { navController.navigateToLeave() },
-            navigateToLogin = { navController.navigateToLogin(navOptions = navController.clearBackStackNavOptions())},
+            navigateBack = navController::popBackStack,
+            navigateToLeave = navController::navigateToLeave,
+            navigateToLogin = {
+                navController.navigateToLogin(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }
