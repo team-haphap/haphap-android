@@ -26,7 +26,7 @@ class RegisterPassCardViewModel @Inject constructor(
     private val imageSaver: ImageSaver,
 ) : ViewModel() {
 
-    val passCard = savedStateHandle.toRoute<RegisterPassCard>()
+    private val passCard = savedStateHandle.toRoute<RegisterPassCard>()
 
     private val _uiState = MutableStateFlow(RegisterPassCardContract.State())
     val uiState = _uiState.asStateFlow()
