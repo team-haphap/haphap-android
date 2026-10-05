@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class LogoutRequestDto(
     @SerialName("deviceId")
     val deviceId: String,
-) {
-}
+)

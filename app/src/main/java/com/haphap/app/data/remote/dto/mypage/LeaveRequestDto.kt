@@ -9,5 +9,4 @@ data class LeaveRequestDto(
     val reason: String,
     @SerialName("etcReason")
     val etcReason: String? = null,
-) {
-}
+)
