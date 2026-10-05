@@ -1,6 +1,9 @@
 package com.haphap.app.presentation.setting
 
+import androidx.compose.runtime.Immutable
+
 sealed interface SettingContract {
+    @Immutable
     data class State(
         val settingUiState: SettingUiState = SettingUiState.Idle,
         val isLogoutDialogVisible: Boolean = false,
