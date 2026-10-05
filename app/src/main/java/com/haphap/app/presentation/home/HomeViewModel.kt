@@ -111,4 +111,9 @@ class HomeViewModel @Inject constructor(
             _sideEffect.send(HomeContract.SideEffect.OpenUrl(url))
         }
     }
+
+    fun refreshUserSections() {
+        fetchMyApplications()
+        fetchRecentViews()
+    }
 }
