@@ -13,6 +13,7 @@ import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import jakarta.inject.Inject
 import retrofit2.HttpException
+import timber.log.Timber
 
 class MyPageRepositoryImpl @Inject constructor(
     private val myPageDataSource: MyPageDataSource,
@@ -47,10 +48,13 @@ class MyPageRepositoryImpl @Inject constructor(
 
             if (!accessToken.isNullOrBlank()) {
                 val deviceId = firebaseMessagingManager.getInstallationId()
-                    ?: throw IllegalStateException("Device id is null")
-                val response = myPageDataSource.postLogout(LogoutRequestDto(deviceId))
 
-                if (!response.isSuccessful && response.code() != 401) throw HttpException(response)
+                if (deviceId != null) {
+                    val response = myPageDataSource.postLogout(LogoutRequestDto(deviceId))
+                    if (!response.isSuccessful && response.code() != 401) throw HttpException(response)
+                } else {
+                    Timber.w("Installation id is null. Skip remote logout")
+                }
             }
 
             try {
