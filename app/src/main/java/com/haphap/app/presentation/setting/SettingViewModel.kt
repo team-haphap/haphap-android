@@ -2,7 +2,7 @@ package com.haphap.app.presentation.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haphap.app.data.repository.api.auth.AuthRepository
+import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val myPageRepository: MyPageRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingContract.State())
     val uiState: StateFlow<SettingContract.State> = _uiState.asStateFlow()
@@ -51,7 +51,7 @@ class SettingViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            authRepository.postLogout()
+            myPageRepository.postLogout()
                 .onSuccess { _sideEffect.send(NavigateToLogin) }
                 .onFailure {
                     _uiState.update {
