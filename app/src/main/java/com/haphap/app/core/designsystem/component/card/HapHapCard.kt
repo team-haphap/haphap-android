@@ -1,7 +1,6 @@
 package com.haphap.app.core.designsystem.component.card
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -58,8 +57,7 @@ fun HapHapCard(
             .fillMaxWidth()
             .noRippleClickable(onClick = onCardClick)
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            UrlImage(
+        UrlImage(
                 url = imageUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = company,
@@ -68,7 +66,6 @@ fun HapHapCard(
                     .clip(shape = RoundedCornerShape(4.dp))
                     .aspectRatio(type.imageRatio),
             )
-        }
 
         Column(modifier = Modifier.padding(top = 6.dp)) {
             Row {
