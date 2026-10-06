@@ -101,7 +101,7 @@ private fun JobListScreen(
                         HapHapCard(
                             type = CardType.SMALL,
                             imageUrl = it.imageUrl,
-                            text = it.category,
+                            category = it.category,
                             stage = it.stage,
                             dDay = it.dDay,
                             company = it.title,

@@ -54,7 +54,7 @@ fun HomeRecentJobSection(
                 HapHapCard(
                     type = CardType.BIG,
                     imageUrl = it.logoImageUrl,
-                    text = it.category.orEmpty(),
+                    category = it.category.orEmpty(),
                     stage = it.nextStage.orEmpty(),
                     dDay = it.dDayLabel,
                     company = it.companyName,

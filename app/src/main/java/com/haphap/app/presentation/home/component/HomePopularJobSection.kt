@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home.component
 
+import android.R.attr.description
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -71,7 +72,7 @@ fun HomePopularJobSection(
                     HapHapCard(
                         type = CardType.BIG,
                         imageUrl = it.logoImageUrl,
-                        text = it.category.orEmpty(),
+                        category = it.category.orEmpty(),
                         stage = it.nextStage.orEmpty(),
                         dDay = it.dDayLabel,
                         company = it.companyName,

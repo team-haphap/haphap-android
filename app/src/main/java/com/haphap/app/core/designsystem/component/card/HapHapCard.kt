@@ -1,5 +1,6 @@
 package com.haphap.app.core.designsystem.component.card
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,7 +33,7 @@ import com.haphap.app.core.extensions.noRippleClickable
  *
  * @param type 카드 타입 (BIG, SMALL)
  * @param imageUrl 카드 이미지 URL
- * @param text 표시할 텍스트 (직무)
+ * @param category 직무 카테고리 (예: 개발/데이터)
  * @param stage 전형명 (예: 서류, 최종)
  * @param dDay 발표까지 남은 일수
  * @param company 회사명
@@ -44,7 +45,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun HapHapCard(
     type: CardType,
     imageUrl: String,
-    text: String,
+    category: String,
     stage: String,
     dDay: String,
     company: String,
@@ -69,9 +70,9 @@ fun HapHapCard(
 
         Column(modifier = Modifier.padding(top = 6.dp)) {
             Row {
-                if (text.isNotBlank()) {
+                if (category.isNotBlank()) {
                     HapHapStatusChip(
-                        text = text,
+                        text = category,
                         type = StatusChipType.CATEGORY,
                     )
                 }
@@ -121,7 +122,7 @@ private fun HapHapCardPreview() {
             HapHapCard(
                 type = CardType.BIG,
                 imageUrl = "",
-                text = "개발/데이터",
+                category = "개발/데이터",
                 stage = "1차 면접",
                 dDay = "D-2",
                 company = "카카오",
@@ -132,7 +133,7 @@ private fun HapHapCardPreview() {
             HapHapCard(
                 type = CardType.SMALL,
                 imageUrl = "",
-                text = "개발/데이터",
+                category = "개발/데이터",
                 stage = "1차 면접",
                 dDay = "D-2",
                 company = "카카오",
