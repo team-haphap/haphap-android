@@ -1,12 +1,8 @@
 package com.haphap.app.presentation.leave.navigation
 
-import android.R.attr.layoutDirection
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -31,8 +27,6 @@ fun NavGraphBuilder.leaveGraph(
     navController: NavController,
 ) {
     composable<Leave> {
-        val layoutDirection = LocalLayoutDirection.current
-
         LeaveRoute(
             navigateBack = navController::popBackStack,
             navigateToLeaveComplete = {
@@ -40,11 +34,7 @@ fun NavGraphBuilder.leaveGraph(
                     navOptions = navController.clearBackStackNavOptions(),
                 )
             },
-            modifier = Modifier.padding(
-                top = innerPadding.calculateTopPadding(),
-                start = innerPadding.calculateStartPadding(layoutDirection),
-                end = innerPadding.calculateEndPadding(layoutDirection),
-            ),
+            modifier = Modifier.padding(innerPadding),
         )
     }
 
