@@ -4,4 +4,6 @@ import com.haphap.app.data.model.mypage.MyPageModel
 
 interface MyPageRepository {
     suspend fun getMyPage(): Result<MyPageModel>
+    suspend fun deleteMember(reason: String, etcReason: String?): Result<Unit>
+    suspend fun postLogout(): Result<Unit>
 }

@@ -36,6 +36,11 @@ fun NavGraphBuilder.authGraph(
                     navOptions = navController.clearBackStackNavOptions(),
                 )
             },
+            navigateToHome = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions()
+                )
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }

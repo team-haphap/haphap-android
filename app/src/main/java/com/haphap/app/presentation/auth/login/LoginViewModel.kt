@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.alarm.AlarmRepository
 import com.haphap.app.data.repository.api.auth.AuthRepository
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -37,7 +38,11 @@ class LoginViewModel @Inject constructor(
             .onSuccess { model ->
                 alarmRepository.registerDeviceId()
                 _uiState.update { it.copy(loginUiState = LoginUiState.Success) }
-                _sideEffect.send(NavigateToSignUpComplete(model.name))
+                if (model.isNewUser) {
+                    _sideEffect.send(NavigateToSignUpComplete(model.name))
+                } else {
+                    _sideEffect.send(NavigateToHome)
+                }
             }
             .onFailure { throwable ->
                 _uiState.update {

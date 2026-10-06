@@ -1,7 +1,6 @@
 package com.haphap.app.presentation.mypage
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.mypage.MyPageModel
 
 sealed interface MyPageContract {
     @Immutable
@@ -12,6 +11,11 @@ sealed interface MyPageContract {
         val emailText: String = "",
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
+
+    sealed class SideEffect {
+        data object NavigateToHome : SideEffect()
+        data object NavigateToSetting : SideEffect()
+    }
 }
 
 sealed interface MyPageUiState {
