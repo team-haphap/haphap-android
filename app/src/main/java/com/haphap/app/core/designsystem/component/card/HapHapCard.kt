@@ -1,6 +1,5 @@
 package com.haphap.app.core.designsystem.component.card
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,7 +56,6 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(HapHapTheme.colors.white)
             .noRippleClickable(onClick = onCardClick)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
