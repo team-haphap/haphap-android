@@ -59,9 +59,7 @@ fun LoginRoute(
                         navigateToSignUpComplete(sideEffect.userName)
                     }
 
-                    is NavigateToHome -> {
-                        navigateToHome()
-                    }
+                    is NavigateToHome -> navigateToHome()
                 }
             }
         }
