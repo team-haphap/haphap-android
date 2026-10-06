@@ -33,7 +33,7 @@ fun HapHapDeadlineChip(
     Row(
         modifier = modifier
             .clip(shape = CircleShape)
-            .background(HapHapTheme.colors.white)
+            .background(HapHapTheme.colors.gray100)
             .padding(horizontal = 6.dp, vertical = 2.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -46,8 +46,9 @@ fun HapHapDeadlineChip(
         Text(
             text = dDay,
             style = HapHapTheme.typography.caption.m10,
-            color = HapHapTheme.colors.primary500,
+            color = HapHapTheme.colors.gray700,
         )
+        //Todo: 추후 마감칩 추가
     }
 }
 

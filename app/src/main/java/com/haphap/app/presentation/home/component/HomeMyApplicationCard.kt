@@ -9,106 +9,100 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
+import com.haphap.app.core.designsystem.component.chip.HapHapInfoChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.designsystem.type.StatusChipType
+import com.haphap.app.core.designsystem.type.InfoChipType
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.R
 
 @Composable
-fun HomeListCardComponent(
+fun HomeMyApplicationCard(
     imageUrl: String,
-    title: String,
     companyName: String,
+    title: String,
     category: String,
-    stageName: String,
+    stageName: String?,
+    dDay: String,
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(HapHapTheme.colors.gray100)
+            .clip(shape = RoundedCornerShape(6.dp))
+            .background(HapHapTheme.colors.white)
             .noRippleClickable(onClick = onCardClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(all = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        HomeListCardImage(
+        HomeMyApplicationCardImage(
             imageUrl = imageUrl,
             modifier = Modifier
-                .height(54.dp)
+                .height(46.dp)
                 .aspectRatio(1f),
         )
 
-        Spacer(modifier = Modifier.width(6.dp))
+        Spacer(modifier = Modifier.width(12.dp))
 
         Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = companyName,
-                    style = HapHapTheme.typography.caption.m12,
+                    style = HapHapTheme.typography.body.sb14,
                     color = HapHapTheme.colors.gray700,
                 )
 
                 Spacer(modifier = Modifier.width(2.dp))
 
-                HapHapStatusChip(
-                    text = category,
-                    type = StatusChipType.CATEGORY,
+                Text(
+                    text = title,
+                    style = HapHapTheme.typography.caption.m12,
+                    color = HapHapTheme.colors.gray400,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
-            Spacer(modifier = Modifier.height(2.dp))
-
-            Text(
-                text = title,
-                style = HapHapTheme.typography.body.sb14,
-                color = HapHapTheme.colors.gray700,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-
-            Text(
-                text = "$stageName 발표 예상",
-                style = HapHapTheme.typography.caption.r10,
-                color = HapHapTheme.colors.gray600,
-            )
+            if (stageName == null) {
+                HapHapInfoChip(
+                    chipText = "마감",
+                    type = InfoChipType.CLOSED,
+                )
+            } else if (stageName.isNotBlank()) {
+                HapHapInfoChip(
+                    chipText = stageName,
+                    type = InfoChipType.EXPECTED,
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.width(10.dp))
-
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right_24),
-            contentDescription = null,
-            tint = HapHapTheme.colors.gray500,
-            modifier = Modifier.size(24.dp),
+        Text(
+            text = dDay,
+            style = HapHapTheme.typography.caption.m10,
+            color = HapHapTheme.colors.gray700,
+            modifier = Modifier.padding(end = 14.dp),
         )
     }
 }
 
 @Composable
-private fun HomeListCardImage(
+private fun HomeMyApplicationCardImage(
     imageUrl: String,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(8.dp))
+            .clip(shape = RoundedCornerShape(5.dp))
             .border(
                 color = HapHapTheme.colors.gray100,
                 width = 1.dp,
@@ -118,24 +112,26 @@ private fun HomeListCardImage(
         UrlImage(
             url = imageUrl,
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier.clip(shape = RoundedCornerShape(8.dp)),
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun HomeListCardComponentPreview() {
+private fun HomeMyApplicationCardPreview() {
     HapHapTheme {
         Column(
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
         ) {
-            HomeListCardComponent(
+            HomeMyApplicationCard(
                 imageUrl = "",
-                title = "2026 신입 공개채용",
                 companyName = "카카오",
+                title = "AI 서비스 기획",
                 category = "개발",
-                stageName = "전형",
+                stageName = "1차 면접 발표 중",
+                dDay = "D-2",
                 onCardClick = {},
             )
         }

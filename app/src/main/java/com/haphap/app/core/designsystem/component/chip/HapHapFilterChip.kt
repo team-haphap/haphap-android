@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +51,7 @@ fun HapHapFilterChip(
     isFilterSelected: Boolean = false,
 ) {
     val backgroundColor =
-        if (isFilterSelected) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray100
+        if (isFilterSelected) HapHapTheme.colors.gray600 else HapHapTheme.colors.gray100
     val contentColor =
         if (isFilterSelected) HapHapTheme.colors.white else HapHapTheme.colors.gray500
     val textStyle =
