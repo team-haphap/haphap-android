@@ -23,9 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import java.text.NumberFormat
-import java.util.Locale
-
 
 @Composable
 fun HomePointChip(
@@ -51,7 +48,7 @@ fun HomePointChip(
         Spacer(modifier = Modifier.width(4.dp))
 
         Text(
-            text = "${NumberFormat.getNumberInstance(Locale.KOREA).format(point)}P",
+            text = "%,dP".format(point),
             style = HapHapTheme.typography.body.m14,
             color = HapHapTheme.colors.gray400,
         )
