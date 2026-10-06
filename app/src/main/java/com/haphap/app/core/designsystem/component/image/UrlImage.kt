@@ -1,4 +1,4 @@
-package com.haphap.app.core.designsystem.component.image
+        package com.haphap.app.core.designsystem.component.image
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -37,8 +37,8 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
 fun UrlImage(
+    url: String,
     modifier: Modifier = Modifier,
-    url: String = "",
     @DrawableRes placeholderDrawable: Int? = null,
     contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
