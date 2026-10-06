@@ -31,8 +31,6 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchAll() {
         fetchBannerList()
-        fetchMyApplications()
-        fetchRecentViews()
         fetchPopularPostings()
     }
 
