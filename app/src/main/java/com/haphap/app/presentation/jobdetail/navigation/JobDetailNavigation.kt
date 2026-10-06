@@ -3,6 +3,7 @@ package com.haphap.app.presentation.jobdetail.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -23,7 +24,7 @@ fun NavGraphBuilder.jobDetailGraph(
 ) {
     composable<JobDetail> {
         JobDetailRoute(
-            navigateBack = { navController.popBackStack() },
+            navigateBack = dropUnlessResumed { navController.popBackStack() },
             navigateToRegister = { jobId ->
                 navController.navigateToRegisterFromJobDetail(jobId = jobId)
             },
