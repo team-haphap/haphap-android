@@ -15,8 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.InfoChipType
 
-private const val CLOSED_LABEL = "마감"
-
 /**
  * 정보칩 공통 컴포넌트입니다.
  *
@@ -31,9 +29,7 @@ fun HapHapInfoChip(
     type: InfoChipType,
     modifier: Modifier = Modifier,
 ) {
-    val resolvedType = if (chipText == CLOSED_LABEL) InfoChipType.CLOSED else type
-
-    val (textColor, backgroundColor) = when (resolvedType) {
+    val (textColor, backgroundColor) = when (type) {
         InfoChipType.EXPECTED -> HapHapTheme.colors.primary100 to HapHapTheme.colors.sub100
         InfoChipType.COUNT -> HapHapTheme.colors.gray500 to HapHapTheme.colors.gray100
         InfoChipType.CLOSED -> HapHapTheme.colors.gray400 to HapHapTheme.colors.gray100

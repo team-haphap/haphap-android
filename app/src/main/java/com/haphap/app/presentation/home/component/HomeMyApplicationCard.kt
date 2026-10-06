@@ -53,7 +53,7 @@ fun HomeMyApplicationCard(
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        Column (modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = companyName,
@@ -73,7 +73,11 @@ fun HomeMyApplicationCard(
             if (stageName.isNotBlank()) {
                 HapHapInfoChip(
                     chipText = stageName,
-                    type = InfoChipType.EXPECTED,
+                    type = if (stageName == "마감") {
+                        InfoChipType.CLOSED
+                    } else {
+                        InfoChipType.EXPECTED
+                    },
                 )
             }
         }
