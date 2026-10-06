@@ -37,6 +37,7 @@ import com.haphap.app.presentation.home.component.HomePopularJobSection
 import com.haphap.app.presentation.home.component.HomeRecentJobSection
 import com.haphap.app.presentation.home.component.HomeTopBar
 import kotlinx.collections.immutable.persistentListOf
+import androidx.core.net.toUri
 
 @Composable
 fun HomeRoute(
@@ -67,7 +68,12 @@ fun HomeRoute(
                     }
 
                     is HomeContract.SideEffect.OpenUrl -> {
-                        runCatching { uriHandler.openUri(sideEffect.url) }
+                        val scheme = runCatching {
+                            sideEffect.url.toUri().scheme?.lowercase()
+                        }.getOrNull()
+                        if (scheme == "http" || scheme == "https") {
+                            runCatching { uriHandler.openUri(sideEffect.url) }
+                        }
                     }
                 }
             }
@@ -161,7 +167,7 @@ private fun HomeScreen(
                         onFilterClick = onFilterClick,
                         onPopularCardClick = onPopularCardClick,
 
-                    )
+                        )
                 }
 
                 item {
