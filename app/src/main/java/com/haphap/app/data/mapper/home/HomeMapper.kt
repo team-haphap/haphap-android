@@ -44,7 +44,7 @@ fun HomeMyApplicationDto.toModel(): MyApplicationCardModel =
         logoImageUrl = logoImageUrl,
         title = title,
         category = category?: "",
-        currentStageStatus = currentStageStatus ?: "",
+        currentStageStatus = currentStageStatus,
         dDayLabel = dDayLabel ?: "",
         companyName = companyName,
     )

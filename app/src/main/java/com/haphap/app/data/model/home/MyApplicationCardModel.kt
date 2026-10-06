@@ -9,6 +9,6 @@ data class MyApplicationCardModel (
     val companyName: String,
     val title: String,
     val category: String?,
-    val currentStageStatus: String,
+    val currentStageStatus: String?,
     val dDayLabel: String,
 )
