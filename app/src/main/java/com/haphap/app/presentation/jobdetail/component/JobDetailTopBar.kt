@@ -30,7 +30,7 @@ fun JobDetailTopBar(
         modifier = modifier
             .fillMaxWidth()
             .background(HapHapTheme.colors.white)
-            .padding(start = 12.dp),
+            .padding(start = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val alarmIconRes = if (isAlarmActive) {
@@ -44,8 +44,9 @@ fun JobDetailTopBar(
             contentDescription = null,
             tint = HapHapTheme.colors.gray800,
             modifier = Modifier
-                .size(30.dp)
-                .noRippleClickable(onClick = onBackClick),
+                .size(44.dp)
+                .noRippleClickable(onClick = onBackClick)
+                .padding(7.dp),
         )
 
         Spacer(modifier = Modifier.weight(1f))
