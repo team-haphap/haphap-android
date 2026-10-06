@@ -36,11 +36,13 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.circular_progress_indicator.HapHapCircularProgressIndicator
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
 
 @Composable
 fun LoginRoute(
     navigateToSignUpComplete: (userName: String) -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -55,6 +57,10 @@ fun LoginRoute(
                 when (sideEffect) {
                     is NavigateToSignUpComplete -> {
                         navigateToSignUpComplete(sideEffect.userName)
+                    }
+
+                    is NavigateToHome -> {
+                        navigateToHome()
                     }
                 }
             }

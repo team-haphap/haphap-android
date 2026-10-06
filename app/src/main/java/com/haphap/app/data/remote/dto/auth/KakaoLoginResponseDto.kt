@@ -13,4 +13,6 @@ data class KakaoLoginResponseDto(
     val name: String,
     @SerialName("anonymousName")
     val anonymousName: String,
+    @SerialName("isNewUser")
+    val isNewUser: Boolean = false,
 )

@@ -5,4 +5,5 @@ data class KakaoLoginModel(
     val refreshToken: String,
     val name: String,
     val anonymousName: String,
+    val isNewUser: Boolean,
 )
