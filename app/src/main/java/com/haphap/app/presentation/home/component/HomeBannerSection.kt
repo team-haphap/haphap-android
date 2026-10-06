@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,8 +52,8 @@ fun HomeBannerSection(
     Column(modifier = modifier) {
         HorizontalPager(
             state = state.pagerState,
-            pageSpacing = 12.dp,
-            modifier = Modifier.padding(horizontal = 20.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            pageSpacing = 20.dp,
         ) { page ->
             val index = page % visibleBannerList.size
             val banner = visibleBannerList[index]
