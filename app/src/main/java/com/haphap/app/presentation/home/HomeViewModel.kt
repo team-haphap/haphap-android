@@ -80,7 +80,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.getPopularPostings(categoryParam)
                 .onSuccess { list ->
-                    _uiState.update { it.copy(popularJobCardList = list.toImmutableList()) }
+                    if (_uiState.value.categoryChipState.queryCategoryList == categoryParam) {
+                        _uiState.update { it.copy(popularJobCardList = list.toImmutableList()) }
+                    }
                 }
                 .onFailure { e ->
                     Timber.e(e, "인기 공고 조회 실패")
