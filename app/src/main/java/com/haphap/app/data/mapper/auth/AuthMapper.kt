@@ -8,4 +8,5 @@ fun KakaoLoginResponseDto.toModel(): KakaoLoginModel = KakaoLoginModel(
     refreshToken = refreshToken,
     name = name,
     anonymousName = anonymousName,
+    isNewUser = isNewUser,
 )
