@@ -35,11 +35,7 @@ class MyPageRepositoryImpl @Inject constructor(
 
             if (!response.isSuccessful && response.code() != 404) throw HttpException(response)
 
-            try {
-                localFcmDataSource.clearFcmToken()
-            } finally {
-                localTokenDataSource.clearTokens()
-            }
+            localTokenDataSource.clearTokens()
         }
 
     override suspend fun postLogout(): Result<Unit> =
@@ -57,10 +53,6 @@ class MyPageRepositoryImpl @Inject constructor(
                 }
             }
 
-            try {
-                localFcmDataSource.clearFcmToken()
-            } finally {
-                localTokenDataSource.clearTokens()
-            }
+            localTokenDataSource.clearTokens()
         }
 }
