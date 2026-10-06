@@ -1,0 +1,26 @@
+package com.haphap.app.presentation.setting
+
+import androidx.compose.runtime.Immutable
+
+sealed interface SettingContract {
+    @Immutable
+    data class State(
+        val settingUiState: SettingUiState = SettingUiState.Idle,
+        val isLogoutDialogVisible: Boolean = false,
+    )
+
+    sealed interface SideEffect {
+        data object NavigateToMyPage : SideEffect
+        data object NavigateToLeave : SideEffect
+        data object NavigateToLogin : SideEffect
+    }
+}
+
+sealed interface SettingUiState {
+    data object Idle : SettingUiState
+    data object Loading : SettingUiState
+    data object Success : SettingUiState
+    data class Failure(
+        val msg: String,
+    ) : SettingUiState
+}
