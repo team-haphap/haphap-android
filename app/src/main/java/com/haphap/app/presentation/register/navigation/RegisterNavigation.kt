@@ -7,14 +7,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
-import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import com.haphap.app.presentation.register.RegisterRoute
+import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToRegister(
@@ -73,16 +72,8 @@ fun NavGraphBuilder.registerGraph(
         )
     }
 
-    composable<RegisterPassCard> { backStackEntry ->
-        val route = backStackEntry.toRoute<RegisterPassCard>()
+    composable<RegisterPassCard> {
         RegisterPassCardRoute(
-            passCardModel = RegisterPassCardModel(
-                userName = route.userName,
-                recruitName = route.recruitName,
-                companyName = route.companyName,
-                logoUrl = route.logoUrl,
-                backgroundImageUrl = route.backgroundImageUrl,
-            ),
             navigateToHome = {
                 navController.navigateToHome(
                     navOptions = navController.clearBackStackNavOptions()
