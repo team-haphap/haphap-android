@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.home.component
 
-import android.R.attr.description
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
