@@ -18,8 +18,6 @@ import com.haphap.app.core.designsystem.type.InfoChipType
 /**
  * 정보칩 공통 컴포넌트입니다.
  *
- * chipText가 "마감"이면 type과 상관없이 CLOSED 스타일로 표시됩니다.
- *
  * @param chipText 칩에 표시할 텍스트
  * @param type 칩 타입
  */
