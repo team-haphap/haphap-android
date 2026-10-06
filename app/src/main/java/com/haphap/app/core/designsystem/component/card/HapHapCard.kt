@@ -89,7 +89,7 @@ fun HapHapCard(
 
             Spacer(modifier = Modifier.height(2.dp))
 
-            Column(modifier = Modifier.padding(horizontal = 4.dp)) {
+            Column(modifier = Modifier.padding(start = 4.dp)) {
                 Text(
                     text = company,
                     style = HapHapTheme.typography.body.sb14,
@@ -104,7 +104,7 @@ fun HapHapCard(
                     color = HapHapTheme.colors.gray500,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(end = 24.dp),
+                    modifier = Modifier.padding(end = 28.dp),
                 )
             }
         }
