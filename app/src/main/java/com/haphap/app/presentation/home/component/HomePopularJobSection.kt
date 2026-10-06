@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +26,7 @@ import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-private const val MAX_RECENT_CARD_COUNT = 10
+private const val MAX_POPULAR_CARD_COUNT = 10
 
 @Composable
 fun HomePopularJobSection(
@@ -33,6 +36,12 @@ fun HomePopularJobSection(
     onPopularCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val lazyListState = rememberLazyListState()
+
+    LaunchedEffect(popularJobCardList) {
+        lazyListState.scrollToItem(0)
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -60,11 +69,13 @@ fun HomePopularJobSection(
             )
         } else {
             LazyRow(
+                state = lazyListState,
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 20.dp)
+                contentPadding = PaddingValues(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
             ) {
                 items(
-                    items = popularJobCardList.take(MAX_RECENT_CARD_COUNT),
+                    items = popularJobCardList.take(MAX_POPULAR_CARD_COUNT),
                     key = { it.id },
                 ) {
                     HapHapCard(
@@ -78,8 +89,6 @@ fun HomePopularJobSection(
                         onCardClick = { onPopularCardClick(it.id) },
                         modifier = Modifier.width(155.dp)
                     )
-
-                    Spacer(modifier = Modifier.width(5.dp))
                 }
             }
         }
