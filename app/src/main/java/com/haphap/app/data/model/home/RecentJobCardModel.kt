@@ -1,5 +1,8 @@
 package com.haphap.app.data.model.home
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class RecentJobCardModel (
     val id: Int,
     val logoImageUrl: String,
