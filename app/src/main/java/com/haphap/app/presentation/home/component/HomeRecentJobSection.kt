@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.home.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -44,7 +45,8 @@ fun HomeRecentJobSection(
 
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 20.dp)
+            contentPadding = PaddingValues(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             items(
                 items = recentJobCardList.take(MAX_RECENT_CARD_COUNT),
@@ -61,8 +63,6 @@ fun HomeRecentJobSection(
                     onCardClick = { onRecentCardClick(it.id) },
                     modifier = Modifier.width(155.dp)
                 )
-
-                Spacer(modifier = Modifier.width(5.dp))
             }
         }
     }
