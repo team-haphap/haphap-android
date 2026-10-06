@@ -31,7 +31,7 @@ fun HomeMyApplicationCard(
     companyName: String,
     title: String,
     category: String,
-    stageName: String,
+    stageName: String?,
     dDay: String,
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -70,14 +70,15 @@ fun HomeMyApplicationCard(
                 )
             }
 
-            if (stageName.isNotBlank()) {
+            if (stageName == null) {
+                HapHapInfoChip(
+                    chipText = "마감",
+                    type = InfoChipType.CLOSED,
+                )
+            } else if (stageName.isNotBlank()) {
                 HapHapInfoChip(
                     chipText = stageName,
-                    type = if (stageName == "마감") {
-                        InfoChipType.CLOSED
-                    } else {
-                        InfoChipType.EXPECTED
-                    },
+                    type = InfoChipType.EXPECTED,
                 )
             }
         }
