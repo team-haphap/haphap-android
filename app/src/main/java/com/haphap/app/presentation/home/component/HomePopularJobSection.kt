@@ -42,7 +42,6 @@ fun HomePopularJobSection(
         HomeCardTitle(
             title = "다른 사용자들이 많이 보는 공고",
             description = "다른 사용자들의 관심 공고를 확인해보세요",
-            isMore = false,
         )
 
         Spacer(modifier = Modifier.height(12.dp))

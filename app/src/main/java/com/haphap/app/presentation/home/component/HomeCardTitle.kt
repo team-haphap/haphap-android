@@ -13,15 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun HomeCardTitle(
     title: String,
     description: String,
-    isMore: Boolean,
     modifier: Modifier = Modifier,
-    onMoreClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -44,17 +41,6 @@ fun HomeCardTitle(
                 color = HapHapTheme.colors.gray500,
             )
         }
-
-        if (isMore) {
-            Text(
-                text = "더보기",
-                style = HapHapTheme.typography.caption.m12,
-                color = HapHapTheme.colors.gray300,
-                modifier = Modifier
-                    .noRippleClickable(onClick = onMoreClick)
-                    .padding(horizontal = 6.dp),
-            )
-        }
     }
 }
 
@@ -68,7 +54,6 @@ private fun HomeCardTitlePreview() {
             HomeCardTitle(
                 title = "최근 결과가 올라온 공고",
                 description = "지원자 결과가 활발하게 공유되고 있는 공고를 확인해요",
-                isMore = false,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -76,8 +61,6 @@ private fun HomeCardTitlePreview() {
             HomeCardTitle(
                 title = "오늘 발표 예상 공고",
                 description = "과거 패턴을 바탕으로 오늘 발표 가능성이 높은 공고를 확인해요",
-                isMore = true,
-                onMoreClick = {},
             )
         }
     }

@@ -38,7 +38,6 @@ fun HomeRecentJobSection(
         HomeCardTitle(
             title = "최근 내가 본 공고",
             description = "최근에 살펴본 공고를 모아봤어요",
-            isMore = false,
         )
 
         Spacer(modifier = Modifier.height(14.dp))
