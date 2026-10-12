@@ -21,5 +21,9 @@ sealed interface LeaveContract {
     sealed interface SideEffect {
         data object NavigateToSetting : SideEffect
         data object NavigateToLeaveComplete : SideEffect
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = false,
+        ) : SideEffect
     }
 }

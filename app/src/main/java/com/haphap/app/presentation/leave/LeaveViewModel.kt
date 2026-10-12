@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToLeaveComplete
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToSetting
+import com.haphap.app.presentation.leave.LeaveContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.leave.type.LeaveReasonType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -70,7 +71,10 @@ class LeaveViewModel @Inject constructor(
                     null
                 },
             ).onSuccess { _sideEffect.send(NavigateToLeaveComplete) }
-             .onFailure { _uiState.update { it.copy(isLoading = false) } }
+             .onFailure {
+                 _uiState.update { it.copy(isLoading = false) }
+                 _sideEffect.send(OnShowToast(message = "회원탈퇴에 실패했어요. 다시 시도해주세요."))
+             }
         }
     }
 }
