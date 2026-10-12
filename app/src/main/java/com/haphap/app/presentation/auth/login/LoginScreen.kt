@@ -34,10 +34,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.circular_progress_indicator.HapHapCircularProgressIndicator
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
 
 @Composable
 fun LoginRoute(
@@ -50,6 +52,7 @@ fun LoginRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val kakaoLoginManager = remember { KakaoLoginManager() }
     val lifeCycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
 
     LaunchedEffect(lifeCycleOwner) {
         lifeCycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -60,6 +63,7 @@ fun LoginRoute(
                     }
 
                     is NavigateToHome -> navigateToHome()
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
                 }
             }
         }
@@ -74,7 +78,9 @@ fun LoginRoute(
                 onSuccess = { kakaoAccessToken ->
                     viewModel.kakaoLogin(kakaoAccessToken)
                 },
-                onFailure = {},
+                onFailure = viewModel::onKakaoLoginFailure,
+                onCancel = viewModel::onKakaoLoginCancel,
+                onNetworkError = viewModel::onKakaoLoginFailure,
             )
         },
         modifier = modifier,
@@ -88,7 +94,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
 ) {
     when (uiState.loginUiState) {
-        LoginUiState.Loading -> {
+        LoginUiState.Loading, LoginUiState.Success -> {
             HapHapCircularProgressIndicator(
                 modifier = modifier
                     .fillMaxSize()
@@ -169,8 +175,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(13.dp))
             }
-        }
-        LoginUiState.Success -> {
         }
     }
 
