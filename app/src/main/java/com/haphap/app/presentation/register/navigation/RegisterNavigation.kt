@@ -7,11 +7,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.home.navigation.navigateToHome
+import com.haphap.app.presentation.jobdetail.navigation.JobDetail
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.register.passcard.RegisterPassCardRoute
 import com.haphap.app.presentation.register.RegisterRoute
@@ -61,7 +63,11 @@ fun NavGraphBuilder.registerGraph(
             navigateToJobDetail = { jobId ->
                 navController.navigateToJobDetail(
                     postingId = jobId,
-                    navOptions = navController.clearBackStackNavOptions(),
+                    navOptions = navOptions {
+                        popUpTo<JobDetail> {
+                            inclusive = true
+                        }
+                    },
                 )
             },
             navigateToPassCard = { passCard ->
