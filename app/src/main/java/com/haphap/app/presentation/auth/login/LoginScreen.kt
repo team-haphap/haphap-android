@@ -37,6 +37,7 @@ import com.haphap.app.core.designsystem.component.circular_progress_indicator.Ha
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
@@ -106,7 +107,7 @@ fun LoginScreen(
                 modifier = modifier
                     .fillMaxSize()
                     .background(HapHapTheme.colors.white)
-                    .padding(start = 20.dp, end = 20.dp, bottom = 13.dp),
+                    .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.weight(1f))
@@ -148,6 +149,9 @@ fun LoginScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 10.dp)
+                        .toastBottomInset()
+                        .padding(bottom = 3.dp)
                         .noRippleClickable(onClick = onKakaoLoginClick)
                         .background(
                             color = HapHapTheme.colors.yellow,
@@ -172,8 +176,6 @@ fun LoginScreen(
                         color = HapHapTheme.colors.gray800,
                     )
                 }
-
-                Spacer(modifier = Modifier.height(13.dp))
             }
         }
     }

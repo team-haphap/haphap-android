@@ -30,6 +30,7 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToLeaveComplete
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToSetting
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.OnShowToast
@@ -148,7 +149,9 @@ private fun LeaveScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 8.dp)
+                    .toastBottomInset()
+                    .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 HapHapBasicButton(
