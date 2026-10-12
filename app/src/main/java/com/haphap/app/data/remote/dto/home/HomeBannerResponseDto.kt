@@ -15,5 +15,7 @@ data class HomeBannerItemDto (
     val imageUrl: String,
     @SerialName("displayOrder")
     val displayOrder: Int,
+    @SerialName("linkUrl")
+    val linkUrl: String? = null,
 )
 

@@ -1,8 +1,7 @@
 package com.haphap.app.core.designsystem.component.card
 
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -35,7 +33,7 @@ import com.haphap.app.core.extensions.noRippleClickable
  *
  * @param type 카드 타입 (BIG, SMALL)
  * @param imageUrl 카드 이미지 URL
- * @param text 표시할 텍스트 (직무)
+ * @param category 직무 카테고리 (예: 개발/데이터)
  * @param stage 전형명 (예: 서류, 최종)
  * @param dDay 발표까지 남은 일수
  * @param company 회사명
@@ -47,7 +45,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun HapHapCard(
     type: CardType,
     imageUrl: String,
-    text: String,
+    category: String,
     stage: String,
     dDay: String,
     company: String,
@@ -58,40 +56,40 @@ fun HapHapCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(HapHapTheme.colors.gray100)
             .noRippleClickable(onClick = onCardClick)
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            UrlImage(
+        UrlImage(
                 url = imageUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = company,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(4.dp))
                     .aspectRatio(type.imageRatio),
             )
 
-            HapHapStatusChip(
-                text = text,
-                type = StatusChipType.CATEGORY,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(start = 10.dp, bottom = 8.dp),
-            )
-        }
+        Column(modifier = Modifier.padding(top = 6.dp)) {
+            Row {
+                if (category.isNotBlank()) {
+                    HapHapStatusChip(
+                        text = category,
+                        type = StatusChipType.CATEGORY,
+                    )
+                }
 
-        Column(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
-        ) {
-            HapHapDeadlineChip(
-                stage = stage,
-                dDay = dDay,
-            )
+                Spacer(modifier = Modifier.width(4.dp))
+
+                if (stage.isNotBlank() || dDay.isNotBlank()) {
+                    HapHapDeadlineChip(
+                        stage = stage,
+                        dDay = dDay,
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(2.dp))
 
-            Column(modifier = Modifier.padding(start = 2.dp)) {
+            Column(modifier = Modifier.padding(start = 4.dp)) {
                 Text(
                     text = company,
                     style = HapHapTheme.typography.body.sb14,
@@ -103,16 +101,17 @@ fun HapHapCard(
                 Text(
                     text = description,
                     style = HapHapTheme.typography.caption.sb12,
-                    color = HapHapTheme.colors.gray600,
+                    color = HapHapTheme.colors.gray500,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(end = 28.dp),
                 )
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HapHapCardPreview() {
     HapHapTheme {
@@ -123,18 +122,18 @@ private fun HapHapCardPreview() {
             HapHapCard(
                 type = CardType.BIG,
                 imageUrl = "",
-                text = "개발/데이터",
+                category = "개발/데이터",
                 stage = "1차 면접",
                 dDay = "D-2",
                 company = "카카오",
                 description = "공고명공고명공고명공고명공고명공고명공고명공고명",
                 onCardClick = {},
-                modifier = Modifier.width(186.dp),
+                modifier = Modifier.width(155.dp),
             )
             HapHapCard(
                 type = CardType.SMALL,
                 imageUrl = "",
-                text = "개발/데이터",
+                category = "개발/데이터",
                 stage = "1차 면접",
                 dDay = "D-2",
                 company = "카카오",

@@ -22,9 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.chip.HapHapInfoChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.InfoChipType
 import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
@@ -80,16 +81,16 @@ private fun CalendarListCardContent(
         Spacer(modifier = Modifier.height(4.dp))
 
         Row{
-            CalendarStatusChip(
+            HapHapInfoChip(
                 chipText = "$stage 발표 예상",
-                isExpectedStage = true,
+                type = InfoChipType.EXPECTED,
             )
 
             Spacer(modifier = Modifier.width(6.dp))
 
-            CalendarStatusChip(
+            HapHapInfoChip(
                 chipText = "${participantCount}명 참여중",
-                isExpectedStage = false,
+                type = InfoChipType.COUNT,
             )
         }
 

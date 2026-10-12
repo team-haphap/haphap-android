@@ -31,13 +31,7 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchAll() {
         fetchBannerList()
-        fetchCountCard()
-        fetchAnnouncements()
-        fetchRecentPostings()
-    }
-
-    fun onRefreshClick() {
-        fetchAll()
+        fetchPopularPostings()
     }
 
     private fun fetchBannerList() {
@@ -52,40 +46,46 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun fetchCountCard() {
+    private fun fetchMyApplications() {
         viewModelScope.launch {
-            homeRepository.getCountCard()
-                .onSuccess { count ->
-                    _uiState.update { it.copy(countCardModel = count) }
-                }
-                .onFailure { e ->
-                    Timber.e(e, "오늘 집계 조회 실패")
-                }
-        }
-    }
-
-    private fun fetchAnnouncements() {
-        viewModelScope.launch {
-            homeRepository.getAnnouncements()
+            homeRepository.getMyApplications()
                 .onSuccess { list ->
-                    _uiState.update { it.copy(todayExpectedCardList = list.toImmutableList()) }
+                    _uiState.update {
+                        it.copy(myApplicationCardList = list.toImmutableList())
+                    }
                 }
                 .onFailure { e ->
-                    Timber.e(e, "오늘 발표 예상 공고 조회 실패")
+                    Timber.e(e, "내 지원 조회 실패")
                 }
         }
     }
 
-    private fun fetchRecentPostings() {
+    private fun fetchRecentViews() {
+        viewModelScope.launch {
+            homeRepository.getRecentViews()
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(recentJobCardList = list.toImmutableList())
+                    }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "최근 조회한 공고 조회 실패")
+                }
+        }
+    }
+
+    private fun fetchPopularPostings() {
         val categoryParam = _uiState.value.categoryChipState.queryCategoryList
 
         viewModelScope.launch {
-            homeRepository.getRecentPostings(categoryParam)
+            homeRepository.getPopularPostings(categoryParam)
                 .onSuccess { list ->
-                    _uiState.update { it.copy(recentCardList = list.toImmutableList()) }
+                    if (_uiState.value.categoryChipState.queryCategoryList == categoryParam) {
+                        _uiState.update { it.copy(popularJobCardList = list.toImmutableList()) }
+                    }
                 }
                 .onFailure { e ->
-                    Timber.e(e, "최근 등록 공고 조회 실패")
+                    Timber.e(e, "인기 공고 조회 실패")
                 }
         }
     }
@@ -94,18 +94,26 @@ class HomeViewModel @Inject constructor(
         _uiState.update {
             it.copy(categoryChipState = it.categoryChipState.toggle(category))
         }
-        fetchRecentPostings()
+        fetchPopularPostings()
     }
 
     fun onSearchBarClick() = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToSearch)
     }
 
-    fun onMoreClick() = viewModelScope.launch {
-        _sideEffect.send(HomeContract.SideEffect.NavigateToJobList)
-    }
-
     fun onCardClick(postingId: Int) = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToJobDetail(postingId))
+    }
+
+    fun onBannerClick(linkUrl: String?) {
+        val url = linkUrl ?: return
+        viewModelScope.launch {
+            _sideEffect.send(HomeContract.SideEffect.OpenUrl(url))
+        }
+    }
+
+    fun refreshUserSections() {
+        fetchMyApplications()
+        fetchRecentViews()
     }
 }

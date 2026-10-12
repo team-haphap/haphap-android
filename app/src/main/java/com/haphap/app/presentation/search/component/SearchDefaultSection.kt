@@ -118,7 +118,7 @@ fun SearchDefaultSection(
                         HapHapCard(
                             type = CardType.BIG,
                             imageUrl = it.imageUrl,
-                            text = it.category,
+                            category = it.category,
                             stage = it.nextStage,
                             dDay = it.dDay,
                             company = it.companyName,
