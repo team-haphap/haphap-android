@@ -33,6 +33,8 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
  * @param modifier Composable에 적용할 Modifier
  * @param contentScale 이미지 스케일링 방식 (기본: Fit)
  * @param contentDescription 접근성을 위한 이미지 설명
+ * @param crossfade 이미지 로드 시 페이드인 애니메이션 적용 여부 (기본: true)
+ * @param onSuccess 이미지 로드에 성공했을 때 실행할 콜백
  */
 
 @Composable
@@ -42,6 +44,8 @@ fun UrlImage(
     @DrawableRes placeholderDrawable: Int? = null,
     contentScale: ContentScale = ContentScale.Fit,
     contentDescription: String? = null,
+    crossfade: Boolean = true,
+    onSuccess: () -> Unit = {},
 ) {
     if (LocalInspectionMode.current) {
         if (placeholderDrawable != null) {
@@ -64,7 +68,7 @@ fun UrlImage(
     AsyncImage(
         model = ImageRequest.Builder(LocalPlatformContext.current)
             .data(url.ifBlank { null })
-            .crossfade(true)
+            .crossfade(crossfade)
             .build(),
         contentDescription = contentDescription,
         contentScale = contentScale,
@@ -78,6 +82,7 @@ fun UrlImage(
         onSuccess = {
             isLoading = false
             isError = false
+            onSuccess()
         },
         onError = {
             isLoading = false
