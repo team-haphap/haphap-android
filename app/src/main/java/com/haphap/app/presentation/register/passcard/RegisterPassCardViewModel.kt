@@ -50,6 +50,14 @@ class RegisterPassCardViewModel @Inject constructor(
         }
     }
 
+    fun onBackgroundLoaded() {
+        _uiState.update { it.copy(isBackgroundLoaded = true) }
+    }
+
+    fun onLogoLoaded() {
+        _uiState.update { it.copy(isLogoLoaded = true) }
+    }
+
     fun savePassCardImage(bitmap: ImageBitmap) {
         viewModelScope.launch {
             suspendRunCatching {

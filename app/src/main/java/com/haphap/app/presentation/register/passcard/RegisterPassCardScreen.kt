@@ -75,6 +75,8 @@ fun RegisterPassCardRoute(
     RegisterPassCardScreen(
         uiState = uiState,
         onHomeClick = navigateToHome,
+        onBackgroundLoaded = viewModel::onBackgroundLoaded,
+        onLogoLoaded = viewModel::onLogoLoaded,
         onSaveClick = { bitmap ->
             storagePermission { viewModel.savePassCardImage(bitmap) }
         },
@@ -86,6 +88,8 @@ fun RegisterPassCardRoute(
 fun RegisterPassCardScreen(
     uiState: RegisterPassCardContract.State,
     onHomeClick: () -> Unit,
+    onBackgroundLoaded: () -> Unit,
+    onLogoLoaded: () -> Unit,
     onSaveClick: (ImageBitmap) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -116,7 +120,7 @@ fun RegisterPassCardScreen(
                 HapHapBasicButton(
                     text = "저장하기",
                     textStyle = HapHapTheme.typography.body.b18,
-                    colorType = ButtonType.Primary(enabled = true),
+                    colorType = ButtonType.Primary(enabled = uiState.isSaveEnabled),
                     onClick = {
                         coroutineScope.launch {
                             val bitmap = graphicsLayer.toImageBitmap()
@@ -171,6 +175,8 @@ fun RegisterPassCardScreen(
                     url = uiState.backgroundImageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
+                    crossfade = false,
+                    onSuccess = onBackgroundLoaded,
                     modifier = Modifier.fillMaxSize(),
                 )
 
@@ -184,6 +190,8 @@ fun RegisterPassCardScreen(
                         url = uiState.logoUrl,
                         contentDescription = null,
                         contentScale = ContentScale.Fit,
+                        crossfade = false,
+                        onSuccess = onLogoLoaded,
                         modifier = Modifier.height(44.dp),
                     )
 
@@ -216,6 +224,8 @@ private fun RegisterPassCardScreenPreview() {
                 backgroundImageUrl = "",
             ),
             onHomeClick = {},
+            onBackgroundLoaded = {},
+            onLogoLoaded = {},
             onSaveClick = {},
         )
     }

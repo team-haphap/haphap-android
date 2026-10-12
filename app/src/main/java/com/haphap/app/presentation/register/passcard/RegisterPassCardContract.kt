@@ -10,7 +10,12 @@ sealed interface RegisterPassCardContract {
         val companyName: String = "",
         val logoUrl: String = "",
         val backgroundImageUrl: String = "",
-    )
+        val isBackgroundLoaded: Boolean = false,
+        val isLogoLoaded: Boolean = false,
+    ) {
+        val isSaveEnabled: Boolean
+            get() = isBackgroundLoaded && isLogoLoaded
+    }
 
     sealed class SideEffect {
         data class OnShowToast (
