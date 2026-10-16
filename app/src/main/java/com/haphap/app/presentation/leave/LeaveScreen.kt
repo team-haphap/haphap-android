@@ -27,10 +27,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToLeaveComplete
 import com.haphap.app.presentation.leave.LeaveContract.SideEffect.NavigateToSetting
+import com.haphap.app.presentation.leave.LeaveContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.leave.component.LeaveCheckItem
 import com.haphap.app.presentation.leave.component.LeaveTopBar
 import com.haphap.app.presentation.leave.type.LeaveReasonType
@@ -44,6 +47,7 @@ fun LeaveRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -51,6 +55,7 @@ fun LeaveRoute(
                 when (sideEffect) {
                     is NavigateToSetting -> navigateBack()
                     is NavigateToLeaveComplete -> navigateToLeaveComplete()
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
                 }
             }
         }
@@ -144,7 +149,9 @@ private fun LeaveScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 8.dp)
+                    .toastBottomInset()
+                    .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 HapHapBasicButton(

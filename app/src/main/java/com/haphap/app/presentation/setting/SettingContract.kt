@@ -13,6 +13,10 @@ sealed interface SettingContract {
         data object NavigateToMyPage : SideEffect
         data object NavigateToLeave : SideEffect
         data object NavigateToLogin : SideEffect
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = false,
+        ) : SideEffect
     }
 }
 

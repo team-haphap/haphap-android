@@ -6,6 +6,7 @@ import com.haphap.app.data.repository.api.alarm.AlarmRepository
 import com.haphap.app.data.repository.api.auth.AuthRepository
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,8 +49,18 @@ class LoginViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(loginUiState = LoginUiState.Failure)
                 }
+                _sideEffect.send(OnShowToast(message = "로그인에 실패했어요. 다시 시도해주세요."))
                 Timber.tag(TAG).e(throwable, "카카오 로그인 실패")
             }
+    }
+
+    fun onKakaoLoginFailure() = viewModelScope.launch {
+        _uiState.update { it.copy(loginUiState = LoginUiState.Failure) }
+        _sideEffect.send(OnShowToast(message = "로그인에 실패했어요. 다시 시도해주세요."))
+    }
+
+    fun onKakaoLoginCancel() {
+        _uiState.update { it.copy(loginUiState = LoginUiState.Idle) }
     }
 
     companion object {

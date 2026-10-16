@@ -34,10 +34,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.circular_progress_indicator.HapHapCircularProgressIndicator
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.NavigateToSignUpComplete
+import com.haphap.app.presentation.auth.login.LoginContract.SideEffect.OnShowToast
 
 @Composable
 fun LoginRoute(
@@ -50,6 +53,7 @@ fun LoginRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val kakaoLoginManager = remember { KakaoLoginManager() }
     val lifeCycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
 
     LaunchedEffect(lifeCycleOwner) {
         lifeCycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -60,6 +64,7 @@ fun LoginRoute(
                     }
 
                     is NavigateToHome -> navigateToHome()
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
                 }
             }
         }
@@ -74,7 +79,9 @@ fun LoginRoute(
                 onSuccess = { kakaoAccessToken ->
                     viewModel.kakaoLogin(kakaoAccessToken)
                 },
-                onFailure = {},
+                onFailure = viewModel::onKakaoLoginFailure,
+                onCancel = viewModel::onKakaoLoginCancel,
+                onNetworkError = viewModel::onKakaoLoginFailure,
             )
         },
         modifier = modifier,
@@ -88,7 +95,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
 ) {
     when (uiState.loginUiState) {
-        LoginUiState.Loading -> {
+        LoginUiState.Loading, LoginUiState.Success -> {
             HapHapCircularProgressIndicator(
                 modifier = modifier
                     .fillMaxSize()
@@ -100,7 +107,7 @@ fun LoginScreen(
                 modifier = modifier
                     .fillMaxSize()
                     .background(HapHapTheme.colors.white)
-                    .padding(start = 20.dp, end = 20.dp, bottom = 13.dp),
+                    .padding(horizontal = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.weight(1f))
@@ -142,6 +149,9 @@ fun LoginScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom = 10.dp)
+                        .toastBottomInset()
+                        .padding(bottom = 3.dp)
                         .noRippleClickable(onClick = onKakaoLoginClick)
                         .background(
                             color = HapHapTheme.colors.yellow,
@@ -166,11 +176,7 @@ fun LoginScreen(
                         color = HapHapTheme.colors.gray800,
                     )
                 }
-
-                Spacer(modifier = Modifier.height(13.dp))
             }
-        }
-        LoginUiState.Success -> {
         }
     }
 

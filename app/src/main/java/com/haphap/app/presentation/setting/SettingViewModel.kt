@@ -6,6 +6,7 @@ import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,6 +58,7 @@ class SettingViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(settingUiState = SettingUiState.Idle)
                     }
+                    _sideEffect.send(OnShowToast(message = "로그아웃하지 못했어요. 다시 시도해주세요."))
                 }
         }
     }

@@ -16,10 +16,12 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.modal.HapHapDialog
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
+import com.haphap.app.presentation.setting.SettingContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.setting.component.SettingMenuItem
 import com.haphap.app.presentation.setting.component.SettingSectionDivider
 import com.haphap.app.presentation.setting.component.SettingSectionTitle
@@ -35,6 +37,7 @@ fun SettingRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -43,6 +46,7 @@ fun SettingRoute(
                     is NavigateToMyPage -> navigateBack()
                     is NavigateToLeave -> navigateToLeave()
                     is NavigateToLogin -> navigateToLogin()
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
                 }
             }
         }
