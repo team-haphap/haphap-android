@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.haphap.app.R.drawable.ic_delete_32
 import com.haphap.app.R.drawable.ic_search_32
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
@@ -38,10 +40,11 @@ fun HapHapSearchTextField(
     placeholder: String,
     onSearch: () -> Unit,
     modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions =  KeyboardOptions(imeAction = ImeAction.Search),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focusManager = LocalFocusManager.current
+    val hasText = state.text.isNotEmpty()
 
     Row(
         modifier = modifier
@@ -51,7 +54,7 @@ fun HapHapSearchTextField(
             )
             .padding(vertical = 5.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-    ){
+    ) {
         HapHapBasicTextField(
             state = state,
             textColor = HapHapTheme.colors.gray800,
@@ -70,13 +73,19 @@ fun HapHapSearchTextField(
         )
 
         Icon(
-            imageVector = ImageVector.vectorResource(ic_search_32),
+            imageVector = ImageVector.vectorResource(
+                if (hasText) ic_delete_32 else ic_search_32
+            ),
             contentDescription = null,
             tint = HapHapTheme.colors.gray500,
             modifier = Modifier.noRippleClickable(
                 onClick = {
-                    onSearch()
-                    focusManager.clearFocus()
+                    if (hasText) {
+                        state.clearText()
+                    } else {
+                        onSearch()
+                        focusManager.clearFocus()
+                    }
                 }
             ),
         )
