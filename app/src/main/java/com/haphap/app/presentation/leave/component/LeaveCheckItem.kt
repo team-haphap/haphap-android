@@ -87,7 +87,7 @@ fun LeaveCheckItem(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 103.dp)
+                    .heightIn(min = 103.dp, max = 159.dp)
                     .animateContentSize(animationSpec = tween(durationMillis = 100))
                     .background(
                         color = HapHapTheme.colors.gray100,
@@ -106,7 +106,9 @@ fun LeaveCheckItem(
                     inputTransformation = InputTransformation {
                         if (asCharSequence().trimStart().graphemeLength() > ETC_REASON_MAX_LENGTH) revertAllChanges()
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = false),
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
