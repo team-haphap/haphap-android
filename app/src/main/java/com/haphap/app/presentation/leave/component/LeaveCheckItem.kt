@@ -103,8 +103,7 @@ fun LeaveCheckItem(
                     inputTransformation = InputTransformation {
                         if (asCharSequence().trimStart().graphemeLength() > ETC_REASON_MAX_LENGTH) revertAllChanges()
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
