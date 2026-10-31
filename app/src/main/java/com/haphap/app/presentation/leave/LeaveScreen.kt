@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -19,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -37,6 +41,9 @@ import com.haphap.app.presentation.leave.LeaveContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.leave.component.LeaveCheckItem
 import com.haphap.app.presentation.leave.component.LeaveTopBar
 import com.haphap.app.presentation.leave.type.LeaveReasonType
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 
 @Composable
 fun LeaveRoute(
@@ -80,6 +87,23 @@ private fun LeaveScreen(
     onLeaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val scrollState = rememberScrollState()
+    val density = LocalDensity.current
+    val imeBottom = WindowInsets.ime.getBottom(density)
+
+    LaunchedEffect(imeBottom) {
+        if (imeBottom > 0) {
+            snapshotFlow { scrollState.maxValue }
+                .collect { maxValue ->
+                    try {
+                        scrollState.scrollTo(maxValue)
+                    } catch (e: CancellationException) {
+                        currentCoroutineContext().ensureActive()
+                    }
+                }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -94,7 +118,7 @@ private fun LeaveScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
