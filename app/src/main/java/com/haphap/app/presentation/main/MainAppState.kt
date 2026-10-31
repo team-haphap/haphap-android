@@ -14,7 +14,6 @@ import com.haphap.app.presentation.community.navigation.navigateToCommunity
 import com.haphap.app.presentation.home.navigation.navigateToHome
 import com.haphap.app.presentation.joblist.navigation.navigateToJobList
 import com.haphap.app.presentation.main.component.MainTab
-import com.haphap.app.presentation.mypage.navigation.navigateToMyPage
 import com.haphap.app.presentation.register.navigation.navigateToRegister
 import com.haphap.app.presentation.splash.navigation.Splash
 import kotlinx.coroutines.CoroutineScope

@@ -16,7 +16,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToSetting
 import com.haphap.app.presentation.mypage.component.MyPageProfileCard
 import com.haphap.app.presentation.mypage.component.MyPageTopBar
@@ -24,7 +24,7 @@ import com.haphap.app.presentation.mypage.component.MyPageTopSection
 
 @Composable
 fun MyPageRoute(
-    navigateToHome: () -> Unit,
+    navigateBack: () -> Unit,
     navigateToSetting: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
@@ -36,7 +36,7 @@ fun MyPageRoute(
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
-                    is NavigateToHome -> navigateToHome()
+                    is NavigateBack -> navigateBack()
                     is NavigateToSetting -> navigateToSetting()
                 }
             }

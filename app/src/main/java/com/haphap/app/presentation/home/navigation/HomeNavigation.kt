@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.HomeRoute
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
@@ -26,7 +27,7 @@ fun NavGraphBuilder.homeGraph(
     composable<Home> {
         HomeRoute(
             modifier = Modifier.padding(innerPadding),
-            navigateToMyPage = navController::navigateToMyPage,
+            navigateToMyPage = { navController.navigateToMyPage(navOptions {launchSingleTop = true}) },
             navigateToSearch = navController::navigateToSearch,
             navigateToJobDetail = { postingId ->
                 navController.navigateToJobDetail(postingId = postingId)
