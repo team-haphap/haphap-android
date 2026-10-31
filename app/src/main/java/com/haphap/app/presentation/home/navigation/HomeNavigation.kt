@@ -11,6 +11,7 @@ import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.presentation.home.HomeRoute
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.joblist.navigation.navigateToJobList
+import com.haphap.app.presentation.mypage.navigation.navigateToMyPage
 import com.haphap.app.presentation.search.navigation.navigateToSearch
 import kotlinx.serialization.Serializable
 
@@ -25,6 +26,7 @@ fun NavGraphBuilder.homeGraph(
     composable<Home> {
         HomeRoute(
             modifier = Modifier.padding(innerPadding),
+            navigateToMyPage = navController::navigateToMyPage,
             navigateToSearch = navController::navigateToSearch,
             navigateToJobDetail = { postingId ->
                 navController.navigateToJobDetail(postingId = postingId)
