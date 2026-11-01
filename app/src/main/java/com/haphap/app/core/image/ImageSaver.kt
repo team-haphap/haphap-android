@@ -14,7 +14,6 @@ import javax.inject.Inject
 /**
  * Bitmap을 기기 갤러리(Pictures/HapHap)에 PNG로 저장합니다.
  *
- * MediaStore를 사용하므로 별도의 저장소 권한이 필요하지 않습니다.
  */
 
 class ImageSaver @Inject constructor(
