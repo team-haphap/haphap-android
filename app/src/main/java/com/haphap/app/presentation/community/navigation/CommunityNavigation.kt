@@ -19,15 +19,9 @@ fun NavController.navigateToCommunity(
 
 fun NavGraphBuilder.communityGraph(
     innerPadding: PaddingValues,
-    navController: NavController,
 ) {
     composable<Community> {
         CommunityRoute(
-            navigateToHome = {
-                navController.navigateToHome(
-                    navOptions = navController.clearBackStackNavOptions()
-                )
-            },
             modifier = Modifier.padding(innerPadding),
         )
     }

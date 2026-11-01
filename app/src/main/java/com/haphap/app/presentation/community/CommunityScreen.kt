@@ -10,18 +10,15 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 
 @Composable
 fun CommunityRoute(
-    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     CommunityScreen(
-        onBackClick = {},
         modifier = modifier,
     )
 }
 
 @Composable
 private fun CommunityScreen(
-    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -37,8 +34,6 @@ private fun CommunityScreen(
 @Composable
 private fun CommunityScreenPreview() {
     HapHapTheme {
-        CommunityScreen(
-            onBackClick = {},
-        )
+        CommunityScreen()
     }
 }
