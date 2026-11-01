@@ -42,6 +42,7 @@ import androidx.core.net.toUri
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
+    navigateToMyPage: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToJobList: () -> Unit,
     navigateToJobDetail: (Int) -> Unit,
@@ -55,6 +56,10 @@ fun HomeRoute(
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
+                    is HomeContract.SideEffect.NavigateToMyPage -> {
+                        navigateToMyPage()
+                    }
+
                     is HomeContract.SideEffect.NavigateToSearch -> {
                         navigateToSearch()
                     }
@@ -86,6 +91,7 @@ fun HomeRoute(
 
     HomeScreen(
         uiState = uiState,
+        onProfileClick = viewModel::onProfileClick,
         onSearchBarClick = viewModel::onSearchBarClick,
         onBannerClick = viewModel::onBannerClick,
         onFilterClick = { viewModel.updateSelectedChips(it) },
@@ -99,6 +105,7 @@ fun HomeRoute(
 @Composable
 private fun HomeScreen(
     uiState: HomeContract.State,
+    onProfileClick: () -> Unit,
     onSearchBarClick: () -> Unit,
     onBannerClick: (String?) -> Unit,
     onFilterClick: (String) -> Unit,
@@ -116,7 +123,7 @@ private fun HomeScreen(
             HomeTopBar(
                 point = 100, //Todo: 추후 마이페이지 개발 후 연결
                 onPointClick = {},
-                onProfileClick = {},
+                onProfileClick = onProfileClick,
             )
 
             HapHapSearchBar(
@@ -300,6 +307,7 @@ private fun HomeScreenPreview() {
                     ),
                 ),
             ),
+            onProfileClick = {},
             onSearchBarClick = {},
             onBannerClick = {},
             onFilterClick = {},

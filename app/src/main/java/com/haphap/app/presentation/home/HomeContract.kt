@@ -23,6 +23,7 @@ sealed interface HomeContract {
         data object NavigateToSearch : SideEffect
         data object NavigateToJobList : SideEffect
         data class NavigateToJobDetail(val postingId: Int) : SideEffect
+        data object NavigateToMyPage : SideEffect
         data class OpenUrl(val url: String) : SideEffect
     }
 }

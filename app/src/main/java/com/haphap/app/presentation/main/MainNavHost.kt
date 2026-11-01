@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import com.haphap.app.presentation.auth.navigation.authGraph
 import com.haphap.app.presentation.auth.navigation.signUpCompleteGraph
 import com.haphap.app.presentation.calendar.navigation.calendarGraph
+import com.haphap.app.presentation.community.navigation.communityGraph
 import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.joblist.navigation.jobListGraph
 import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
@@ -94,5 +95,9 @@ fun MainNavHost(
             navController = navController,
         )
 
+        communityGraph(
+            innerPadding = innerPadding,
+            navController = navController,
+        )
     }
 }
