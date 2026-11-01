@@ -46,7 +46,7 @@ fun HapHapSearchTextField(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focusManager = LocalFocusManager.current
-    val hasText by remember { derivedStateOf { state.text.isNotEmpty() } }
+    val hasText by remember(state) { derivedStateOf { state.text.isNotEmpty() } }
 
     Row(
         modifier = modifier
