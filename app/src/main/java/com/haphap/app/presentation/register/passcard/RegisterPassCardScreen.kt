@@ -43,7 +43,6 @@ import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
-import com.haphap.app.core.image.rememberGalleryStoragePermissionHandler
 import com.haphap.app.presentation.register.passcard.RegisterPassCardContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.passcard.RegisterPassCardContract.SideEffect.OnShowToast
 import kotlinx.coroutines.launch
@@ -57,9 +56,6 @@ fun RegisterPassCardRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
-    val storagePermission = rememberGalleryStoragePermissionHandler(
-        onDenied = viewModel::onSavePermissionDenied,
-    )
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -77,9 +73,7 @@ fun RegisterPassCardRoute(
         onHomeClick = navigateToHome,
         onBackgroundLoaded = viewModel::onBackgroundLoaded,
         onLogoLoaded = viewModel::onLogoLoaded,
-        onSaveClick = { bitmap ->
-            storagePermission { viewModel.savePassCardImage(bitmap) }
-        },
+        onSaveClick = viewModel::savePassCardImage,
         modifier = modifier,
     )
 }
