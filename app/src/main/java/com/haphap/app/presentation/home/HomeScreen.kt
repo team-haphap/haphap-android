@@ -85,7 +85,7 @@ fun HomeRoute(
         }
     }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+    LifecycleEventEffect(Lifecycle.Event.ON_START) {
         viewModel.refreshUserSections()
     }
 

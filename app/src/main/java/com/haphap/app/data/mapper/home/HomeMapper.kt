@@ -23,7 +23,7 @@ fun HomeRecentDto.toModel(): RecentJobCardModel =
         title = title,
         category = category ?: "",
         nextStage = nextStage ?: "",
-        dDayLabel = dDayLabel ?: "",
+        dDayLabel = dDayLabel ?: "마감",
         companyName = companyName,
     )
 
@@ -34,7 +34,7 @@ fun HomePopularDto.toModel(): PopularJobCardModel =
         title = title,
         category = category ?: "",
         nextStage = nextStage ?: "",
-        dDayLabel = dDayLabel ?: "",
+        dDayLabel = dDayLabel ?: "마감",
         companyName = companyName,
     )
 
@@ -45,6 +45,6 @@ fun HomeMyApplicationDto.toModel(): MyApplicationCardModel =
         title = title,
         category = category?: "",
         currentStageStatus = currentStageStatus,
-        dDayLabel = dDayLabel ?: "",
+        dDayLabel = dDayLabel ?: "마감",
         companyName = companyName,
     )
