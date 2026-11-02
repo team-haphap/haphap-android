@@ -97,17 +97,17 @@ fun RegisterFourthSection(
         Spacer(modifier = Modifier.weight(1f))
 
         RegisterTnC(
-            isNecessary = false,
-            context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
-            checked = isAlarmAgreed,
-            onCheckedChange = onAlarmAgreeToggled,
-        )
-
-        RegisterTnC(
             isNecessary = true,
             context = "내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다.",
             checked = isTermAgreed,
             onCheckedChange = onTermAgreeToggled,
+        )
+
+        RegisterTnC(
+            isNecessary = false,
+            context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
+            checked = isAlarmAgreed,
+            onCheckedChange = onAlarmAgreeToggled,
         )
 
         Spacer(modifier = Modifier.height(30.dp))
