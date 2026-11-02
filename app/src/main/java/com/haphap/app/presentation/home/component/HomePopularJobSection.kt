@@ -65,7 +65,7 @@ fun HomePopularJobSection(
 
         if (popularJobCardList.isEmpty()) {
             HomeEmptyComponent(
-                text = "최근 결과가 올라온 공고가 없습니다",
+                text = "카테고리에 해당하는 공고가 없어요",
             )
         } else {
             LazyRow(
