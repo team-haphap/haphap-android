@@ -76,11 +76,13 @@ fun RegisterAddImageGuide(
 @Composable
 private fun RegisterGuideItem(
     guideText: String,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = "• $guideText",
         style = HapHapTheme.typography.caption.r11,
         color = HapHapTheme.colors.gray800,
+        modifier = modifier.padding(vertical = 3.dp),
     )
 }
 
