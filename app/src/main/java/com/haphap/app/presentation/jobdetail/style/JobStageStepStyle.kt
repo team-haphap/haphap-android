@@ -13,7 +13,6 @@ data class JobStageStepStyle(
     val numberColor: Color,
     val stageNameStyle: TextStyle,
     val stateText: String,
-    val stateSpacerHeight: Dp,
     val stateTextColor: Color,
     val stateTextStyle: TextStyle,
 )
@@ -35,7 +34,6 @@ fun jobStageStepStyle(status: JobStepStatus): JobStageStepStyle {
             JobStepStatus.IN_PROGRESS -> "진행중"
             JobStepStatus.UPCOMING -> "대기"
         },
-        stateSpacerHeight = if (isActive) 3.dp else 2.dp,
         stateTextColor = if (isActive) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray300,
         stateTextStyle = if (isActive) {
             HapHapTheme.typography.caption.m10
