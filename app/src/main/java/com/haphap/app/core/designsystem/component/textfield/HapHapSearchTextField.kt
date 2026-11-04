@@ -72,6 +72,7 @@ fun HapHapSearchTextField(
             },
             lineLimits = TextFieldLineLimits.SingleLine,
             interactionSource = interactionSource,
+            cursorColor = HapHapTheme.colors.gray500,
         )
 
         Icon(
