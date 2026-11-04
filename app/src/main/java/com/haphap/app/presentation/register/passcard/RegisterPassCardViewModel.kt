@@ -73,12 +73,6 @@ class RegisterPassCardViewModel @Inject constructor(
         }
     }
 
-    fun onSavePermissionDenied() {
-        viewModelScope.launch {
-            // _sideEffect.send(OnShowToast(message = "사진 저장 권한이 필요해요"))
-        }
-    }
-
     companion object {
         private const val FILE_NAME_PREFIX = "haphap_passcard_"
     }

@@ -97,6 +97,10 @@ class HomeViewModel @Inject constructor(
         fetchPopularPostings()
     }
 
+    fun onProfileClick() = viewModelScope.launch {
+        _sideEffect.send(HomeContract.SideEffect.NavigateToMyPage)
+    }
+
     fun onSearchBarClick() = viewModelScope.launch {
         _sideEffect.send(HomeContract.SideEffect.NavigateToSearch)
     }

@@ -13,7 +13,7 @@ sealed interface MyPageContract {
     )
 
     sealed class SideEffect {
-        data object NavigateToHome : SideEffect()
+        data object NavigateBack : SideEffect()
         data object NavigateToSetting : SideEffect()
     }
 }

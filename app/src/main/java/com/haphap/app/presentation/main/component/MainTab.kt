@@ -5,9 +5,9 @@ import com.haphap.app.R
 import com.haphap.app.core.navigation.MainTabRoute
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.calendar.navigation.Calendar
+import com.haphap.app.presentation.community.navigation.Community
 import com.haphap.app.presentation.home.navigation.Home
 import com.haphap.app.presentation.joblist.navigation.JobList
-import com.haphap.app.presentation.mypage.navigation.MyPage
 import com.haphap.app.presentation.register.navigation.Register
 
 enum class MainTab(
@@ -36,10 +36,10 @@ enum class MainTab(
         titleRes = "캘린더",
         route = Calendar,
     ),
-    MYPAGE(
-        iconRes = R.drawable.ic_bottom_bar_my_24,
-        titleRes = "마이",
-        route = MyPage,
+    COMMUNITY(
+        iconRes = R.drawable.ic_bottom_bar_community_24,
+        titleRes = "커뮤니티",
+        route = Community,
     );
 
     companion object {
