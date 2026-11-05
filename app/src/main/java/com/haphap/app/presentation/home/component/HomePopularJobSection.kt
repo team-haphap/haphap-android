@@ -31,6 +31,7 @@ private const val MAX_POPULAR_CARD_COUNT = 10
 @Composable
 fun HomePopularJobSection(
     popularJobCardList: ImmutableList<PopularJobCardModel>,
+    isError: Boolean,
     categoryChipState: CategoryChipState,
     onFilterClick: (String) -> Unit,
     onPopularCardClick: (Int) -> Unit,
@@ -63,32 +64,32 @@ fun HomePopularJobSection(
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        if (popularJobCardList.isEmpty()) {
-            HomeEmptyComponent(
-                text = "최근 결과가 올라온 공고가 없습니다",
-            )
-        } else {
-            LazyRow(
-                state = lazyListState,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-            ) {
-                items(
-                    items = popularJobCardList.take(MAX_POPULAR_CARD_COUNT),
-                    key = { it.id },
+        when {
+            isError -> HomeErrorComponent(text = "네트워크 연결을 확인해주세요")
+            popularJobCardList.isEmpty() -> HomeEmptyComponent(text = "카테고리에 해당하는 공고가 없어요")
+            else -> {
+                LazyRow(
+                    state = lazyListState,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
-                    HapHapCard(
-                        type = CardType.BIG,
-                        imageUrl = it.logoImageUrl,
-                        category = it.category.orEmpty(),
-                        stage = it.nextStage.orEmpty(),
-                        dDay = it.dDayLabel,
-                        company = it.companyName,
-                        description = it.title,
-                        onCardClick = { onPopularCardClick(it.id) },
-                        modifier = Modifier.width(155.dp)
-                    )
+                    items(
+                        items = popularJobCardList.take(MAX_POPULAR_CARD_COUNT),
+                        key = { it.id },
+                    ) {
+                        HapHapCard(
+                            type = CardType.BIG,
+                            imageUrl = it.logoImageUrl,
+                            category = it.category.orEmpty(),
+                            stage = it.nextStage.orEmpty(),
+                            dDay = it.dDayLabel,
+                            company = it.companyName,
+                            description = it.title,
+                            onCardClick = { onPopularCardClick(it.id) },
+                            modifier = Modifier.width(155.dp)
+                        )
+                    }
                 }
             }
         }
@@ -139,6 +140,7 @@ private fun HomePopularJobSectionPreview() {
                     companyName = "카카오",
                 ),
             ),
+            isError = false,
             categoryChipState = CategoryChipState(),
             onFilterClick = {},
             onPopularCardClick = {},
