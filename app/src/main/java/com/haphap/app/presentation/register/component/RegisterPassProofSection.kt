@@ -13,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
@@ -121,35 +119,37 @@ private fun PassProofAttachedContent(
     }
 }
 
-private class ProofImagesProvider :
-    PreviewParameterProvider<ImmutableList<RegisterProofImageModel>> {
-    private fun image(
-        index: Int,
-        error: RegisterProofImageErrorType? = null,
-    ) = RegisterProofImageModel(
-        uri = Uri.parse("content://preview/$index"),
-        fileName = "합격메일_0$index.png",
-        fileSize = "285.6KB",
-        error = error,
-    )
-
-    override val values = sequenceOf(
-        persistentListOf(),
-        persistentListOf(image(1)),
-        persistentListOf(image(1), image(2), image(3)),
-        persistentListOf(image(1), image(2, RegisterProofImageErrorType.SIZE_EXCEEDED)),
-        persistentListOf(image(1, RegisterProofImageErrorType.LOAD_FAILED)),
-    )
+@Preview(showBackground = true)
+@Composable
+private fun RegisterPassProofSectionEmptyPreview() {
+    HapHapTheme {
+        RegisterPassProofSection(
+            images = persistentListOf(),
+            onAddImageClick = {},
+            onRemoveImage = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun RegisterPassProofSectionPreview(
-    @PreviewParameter(ProofImagesProvider::class) images: ImmutableList<RegisterProofImageModel>,
-) {
+private fun RegisterPassProofSectionAttachedPreview() {
     HapHapTheme {
         RegisterPassProofSection(
-            images = images,
+            images = persistentListOf(
+                RegisterProofImageModel(
+                    uri = Uri.parse("content://preview/1"),
+                    fileName = "합격메일_01.png",
+                    fileSize = "285.6KB",
+                ),
+                RegisterProofImageModel(
+                    uri = Uri.parse("content://preview/2"),
+                    fileName = "합격메일_02.png",
+                    fileSize = "285.6KB",
+                    error = RegisterProofImageErrorType.SIZE_EXCEEDED,
+                ),
+            ),
             onAddImageClick = {},
             onRemoveImage = {},
             modifier = Modifier.fillMaxSize(),
