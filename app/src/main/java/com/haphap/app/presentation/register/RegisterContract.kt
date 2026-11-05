@@ -6,6 +6,8 @@ import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.data.model.register.RegistrationModel
+import com.haphap.app.presentation.register.model.MAX_PROOF_IMAGE_COUNT
+import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import kotlinx.collections.immutable.ImmutableList
@@ -27,11 +29,16 @@ sealed interface RegisterContract {
         val selectedResult: PassResultStatusButton? = null,
         val isChangeModalVisible: Boolean = false,
 
+        val proofImages: ImmutableList<RegisterProofImageModel> = persistentListOf(),
+
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
         val registrationResult: RegistrationModel? = null,
 
         val isButtonEnabled: Boolean = false,
     ) {
+        val remainingProofImageCount: Int
+            get() = MAX_PROOF_IMAGE_COUNT - proofImages.size
+
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
                 registerInfo = registerInfo.copy(
