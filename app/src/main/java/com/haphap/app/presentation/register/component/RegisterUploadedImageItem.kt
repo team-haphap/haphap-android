@@ -34,7 +34,7 @@ fun RegisterUploadedImageItem(
     fileName: String,
     fileSize: String,
     thumbnail: Uri?,
-    isError: Boolean,
+    errorMessage: String?,
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -49,7 +49,7 @@ fun RegisterUploadedImageItem(
         ) {
             UploadedImageThumbnail(
                 thumbnail = thumbnail,
-                isError = isError,
+                isError = errorMessage != null,
             )
 
             Column(
@@ -64,9 +64,10 @@ fun RegisterUploadedImageItem(
                 )
 
                 Text(
-                    text = if (isError) "이미지를 불러오는데 실패했어요." else fileSize,
+                    text = errorMessage ?: fileSize,
                     style = HapHapTheme.typography.caption.m12,
-                    color = if (isError) HapHapTheme.colors.subred else HapHapTheme.colors.gray500,
+                    color = if (errorMessage != null) HapHapTheme.colors.subred
+                            else HapHapTheme.colors.gray500,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -127,7 +128,7 @@ private fun RegisterUploadedImageItemPreview() {
             fileName = "합격메일_01.png",
             fileSize = "285.6KB",
             thumbnail = null,
-            isError = false,
+            errorMessage = null,
             onRemoveClick = {},
         )
     }
@@ -141,7 +142,7 @@ private fun RegisterUploadedImageItemErrorPreview() {
             fileName = "합격메일_01.png",
             fileSize = "285.6KB",
             thumbnail = null,
-            isError = true,
+            errorMessage = "이미지를 불러오는데 실패했어요.",
             onRemoveClick = {},
         )
     }
