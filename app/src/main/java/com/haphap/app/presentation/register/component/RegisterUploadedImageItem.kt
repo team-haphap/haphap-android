@@ -42,8 +42,8 @@ fun RegisterUploadedImageItem(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(vertical = 6.dp)
-                .padding(end = 4.dp),
+                .padding(vertical = 5.dp)
+                .padding(end = 5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(11.dp),
         ) {
@@ -97,7 +97,7 @@ private fun UploadedImageThumbnail(
 ) {
     Box(
         modifier = modifier
-            .size(width = 52.dp, height = 49.dp)
+            .size(size = 51.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(HapHapTheme.colors.gray100),
         contentAlignment = Alignment.Center,
