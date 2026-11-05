@@ -1,5 +1,6 @@
 package com.haphap.app.presentation.register
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
@@ -38,6 +39,12 @@ sealed interface RegisterContract {
     ) {
         val remainingProofImageCount: Int
             get() = MAX_PROOF_IMAGE_COUNT - proofImages.size
+
+        val validProofImageUris: ImmutableList<Uri>
+            get() = proofImages
+                .filter { it.error == null }
+                .map { it.uri }
+                .toImmutableList()
 
         fun toggleNotificationChannel(channel: NotificationChannelType): State =
             copy(
