@@ -1,13 +1,11 @@
 package com.haphap.app.presentation.home.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -17,19 +15,15 @@ fun HomeEmptyComponent(
     text: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Text(
+        text = text,
+        style = HapHapTheme.typography.caption.sb12,
+        color = HapHapTheme.colors.gray400,
+        textAlign = TextAlign.Center,
         modifier = modifier
             .fillMaxWidth()
-            .height(138.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = text,
-            style = HapHapTheme.typography.caption.sb12,
-            color = HapHapTheme.colors.gray400,
-        )
-    }
+            .padding(top = 60.dp, bottom = 61.dp),
+    )
 }
 
 @Preview(showBackground = true)
