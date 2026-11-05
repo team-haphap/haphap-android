@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.home.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,6 +26,8 @@ class HomeViewModel @Inject constructor(
 
     private val _sideEffect = Channel<HomeContract.SideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
+
+    private var popularPostingsJob: Job? = null
 
     init {
         fetchAll()
@@ -77,15 +81,25 @@ class HomeViewModel @Inject constructor(
     private fun fetchPopularPostings() {
         val categoryParam = _uiState.value.categoryChipState.queryCategoryList
 
-        viewModelScope.launch {
+        popularPostingsJob?.cancel()
+        popularPostingsJob = viewModelScope.launch {
             homeRepository.getPopularPostings(categoryParam)
                 .onSuccess { list ->
-                    if (_uiState.value.categoryChipState.queryCategoryList == categoryParam) {
-                        _uiState.update { it.copy(popularJobCardList = list.toImmutableList()) }
+                    _uiState.update {
+                        it.copy(
+                            popularJobCardList = list.toImmutableList(),
+                            isPopularJobError = false,
+                        )
                     }
                 }
                 .onFailure { e ->
                     Timber.e(e, "인기 공고 조회 실패")
+                    _uiState.update {
+                        it.copy(
+                            popularJobCardList = persistentListOf(),
+                            isPopularJobError = true,
+                        )
+                    }
                 }
         }
     }
