@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -180,7 +182,8 @@ private fun PopularSearchItem(
             text = index.toString(),
             style = HapHapTheme.typography.body.sb14,
             color = if (isTopRank) HapHapTheme.colors.primary500 else HapHapTheme.colors.gray400,
-            modifier = Modifier.padding(horizontal = 4.dp)
+            modifier = Modifier.widthIn(min = 16.dp),
+            textAlign = TextAlign.Center,
         )
 
         Text(
