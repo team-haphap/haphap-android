@@ -15,14 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.presentation.register.model.MAX_PROOF_IMAGE_COUNT
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.RegisterAddImageType
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.collections.count
-
-private const val MAX_PROOF_IMAGE_COUNT = 3
 
 @Composable
 fun RegisterPassProofSection(
