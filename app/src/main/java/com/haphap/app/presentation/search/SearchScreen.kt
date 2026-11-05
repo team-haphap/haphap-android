@@ -96,7 +96,6 @@ fun SearchRoute(
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onResultCardClick = { viewModel.onCardItemClick(it) },
         onDeleteClick = viewModel::deleteRecentSearchItem,
-        onTrendCardClick = { viewModel.onCardItemClick(it) },
         modifier = modifier,
     )
 }
@@ -116,7 +115,6 @@ private fun SearchScreen(
     onFilterClick: (String) -> Unit,
     onResultCardClick: (Int) -> Unit,
     onDeleteClick: (Long) -> Unit,
-    onTrendCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -151,12 +149,11 @@ private fun SearchScreen(
             SearchSection.Default ->
                 SearchDefaultSection(
                     recentSearchUiState = uiState.recentSearchListUiState,
-                    popularSearchUiState = uiState.trendJobListUiState,
+                    popularSearchUiState = uiState.popularSearchListUiState,
                     recentSearchList = uiState.recentSearchList,
-                    trendJobList = uiState.trendJobList,
+                    popularSearchList = uiState.popularSearchList,
                     onRecentItemClick = onRecentItemClick,
                     onDeleteClick = onDeleteClick,
-                    onCardClick = onTrendCardClick,
                     modifier = Modifier.weight(1f),
                 )
 
@@ -202,7 +199,6 @@ private fun SearchScreenPreview() {
             onRelatedItemClick = {},
             onResultCardClick = {},
             onDeleteClick = {},
-            onTrendCardClick = {},
             onLoadMoreSearchList = {},
         )
     }
