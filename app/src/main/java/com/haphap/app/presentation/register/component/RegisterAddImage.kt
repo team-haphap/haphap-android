@@ -94,7 +94,7 @@ fun RegisterAddImage(
 
                 Text(
                     text = "최대 3개까지 첨부 할 수 있습니다",
-                    style = HapHapTheme.typography.caption.sb12,
+                    style = HapHapTheme.typography.caption.m12,
                     color = HapHapTheme.colors.gray500,
                 )
             }
