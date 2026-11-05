@@ -1,9 +1,11 @@
 package com.haphap.app.presentation.register
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.haphap.app.core.image.ImageFileInfoReader
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.presentation.register.type.RegisterResultType
 import com.haphap.app.data.model.register.RegistrationCheckType
@@ -15,6 +17,8 @@ import com.haphap.app.presentation.register.RegisterContract.SideEffect.Navigate
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.register.model.RegisterProofImageModel
+import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -28,12 +32,14 @@ import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val registerRepository: RegisterRepository,
+    private val imageFileInfoReader: ImageFileInfoReader,
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<Register>()
@@ -243,6 +249,85 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(step = 4, isButtonEnabled = it.registerInfo.anonymous) }
     }
 
+    fun onImagesPicked(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+
+        viewModelScope.launch {
+            val currentState = _uiState.value
+            val newUris = uris.distinct()
+                .filterNot { uri ->
+                    currentState.proofImages.any { it.uri == uri }
+                }
+            val acceptedUris = newUris.take(currentState.remainingProofImageCount)
+
+            if (newUris.size > acceptedUris.size) showImageLimitToast()
+
+            val newImages = acceptedUris.map { it.toProofImage() }
+
+            _uiState.update { state ->
+                val images = (state.proofImages + newImages).toImmutableList()
+
+                state.copy(
+                    proofImages = images,
+                    isButtonEnabled = images.any { it.error == null },
+                )
+            }
+        }
+    }
+
+    fun onRemoveImage(uri: Uri) {
+        val images = _uiState.value.proofImages
+        val target = images.find { it.uri == uri } ?: return
+        val isLastValidImage = target.error == null && images.count { it.error == null } == 1
+
+        if (isLastValidImage) {
+            viewModelScope.launch {
+                _sideEffect.send(OnShowToast("다른 이미지를 추가한 후 삭제해주세요.", isAlarm = false))
+            }
+            return
+        }
+
+        _uiState.update { state ->
+            val remaining = state.proofImages.filterNot { it.uri == uri }.toImmutableList()
+
+            state.copy(
+                proofImages = remaining,
+                isButtonEnabled = remaining.any { it.error == null },
+            )
+        }
+    }
+
+    fun onImageLimitExceeded() {
+        viewModelScope.launch { showImageLimitToast() }
+    }
+
+    private suspend fun showImageLimitToast() {
+        _sideEffect.send(OnShowToast("첨부 가능한 이미지 개수를 초과했어요.", isAlarm = false))
+    }
+
+    private suspend fun Uri.toProofImage(): RegisterProofImageModel {
+        val info = imageFileInfoReader.read(this)
+            ?: return RegisterProofImageModel(
+                uri = this,
+                fileName = lastPathSegment.orEmpty(),
+                fileSize = "",
+                error = RegisterProofImageErrorType.LOAD_FAILED,
+            )
+
+        return RegisterProofImageModel(
+            uri = this,
+            fileName = info.name,
+            fileSize = info.sizeBytes.toFileSizeText(),
+            error = when {
+                info.mimeType !in SUPPORTED_IMAGE_MIME_TYPES ->
+                    RegisterProofImageErrorType.UNSUPPORTED_FORMAT
+                info.sizeBytes > MAX_IMAGE_SIZE_BYTES ->
+                    RegisterProofImageErrorType.SIZE_EXCEEDED
+                else -> null
+            },
+        )
+    }
+
     fun onBackClick() {
         _uiState.update {
             val previousStep = if (it.step == 4 && it.selectedResult == PassResultStatusButton.DONT_KNOW) {
@@ -340,4 +425,16 @@ private fun PassResultStatusButton.toRegisterResultType(): RegisterResultType = 
     PassResultStatusButton.PASS -> RegisterResultType.PASS
     PassResultStatusButton.FAILED -> RegisterResultType.FAIL
     PassResultStatusButton.DONT_KNOW -> RegisterResultType.PENDING
+}
+
+private const val MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024L
+private val SUPPORTED_IMAGE_MIME_TYPES = setOf("image/jpeg", "image/png", "image/heic", "image/heif")
+
+private fun Long.toFileSizeText(): String {
+    val kb = this / 1024.0
+    return if (kb < 1024) {
+        String.format(Locale.US, "%.1fKB", kb)
+    } else {
+        String.format(Locale.US, "%.1fMB", kb / 1024)
+    }
 }
