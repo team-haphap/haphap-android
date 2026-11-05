@@ -1,5 +1,9 @@
 package com.haphap.app.presentation.register
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -11,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -32,6 +37,7 @@ import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.register.component.RegisterFifthSection
 import com.haphap.app.presentation.register.component.RegisterFirstSection
 import com.haphap.app.presentation.register.component.RegisterFourthSection
+import com.haphap.app.presentation.register.component.RegisterPassProofSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterSecondSection
 import com.haphap.app.presentation.register.component.RegisterThirdSection
@@ -51,6 +57,24 @@ fun RegisterRoute(
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val remainingCount = uiState.remainingProofImageCount
+
+    val singleImagePicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia(),
+    ) { uri ->
+        uri?.let { viewModel.onImagesPicked(listOf(it)) }
+    }
+
+    val multipleImagePickerContract = remember(remainingCount) {
+        ActivityResultContracts.PickMultipleVisualMedia(maxItems = remainingCount.coerceAtLeast(2))
+    }
+    val multipleImagePicker = rememberLauncherForActivityResult(
+        multipleImagePickerContract
+    ) { uris ->
+        viewModel.onImagesPicked(uris)
+    }
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
@@ -77,6 +101,16 @@ fun RegisterRoute(
         onDateSelected = viewModel::onDateSelected,
         onTimeSelected = viewModel::onTimeSelected,
         onChannelToggled = viewModel::onChannelToggled,
+        onAddImageClick = {
+            val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+
+            when {
+                remainingCount <= 0 -> viewModel::onImageLimitExceeded
+                remainingCount == 1 -> singleImagePicker.launch(request)
+                else -> multipleImagePicker.launch(request)
+            }
+        },
+        onRemoveImage = viewModel::onRemoveImage,
         onAlarmAgreeToggled = viewModel::onAlarmAgreeToggled,
         onTermAgreeToggled = viewModel::onTermAgreeToggled,
         onNextClick = {
@@ -110,6 +144,8 @@ private fun RegisterScreen(
     onDateSelected: (LocalDate) -> Unit,
     onTimeSelected: (LocalTime) -> Unit,
     onChannelToggled: (NotificationChannelType) -> Unit,
+    onAddImageClick: () -> Unit,
+    onRemoveImage: (Uri) -> Unit,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     onTermAgreeToggled: (Boolean) -> Unit,
     onNextClick: () -> Unit,
@@ -192,18 +228,27 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                4 -> RegisterFourthSection(
-                    recruitName = uiState.selectedAnnounce?.text.orEmpty(),
-                    recruitProcess = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
-                    contactDate = uiState.registerInfo.contactedDate,
-                    contactTime = uiState.registerInfo.contactedTime,
-                    selectedResult = uiState.selectedResult ?: PassResultStatusButton.DONT_KNOW,
-                    isAlarmAgreed = uiState.registerInfo.alarmEnabled,
-                    onAlarmAgreeToggled = onAlarmAgreeToggled,
-                    isTermAgreed = uiState.registerInfo.anonymous,
-                    onTermAgreeToggled = onTermAgreeToggled,
-                    modifier = Modifier.fillMaxSize()
-                )
+                4 -> if (uiState.selectedResult == PassResultStatusButton.PASS) {
+                    RegisterPassProofSection(
+                        images = uiState.proofImages,
+                        onAddImageClick = onAddImageClick,
+                        onRemoveImage = onRemoveImage,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                } else {
+                    RegisterFourthSection(
+                        recruitName = uiState.selectedAnnounce?.text.orEmpty(),
+                        recruitProcess = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
+                        contactDate = uiState.registerInfo.contactedDate,
+                        contactTime = uiState.registerInfo.contactedTime,
+                        selectedResult = uiState.selectedResult ?: PassResultStatusButton.DONT_KNOW,
+                        isAlarmAgreed = uiState.registerInfo.alarmEnabled,
+                        onAlarmAgreeToggled = onAlarmAgreeToggled,
+                        isTermAgreed = uiState.registerInfo.anonymous,
+                        onTermAgreeToggled = onTermAgreeToggled,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
 
                 5 -> RegisterFifthSection(
                     modifier = Modifier.fillMaxSize(),
