@@ -1,15 +1,19 @@
 package com.haphap.app.presentation.register.component
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.toPassResultType
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -40,6 +46,7 @@ fun RegisterFourthSection(
     isTermAgreed: Boolean,
     onTermAgreeToggled: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    proofImages: ImmutableList<Uri> = persistentListOf()
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
@@ -47,54 +54,72 @@ fun RegisterFourthSection(
     Column(
         modifier = modifier.padding(horizontal = 20.dp),
     ) {
-        Text(
-            text = "입력한 정보를 확인해 주세요",
-            style = HapHapTheme.typography.body.b18,
-            color = HapHapTheme.colors.gray800,
-        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            Text(
+                text = "입력한 정보를 확인해 주세요",
+                style = HapHapTheme.typography.body.b18,
+                color = HapHapTheme.colors.gray800,
+            )
 
-        Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
-        RegisterResultConfirm(
-            recruitName = recruitName,
-            recruitProcess = recruitProcess,
-            modifier = Modifier.fillMaxWidth(),
-        )
+            RegisterResultConfirm(
+                recruitName = recruitName,
+                recruitProcess = recruitProcess,
+                modifier = Modifier.fillMaxWidth(),
+            )
 
-        Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
-        Text(
-            text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과",
-            style = HapHapTheme.typography.body.b18,
-            color = HapHapTheme.colors.gray800,
-        )
+            Text(
+                text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과",
+                style = HapHapTheme.typography.body.b18,
+                color = HapHapTheme.colors.gray800,
+            )
 
-        Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
-        if (contactDate != null && contactTime != null) {
-            Row {
-                ConfirmInfoBox(
-                    text = LocalDate.parse(contactDate).format(dateFormatter),
-                    modifier = Modifier.weight(1f),
-                )
+            if (contactDate != null && contactTime != null) {
+                Row {
+                    ConfirmInfoBox(
+                        text = LocalDate.parse(contactDate).format(dateFormatter),
+                        modifier = Modifier.weight(1f),
+                    )
 
-                Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
 
-                ConfirmInfoBox(
-                    text = LocalTime.parse(contactTime).format(timeFormatter),
-                    modifier = Modifier.weight(1f),
-                )
+                    ConfirmInfoBox(
+                        text = LocalTime.parse(contactTime).format(timeFormatter),
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            RegisterPassResultConfirm(
+                status = selectedResult.toPassResultType(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            if (selectedResult == PassResultStatusButton.PASS && proofImages.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "합격 인증",
+                    style = HapHapTheme.typography.body.b18,
+                    color = HapHapTheme.colors.gray800,
+                )
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                RegisterUploadedImageRow(images = proofImages)
+            }
         }
-
-        RegisterPassResultConfirm(
-            status = selectedResult.toPassResultType(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
 
         RegisterTnC(
             isNecessary = true,
@@ -154,6 +179,26 @@ private fun RegisterFourthSectionPreview() {
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
             onTermAgreeToggled = { isTermAgreed = it },
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 360, heightDp = 640)
+@Composable
+private fun RegisterFourthSectionPassProofPreview() {
+    HapHapTheme {
+        RegisterFourthSection(
+            recruitName = "카카오 2026 신입 개발자 공개 채용",
+            recruitProcess = "코딩테스트",
+            contactDate = "2026-06-11",
+            contactTime = "21:33",
+            selectedResult = PassResultStatusButton.PASS,
+            isAlarmAgreed = false,
+            onAlarmAgreeToggled = {},
+            isTermAgreed = true,
+            onTermAgreeToggled = {},
+            modifier = Modifier.fillMaxSize(),
+            proofImages = persistentListOf(Uri.parse("content://preview/1")),
         )
     }
 }
