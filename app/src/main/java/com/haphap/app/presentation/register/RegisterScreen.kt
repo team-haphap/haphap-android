@@ -105,7 +105,7 @@ fun RegisterRoute(
             val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
 
             when {
-                remainingCount <= 0 -> viewModel::onImageLimitExceeded
+                remainingCount <= 0 -> viewModel.onImageLimitExceeded()
                 remainingCount == 1 -> singleImagePicker.launch(request)
                 else -> multipleImagePicker.launch(request)
             }
