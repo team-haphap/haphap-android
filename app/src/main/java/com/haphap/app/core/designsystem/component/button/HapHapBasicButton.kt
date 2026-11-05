@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapColors
@@ -103,13 +104,15 @@ fun HapHapBasicButton(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(onClick = onClick, isEnabled = isEnabled)
-            .padding(vertical = 12.dp),
+            .padding(horizontal = 8.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
             color = if (isEnabled) style.textColor else style.disabledTextColor,
             style = textStyle,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
