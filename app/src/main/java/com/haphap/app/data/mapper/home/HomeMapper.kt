@@ -43,7 +43,6 @@ fun HomeMyApplicationDto.toModel(): MyApplicationCardModel =
         id = postingId,
         logoImageUrl = logoImageUrl,
         title = title,
-        category = category?: "",
         currentStageStatus = currentStageStatus,
         dDayLabel = dDayLabel ?: "마감",
         companyName = companyName,
