@@ -170,7 +170,7 @@ class SearchViewModel @Inject constructor(
             }
     }
 
-    fun getSearchingList(q: String?) = viewModelScope.launch {
+    private suspend fun getSearchingList(q: String) {
         _uiState.update {
             it.copy(
                 searchAutoCompleteUiState = SearchUiState.Loading,
