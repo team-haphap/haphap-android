@@ -86,6 +86,8 @@ fun HomeMyApplicationCard(
             }
         }
 
+        Spacer(modifier = Modifier.width(15.dp))
+
         Text(
             text = dDay,
             style = HapHapTheme.typography.caption.m10,
