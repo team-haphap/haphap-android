@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,16 +24,19 @@ fun PassCardStorageEmptyComponent(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "등록된 합격이 없어요.",
             style = HapHapTheme.typography.caption.sb12,
             color = HapHapTheme.colors.gray400,
+            modifier = Modifier.padding(vertical = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp)) //Todo: 간격 추후 수정
+        Spacer(modifier = Modifier.height(6.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             HapHapStatusChip(
