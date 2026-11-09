@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.type.toPassResultType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -102,7 +101,7 @@ fun RegisterFourthSection(
             }
 
             RegisterPassResultConfirm(
-                status = selectedResult.toPassResultType(),
+                status = selectedResult,
                 modifier = Modifier.fillMaxWidth()
             )
 

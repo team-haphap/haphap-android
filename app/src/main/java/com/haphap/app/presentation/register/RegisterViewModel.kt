@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageFileInfoReader
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.presentation.register.type.RegisterResultType
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
@@ -149,7 +148,7 @@ class RegisterViewModel @Inject constructor(
         val selectedResult = currentState.selectedResult ?: return
         val postingId = currentState.registerInfo.postingId ?: return
         val stageId = currentState.registerInfo.stageId ?: return
-        val result = selectedResult.toRegisterResultType()
+        val result = selectedResult.resultType
 
         viewModelScope.launch {
             registerRepository.postCheckRegistration(postingId, stageId, result)
@@ -365,7 +364,7 @@ class RegisterViewModel @Inject constructor(
         val currentState = _uiState.value
         if (!currentState.isButtonEnabled) return
 
-        val result = currentState.selectedResult?.toRegisterResultType() ?: return
+        val result = currentState.selectedResult?.resultType ?: return
         val registerInfo = currentState.registerInfo.copy(result = result)
 
         _uiState.update {
@@ -419,12 +418,6 @@ class RegisterViewModel @Inject constructor(
         val time = timeString?.let(LocalTime::parse) ?: return false
         return !LocalDateTime.of(date, time).isAfter(LocalDateTime.now())
     }
-}
-
-private fun PassResultStatusButton.toRegisterResultType(): RegisterResultType = when (this) {
-    PassResultStatusButton.PASS -> RegisterResultType.PASS
-    PassResultStatusButton.FAILED -> RegisterResultType.FAIL
-    PassResultStatusButton.DONT_KNOW -> RegisterResultType.PENDING
 }
 
 private const val MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024L
