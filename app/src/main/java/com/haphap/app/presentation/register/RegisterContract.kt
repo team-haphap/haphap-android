@@ -11,14 +11,18 @@ import com.haphap.app.presentation.register.model.MAX_PROOF_IMAGE_COUNT
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.RegisterStep
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 sealed interface RegisterContract {
     @Immutable
     data class State(
-        val step: Int = 1,
+        val step: RegisterStep = RegisterStep.SELECT_PROCESS,
         val registerInfo: RegisterModel = RegisterModel(),
 
         val announceList: ImmutableList<RegisterDropDownItemModel> = persistentListOf(),
@@ -34,9 +38,26 @@ sealed interface RegisterContract {
 
         val registerUiState: RegisterUiState = RegisterUiState.Idle,
         val registrationResult: RegistrationModel? = null,
-
-        val isButtonEnabled: Boolean = false,
     ) {
+        val isButtonEnabled: Boolean
+            get() = when (step) {
+                RegisterStep.SELECT_PROCESS ->
+                    selectedAnnounce != null && registerInfo.stageId != null
+
+                RegisterStep.RESULT -> selectedResult != null
+
+                RegisterStep.CONTACT ->
+                    isContactDateTimeValid(registerInfo.contactedDate, registerInfo.contactedTime) &&
+                            registerInfo.contactedMethod.isNotEmpty()
+
+                RegisterStep.PASS_PROOF -> proofImages.any { it.error == null }
+
+                RegisterStep.CONFIRM ->
+                    registerInfo.anonymous && registerUiState !is RegisterUiState.Loading
+
+                RegisterStep.COMPLETE -> true
+            }
+
         val remainingProofImageCount: Int
             get() = MAX_PROOF_IMAGE_COUNT - proofImages.size
 
@@ -66,6 +87,8 @@ sealed interface RegisterContract {
 
         data object NavigateToHome : SideEffect()
 
+        data object NavigateBack : SideEffect()
+
         data class NavigateToJobDetail(
             val jobId: Int,
         ) : SideEffect()
@@ -74,6 +97,16 @@ sealed interface RegisterContract {
             val passCard: RegisterPassCardModel,
         ) : SideEffect()
     }
+}
+
+internal fun isContactDateTimeValid(
+    dateString: String?,
+    timeString: String?,
+    now: LocalDateTime = LocalDateTime.now(),
+): Boolean {
+    val date = dateString?.let(LocalDate::parse) ?: return false
+    val time = timeString?.let(LocalTime::parse) ?: return false
+    return !LocalDateTime.of(date, time).isAfter(now)
 }
 
 sealed interface RegisterUiState {
