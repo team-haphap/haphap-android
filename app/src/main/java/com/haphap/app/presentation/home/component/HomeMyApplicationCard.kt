@@ -31,7 +31,6 @@ fun HomeMyApplicationCard(
     imageUrl: String,
     companyName: String,
     title: String,
-    category: String,
     stageName: String?,
     dDay: String,
     onCardClick: () -> Unit,
@@ -86,6 +85,8 @@ fun HomeMyApplicationCard(
             }
         }
 
+        Spacer(modifier = Modifier.width(15.dp))
+
         Text(
             text = dDay,
             style = HapHapTheme.typography.caption.m10,
@@ -129,7 +130,6 @@ private fun HomeMyApplicationCardPreview() {
                 imageUrl = "",
                 companyName = "카카오",
                 title = "AI 서비스 기획",
-                category = "개발",
                 stageName = "1차 면접 발표 중",
                 dDay = "D-2",
                 onCardClick = {},

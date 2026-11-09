@@ -170,7 +170,7 @@ class SearchViewModel @Inject constructor(
             }
     }
 
-    fun getSearchingList(q: String?) = viewModelScope.launch {
+    private suspend fun getSearchingList(q: String) {
         _uiState.update {
             it.copy(
                 searchAutoCompleteUiState = SearchUiState.Loading,
@@ -253,7 +253,7 @@ class SearchViewModel @Inject constructor(
 
 
     companion object {
-        private const val SEARCH_NETWORK_DEBOUNCE = 300L
+        private const val SEARCH_NETWORK_DEBOUNCE = 200L
         private const val DEFAULT_PAGE_SIZE = 20
     }
 
