@@ -170,11 +170,11 @@ private fun HomeScreen(
                 item {
                     HomePopularJobSection(
                         popularJobCardList = uiState.popularJobCardList,
+                        isError = uiState.isPopularJobError,
                         categoryChipState = uiState.categoryChipState,
                         onFilterClick = onFilterClick,
                         onPopularCardClick = onPopularCardClick,
-
-                        )
+                    )
                 }
 
                 item {
