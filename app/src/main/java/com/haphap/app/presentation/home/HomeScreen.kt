@@ -85,7 +85,7 @@ fun HomeRoute(
         }
     }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+    LifecycleEventEffect(Lifecycle.Event.ON_START) {
         viewModel.refreshUserSections()
     }
 
@@ -213,7 +213,6 @@ private fun HomeScreenPreview() {
                         id = 1,
                         logoImageUrl = "",
                         title = "2026 신입 공개채용",
-                        category = "개발/데이터",
                         currentStageStatus = "서류 발표 중",
                         dDayLabel = "D-2",
                         companyName = "카카오",
@@ -222,7 +221,6 @@ private fun HomeScreenPreview() {
                         id = 2,
                         logoImageUrl = "",
                         title = "2026 신입 공개채용",
-                        category = "개발/데이터",
                         currentStageStatus = "서류 발표 중",
                         dDayLabel = "D-2",
                         companyName = "카카오",
