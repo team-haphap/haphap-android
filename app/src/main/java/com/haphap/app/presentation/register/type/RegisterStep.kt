@@ -1,10 +1,8 @@
 package com.haphap.app.presentation.register.type
 
-import com.haphap.app.presentation.register.navigation.Register
-
 enum class RegisterStep(
     val btnText: String,
-    val isTopBarVariable: Boolean = true,
+    val isTopBarVisible: Boolean = true,
     val isProgressBarVisible: Boolean = true,
 ) {
     SELECT_PROCESS(btnText = "다음"),
@@ -12,7 +10,7 @@ enum class RegisterStep(
     CONTACT(btnText = "다음"),
     PASS_PROOF(btnText = "다음", isProgressBarVisible = false),
     CONFIRM(btnText = "등록하기", isProgressBarVisible = false),
-    COMPLETE(btnText = "완료", isTopBarVariable = false, isProgressBarVisible = false);
+    COMPLETE(btnText = "완료", isTopBarVisible = false, isProgressBarVisible = false);
 
     fun isSkip(result: PassResultStatusButton?): Boolean = when (this) {
         CONTACT -> result == PassResultStatusButton.DONT_KNOW
