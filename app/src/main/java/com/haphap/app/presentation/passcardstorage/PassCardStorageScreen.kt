@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,7 +18,6 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.storage.PassCardStorageModel
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageEmptyComponent
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageItem
-import com.haphap.app.presentation.passcardstorage.component.PassCardStorageTitle
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageTopBar
 import kotlinx.collections.immutable.persistentListOf
 
@@ -45,7 +45,12 @@ fun PassCardStorageScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp),
         ) {
-            PassCardStorageTitle(description = "합격카드를 모았어요. 언제든 꺼내볼 수 있어요.")
+            Text(
+                text = "합격카드를 모았어요. 언제든 꺼내볼 수 있어요.",
+                style = HapHapTheme.typography.body.sb13,
+                color = HapHapTheme.colors.gray400,
+                modifier = Modifier.padding(vertical = 12.dp)
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 
