@@ -23,7 +23,6 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun PassCardStorageTopBar(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isText: Boolean = true,
 ) {
     Row(
         modifier = modifier
@@ -40,7 +39,7 @@ fun PassCardStorageTopBar(
 
         Spacer(modifier = Modifier.width(10.dp))
 
-        if (isText) Text(
+        Text(
             text = "합격카드 보관함",
             style = HapHapTheme.typography.subtitle.b20,
             color = HapHapTheme.colors.gray800,
