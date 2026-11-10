@@ -34,7 +34,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun RegisterFourthSection(
+fun RegisterConfirmSection(
     recruitName: String,
     recruitProcess: String,
     contactDate: String?,
@@ -163,12 +163,12 @@ private fun ConfirmInfoBox(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterFourthSectionPreview() {
+private fun RegisterConfirmSectionPreview() {
     var isAlarmAgreed by remember { mutableStateOf(true) }
     var isTermAgreed by remember { mutableStateOf(true) }
 
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
@@ -184,9 +184,9 @@ private fun RegisterFourthSectionPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 360, heightDp = 640)
 @Composable
-private fun RegisterFourthSectionPassProofPreview() {
+private fun RegisterConfirmSectionPassProofPreview() {
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
@@ -204,12 +204,12 @@ private fun RegisterFourthSectionPassProofPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterFourthSectionDontKnowPreview() {
+private fun RegisterConfirmSectionDontKnowPreview() {
     var isAlarmAgreed by remember { mutableStateOf(false) }
     var isTermAgreed by remember { mutableStateOf(false) }
 
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = null,

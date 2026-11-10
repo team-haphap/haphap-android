@@ -20,7 +20,7 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.register.type.PassResultStatusType
 
 @Composable
-fun RegisterSecondSection(
+fun RegisterResultSection(
     selectedResult: PassResultStatusType?,
     onResultSelected: (PassResultStatusType) -> Unit,
     isChangeModalVisible: Boolean,
@@ -67,11 +67,11 @@ fun RegisterSecondSection(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterSecondSectionPreview() {
+private fun RegisterResultSectionPreview() {
     var selectedResult by remember { mutableStateOf<PassResultStatusType?>(PassResultStatusType.PASS) }
 
     HapHapTheme {
-        RegisterSecondSection(
+        RegisterResultSection(
             selectedResult = selectedResult,
             onResultSelected = { selectedResult = it },
             isChangeModalVisible = false,
@@ -83,9 +83,9 @@ private fun RegisterSecondSectionPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterSecondSectionChangeModalPreview() {
+private fun RegisterResultSectionChangeModalPreview() {
     HapHapTheme {
-        RegisterSecondSection(
+        RegisterResultSection(
             selectedResult = PassResultStatusType.FAILED,
             onResultSelected = {},
             isChangeModalVisible = true,

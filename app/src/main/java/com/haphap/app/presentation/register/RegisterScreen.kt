@@ -37,13 +37,13 @@ import com.haphap.app.presentation.register.RegisterContract.SideEffect.Navigate
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
-import com.haphap.app.presentation.register.component.RegisterFifthSection
-import com.haphap.app.presentation.register.component.RegisterFirstSection
-import com.haphap.app.presentation.register.component.RegisterFourthSection
+import com.haphap.app.presentation.register.component.RegisterCompleteSection
+import com.haphap.app.presentation.register.component.RegisterConfirmSection
+import com.haphap.app.presentation.register.component.RegisterContactSection
 import com.haphap.app.presentation.register.component.RegisterPassProofSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
-import com.haphap.app.presentation.register.component.RegisterSecondSection
-import com.haphap.app.presentation.register.component.RegisterThirdSection
+import com.haphap.app.presentation.register.component.RegisterResultSection
+import com.haphap.app.presentation.register.component.RegisterSelectProcessSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
 import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.type.RegisterStep
@@ -186,7 +186,7 @@ private fun RegisterScreen(
                 .fillMaxSize()
         ) {
             when (uiState.step) {
-                RegisterStep.SELECT_PROCESS -> RegisterFirstSection(
+                RegisterStep.SELECT_PROCESS -> RegisterSelectProcessSection(
                     announceList = uiState.announceList,
                     selectedAnnounce = uiState.selectedAnnounce,
                     onAnnounceSelected = onAnnounceSelected,
@@ -197,7 +197,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.RESULT -> RegisterSecondSection(
+                RegisterStep.RESULT -> RegisterResultSection(
                     selectedResult = uiState.selectedResult,
                     onResultSelected = onResultSelected,
                     isChangeModalVisible = uiState.isChangeModalVisible,
@@ -206,7 +206,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.CONTACT -> RegisterThirdSection(
+                RegisterStep.CONTACT -> RegisterContactSection(
                     contactDate = uiState.registerInfo.contactedDate,
                     onDateSelected = onDateSelected,
                     contactTime = uiState.registerInfo.contactedTime,
@@ -223,7 +223,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.CONFIRM -> RegisterFourthSection(
+                RegisterStep.CONFIRM -> RegisterConfirmSection(
                     recruitName = uiState.selectedAnnounce?.text.orEmpty(),
                     recruitProcess = uiState.processList.find {
                         it.id == uiState.registerInfo.stageId
@@ -239,7 +239,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                RegisterStep.COMPLETE -> RegisterFifthSection(
+                RegisterStep.COMPLETE -> RegisterCompleteSection(
                     modifier = Modifier.fillMaxSize(),
                 )
             }

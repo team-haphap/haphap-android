@@ -26,7 +26,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 @Composable
-fun RegisterThirdSection(
+fun RegisterContactSection(
     contactDate: String?,
     onDateSelected: (LocalDate) -> Unit,
     contactTime: String?,
@@ -112,13 +112,13 @@ private const val COLUMN_COUNT = 2
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterThirdSectionPreview() {
+private fun RegisterContactSectionPreview() {
     var contactDate by remember { mutableStateOf<LocalDate?>(null) }
     var contactTime by remember { mutableStateOf<LocalTime?>(null) }
     var selectedChannels by remember { mutableStateOf(persistentListOf<NotificationChannelType>()) }
 
     HapHapTheme {
-        RegisterThirdSection(
+        RegisterContactSection(
             contactDate = contactDate.toString(),
             onDateSelected = { contactDate = it },
             contactTime = contactTime.toString(),
