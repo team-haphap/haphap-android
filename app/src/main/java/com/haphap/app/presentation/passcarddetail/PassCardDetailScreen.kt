@@ -41,12 +41,16 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
+import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
+import com.haphap.app.presentation.passcarddetail.component.PassCardDetailChipList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
 @Composable
 fun PassCardDetailScreen(
     uiState: PassCardDetailContract.State,
     onBackClick: () -> Unit,
+    onStageClick: (Int) -> Unit,
     onHomeClick: () -> Unit,
     onBackgroundLoaded: () -> Unit,
     onLogoLoaded: () -> Unit,
@@ -128,7 +132,11 @@ fun PassCardDetailScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            //Todo: 칩 추가
+            PassCardDetailChipList(
+                chipList = uiState.chipList,
+                selectedChip = uiState.selectedChip,
+                onStageClick = onStageClick,
+            )
 
             Spacer(modifier = Modifier.height(22.dp))
 
@@ -197,8 +205,18 @@ private fun PassCardDetailScreenPreview() {
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
+                chipList = persistentListOf(
+                    PassCardDetailChipListModel(id = 101, stageName = "서류"),
+                    PassCardDetailChipListModel(id = 102, stageName = "인적성"),
+                    PassCardDetailChipListModel(id = 103, stageName = "코딩테스트"),
+                    PassCardDetailChipListModel(id = 104, stageName = "1차 면접 테스트"),
+                    PassCardDetailChipListModel(id = 105, stageName = "2차 면접 테스트"),
+                    PassCardDetailChipListModel(id = 106, stageName = "최종"),
+                ),
+                selectedChip = 101,
             ),
             onBackClick = {},
+            onStageClick = {},
             onHomeClick = {},
             onBackgroundLoaded = {},
             onLogoLoaded = {},
