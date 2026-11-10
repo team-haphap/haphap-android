@@ -17,6 +17,7 @@ sealed interface HomeContract {
         val myApplicationCardList: ImmutableList<MyApplicationCardModel> = persistentListOf(),
         val recentJobCardList: ImmutableList<RecentJobCardModel> = persistentListOf(),
         val popularJobCardList: ImmutableList<PopularJobCardModel> = persistentListOf(),
+        val isPopularJobError: Boolean = false,
     )
 
     sealed interface SideEffect {
