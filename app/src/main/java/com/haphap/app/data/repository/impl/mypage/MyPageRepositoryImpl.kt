@@ -5,6 +5,7 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
+import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -24,6 +25,12 @@ class MyPageRepositoryImpl @Inject constructor(
     override suspend fun getMyPage(): Result<MyPageModel> =
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
+            response.toModel()
+        }
+
+    override suspend fun getAccountInfo(): Result<AccountInfoModel> =
+        suspendRunCatching {
+            val response = myPageDataSource.getAccountInfo().checkData()
             response.toModel()
         }
 
