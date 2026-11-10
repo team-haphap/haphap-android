@@ -32,6 +32,7 @@ import com.haphap.app.presentation.setting.component.SettingTopBar
 @Composable
 fun SettingRoute(
     navigateBack: () -> Unit,
+    navigateToAccountInfo: () -> Unit,
     navigateToLeave: () -> Unit,
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
@@ -57,7 +58,7 @@ fun SettingRoute(
     SettingScreen(
         uiState = uiState,
         onBackClick = viewModel::onBackClick,
-        onInfoClick = {},
+        onInfoClick = navigateToAccountInfo,
         onLogoutClick = viewModel::onLogoutClick,
         onLogoutDialogDismiss = viewModel::onLogoutDialogDismiss,
         onLogoutConfirm = viewModel::onLogoutConfirm,
