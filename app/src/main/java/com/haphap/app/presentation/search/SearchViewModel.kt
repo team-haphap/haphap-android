@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -47,7 +48,7 @@ class SearchViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     private fun observeSearchInput() = viewModelScope.launch {
         snapshotFlow { searchInputState.text }
-            .debounce(SEARCH_NETWORK_DEBOUNCE)
+            .debounce(SEARCH_NETWORK_DEBOUNCE.milliseconds)
             .distinctUntilChanged()
             .collectLatest { searchInputText ->
                 val text = searchInputText.toString()
