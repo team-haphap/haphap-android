@@ -17,12 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 
 @Composable
 fun RegisterSecondSection(
-    selectedResult: PassResultStatusButton?,
-    onResultSelected: (PassResultStatusButton) -> Unit,
+    selectedResult: PassResultStatusType?,
+    onResultSelected: (PassResultStatusType) -> Unit,
     isChangeModalVisible: Boolean,
     onChangeModalConfirmClick: () -> Unit,
     onChangeModalCancelClick: () -> Unit,
@@ -44,7 +44,7 @@ fun RegisterSecondSection(
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            PassResultStatusButton.entries.forEach { status ->
+            PassResultStatusType.entries.forEach { status ->
                 RegisterResultButton(
                     status = status,
                     isSelected = status == selectedResult,
@@ -68,7 +68,7 @@ fun RegisterSecondSection(
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterSecondSectionPreview() {
-    var selectedResult by remember { mutableStateOf<PassResultStatusButton?>(PassResultStatusButton.PASS) }
+    var selectedResult by remember { mutableStateOf<PassResultStatusType?>(PassResultStatusType.PASS) }
 
     HapHapTheme {
         RegisterSecondSection(
@@ -86,7 +86,7 @@ private fun RegisterSecondSectionPreview() {
 private fun RegisterSecondSectionChangeModalPreview() {
     HapHapTheme {
         RegisterSecondSection(
-            selectedResult = PassResultStatusButton.FAILED,
+            selectedResult = PassResultStatusType.FAILED,
             onResultSelected = {},
             isChangeModalVisible = true,
             onChangeModalConfirmClick = {},

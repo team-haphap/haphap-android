@@ -12,16 +12,16 @@ enum class RegisterStep(
     CONFIRM(btnText = "등록하기", isProgressBarVisible = false),
     COMPLETE(btnText = "완료", isTopBarVisible = false, isProgressBarVisible = false);
 
-    fun isSkip(result: PassResultStatusButton?): Boolean = when (this) {
-        CONTACT -> result == PassResultStatusButton.DONT_KNOW
-        PASS_PROOF -> result != PassResultStatusButton.PASS
+    fun isSkip(result: PassResultStatusType?): Boolean = when (this) {
+        CONTACT -> result == PassResultStatusType.DONT_KNOW
+        PASS_PROOF -> result != PassResultStatusType.PASS
         SELECT_PROCESS, RESULT, CONFIRM, COMPLETE -> false
     }
 
-    fun next(result: PassResultStatusButton?): RegisterStep? =
+    fun next(result: PassResultStatusType?): RegisterStep? =
         entries.drop(ordinal + 1).firstOrNull { !it.isSkip(result) }
 
-    fun previous(result: PassResultStatusButton?): RegisterStep? =
+    fun previous(result: PassResultStatusType?): RegisterStep? =
         entries.take(ordinal).lastOrNull { !it.isSkip(result) }
 
     val progress: Int

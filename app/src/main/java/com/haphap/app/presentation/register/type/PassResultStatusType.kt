@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.haphap.app.R
 import com.haphap.app.data.model.register.RegisterResultType
 
-enum class PassResultStatusButton(
+enum class PassResultStatusType(
     val text: String,
     @DrawableRes val defaultBadgeRes: Int,
     @DrawableRes val selectedBadgeRes: Int,
@@ -26,8 +26,8 @@ enum class PassResultStatusButton(
     ),
 }
 
-fun PassResultStatusButton.toResultType(): RegisterResultType = when (this) {
-    PassResultStatusButton.PASS -> RegisterResultType.PASS
-    PassResultStatusButton.FAILED -> RegisterResultType.FAIL
-    PassResultStatusButton.DONT_KNOW -> RegisterResultType.PENDING
+fun PassResultStatusType.toResultType(): RegisterResultType = when (this) {
+    PassResultStatusType.PASS -> RegisterResultType.PASS
+    PassResultStatusType.FAILED -> RegisterResultType.FAIL
+    PassResultStatusType.DONT_KNOW -> RegisterResultType.PENDING
 }

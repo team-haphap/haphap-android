@@ -10,7 +10,7 @@ import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.presentation.register.model.MAX_PROOF_IMAGE_COUNT
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.type.RegisterStep
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -31,7 +31,7 @@ sealed interface RegisterContract {
         val processList: ImmutableList<RegisterProcessModel> = persistentListOf(),
         val processListUiState: RegisterUiState = RegisterUiState.Idle,
 
-        val selectedResult: PassResultStatusButton? = null,
+        val selectedResult: PassResultStatusType? = null,
         val isChangeModalVisible: Boolean = false,
 
         val proofImages: ImmutableList<RegisterProofImageModel> = persistentListOf(),

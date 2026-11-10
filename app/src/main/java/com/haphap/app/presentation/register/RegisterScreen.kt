@@ -45,7 +45,7 @@ import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterSecondSection
 import com.haphap.app.presentation.register.component.RegisterThirdSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.type.RegisterStep
 import java.time.LocalDate
 import java.time.LocalTime
@@ -130,7 +130,7 @@ private fun RegisterScreen(
     uiState: RegisterContract.State,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
     onProcessSelected: (Int) -> Unit,
-    onResultSelected: (PassResultStatusButton) -> Unit,
+    onResultSelected: (PassResultStatusType) -> Unit,
     onChangeModalConfirmClick: () -> Unit,
     onChangeModalCancelClick: () -> Unit,
     onDateSelected: (LocalDate) -> Unit,
@@ -230,7 +230,7 @@ private fun RegisterScreen(
                     }?.text.orEmpty(),
                     contactDate = uiState.registerInfo.contactedDate,
                     contactTime = uiState.registerInfo.contactedTime,
-                    selectedResult = uiState.selectedResult ?: PassResultStatusButton.DONT_KNOW,
+                    selectedResult = uiState.selectedResult ?: PassResultStatusType.DONT_KNOW,
                     isAlarmAgreed = uiState.registerInfo.alarmEnabled,
                     onAlarmAgreeToggled = onAlarmAgreeToggled,
                     isTermAgreed = uiState.registerInfo.anonymous,

@@ -12,7 +12,7 @@ import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
@@ -149,11 +149,11 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(registerInfo = it.registerInfo.copy(stageId = id)) }
     }
 
-    fun onResultSelected(result: PassResultStatusButton) {
+    fun onResultSelected(result: PassResultStatusType) {
         _uiState.update {
             it.copy(
                 selectedResult = result,
-                registerInfo = if (result == PassResultStatusButton.DONT_KNOW) {
+                registerInfo = if (result == PassResultStatusType.DONT_KNOW) {
                     it.registerInfo.copy(contactedDate = null, contactedTime = null)
                 } else {
                     it.registerInfo
@@ -341,7 +341,7 @@ class RegisterViewModel @Inject constructor(
 
         viewModelScope.launch {
             val jobId = route.jobId
-            if (state.selectedResult == PassResultStatusButton.PASS) {
+            if (state.selectedResult == PassResultStatusType.PASS) {
                 state.registrationResult?.card?.let { card ->
                     _sideEffect.send(NavigateToPassCard(card))
                 }

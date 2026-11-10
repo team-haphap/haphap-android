@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -39,7 +39,7 @@ fun RegisterFourthSection(
     recruitProcess: String,
     contactDate: String?,
     contactTime: String?,
-    selectedResult: PassResultStatusButton,
+    selectedResult: PassResultStatusType,
     isAlarmAgreed: Boolean,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     isTermAgreed: Boolean,
@@ -75,7 +75,7 @@ fun RegisterFourthSection(
             Spacer(modifier = Modifier.height(36.dp))
 
             Text(
-                text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과",
+                text = if (selectedResult == PassResultStatusType.DONT_KNOW) "결과" else "날짜 및 결과",
                 style = HapHapTheme.typography.body.b18,
                 color = HapHapTheme.colors.gray800,
             )
@@ -105,7 +105,7 @@ fun RegisterFourthSection(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            if (selectedResult == PassResultStatusButton.PASS && proofImages.isNotEmpty()) {
+            if (selectedResult == PassResultStatusType.PASS && proofImages.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
@@ -173,7 +173,7 @@ private fun RegisterFourthSectionPreview() {
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
             contactTime = "21:33",
-            selectedResult = PassResultStatusButton.PASS,
+            selectedResult = PassResultStatusType.PASS,
             isAlarmAgreed = isAlarmAgreed,
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
@@ -191,7 +191,7 @@ private fun RegisterFourthSectionPassProofPreview() {
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
             contactTime = "21:33",
-            selectedResult = PassResultStatusButton.PASS,
+            selectedResult = PassResultStatusType.PASS,
             isAlarmAgreed = false,
             onAlarmAgreeToggled = {},
             isTermAgreed = true,
@@ -214,7 +214,7 @@ private fun RegisterFourthSectionDontKnowPreview() {
             recruitProcess = "코딩테스트",
             contactDate = null,
             contactTime = null,
-            selectedResult = PassResultStatusButton.DONT_KNOW,
+            selectedResult = PassResultStatusType.DONT_KNOW,
             isAlarmAgreed = isAlarmAgreed,
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
