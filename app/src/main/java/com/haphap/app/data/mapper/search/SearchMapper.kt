@@ -31,7 +31,7 @@ fun RecentSearchEntity.toModel(): RecentSearchItemModel = RecentSearchItemModel(
 
 fun PopularKeywordListResponseDto.toModel(): List<PopularSearchItemModel> = keywords.map { it.toModel() }
 
-fun PopularKeywordDto.toModel(): PopularSearchItemModel = PopularSearchItemModel(
+private fun PopularKeywordDto.toModel(): PopularSearchItemModel = PopularSearchItemModel(
     rank = rank,
     keyword = keyword,
 )
@@ -43,7 +43,7 @@ fun SearchResultListResponseDto.toModel(): SearchResultPageModel = SearchResultP
     hasNext = hasNext,
 )
 
-fun SearchResultItemDto.toModel(): SearchResultItemModel = SearchResultItemModel(
+private fun SearchResultItemDto.toModel(): SearchResultItemModel = SearchResultItemModel(
     id = postingId,
     imageUrl = imageUrl,
     companyName = companyName,
@@ -59,20 +59,20 @@ fun SearchingListResponseDto.toModel(): SearchingModel = SearchingModel(
     relatedKeywords = relatedKeywords.map { it.toModel() }.toImmutableList(),
 )
 
-fun AutoCompleteShortcutDto.toModel(): SearchAutoCompleteItemModel = SearchAutoCompleteItemModel(
+private fun AutoCompleteShortcutDto.toModel(): SearchAutoCompleteItemModel = SearchAutoCompleteItemModel(
     id = postingId,
     imageUrl = imageUrl,
     text = name,
     highlightLength = highlightRanges.firstOrNull()?.toModel() ?: RangeModel(0, 0),
 )
 
-fun RelatedKeywordDto.toModel(): RelatedKeywordItemModel = RelatedKeywordItemModel(
+private fun RelatedKeywordDto.toModel(): RelatedKeywordItemModel = RelatedKeywordItemModel(
     id = keywordId,
     text = name,
     highlightLength = highlightRanges.firstOrNull()?.toModel() ?: RangeModel(0, 0),
 )
 
-fun HighlightRangeDto.toModel(): RangeModel = RangeModel(
+private fun HighlightRangeDto.toModel(): RangeModel = RangeModel(
     start = start,
     end = end,
 )
