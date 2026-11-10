@@ -41,7 +41,7 @@ class SearchViewModel @Inject constructor(
     init {
         observeSearchInput()
         getRecentSearchList()
-        getPopularList()
+        getPopularKeywordList()
     }
 
     @OptIn(FlowPreview::class)
@@ -134,14 +134,14 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    fun getPopularList() = viewModelScope.launch {
-        _uiState.update { it.copy(trendJobListUiState = SearchUiState.Loading) }
-        searchRepository.getPopularList()
+    private fun getPopularKeywordList() = viewModelScope.launch {
+        _uiState.update { it.copy(popularSearchListUiState = SearchUiState.Loading) }
+        searchRepository.getPopularKeywordList()
             .onSuccess { result ->
                 _uiState.update {
                     it.copy(
-                        trendJobList = result.toImmutableList(),
-                        trendJobListUiState = if (result.isEmpty()) {
+                        popularSearchList = result.toImmutableList(),
+                        popularSearchListUiState = if (result.isEmpty()) {
                             SearchUiState.Empty
                         } else {
                             SearchUiState.Success
@@ -150,10 +150,10 @@ class SearchViewModel @Inject constructor(
                 }
             }
             .onFailure { error ->
-                Timber.e("인기 공고 리스트를 불러오지 못했습니다. $error")
+                Timber.e("인기 실시간 검색어 리스트를 불러오지 못했습니다. $error")
                 _uiState.update {
                     it.copy(
-                        trendJobListUiState = SearchUiState.Failure("$error")
+                        popularSearchListUiState = SearchUiState.Failure("$error")
                     )
                 }
             }
@@ -250,7 +250,6 @@ class SearchViewModel @Inject constructor(
     fun onCardItemClick(id: Int) = viewModelScope.launch {
         _sideEffect.send(SideEffect.NavigateToJobDetail(id))
     }
-
 
     companion object {
         private const val SEARCH_NETWORK_DEBOUNCE = 200L

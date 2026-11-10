@@ -103,9 +103,9 @@ fun SearchDefaultSection(
 
         when (popularSearchUiState) {
             SearchUiState.Success -> {
-                popularSearchList.forEachIndexed { index, item ->
-                    PopularSearchItem(
-                        index = index + 1,
+                popularSearchList.forEach { item ->
+                    PopularKeywordItem(
+                        rank = item.rank,
                         keyword = item.keyword
                     )
                 }
@@ -165,12 +165,12 @@ private fun RecentSearchItem(
 }
 
 @Composable
-private fun PopularSearchItem(
-    index: Int,
+private fun PopularKeywordItem(
+    rank: Int,
     keyword: String,
     modifier: Modifier = Modifier,
 ) {
-    val isTopRank = index <= 3
+    val isTopRank = rank <= 3
 
     Row(
         modifier = modifier
@@ -179,7 +179,7 @@ private fun PopularSearchItem(
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         Text(
-            text = index.toString(),
+            text = rank.toString(),
             style = HapHapTheme.typography.body.sb14,
             color = if (isTopRank) HapHapTheme.colors.primary500 else HapHapTheme.colors.gray400,
             modifier = Modifier.widthIn(min = 16.dp),
@@ -222,7 +222,7 @@ private fun SearchDefaultSectionPreview() {
             ),
             popularSearchList = (1..10).map {
                 PopularSearchItemModel(
-                    id = it,
+                    rank = it,
                     keyword = "2026 신입 공개채용",
                 )
             }.toImmutableList(),
