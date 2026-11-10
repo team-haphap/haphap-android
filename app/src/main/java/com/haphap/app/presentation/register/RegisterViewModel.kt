@@ -88,7 +88,8 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.moveToNextStep(from) }
     }
 
-    private fun RegisterContract.State.moveToNextStep(from: RegisterStep): RegisterContract.State {
+    private fun RegisterContract.State.moveToNextStep(from: RegisterStep)
+    : RegisterContract.State {
         if (step != from) return this
         val next = step.next(selectedResult) ?: return this
         return copy(step = next)
@@ -111,7 +112,10 @@ class RegisterViewModel @Inject constructor(
                 .onFailure { e ->
                     Timber.e(e, "loadAnnounceList failed")
                     _uiState.update {
-                        it.copy(announceListUiState = RegisterUiState.Failure(e.message ?: "공고 목록을 불러오지 못했습니다."))
+                        it.copy(
+                            announceListUiState = RegisterUiState
+                                .Failure(e.message ?: "공고 목록을 불러오지 못했습니다.")
+                        )
                     }
                 }
         }
@@ -140,7 +144,10 @@ class RegisterViewModel @Inject constructor(
                 .onFailure { e ->
                     Timber.e(e, "onAnnounceSelected getPostingStages failed")
                     _uiState.update {
-                        it.copy(processListUiState = RegisterUiState.Failure(e.message ?: "전형 목록을 불러오지 못했습니다."))
+                        it.copy(
+                            processListUiState = RegisterUiState
+                                .Failure(e.message ?: "전형 목록을 불러오지 못했습니다.")
+                        )
                     }
                 }
         }
@@ -170,7 +177,9 @@ class RegisterViewModel @Inject constructor(
         val stageId = state.registerInfo.stageId ?: return
 
         viewModelScope.launch {
-            registerRepository.postCheckRegistration(postingId, stageId, selectedResult.toResultType())
+            registerRepository.postCheckRegistration(
+                postingId, stageId, selectedResult.toResultType()
+            )
                 .onSuccess { checkResult ->
                     when (checkResult) {
                         RegistrationCheckType.NEW ->
@@ -212,7 +221,9 @@ class RegisterViewModel @Inject constructor(
     private fun updateContactDateTime(
         transform: (RegisterModel) -> RegisterModel,
     ) {
-        val updatedState = _uiState.updateAndGet { it.copy(registerInfo = transform(it.registerInfo)) }
+        val updatedState = _uiState.updateAndGet {
+            it.copy(registerInfo = transform(it.registerInfo))
+        }
 
         val isBothSelected = updatedState.registerInfo.contactedDate != null &&
             updatedState.registerInfo.contactedTime != null
@@ -299,7 +310,9 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onAlarmAgreeToggled(checked: Boolean) {
-        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(alarmEnabled = checked)) }
+        _uiState.update {
+            it.copy(registerInfo = it.registerInfo.copy(alarmEnabled = checked))
+        }
     }
 
     fun onTermAgreeToggled(checked: Boolean) {
@@ -330,7 +343,8 @@ class RegisterViewModel @Inject constructor(
                     Timber.e(e, "register failed")
                     _uiState.update {
                         it.copy(
-                            registerUiState = RegisterUiState.Failure(e.message ?: "상태 등록에 실패했습니다.")
+                            registerUiState = RegisterUiState
+                                .Failure(e.message ?: "상태 등록에 실패했습니다.")
                         )
                     }
                 }

@@ -70,7 +70,9 @@ fun RegisterRoute(
     }
 
     val multipleImagePickerContract = remember(remainingCount) {
-        ActivityResultContracts.PickMultipleVisualMedia(maxItems = remainingCount.coerceAtLeast(2))
+        ActivityResultContracts.PickMultipleVisualMedia(
+            maxItems = remainingCount.coerceAtLeast(2)
+        )
     }
     val multipleImagePicker = rememberLauncherForActivityResult(
         multipleImagePickerContract
@@ -95,7 +97,9 @@ fun RegisterRoute(
         }
     }
 
-    BackHandler(enabled = uiState.step != RegisterStep.COMPLETE) { viewModel.onBackClick() }
+    BackHandler(enabled = uiState.step != RegisterStep.COMPLETE) {
+        viewModel.onBackClick()
+    }
 
     RegisterScreen(
         uiState = uiState,
@@ -108,7 +112,9 @@ fun RegisterRoute(
         onTimeSelected = viewModel::onTimeSelected,
         onChannelToggled = viewModel::onChannelToggled,
         onAddImageClick = {
-            val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            val request = PickVisualMediaRequest(
+                ActivityResultContracts.PickVisualMedia.ImageOnly
+            )
 
             when {
                 remainingCount <= 0 -> viewModel.onImageLimitExceeded()
