@@ -2,6 +2,7 @@ package com.haphap.app.presentation.register
 
 import android.net.Uri
 import androidx.compose.runtime.Immutable
+import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterPassCardModel
@@ -9,7 +10,6 @@ import com.haphap.app.data.model.register.RegisterProcessModel
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.presentation.register.model.MAX_PROOF_IMAGE_COUNT
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
-import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.RegisterStep
 import kotlinx.collections.immutable.ImmutableList

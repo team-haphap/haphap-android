@@ -1,6 +1,5 @@
 package com.haphap.app.data.model.register
 
-import com.haphap.app.presentation.register.type.NotificationChannelType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

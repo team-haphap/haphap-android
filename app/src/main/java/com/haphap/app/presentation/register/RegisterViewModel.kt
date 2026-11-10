@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageFileInfoReader
+import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
-import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack

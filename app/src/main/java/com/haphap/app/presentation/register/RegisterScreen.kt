@@ -29,6 +29,7 @@ import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
+import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
@@ -44,7 +45,6 @@ import com.haphap.app.presentation.register.component.RegisterProgressBar
 import com.haphap.app.presentation.register.component.RegisterSecondSection
 import com.haphap.app.presentation.register.component.RegisterThirdSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
-import com.haphap.app.presentation.register.type.NotificationChannelType
 import com.haphap.app.presentation.register.type.PassResultStatusButton
 import com.haphap.app.presentation.register.type.RegisterStep
 import java.time.LocalDate

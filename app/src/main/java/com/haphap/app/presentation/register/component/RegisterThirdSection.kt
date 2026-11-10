@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
-import com.haphap.app.presentation.register.type.NotificationChannelType
+import com.haphap.app.data.model.register.NotificationChannelType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
