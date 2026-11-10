@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.modal.HapHapDialog
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.sendEmail
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLeave
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToLogin
 import com.haphap.app.presentation.setting.SettingContract.SideEffect.NavigateToMyPage
@@ -41,6 +43,7 @@ fun SettingRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
+    val context = LocalContext.current
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -59,6 +62,7 @@ fun SettingRoute(
         uiState = uiState,
         onBackClick = viewModel::onBackClick,
         onInfoClick = navigateToAccountInfo,
+        onInquiryClick = { context.sendEmail() },
         onLogoutClick = viewModel::onLogoutClick,
         onLogoutDialogDismiss = viewModel::onLogoutDialogDismiss,
         onLogoutConfirm = viewModel::onLogoutConfirm,
@@ -72,6 +76,7 @@ private fun SettingScreen(
     uiState: SettingContract.State,
     onBackClick: () -> Unit,
     onInfoClick: () -> Unit,
+    onInquiryClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onLogoutDialogDismiss: () -> Unit,
     onLogoutConfirm: () -> Unit,
@@ -130,7 +135,7 @@ private fun SettingScreen(
 
                 SettingMenuItem(
                     text = "문의하기",
-                    onClick = {},
+                    onClick = onInquiryClick,
                 )
 
                 SettingSectionDivider()
@@ -160,6 +165,7 @@ private fun SettingScreenPreview() {
             uiState = SettingContract.State(),
             onBackClick = {},
             onInfoClick = {},
+            onInquiryClick = {},
             onLogoutClick = {},
             onLogoutDialogDismiss = {},
             onLogoutConfirm = {},
