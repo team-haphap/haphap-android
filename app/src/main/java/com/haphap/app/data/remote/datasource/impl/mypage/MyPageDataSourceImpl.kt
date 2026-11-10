@@ -2,6 +2,7 @@ package com.haphap.app.data.remote.datasource.impl.mypage
 
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
+import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
@@ -14,6 +15,10 @@ class MyPageDataSourceImpl @Inject constructor(
 ) : MyPageDataSource {
     override suspend fun getMyPage(): BaseResponse<MyPageResponseDto> {
         return myPageService.getMyPage()
+    }
+
+    override suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto> {
+        return myPageService.getAccountInfo()
     }
 
     override suspend fun deleteMember(requestDto: LeaveRequestDto): Response<Unit> =
