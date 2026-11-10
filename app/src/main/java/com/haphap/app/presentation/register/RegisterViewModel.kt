@@ -21,6 +21,7 @@ import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowTo
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import com.haphap.app.presentation.register.type.RegisterStep
+import com.haphap.app.presentation.register.type.toResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -168,7 +169,7 @@ class RegisterViewModel @Inject constructor(
         val stageId = state.registerInfo.stageId ?: return
 
         viewModelScope.launch {
-            registerRepository.postCheckRegistration(postingId, stageId, selectedResult.resultType)
+            registerRepository.postCheckRegistration(postingId, stageId, selectedResult.toResultType())
                 .onSuccess { checkResult ->
                     when (checkResult) {
                         RegistrationCheckType.NEW ->
@@ -308,7 +309,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun register() {
         val state = _uiState.value
-        val result = state.selectedResult?.resultType ?: return
+        val result = state.selectedResult?.toResultType() ?: return
         val registerInfo = state.registerInfo.copy(result = result)
 
         _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
