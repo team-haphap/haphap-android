@@ -17,8 +17,6 @@ data class HomeMyApplicationDto(
     val companyName: String,
     @SerialName("title")
     val title: String,
-    @SerialName("category")
-    val category: String?,
     @SerialName("currentStageStatus")
     val currentStageStatus: String?,
     @SerialName("dDayLabel")
