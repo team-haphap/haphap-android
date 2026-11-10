@@ -3,8 +3,6 @@ package com.haphap.app.presentation.jobdetail.style
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.presentation.jobdetail.type.JobStepStatus
 

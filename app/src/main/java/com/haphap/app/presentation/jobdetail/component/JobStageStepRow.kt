@@ -48,6 +48,7 @@ fun JobStageStepRow(
         }
     }
 }
+
 @Composable
 private fun JobStageStep(
     number: Int,
@@ -98,13 +99,13 @@ private fun JobStageStepRowPreview() {
     HapHapTheme {
         JobStageStepRow(
             steps = persistentListOf(
-                JobStepModel(1,1, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(2,2, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(3,3, "1차면접", JobStepStatus.IN_PROGRESS),
-                JobStepModel(4,2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
-                JobStepModel(5,2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(6,2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(7,2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
+                JobStepModel(1, 1, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(2, 2, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(3, 3, "1차면접", JobStepStatus.IN_PROGRESS),
+                JobStepModel(4, 2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
+                JobStepModel(5, 2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(6, 2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(7, 2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
             ),
         )
     }
