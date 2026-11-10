@@ -33,10 +33,6 @@ fun jobStageStepStyle(status: JobStepStatus): JobStageStepStyle {
             JobStepStatus.UPCOMING -> "대기"
         },
         stateTextColor = if (isActive) HapHapTheme.colors.primary100 else HapHapTheme.colors.gray300,
-        stateTextStyle = if (isActive) {
-            HapHapTheme.typography.caption.m10
-        } else {
-            HapHapTheme.typography.caption.r10
-        },
+        stateTextStyle = HapHapTheme.typography.caption.m10,
     )
 }
