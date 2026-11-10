@@ -47,8 +47,7 @@ sealed interface RegisterContract {
                 RegisterStep.RESULT -> selectedResult != null
 
                 RegisterStep.CONTACT ->
-                    isContactDateTimeValid(registerInfo.contactedDate, registerInfo.contactedTime) &&
-                            registerInfo.contactedMethod.isNotEmpty()
+                    isContactDateTimeValid && registerInfo.contactedMethod.isNotEmpty()
 
                 RegisterStep.PASS_PROOF -> proofImages.any { it.error == null }
 
@@ -56,6 +55,13 @@ sealed interface RegisterContract {
                     registerInfo.anonymous && registerUiState !is RegisterUiState.Loading
 
                 RegisterStep.COMPLETE -> true
+            }
+
+        val isContactDateTimeValid: Boolean
+            get() {
+                val date = registerInfo.contactedDate?.let(LocalDate::parse) ?: return false
+                val time = registerInfo.contactedTime?.let(LocalTime::parse) ?: return false
+                return !LocalDateTime.of(date, time).isAfter(LocalDateTime.now())
             }
 
         val remainingProofImageCount: Int
@@ -97,16 +103,6 @@ sealed interface RegisterContract {
             val passCard: RegisterPassCardModel,
         ) : SideEffect()
     }
-}
-
-internal fun isContactDateTimeValid(
-    dateString: String?,
-    timeString: String?,
-    now: LocalDateTime = LocalDateTime.now(),
-): Boolean {
-    val date = dateString?.let(LocalDate::parse) ?: return false
-    val time = timeString?.let(LocalTime::parse) ?: return false
-    return !LocalDateTime.of(date, time).isAfter(now)
 }
 
 sealed interface RegisterUiState {

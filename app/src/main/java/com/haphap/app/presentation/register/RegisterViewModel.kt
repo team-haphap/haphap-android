@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
@@ -211,11 +212,11 @@ class RegisterViewModel @Inject constructor(
     private fun updateContactDateTime(
         transform: (RegisterModel) -> RegisterModel,
     ) {
-        val updatedInfo = transform(_uiState.value.registerInfo)
-        _uiState.update { it.copy(registerInfo = updatedInfo) }
+        val updatedState = _uiState.updateAndGet { it.copy(registerInfo = transform(it.registerInfo)) }
 
-        val isBothSelected = updatedInfo.contactedDate != null && updatedInfo.contactedTime != null
-        if (isBothSelected && !isContactDateTimeValid(updatedInfo.contactedDate, updatedInfo.contactedTime)) {
+        val isBothSelected = updatedState.registerInfo.contactedDate != null &&
+            updatedState.registerInfo.contactedTime != null
+        if (isBothSelected && !updatedState.isContactDateTimeValid) {
             viewModelScope.launch {
                 _sideEffect.send(OnShowToast("현재 시간 이후로는 선택할 수 없어요", isAlarm = false))
             }
