@@ -143,7 +143,7 @@ private fun ProfileScreenPreview() {
         ProfileScreen(
             uiState = ProfileContract.State(),
             nicknameState = rememberTextFieldState("죠르디"),
-            nicknameInputTransformation = InputTransformation { },
+            nicknameInputTransformation = {},
             onBackClick = {},
             onImageClick = {},
             onSaveClick = {},
