@@ -1,11 +1,11 @@
-package com.haphap.app.presentation.mypage.passcardstorage
+package com.haphap.app.presentation.passcard.storage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haphap.app.data.model.mypage.PassCardStorageModel
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateBack
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateToPassCardDetail
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateToRegister
+import com.haphap.app.data.model.passcard.PassCardStorageModel
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateBack
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateToPassCardDetail
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateToRegister
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.channels.Channel

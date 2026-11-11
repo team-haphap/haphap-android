@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.mypage.passcardstorage
+package com.haphap.app.presentation.passcard.storage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,13 +22,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.data.model.mypage.PassCardStorageModel
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateBack
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateToPassCardDetail
-import com.haphap.app.presentation.mypage.passcardstorage.PassCardStorageContract.SideEffect.NavigateToRegister
-import com.haphap.app.presentation.mypage.passcardstorage.component.PassCardStorageEmptyComponent
-import com.haphap.app.presentation.mypage.passcardstorage.component.PassCardStorageItem
-import com.haphap.app.presentation.mypage.passcardstorage.component.PassCardStorageTopBar
+import com.haphap.app.data.model.passcard.PassCardStorageModel
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateBack
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateToPassCardDetail
+import com.haphap.app.presentation.passcard.storage.PassCardStorageContract.SideEffect.NavigateToRegister
+import com.haphap.app.presentation.passcard.storage.component.PassCardStorageEmptyComponent
+import com.haphap.app.presentation.passcard.storage.component.PassCardStorageItem
+import com.haphap.app.presentation.passcard.storage.component.PassCardStorageTopBar
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable

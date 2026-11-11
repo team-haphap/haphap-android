@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.mypage.passcardstorage.component
+package com.haphap.app.presentation.passcard.storage.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

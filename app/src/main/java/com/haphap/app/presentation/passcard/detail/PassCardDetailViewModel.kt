@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcarddetail
+package com.haphap.app.presentation.passcard.detail
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.core.image.ImageSaver
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
-import com.haphap.app.presentation.passcarddetail.PassCardDetailContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.channels.Channel

@@ -1,7 +1,7 @@
-package com.haphap.app.presentation.mypage.passcardstorage
+package com.haphap.app.presentation.passcard.storage
 
 import androidx.compose.runtime.Immutable
-import com.haphap.app.data.model.mypage.PassCardStorageModel
+import com.haphap.app.data.model.passcard.PassCardStorageModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

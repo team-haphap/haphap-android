@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcarddetail
+package com.haphap.app.presentation.passcard.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,9 +50,9 @@ import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
-import com.haphap.app.presentation.passcarddetail.component.PassCardDetailChipList
-import com.haphap.app.presentation.passcarddetail.PassCardDetailContract.SideEffect.NavigateToHome
-import com.haphap.app.presentation.passcarddetail.PassCardDetailContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.passcard.detail.component.PassCardDetailChipList
+import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 

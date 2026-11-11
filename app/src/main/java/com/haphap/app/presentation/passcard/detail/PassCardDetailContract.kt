@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcarddetail
+package com.haphap.app.presentation.passcard.detail
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
