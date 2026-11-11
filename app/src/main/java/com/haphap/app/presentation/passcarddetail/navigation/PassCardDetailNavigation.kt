@@ -15,9 +15,9 @@ import com.haphap.app.presentation.passcarddetail.PassCardDetailRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToPassCardDetail(
-    postingId: Int,
+    id: Int,
     navOptions: NavOptions? = null,
-) = navigate(PassCardDetail(postingId), navOptions)
+) = navigate(PassCardDetail(id), navOptions)
 
 fun NavGraphBuilder.passCardDetailGraph(
     innerPadding: PaddingValues,
@@ -37,4 +37,4 @@ fun NavGraphBuilder.passCardDetailGraph(
 }
 
 @Serializable
-data class PassCardDetail(val postingId: Int) : Route
+data class PassCardDetail(val id: Int) : Route
