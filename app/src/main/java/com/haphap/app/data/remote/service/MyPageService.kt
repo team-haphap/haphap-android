@@ -3,12 +3,14 @@ package com.haphap.app.data.remote.service
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
+import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface MyPageService {
     @GET("api/v1/members/me")
@@ -19,4 +21,9 @@ interface MyPageService {
 
     @POST("api/v1/auth/logout")
     suspend fun logout(@Body request: LogoutRequestDto): Response<Unit>
+
+    @GET("api/v1/my-page/registrations")
+    suspend fun getMyApplicationList(
+        @Query("filter") filter: String,
+    ): BaseResponse<MyApplicationResponseDto>
 }
