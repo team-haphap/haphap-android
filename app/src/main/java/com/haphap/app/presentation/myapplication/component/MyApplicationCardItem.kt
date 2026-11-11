@@ -122,6 +122,7 @@ private fun MyApplicationInfoRow(
             style = HapHapTheme.typography.caption.m12,
             color = HapHapTheme.colors.gray500,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.width(45.dp),
         )
 
