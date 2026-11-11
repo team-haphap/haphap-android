@@ -26,7 +26,10 @@ fun JobDetailReportEmptyComponent(
             .fillMaxSize()
             .background(color = HapHapTheme.colors.white),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 12.dp,
+            alignment = Alignment.CenterVertically
+        ),
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_53),

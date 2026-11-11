@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -105,7 +106,9 @@ private fun ProcessButtonGrid(
                                 ButtonType.UnSelected
                             },
                             onClick = { onProcessSelected(process.id) },
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(104f/64f),
                         )
                     }
                 }
@@ -129,7 +132,7 @@ private fun RegisterFirstSectionPreview() {
     )
     val processList = persistentListOf(
         RegisterProcessModel(id = 1, text = "서류"),
-        RegisterProcessModel(id = 2, text = "AI 역량 검사"),
+        RegisterProcessModel(id = 2, text = "AI 역량 검사AI 역량 검사AI 역량 검사AI 역량 검사"),
         RegisterProcessModel(id = 3, text = "1차면접"),
         RegisterProcessModel(id = 4, text = "2차면접"),
         RegisterProcessModel(id = 5, text = "임원면접"),
