@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcardstorage.component
+package com.haphap.app.presentation.mypage.passcardstorage.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
