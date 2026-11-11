@@ -1,6 +1,7 @@
 package com.haphap.app.presentation.mypage.profile
 
 import android.net.Uri
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.drop
 import javax.inject.Inject
 import com.haphap.app.presentation.mypage.profile.ProfileContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.mypage.profile.ProfileContract.SideEffect.OpenImagePicker
+import com.haphap.app.presentation.mypage.profile.type.ProfileNicknameStatus
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor() : ViewModel() {
@@ -30,6 +32,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     val nicknameState = TextFieldState()
     private var originalNickname = ""
+
+    val nicknameInputTransformation = InputTransformation {
+        if (length > NICKNAME_MAX_LENGTH) {
+            revertAllChanges()
+            _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.TOO_LONG) }
+        }
+    }
 
     init {
         getProfile()
@@ -51,8 +60,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             snapshotFlow { nicknameState.text.toString() }
                 .distinctUntilChanged()
                 .drop(1)
-                .collect {
-                    _uiState.update { state -> state.copy(isError = false) }
+                .collect { nickname ->
+                    val status = if (NICKNAME_REGEX.matches(nickname)) {
+                        ProfileNicknameStatus.DEFAULT
+                    } else {
+                        ProfileNicknameStatus.INVALID_CHARACTER
+                    }
+                    _uiState.update { it.copy(nicknameStatus = status) }
                 }
         }
     }
@@ -82,8 +96,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
         // TODO: API 연결 시 교체. 지금은 "중복" 입력하면 에러
         val nickname = nicknameState.text.toString().trim()
         if (nickname == "중복") {
-            _uiState.update { it.copy(isError = true) }
+            _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
             return
         }
+    }
+
+    companion object {
+        private const val NICKNAME_MAX_LENGTH = 5
+        private val NICKNAME_REGEX = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$")
     }
 }

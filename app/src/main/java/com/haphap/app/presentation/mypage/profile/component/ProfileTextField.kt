@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -24,9 +25,9 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 @Composable
 fun ProfileTextField(
     state: TextFieldState,
-    placeholder: String,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
+    inputTransformation: InputTransformation? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -46,9 +47,9 @@ fun ProfileTextField(
         state = state,
         textColor = HapHapTheme.colors.black,
         textStyle = HapHapTheme.typography.body.m14,
-        placeholder = placeholder,
+        placeholder = "",
         placeholderColor = HapHapTheme.colors.black,
-        placeholderStyle = HapHapTheme.typography.body.m14, //Todo: 추후 수정
+        placeholderStyle = HapHapTheme.typography.body.m14,
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -62,6 +63,7 @@ fun ProfileTextField(
             )
             .padding(all = 10.dp),
         lineLimits = TextFieldLineLimits.SingleLine,
+        inputTransformation = inputTransformation,
         interactionSource = interactionSource,
     )
 }
@@ -76,12 +78,10 @@ private fun ProfileTextFieldPreview() {
         ) {
             ProfileTextField(
                 state = rememberTextFieldState("김합합"),
-                placeholder = "닉네임을 입력해주세요",
             )
 
             ProfileTextField(
                 state = rememberTextFieldState("김합합"),
-                placeholder = "닉네임을 입력해주세요",
                 isError = true,
             )
         }

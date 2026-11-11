@@ -126,8 +126,7 @@ private fun ProfileScreen(
             ProfileTextFieldSection(
                 state = nicknameState,
                 text = "닉네임",
-                placeholder = "",
-                isError = uiState.isError,
+                nicknameStatus = uiState.nicknameStatus,
             )
         }
     }

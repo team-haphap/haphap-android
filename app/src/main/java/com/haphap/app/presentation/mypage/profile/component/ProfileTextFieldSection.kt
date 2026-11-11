@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,27 +24,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.presentation.mypage.profile.type.ProfileNicknameStatus
 
 @Composable
 fun ProfileTextFieldSection(
     state: TextFieldState,
     text: String,
-    placeholder: String,
-    isError: Boolean,
+    nicknameStatus: ProfileNicknameStatus,
     modifier: Modifier = Modifier,
+    inputTransformation: InputTransformation? = null,
 ) {
+    val isError = nicknameStatus != ProfileNicknameStatus.DEFAULT
     val messageColor = if (isError) HapHapTheme.colors.subred else HapHapTheme.colors.gray300
     val nickname = state.text.toString().trim()
 
     val message = buildAnnotatedString {
-        if (isError) {
-            append("다른 사용자가 사용중인 닉네임이에요.")
-        } else {
-            append("다른 사용자에게는 ")
-            withStyle(SpanStyle(color = HapHapTheme.colors.primary100)) {
-                append("익명의 $nickname")
+        when (nicknameStatus) {
+            ProfileNicknameStatus.DEFAULT -> {
+                append("다른 사용자에게는 ")
+                withStyle(SpanStyle(color = HapHapTheme.colors.primary100)) {
+                    append("익명의 $nickname")
+                }
+                append(" 으로 보여요")
             }
-            append(" 으로 보여요")
+            ProfileNicknameStatus.INVALID_CHARACTER -> append("한글, 영문, 숫자만 사용할 수 있어요.")
+            ProfileNicknameStatus.DUPLICATED -> append("다른 사용자가 사용중인 닉네임이에요.")
+            ProfileNicknameStatus.TOO_LONG -> append("5자 이내로 입력해주세요.")
         }
     }
 
@@ -62,8 +68,8 @@ fun ProfileTextFieldSection(
 
         ProfileTextField(
             state = state,
-            placeholder = placeholder,
             isError = isError,
+            inputTransformation = inputTransformation,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -95,15 +101,13 @@ private fun ProfileTextFieldSectionPreview() {
             ProfileTextFieldSection(
                 state = TextFieldState("박합합"),
                 text = "닉네임",
-                placeholder = "닉네임을 입력해주세요",
-                isError = false,
+                nicknameStatus = ProfileNicknameStatus.DUPLICATED,
             )
 
             ProfileTextFieldSection(
                 state = TextFieldState("김합합"),
                 text = "닉네임",
-                placeholder = "닉네임을 입력해주세요",
-                isError = true,
+                nicknameStatus = ProfileNicknameStatus.DEFAULT,
             )
         }
     }
