@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -19,14 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
-import com.haphap.app.presentation.register.type.NotificationChannelType
+import com.haphap.app.data.model.register.NotificationChannelType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalTime
 
 @Composable
-fun RegisterThirdSection(
+fun RegisterContactSection(
     contactDate: String?,
     onDateSelected: (LocalDate) -> Unit,
     contactTime: String?,
@@ -112,13 +111,13 @@ private const val COLUMN_COUNT = 2
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterThirdSectionPreview() {
+private fun RegisterContactSectionPreview() {
     var contactDate by remember { mutableStateOf<LocalDate?>(null) }
     var contactTime by remember { mutableStateOf<LocalTime?>(null) }
     var selectedChannels by remember { mutableStateOf(persistentListOf<NotificationChannelType>()) }
 
     HapHapTheme {
-        RegisterThirdSection(
+        RegisterContactSection(
             contactDate = contactDate.toString(),
             onDateSelected = { contactDate = it },
             contactTime = contactTime.toString(),

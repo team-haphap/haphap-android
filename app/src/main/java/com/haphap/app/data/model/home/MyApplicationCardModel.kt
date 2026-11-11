@@ -8,7 +8,6 @@ data class MyApplicationCardModel (
     val logoImageUrl: String,
     val companyName: String,
     val title: String,
-    val category: String?,
     val currentStageStatus: String?,
     val dDayLabel: String,
 )

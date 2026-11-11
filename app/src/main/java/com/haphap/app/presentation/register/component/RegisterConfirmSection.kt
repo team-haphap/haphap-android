@@ -26,8 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
-import com.haphap.app.presentation.register.type.PassResultStatusButton
-import com.haphap.app.presentation.register.type.toPassResultType
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -35,12 +34,12 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun RegisterFourthSection(
+fun RegisterConfirmSection(
     recruitName: String,
     recruitProcess: String,
     contactDate: String?,
     contactTime: String?,
-    selectedResult: PassResultStatusButton,
+    selectedResult: PassResultStatusType,
     isAlarmAgreed: Boolean,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     isTermAgreed: Boolean,
@@ -76,7 +75,7 @@ fun RegisterFourthSection(
             Spacer(modifier = Modifier.height(36.dp))
 
             Text(
-                text = if (selectedResult == PassResultStatusButton.DONT_KNOW) "결과" else "날짜 및 결과",
+                text = if (selectedResult == PassResultStatusType.DONT_KNOW) "결과" else "날짜 및 결과",
                 style = HapHapTheme.typography.body.b18,
                 color = HapHapTheme.colors.gray800,
             )
@@ -102,11 +101,11 @@ fun RegisterFourthSection(
             }
 
             RegisterPassResultConfirm(
-                status = selectedResult.toPassResultType(),
+                status = selectedResult,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            if (selectedResult == PassResultStatusButton.PASS && proofImages.isNotEmpty()) {
+            if (selectedResult == PassResultStatusType.PASS && proofImages.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
@@ -164,17 +163,17 @@ private fun ConfirmInfoBox(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterFourthSectionPreview() {
+private fun RegisterConfirmSectionPreview() {
     var isAlarmAgreed by remember { mutableStateOf(true) }
     var isTermAgreed by remember { mutableStateOf(true) }
 
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
             contactTime = "21:33",
-            selectedResult = PassResultStatusButton.PASS,
+            selectedResult = PassResultStatusType.PASS,
             isAlarmAgreed = isAlarmAgreed,
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
@@ -185,14 +184,14 @@ private fun RegisterFourthSectionPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 360, heightDp = 640)
 @Composable
-private fun RegisterFourthSectionPassProofPreview() {
+private fun RegisterConfirmSectionPassProofPreview() {
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = "2026-06-11",
             contactTime = "21:33",
-            selectedResult = PassResultStatusButton.PASS,
+            selectedResult = PassResultStatusType.PASS,
             isAlarmAgreed = false,
             onAlarmAgreeToggled = {},
             isTermAgreed = true,
@@ -205,17 +204,17 @@ private fun RegisterFourthSectionPassProofPreview() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterFourthSectionDontKnowPreview() {
+private fun RegisterConfirmSectionDontKnowPreview() {
     var isAlarmAgreed by remember { mutableStateOf(false) }
     var isTermAgreed by remember { mutableStateOf(false) }
 
     HapHapTheme {
-        RegisterFourthSection(
+        RegisterConfirmSection(
             recruitName = "카카오 2026 신입 개발자 공개 채용",
             recruitProcess = "코딩테스트",
             contactDate = null,
             contactTime = null,
-            selectedResult = PassResultStatusButton.DONT_KNOW,
+            selectedResult = PassResultStatusType.DONT_KNOW,
             isAlarmAgreed = isAlarmAgreed,
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
