@@ -56,7 +56,7 @@ fun HapHapTextTopBar(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun MyApplicationTopBarPreview() {
+private fun HapHapTextTopBarPreview() {
     HapHapTheme {
         HapHapTextTopBar(
             text = "내 지원 내역",
