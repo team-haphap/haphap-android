@@ -4,6 +4,7 @@ import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
+import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.service.MyPageService
 import jakarta.inject.Inject
@@ -15,6 +16,9 @@ class MyPageDataSourceImpl @Inject constructor(
     override suspend fun getMyPage(): BaseResponse<MyPageResponseDto> {
         return myPageService.getMyPage()
     }
+
+    override suspend fun validateNickname(nickname: String): BaseResponse<MyPageNicknameResponseDto> =
+        myPageService.validateNickname(nickname)
 
     override suspend fun deleteMember(requestDto: LeaveRequestDto): Response<Unit> =
         myPageService.deleteMember(requestDto)
