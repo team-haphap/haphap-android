@@ -4,6 +4,7 @@ import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
+import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.service.MyPageService
 import jakarta.inject.Inject
@@ -21,4 +22,7 @@ class MyPageDataSourceImpl @Inject constructor(
 
     override suspend fun postLogout(requestDto: LogoutRequestDto): Response<Unit> =
         myPageService.logout(requestDto)
+
+    override suspend fun getMyApplicationList(filter: String): BaseResponse<MyApplicationResponseDto> =
+        myPageService.getMyApplicationList(filter)
 }
