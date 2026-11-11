@@ -27,7 +27,7 @@ class PassCardDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(PassCardDetailContract.State())
     val uiState = _uiState.asStateFlow()
 
-    private val _sideEffect = Channel<PassCardDetailContract.SideEffect>(Channel.BUFFERED)
+    private val _sideEffect = Channel<PassCardDetailContract.SideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
