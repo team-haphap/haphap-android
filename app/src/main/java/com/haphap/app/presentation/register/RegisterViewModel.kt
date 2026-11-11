@@ -6,19 +6,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageFileInfoReader
+import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.presentation.register.type.RegisterResultType
+import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.repository.api.register.RegisterRepository
 import com.haphap.app.presentation.register.navigation.Register
-import com.haphap.app.presentation.register.type.NotificationChannelType
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
+import com.haphap.app.presentation.register.type.RegisterStep
+import com.haphap.app.presentation.register.type.toResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -27,10 +30,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.Locale
 import javax.inject.Inject
@@ -53,6 +56,45 @@ class RegisterViewModel @Inject constructor(
         loadAnnounceList()
     }
 
+    fun onNextClick() {
+        val state = _uiState.value
+        if (!state.isButtonEnabled) return
+
+        when (state.step) {
+            RegisterStep.SELECT_PROCESS,
+            RegisterStep.CONTACT,
+            RegisterStep.PASS_PROOF -> moveToNextStep(from = state.step)
+            RegisterStep.RESULT -> checkRegistration()
+            RegisterStep.CONFIRM -> register()
+            RegisterStep.COMPLETE -> finish()
+        }
+    }
+
+    fun onBackClick() {
+        val state = _uiState.value
+        if (state.registerUiState is RegisterUiState.Loading) return
+
+        val previous = state.step.previous(state.selectedResult)
+        if (previous == null) {
+            viewModelScope.launch {
+                _sideEffect.send(NavigateBack)
+            }
+        } else {
+            _uiState.update { it.copy(step = previous) }
+        }
+    }
+
+    private fun moveToNextStep(from: RegisterStep) {
+        _uiState.update { it.moveToNextStep(from) }
+    }
+
+    private fun RegisterContract.State.moveToNextStep(from: RegisterStep)
+    : RegisterContract.State {
+        if (step != from) return this
+        val next = step.next(selectedResult) ?: return this
+        return copy(step = next)
+    }
+
     private fun loadAnnounceList() {
         _uiState.update { it.copy(announceListUiState = RegisterUiState.Loading) }
 
@@ -70,7 +112,10 @@ class RegisterViewModel @Inject constructor(
                 .onFailure { e ->
                     Timber.e(e, "loadAnnounceList failed")
                     _uiState.update {
-                        it.copy(announceListUiState = RegisterUiState.Failure(e.message ?: "공고 목록을 불러오지 못했습니다."))
+                        it.copy(
+                            announceListUiState = RegisterUiState
+                                .Failure(e.message ?: "공고 목록을 불러오지 못했습니다.")
+                        )
                     }
                 }
         }
@@ -83,7 +128,6 @@ class RegisterViewModel @Inject constructor(
                 registerInfo = it.registerInfo.copy(postingId = item.id, stageId = null),
                 processList = persistentListOf(),
                 processListUiState = RegisterUiState.Loading,
-                isButtonEnabled = false,
             )
         }
 
@@ -100,153 +144,98 @@ class RegisterViewModel @Inject constructor(
                 .onFailure { e ->
                     Timber.e(e, "onAnnounceSelected getPostingStages failed")
                     _uiState.update {
-                        it.copy(processListUiState = RegisterUiState.Failure(e.message ?: "전형 목록을 불러오지 못했습니다."))
+                        it.copy(
+                            processListUiState = RegisterUiState
+                                .Failure(e.message ?: "전형 목록을 불러오지 못했습니다.")
+                        )
                     }
                 }
         }
     }
 
     fun onProcessSelected(id: Int) {
+        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(stageId = id)) }
+    }
+
+    fun onResultSelected(result: PassResultStatusType) {
         _uiState.update {
             it.copy(
-                registerInfo = it.registerInfo.copy(stageId = id),
-                isButtonEnabled = it.selectedAnnounce != null,
+                selectedResult = result,
+                registerInfo = if (result == PassResultStatusType.DONT_KNOW) {
+                    it.registerInfo.copy(contactedDate = null, contactedTime = null)
+                } else {
+                    it.registerInfo
+                },
             )
         }
     }
 
-    fun onStep1NextClick() {
-        if (!_uiState.value.isButtonEnabled) return
-        _uiState.update { it.copy(step = 2, isButtonEnabled = it.selectedResult != null) }
+    private fun checkRegistration() {
+        val state = _uiState.value
+        val selectedResult = state.selectedResult ?: return
+        val postingId = state.registerInfo.postingId ?: return
+        val stageId = state.registerInfo.stageId ?: return
+
+        viewModelScope.launch {
+            registerRepository.postCheckRegistration(
+                postingId, stageId, selectedResult.toResultType()
+            )
+                .onSuccess { checkResult ->
+                    when (checkResult) {
+                        RegistrationCheckType.NEW ->
+                            moveToNextStep(from = RegisterStep.RESULT)
+
+                        RegistrationCheckType.CONFIRM_REQUIRED ->
+                            _uiState.update { it.copy(isChangeModalVisible = true) }
+
+                        RegistrationCheckType.DUPLICATE -> {
+                            _sideEffect.send(OnShowToast("이미 등록한 결과입니다"))
+                            _uiState.update { it.copy(selectedResult = null) }
+                        }
+                    }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "checkRegistration failed")
+                }
+        }
     }
 
-    fun onResultSelected(result: PassResultStatusButton) {
-        _uiState.update {
-            it.copy(selectedResult = result, isButtonEnabled = true)
-        }
-
-        if (result == PassResultStatusButton.DONT_KNOW) {
-                _uiState.update {
-                    it.copy(
-                        registerInfo = it.registerInfo.copy(contactedDate = null, contactedTime = null),
-                    )
-                }
-            }
-        }
-
     fun onChangeModalConfirmClick() {
-        val result = _uiState.value.selectedResult ?: return
-        _uiState.update { it.copy(isChangeModalVisible = false) }
-        advanceFromStep2(result)
+        _uiState.update {
+            it.copy(isChangeModalVisible = false).moveToNextStep(from = RegisterStep.RESULT)
+        }
     }
 
     fun onChangeModalCancelClick() {
         _uiState.update { it.copy(isChangeModalVisible = false) }
     }
 
-    fun onStep2NextClick() {
-        val currentState = _uiState.value
-        val selectedResult = currentState.selectedResult ?: return
-        val postingId = currentState.registerInfo.postingId ?: return
-        val stageId = currentState.registerInfo.stageId ?: return
-        val result = selectedResult.toRegisterResultType()
-
-        viewModelScope.launch {
-            registerRepository.postCheckRegistration(postingId, stageId, result)
-                .onSuccess { checkResult ->
-                    when (checkResult) {
-                        RegistrationCheckType.NEW -> advanceFromStep2(selectedResult)
-                        RegistrationCheckType.CONFIRM_REQUIRED -> {
-                            _uiState.update { it.copy(isChangeModalVisible = true) }
-                        }
-                        RegistrationCheckType.DUPLICATE -> {
-                            _sideEffect.send(OnShowToast("이미 등록한 결과입니다"))
-                            _uiState.update {
-                                it.copy(selectedResult = null, isButtonEnabled = false)
-                            }
-                        }
-                    }
-                }
-                .onFailure { e ->
-                    Timber.e(e, "onStep2NextClick checkRegistration failed")
-                }
-        }
-    }
-
-    private fun advanceFromStep2(result: PassResultStatusButton) {
-        _uiState.update {
-            val nextStep = if (result == PassResultStatusButton.DONT_KNOW) 4 else 3
-            it.copy(
-                step = nextStep,
-                isButtonEnabled = if (nextStep == 3) {
-                    isContactDateTimeValid(it.registerInfo.contactedDate, it.registerInfo.contactedTime) &&
-                        it.registerInfo.contactedMethod.isNotEmpty()
-                } else {
-                    it.registerInfo.anonymous
-                },
-            )
-        }
-    }
-
     fun onDateSelected(date: LocalDate) {
-        val updatedInfo = _uiState.value.registerInfo.copy(contactedDate = date.toString())
-        val isValid = isContactDateTimeValid(updatedInfo.contactedDate, updatedInfo.contactedTime)
-
-        _uiState.update {
-            it.copy(
-                registerInfo = updatedInfo,
-                isButtonEnabled = isValid && updatedInfo.contactedMethod.isNotEmpty(),
-            )
-        }
-
-        if (updatedInfo.contactedTime != null && !isValid) {
-            viewModelScope.launch {
-                _sideEffect.send(
-                    OnShowToast(
-                        message = "현재 시간 이후로는 선택할 수 없어요",
-                        isAlarm = false,
-                    )
-                )
-            }
-        }
+        updateContactDateTime { it.copy(contactedDate = date.toString()) }
     }
 
     fun onTimeSelected(time: LocalTime) {
-        val updatedInfo = _uiState.value.registerInfo.copy(contactedTime = time.toString())
-        val isValid = isContactDateTimeValid(updatedInfo.contactedDate, updatedInfo.contactedTime)
+        updateContactDateTime { it.copy(contactedTime = time.toString()) }
+    }
 
-        _uiState.update {
-            it.copy(
-                registerInfo = updatedInfo,
-                isButtonEnabled = isValid && updatedInfo.contactedMethod.isNotEmpty(),
-            )
+    private fun updateContactDateTime(
+        transform: (RegisterModel) -> RegisterModel,
+    ) {
+        val updatedState = _uiState.updateAndGet {
+            it.copy(registerInfo = transform(it.registerInfo))
         }
 
-        if (updatedInfo.contactedDate != null && !isValid) {
+        val isBothSelected = updatedState.registerInfo.contactedDate != null &&
+            updatedState.registerInfo.contactedTime != null
+        if (isBothSelected && !updatedState.isContactDateTimeValid) {
             viewModelScope.launch {
-                _sideEffect.send(
-                    OnShowToast(
-                        message = "현재 시간 이후로는 선택할 수 없어요",
-                        isAlarm = false,
-                    )
-                )
+                _sideEffect.send(OnShowToast("현재 시간 이후로는 선택할 수 없어요", isAlarm = false))
             }
         }
     }
 
     fun onChannelToggled(channel: NotificationChannelType) {
-        _uiState.update {
-            val toggled = it.toggleNotificationChannel(channel)
-            toggled.copy(
-                isButtonEnabled = isContactDateTimeValid(toggled.registerInfo.contactedDate, toggled.registerInfo.contactedTime) &&
-                    toggled.registerInfo.contactedMethod.isNotEmpty(),
-            )
-        }
-    }
-
-    fun onStep3NextClick() {
-        if (!_uiState.value.isButtonEnabled) return
-        _uiState.update { it.copy(step = 4, isButtonEnabled = it.registerInfo.anonymous) }
+        _uiState.update { it.toggleNotificationChannel(channel) }
     }
 
     fun onImagesPicked(uris: List<Uri>) {
@@ -265,12 +254,7 @@ class RegisterViewModel @Inject constructor(
             val newImages = acceptedUris.map { it.toProofImage() }
 
             _uiState.update { state ->
-                val images = (state.proofImages + newImages).toImmutableList()
-
-                state.copy(
-                    proofImages = images,
-                    isButtonEnabled = images.any { it.error == null },
-                )
+                state.copy(proofImages = (state.proofImages + newImages).toImmutableList())
             }
         }
     }
@@ -288,11 +272,8 @@ class RegisterViewModel @Inject constructor(
         }
 
         _uiState.update { state ->
-            val remaining = state.proofImages.filterNot { it.uri == uri }.toImmutableList()
-
             state.copy(
-                proofImages = remaining,
-                isButtonEnabled = remaining.any { it.error == null },
+                proofImages = state.proofImages.filterNot { it.uri == uri }.toImmutableList()
             )
         }
     }
@@ -328,82 +309,55 @@ class RegisterViewModel @Inject constructor(
         )
     }
 
-    fun onBackClick() {
-        _uiState.update {
-            val previousStep = if (it.step == 4 && it.selectedResult == PassResultStatusButton.DONT_KNOW) {
-                2
-            } else {
-                it.step - 1
-            }
-            it.copy(
-                step = previousStep,
-                isButtonEnabled = when (previousStep) {
-                    1 -> it.selectedAnnounce != null && it.registerInfo.stageId != null
-                    2 -> it.selectedResult != null
-                    3 -> isContactDateTimeValid(it.registerInfo.contactedDate, it.registerInfo.contactedTime) &&
-                        it.registerInfo.contactedMethod.isNotEmpty()
-                    else -> it.registerInfo.anonymous
-                },
-            )
-        }
-    }
-
     fun onAlarmAgreeToggled(checked: Boolean) {
-        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(alarmEnabled = checked)) }
+        _uiState.update {
+            it.copy(registerInfo = it.registerInfo.copy(alarmEnabled = checked))
+        }
     }
 
     fun onTermAgreeToggled(checked: Boolean) {
         _uiState.update {
-            it.copy(
-                registerInfo = it.registerInfo.copy(anonymous = checked),
-                isButtonEnabled = checked && it.registerUiState !is RegisterUiState.Loading
-            )
+            it.copy(registerInfo = it.registerInfo.copy(anonymous = checked))
         }
     }
 
-    fun onRegisterClick() {
-        val currentState = _uiState.value
-        if (!currentState.isButtonEnabled) return
+    private fun register() {
+        val state = _uiState.value
+        val result = state.selectedResult?.toResultType() ?: return
+        val registerInfo = state.registerInfo.copy(result = result)
 
-        val result = currentState.selectedResult?.toRegisterResultType() ?: return
-        val registerInfo = currentState.registerInfo.copy(result = result)
-
-        _uiState.update {
-            it.copy(registerUiState = RegisterUiState.Loading, isButtonEnabled = false)
-        }
+        _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
             registerRepository.postRegister(registerInfo)
-                .onSuccess { registrationModel ->
+                .onSuccess { registration ->
                     _uiState.update {
                         it.copy(
                             registerInfo = registerInfo,
-                            registrationResult = registrationModel,
+                            registrationResult = registration,
                             registerUiState = RegisterUiState.Success,
-                            step = 5,
-                            isButtonEnabled = true,
-                        )
+                        ).moveToNextStep(from = RegisterStep.CONFIRM)
                     }
                 }
                 .onFailure { e ->
-                    Timber.e(e, "onRegisterClick postRegistration failed")
+                    Timber.e(e, "register failed")
                     _uiState.update {
                         it.copy(
-                            registerUiState = RegisterUiState.Failure(e.message ?: "상태 등록에 실패했습니다."),
-                            isButtonEnabled = true,
+                            registerUiState = RegisterUiState
+                                .Failure(e.message ?: "상태 등록에 실패했습니다.")
                         )
                     }
                 }
         }
     }
 
-    fun onFinishClick() {
-        val currentState = _uiState.value
+    private fun finish() {
+        val state = _uiState.value
 
         viewModelScope.launch {
             val jobId = route.jobId
-            if (currentState.selectedResult == PassResultStatusButton.PASS) {
-                currentState.registrationResult?.card?.let { card ->
+            if (state.selectedResult == PassResultStatusType.PASS) {
+                state.registrationResult?.card?.let { card ->
                     _sideEffect.send(NavigateToPassCard(card))
                 }
             } else if (jobId != null) {
@@ -413,18 +367,6 @@ class RegisterViewModel @Inject constructor(
             }
         }
     }
-
-    private fun isContactDateTimeValid(dateString: String?, timeString: String?): Boolean {
-        val date = dateString?.let(LocalDate::parse) ?: return false
-        val time = timeString?.let(LocalTime::parse) ?: return false
-        return !LocalDateTime.of(date, time).isAfter(LocalDateTime.now())
-    }
-}
-
-private fun PassResultStatusButton.toRegisterResultType(): RegisterResultType = when (this) {
-    PassResultStatusButton.PASS -> RegisterResultType.PASS
-    PassResultStatusButton.FAILED -> RegisterResultType.FAIL
-    PassResultStatusButton.DONT_KNOW -> RegisterResultType.PENDING
 }
 
 private const val MAX_IMAGE_SIZE_BYTES = 10 * 1024 * 1024L
