@@ -43,6 +43,7 @@ import androidx.core.net.toUri
 fun HomeRoute(
     modifier: Modifier = Modifier,
     navigateToMyPage: () -> Unit,
+    navigateToMyApplication: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToJobList: () -> Unit,
     navigateToJobDetail: (Int) -> Unit,
@@ -97,6 +98,7 @@ fun HomeRoute(
         onFilterClick = { viewModel.updateSelectedChips(it) },
         onRecentCardClick = viewModel::onCardClick,
         onListCardClick = viewModel::onCardClick,
+        onMyApplicationMoreClick = navigateToMyApplication,
         onPopularCardClick = viewModel::onCardClick,
         modifier = modifier,
     )
@@ -111,6 +113,7 @@ private fun HomeScreen(
     onFilterClick: (String) -> Unit,
     onRecentCardClick: (Int) -> Unit,
     onListCardClick: (Int) -> Unit,
+    onMyApplicationMoreClick: () -> Unit,
     onPopularCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -151,7 +154,7 @@ private fun HomeScreen(
                         HomeMyApplicationSection(
                             myApplicationCardList = uiState.myApplicationCardList,
                             onListCardClick = onListCardClick,
-                            onMoreClick = {}, //Todo: 추후 마이페이지 개발 후 연결
+                            onMoreClick = onMyApplicationMoreClick,
                         )
                     }
                 }
@@ -311,6 +314,7 @@ private fun HomeScreenPreview() {
             onFilterClick = {},
             onRecentCardClick = {},
             onListCardClick = {},
+            onMyApplicationMoreClick = {},
             onPopularCardClick = {},
         )
     }
