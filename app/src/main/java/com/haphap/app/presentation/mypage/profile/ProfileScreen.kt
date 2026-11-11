@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Scaffold
@@ -71,6 +72,7 @@ fun ProfileRoute(
     ProfileScreen(
         uiState = uiState,
         nicknameState = viewModel.nicknameState,
+        nicknameInputTransformation = viewModel.nicknameInputTransformation,
         onBackClick = viewModel::onBackClick,
         onImageClick = viewModel::onImageClick,
         onSaveClick = viewModel::onSaveClick,
@@ -82,6 +84,7 @@ fun ProfileRoute(
 private fun ProfileScreen(
     uiState: ProfileContract.State,
     nicknameState: TextFieldState,
+    nicknameInputTransformation: InputTransformation,
     onBackClick: () -> Unit,
     onImageClick: () -> Unit,
     onSaveClick: () -> Unit,
@@ -127,6 +130,7 @@ private fun ProfileScreen(
                 state = nicknameState,
                 text = "닉네임",
                 nicknameStatus = uiState.nicknameStatus,
+                inputTransformation = nicknameInputTransformation,
             )
         }
     }
@@ -139,6 +143,7 @@ private fun ProfileScreenPreview() {
         ProfileScreen(
             uiState = ProfileContract.State(),
             nicknameState = rememberTextFieldState("죠르디"),
+            nicknameInputTransformation = InputTransformation { },
             onBackClick = {},
             onImageClick = {},
             onSaveClick = {},
