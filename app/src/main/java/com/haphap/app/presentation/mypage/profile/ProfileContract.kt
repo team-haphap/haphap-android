@@ -10,8 +10,14 @@ sealed interface ProfileContract {
         val profileImageUrl: String = "",
         val selectedImageUri: Uri? = null,
         val nicknameStatus: ProfileNicknameStatus = ProfileNicknameStatus.DEFAULT,
-        val isSaving: Boolean = false,
-    )
+        val isNicknameChanged: Boolean = false,
+        val isNicknameValid: Boolean = false,
+    ) {
+        val isSaveEnabled: Boolean
+            get() = (isNicknameChanged || selectedImageUri != null) &&
+                    isNicknameValid &&
+                    nicknameStatus != ProfileNicknameStatus.DUPLICATED
+    }
 
     sealed class SideEffect {
         data object NavigateBack : SideEffect()

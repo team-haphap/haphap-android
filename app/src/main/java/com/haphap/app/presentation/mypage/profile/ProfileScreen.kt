@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.mypage.profile
 
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -28,6 +26,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
@@ -46,7 +45,7 @@ fun ProfileRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
+    val showToast = LocalToastTrigger.current
 
     val imagePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -62,8 +61,7 @@ fun ProfileRoute(
                         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                     )
 
-                    is ShowToast ->
-                        Toast.makeText(context, sideEffect.msg, Toast.LENGTH_SHORT).show()
+                    is ShowToast -> showToast(sideEffect.msg, false)
                 }
             }
         }
@@ -102,7 +100,7 @@ private fun ProfileScreen(
             HapHapBasicButton(
                 text = "저장하기",
                 textStyle = HapHapTheme.typography.body.b18,
-                colorType = ButtonType.Primary(enabled = true),
+                colorType = ButtonType.Primary(enabled = uiState.isSaveEnabled),
                 onClick = onSaveClick,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,7 +112,7 @@ private fun ProfileScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(51.dp))
 

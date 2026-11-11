@@ -10,14 +10,19 @@ import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import com.haphap.app.presentation.mypage.profile.ProfileContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.mypage.profile.ProfileContract.SideEffect.OpenImagePicker
+import com.haphap.app.presentation.mypage.profile.ProfileContract.SideEffect.ShowToast
 import com.haphap.app.presentation.mypage.profile.type.ProfileNicknameStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -59,8 +64,8 @@ class ProfileViewModel @Inject constructor(
                         it.copy(profileImageUrl = model.profileImageUrl)
                     }
                 }
-                .onFailure { throwable ->
-                    Timber.e(throwable)
+                .onFailure { error ->
+                    Timber.e("$error 프로필 조회에 실패했습니다.")
                 }
         }
     }
@@ -70,15 +75,37 @@ class ProfileViewModel @Inject constructor(
             snapshotFlow { nicknameState.text.toString() }
                 .distinctUntilChanged()
                 .drop(1)
-                .collect { nickname ->
-                    val status = if (NICKNAME_REGEX.matches(nickname)) {
-                        ProfileNicknameStatus.DEFAULT
-                    } else {
-                        ProfileNicknameStatus.INVALID_CHARACTER
-                    }
-                    _uiState.update { it.copy(nicknameStatus = status) }
+                .onEach { nickname -> updateNicknameState(nickname) }
+                .filter { nickname ->
+                    nickname != originalNickname && NICKNAME_COMPLETE_REGEX.matches(nickname)
+                }
+                .collectLatest { nickname ->
+                    delay(NICKNAME_DEBOUNCE_MILLIS)
+                    validateNickname(nickname)
                 }
         }
+    }
+
+    private fun updateNicknameState(nickname: String) {
+        _uiState.update {
+            it.copy(
+                nicknameStatus = if (NICKNAME_REGEX.matches(nickname)) {
+                    ProfileNicknameStatus.DEFAULT
+                } else {
+                    ProfileNicknameStatus.INVALID_CHARACTER
+                },
+                isNicknameChanged = nickname != originalNickname,
+                isNicknameValid = NICKNAME_COMPLETE_REGEX.matches(nickname),
+            )
+        }
+    }
+
+    private suspend fun validateNickname(nickname: String) {
+        myPageRepository.validateNickname(nickname)
+            .onFailure { error ->
+                Timber.e("$error 닉네임 검증에 실패했습니다.")
+                _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
+            }
     }
 
     fun onBackClick() {
@@ -103,16 +130,35 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onSaveClick() {
-        // TODO: API 연결 시 교체. 지금은 "중복" 입력하면 에러
-        val nickname = nicknameState.text.toString().trim()
-        if (nickname == "중복") {
-            _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
-            return
+        val nickname = nicknameState.text.toString()
+
+        viewModelScope.launch {
+            saveProfile()
+                .onSuccess {
+                    originalNickname = nickname
+                    _uiState.update {
+                        it.copy(
+                            selectedImageUri = null,
+                            isNicknameChanged = false,
+                        )
+                    }
+                    _sideEffect.send(ShowToast("변경사항이 저장됐어요."))
+                }
+                .onFailure { error ->
+                    Timber.e("$error 프로필 저장에 실패했습니다.")
+                    _sideEffect.send(ShowToast("변경사항 저장에 실패했어요. 다시 시도해주세요."))
+                }
         }
     }
 
+    // TODO: 추후 프로필 저장 API로 수정
+    private fun saveProfile(): Result<Unit> =
+        Result.success(Unit)
+
     companion object {
         private const val NICKNAME_MAX_LENGTH = 5
-        private val NICKNAME_REGEX = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$")
+        private const val NICKNAME_DEBOUNCE_MILLIS = 500L
+        private val NICKNAME_REGEX = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\\u318D\\u119E\\u11A2\\u00B7\\u2025]*$")
+        private val NICKNAME_COMPLETE_REGEX = Regex("^[가-힣a-zA-Z0-9]{2,5}$")
     }
 }
