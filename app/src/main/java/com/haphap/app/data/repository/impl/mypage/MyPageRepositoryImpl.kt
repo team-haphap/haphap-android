@@ -2,9 +2,10 @@ package com.haphap.app.data.repository.impl.mypage
 
 import com.haphap.app.core.fcm.FirebaseMessagingManager
 import com.haphap.app.core.util.suspendRunCatching
-import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
+import com.haphap.app.data.model.myapplication.MyApplicationFilter
+import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.checkData
@@ -18,9 +19,8 @@ import timber.log.Timber
 class MyPageRepositoryImpl @Inject constructor(
     private val myPageDataSource: MyPageDataSource,
     private val localTokenDataSource: LocalTokenDataSource,
-    private val localFcmDataSource: LocalFcmDataSource,
     private val firebaseMessagingManager: FirebaseMessagingManager,
-): MyPageRepository {
+) : MyPageRepository {
     override suspend fun getMyPage(): Result<MyPageModel> =
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
@@ -54,5 +54,10 @@ class MyPageRepositoryImpl @Inject constructor(
             }
 
             localTokenDataSource.clearTokens()
+        }
+
+    override suspend fun getMyApplicationList(filter: MyApplicationFilter): Result<MyApplicationListModel> =
+        suspendRunCatching {
+            myPageDataSource.getMyApplicationList(filter.filterValue).checkData().toModel()
         }
 }
