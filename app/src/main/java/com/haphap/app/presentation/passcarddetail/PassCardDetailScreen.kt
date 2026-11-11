@@ -18,6 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,17 +36,59 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.image.UrlImage
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
 import com.haphap.app.presentation.passcarddetail.component.PassCardDetailChipList
+import com.haphap.app.presentation.passcarddetail.PassCardDetailContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.passcarddetail.PassCardDetailContract.SideEffect.OnShowToast
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
+
+@Composable
+fun PassCardDetailRoute(
+    navigateBack: () -> Unit,
+    navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCardDetailViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
+                    is NavigateToHome -> navigateToHome()
+                }
+            }
+        }
+    }
+
+    PassCardDetailScreen(
+        uiState = uiState,
+        onBackClick = navigateBack,
+        onStageClick = viewModel::onStageClick,
+        onHomeClick = navigateToHome,
+        onBackgroundLoaded = viewModel::onBackgroundLoaded,
+        onLogoLoaded = viewModel::onLogoLoaded,
+        onSaveClick = viewModel::savePassCardImage,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun PassCardDetailScreen(
