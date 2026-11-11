@@ -15,12 +15,19 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
@@ -54,14 +61,29 @@ fun SearchRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
     val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+    var hasRequestedInitialFocus by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!hasRequestedInitialFocus) {
+            focusRequester.requestFocus()
+            hasRequestedInitialFocus = true
+        }
+    }
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
-                    SearchContract.SideEffect.NavigateBack -> navigateBack()
+                    SearchContract.SideEffect.NavigateBack -> {
+                        focusManager.clearFocus()
+                        navigateBack()
+                    }
 
-                    is SearchContract.SideEffect.NavigateToJobDetail -> navigateToJobDetail(sideEffect.postingId)
+                    is SearchContract.SideEffect.NavigateToJobDetail -> {
+                        focusManager.clearFocus()
+                        navigateToJobDetail(sideEffect.postingId)
+                    }
 
                     is OnShowToast -> {
                         showToast.invoke(sideEffect.message, sideEffect.isAlarm)
@@ -81,6 +103,7 @@ fun SearchRoute(
         state = viewModel.searchInputState,
         uiState = uiState,
         gridState = gridState,
+        focusRequester = focusRequester,
         onLoadMoreSearchList = { viewModel.getSearchResultList(hasNextPage = true) },
         onBackClick = viewModel::onBackClick,
         onSearchClick = viewModel::onSearchClick,
@@ -107,6 +130,7 @@ private fun SearchScreen(
     state: TextFieldState,
     uiState: SearchContract.State,
     gridState: LazyGridState,
+    focusRequester: FocusRequester,
     onLoadMoreSearchList: () -> Unit,
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
@@ -142,6 +166,7 @@ private fun SearchScreen(
                 state = state,
                 placeholder = "공고명을 검색해보세요!",
                 onSearch = onSearchClick,
+                modifier = Modifier.focusRequester(focusRequester),
             )
         }
 
@@ -191,9 +216,10 @@ private fun SearchScreen(
 private fun SearchScreenPreview() {
     HapHapTheme {
         SearchScreen(
-            state = TextFieldState(),
+            state = rememberTextFieldState(),
             uiState = SearchContract.State(),
-            gridState = LazyGridState(),
+            gridState = rememberLazyGridState(),
+            focusRequester = remember { FocusRequester() },
             onRecentItemClick = {},
             onBackClick = {},
             onSearchClick = {},
