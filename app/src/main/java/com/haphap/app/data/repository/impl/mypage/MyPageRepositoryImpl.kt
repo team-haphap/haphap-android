@@ -22,7 +22,7 @@ class MyPageRepositoryImpl @Inject constructor(
     private val localTokenDataSource: LocalTokenDataSource,
     private val localFcmDataSource: LocalFcmDataSource,
     private val firebaseMessagingManager: FirebaseMessagingManager,
-): MyPageRepository {
+) : MyPageRepository {
     override suspend fun getMyPage(): Result<MyPageModel> =
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
@@ -33,6 +33,11 @@ class MyPageRepositoryImpl @Inject constructor(
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
             response.toProfileModel()
+        }
+
+    override suspend fun validateNickname(nickname: String): Result<Unit> =
+        suspendRunCatching {
+            myPageDataSource.validateNickname(nickname).checkData()
         }
 
     override suspend fun deleteMember(reason: String, etcReason: String?): Result<Unit> =
@@ -55,7 +60,9 @@ class MyPageRepositoryImpl @Inject constructor(
 
                 if (deviceId != null) {
                     val response = myPageDataSource.postLogout(LogoutRequestDto(deviceId))
-                    if (!response.isSuccessful && response.code() != 401) throw HttpException(response)
+                    if (!response.isSuccessful && response.code() != 401) throw HttpException(
+                        response
+                    )
                 } else {
                     Timber.w("Installation id is null. Skip remote logout")
                 }
