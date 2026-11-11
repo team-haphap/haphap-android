@@ -2,6 +2,7 @@ package com.haphap.app.presentation.myapplication
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.myapplication.MyApplicationModel
+import com.haphap.app.presentation.myapplication.type.MyApplicationFilterType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -20,10 +21,4 @@ sealed interface MyApplicationContract {
                 MyApplicationFilterType.CLOSED -> "${filter.label} $closedCount"
             }
     }
-}
-
-enum class MyApplicationFilterType(val label: String) {
-    ALL("전체"),
-    IN_PROGRESS("전형 진행중"),
-    CLOSED("모든 전형 마감"),
 }
