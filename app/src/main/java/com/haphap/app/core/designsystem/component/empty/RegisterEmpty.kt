@@ -15,6 +15,16 @@ import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.StatusChipType
 
+/**
+ * 등록하기를 유도하는 빈 화면 공통 컴포넌트입니다.
+ *
+ * 상단에 [title]을, 하단에 "등록하기" 칩과 [description]을 한 줄로 보여줍니다.
+ * [description]은 칩 뒤에 이어지는 문구이므로 "를 통해 ~" 처럼 칩에 붙는 형태로 작성합니다.
+ *
+ * @param title 빈 상태를 알리는 상단 문구
+ * @param description "등록하기" 칩 뒤에 이어지는 하단 안내 문구
+ */
+
 @Composable
 fun RegisterEmpty(
     title: String,

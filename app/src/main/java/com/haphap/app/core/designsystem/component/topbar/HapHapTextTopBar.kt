@@ -17,6 +17,15 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
 
+/**
+ * 뒤로가기 아이콘과 화면 제목으로 구성된 공통 상단 바입니다.
+ *
+ * 좌우 여백은 포함하지 않으므로, 필요한 경우 호출하는 쪽에서 [modifier]로 지정합니다.
+ *
+ * @param text 상단 바에 표시할 화면 제목
+ * @param onBackClick 뒤로가기 아이콘 클릭 시 실행할 콜백
+ */
+
 @Composable
 fun HapHapTextTopBar(
     text: String,
