@@ -6,4 +6,6 @@ enum class InfoChipType {
     COUNT,
 
     CLOSED,
+
+    CLOSED_DARKNESS,
 }

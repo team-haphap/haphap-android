@@ -31,6 +31,7 @@ fun HapHapInfoChip(
         InfoChipType.EXPECTED -> HapHapTheme.colors.primary100 to HapHapTheme.colors.sub100
         InfoChipType.COUNT -> HapHapTheme.colors.gray500 to HapHapTheme.colors.gray100
         InfoChipType.CLOSED -> HapHapTheme.colors.gray400 to HapHapTheme.colors.gray100
+        InfoChipType.CLOSED_DARKNESS -> HapHapTheme.colors.white to HapHapTheme.colors.gray500
     }
 
     Text(
