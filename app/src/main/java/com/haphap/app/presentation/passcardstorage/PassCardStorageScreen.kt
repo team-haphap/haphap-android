@@ -11,19 +11,61 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.storage.PassCardStorageModel
+import com.haphap.app.presentation.passcardstorage.PassCardStorageContract.SideEffect.NavigateBack
+import com.haphap.app.presentation.passcardstorage.PassCardStorageContract.SideEffect.NavigateToPassCardDetail
+import com.haphap.app.presentation.passcardstorage.PassCardStorageContract.SideEffect.NavigateToRegister
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageEmptyComponent
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageItem
 import com.haphap.app.presentation.passcardstorage.component.PassCardStorageTopBar
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
+fun PassCardStorageRoute(
+    navigateBack: () -> Unit,
+    navigateToRegister: () -> Unit,
+    navigateToPassCardDetail: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCardStorageViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is NavigateBack -> navigateBack()
+                    is NavigateToRegister -> navigateToRegister()
+                    is NavigateToPassCardDetail -> navigateToPassCardDetail(sideEffect.id)
+                }
+            }
+        }
+    }
+
+    PassCardStorageScreen(
+        uiState = uiState,
+        onBackClick = viewModel::onBackClick,
+        onRegisterClick = viewModel::onRegisterClick,
+        onPassCardClick = viewModel::onPassCardClick,
+        modifier = modifier,
+    )
+}
+
+@Composable
 fun PassCardStorageScreen(
-    passCards: List<PassCardStorageModel>,
+    uiState: PassCardStorageContract.State,
     onBackClick: () -> Unit,
     onRegisterClick: () -> Unit,
     onPassCardClick: (Int) -> Unit,
@@ -54,7 +96,7 @@ fun PassCardStorageScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if (passCards.isEmpty()) {
+            if (uiState.passCardStorageList.isEmpty()) {
                 Spacer(modifier = Modifier.height(101.dp))
 
                 PassCardStorageEmptyComponent(onRegisterClick = onRegisterClick)
@@ -63,7 +105,7 @@ fun PassCardStorageScreen(
                     verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     items(
-                        items = passCards,
+                        items = uiState.passCardStorageList,
                         key = { it.id }
                     ) {
                         PassCardStorageItem(
@@ -85,35 +127,24 @@ fun PassCardStorageScreen(
 private fun PassCardStorageScreenPreview() {
     HapHapTheme {
         PassCardStorageScreen(
-            passCards = persistentListOf(
-                PassCardStorageModel(
-                    id = 1,
-                    imageUrl = "",
-                    companyName = "카카오",
-                    category = "개발/데이터",
-                    title = "AI 서비스 기획",
-                ),
-                PassCardStorageModel(
-                    id = 2,
-                    imageUrl = "",
-                    companyName = "카카오",
-                    category = "개발/데이터",
-                    title = "AI 서비스 기획",
+            uiState = PassCardStorageContract.State(
+                passCardStorageList = persistentListOf(
+                    PassCardStorageModel(
+                        id = 1,
+                        imageUrl = "",
+                        companyName = "카카오",
+                        category = "개발/데이터",
+                        title = "AI 서비스 기획",
+                    ),
+                    PassCardStorageModel(
+                        id = 2,
+                        imageUrl = "",
+                        companyName = "카카오",
+                        category = "개발/데이터",
+                        title = "AI 서비스 기획",
+                    ),
                 ),
             ),
-            onBackClick = {},
-            onRegisterClick = {},
-            onPassCardClick = {},
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PassCardStorageScreenEmptyPreview() {
-    HapHapTheme {
-        PassCardStorageScreen(
-            passCards = persistentListOf(),
             onBackClick = {},
             onRegisterClick = {},
             onPassCardClick = {},
