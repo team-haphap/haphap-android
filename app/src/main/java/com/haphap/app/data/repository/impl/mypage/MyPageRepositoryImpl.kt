@@ -5,7 +5,9 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
+import com.haphap.app.data.mapper.mypage.toProfileModel
 import com.haphap.app.data.model.mypage.MyPageModel
+import com.haphap.app.data.model.mypage.MyPageProfileModel
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
@@ -25,6 +27,12 @@ class MyPageRepositoryImpl @Inject constructor(
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
             response.toModel()
+        }
+
+    override suspend fun getProfile(): Result<MyPageProfileModel> =
+        suspendRunCatching {
+            val response = myPageDataSource.getMyPage().checkData()
+            response.toProfileModel()
         }
 
     override suspend fun deleteMember(reason: String, etcReason: String?): Result<Unit> =
