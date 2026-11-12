@@ -2,6 +2,10 @@ package com.haphap.app.presentation.passcertification.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavController
@@ -41,11 +45,18 @@ fun NavGraphBuilder.passCertificationGraph(
     }
 
     composable<PassCertificationDetail> {
-        // TODO: ViewModel 연결 시 상세 데이터로 교체, 제출하기 클릭 시 재제출 화면 이동
+        // TODO: ViewModel 연결 시 상세 데이터, 재제출 모드, 이미지 추가/제출 처리로 교체
+        var isResubmitMode by rememberSaveable { mutableStateOf(false) }
+
         PassCertificationDetailScreen(
             certification = PassCertificationDetailModel(),
+            isResubmitMode = isResubmitMode,
+            newImageUrls = persistentListOf(),
             onBackClick = dropUnlessResumed { navController.popBackStack() },
-            onSubmitClick = {},
+            onSubmitClick = { isResubmitMode = true },
+            onAddImageClick = {},
+            onDeleteImageClick = {},
+            onResubmitClick = {},
             modifier = Modifier.padding(innerPadding),
         )
     }

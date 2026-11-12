@@ -19,18 +19,25 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
+import com.haphap.app.presentation.passcertification.component.PassCertificationAddImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationInfoSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationNotice
 import com.haphap.app.presentation.passcertification.component.PassCertificationRejectReason
 import com.haphap.app.presentation.passcertification.component.PassCertificationTopBar
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun PassCertificationDetailScreen(
     certification: PassCertificationDetailModel,
+    isResubmitMode: Boolean,
+    newImageUrls: ImmutableList<String>,
     onBackClick: () -> Unit,
     onSubmitClick: () -> Unit,
+    onAddImageClick: () -> Unit,
+    onDeleteImageClick: (Int) -> Unit,
+    onResubmitClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -45,15 +52,19 @@ fun PassCertificationDetailScreen(
         },
         bottomBar = {
             Column(modifier = Modifier.toastBottomInset()) {
-                Spacer(modifier = Modifier.height(15.dp))
+                if (!isResubmitMode) {
+                    Spacer(modifier = Modifier.height(15.dp))
 
-                PassCertificationNotice()
+                    PassCertificationNotice()
+                }
 
                 HapHapBasicButton(
-                    text = "인증자료 제출하기",
+                    text = if (isResubmitMode) "다시 제출하기" else "인증자료 제출하기",
                     textStyle = HapHapTheme.typography.body.b18,
-                    colorType = ButtonType.Primary(enabled = true),
-                    onClick = onSubmitClick,
+                    colorType = ButtonType.Primary(
+                        enabled = !isResubmitMode || newImageUrls.isNotEmpty(),
+                    ),
+                    onClick = if (isResubmitMode) onResubmitClick else onSubmitClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp, vertical = 10.dp),
@@ -87,9 +98,17 @@ fun PassCertificationDetailScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            PassCertificationImageSection(
-                imageUrls = certification.imageUrls,
-            )
+            if (isResubmitMode) {
+                PassCertificationAddImageSection(
+                    imageUrls = newImageUrls,
+                    onAddImageClick = onAddImageClick,
+                    onDeleteImageClick = onDeleteImageClick,
+                )
+            } else {
+                PassCertificationImageSection(
+                    imageUrls = certification.imageUrls,
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -101,18 +120,42 @@ fun PassCertificationDetailScreen(
 private fun PassCertificationDetailScreenPreview() {
     HapHapTheme {
         PassCertificationDetailScreen(
-            certification = PassCertificationDetailModel(
-                companyName = "가온테크",
-                title = "서비스 기획 인턴",
-                stageName = "서류",
-                resultText = "합격",
-                statusText = "반려",
-                submittedDate = "2026.10.15.",
-                rejectReason = "첨부 이미지에서 공고명과 합격 여부를 확인하기 어려워요.",
-                imageUrls = persistentListOf(""),
-            ),
+            certification = previewCertification,
+            isResubmitMode = false,
+            newImageUrls = persistentListOf(),
             onBackClick = {},
             onSubmitClick = {},
+            onAddImageClick = {},
+            onDeleteImageClick = {},
+            onResubmitClick = {},
         )
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun PassCertificationDetailScreenResubmitPreview() {
+    HapHapTheme {
+        PassCertificationDetailScreen(
+            certification = previewCertification,
+            isResubmitMode = true,
+            newImageUrls = persistentListOf(),
+            onBackClick = {},
+            onSubmitClick = {},
+            onAddImageClick = {},
+            onDeleteImageClick = {},
+            onResubmitClick = {},
+        )
+    }
+}
+
+private val previewCertification = PassCertificationDetailModel(
+    companyName = "가온테크",
+    title = "서비스 기획 인턴",
+    stageName = "서류",
+    resultText = "합격",
+    statusText = "반려",
+    submittedDate = "2026.10.15.",
+    rejectReason = "첨부 이미지에서 공고명과 합격 여부를 확인하기 어려워요.",
+    imageUrls = persistentListOf(""),
+)
