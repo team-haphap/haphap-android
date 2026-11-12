@@ -23,9 +23,13 @@ import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import com.haphap.app.presentation.register.type.RegisterStep
 import com.haphap.app.presentation.register.type.toResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -323,12 +327,23 @@ class RegisterViewModel @Inject constructor(
 
     private fun register() {
         val state = _uiState.value
-        val result = state.selectedResult?.toResultType() ?: return
-        val registerInfo = state.registerInfo.copy(result = result)
+        val selectedResult = state.selectedResult ?: return
+        val baseInfo = state.registerInfo.copy(result = selectedResult.toResultType())
 
         _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
+            val imageIds = if (selectedResult == PassResultStatusType.PASS) {
+                uploadProofImages().getOrElse { e ->
+                    onRegisterFailed(e)
+                    return@launch
+                }
+            } else {
+                persistentListOf()
+            }
+
+            val registerInfo = baseInfo.copy(verificationImageIds = imageIds)
+
             registerRepository.postRegister(registerInfo)
                 .onSuccess { registration ->
                     _uiState.update {
@@ -339,15 +354,55 @@ class RegisterViewModel @Inject constructor(
                         ).moveToNextStep(from = RegisterStep.CONFIRM)
                     }
                 }
-                .onFailure { e ->
-                    Timber.e(e, "register failed")
-                    _uiState.update {
-                        it.copy(
-                            registerUiState = RegisterUiState
-                                .Failure(e.message ?: "상태 등록에 실패했습니다.")
-                        )
-                    }
+                .onFailure(::onRegisterFailed)
+        }
+    }
+
+    private suspend fun uploadProofImages(): Result<ImmutableList<Long>> {
+        val targets = _uiState.value.proofImages
+            .filter { it.error == null && it.imageId == null }
+
+        val failure = coroutineScope {
+            targets.map { image ->
+                async {
+                    registerRepository.postVerificationImage(image.uri)
+                        .onSuccess { imageId ->
+                            saveUploadedImageId(image.uri, imageId)
+                        }
+                        .exceptionOrNull()
                 }
+            }.awaitAll().firstOrNull { it != null }
+        }
+        if (failure != null) return Result.failure(failure)
+
+        val imageIds = _uiState.value.proofImages
+            .filter { it.error == null }
+            .mapNotNull { it.imageId }
+            .toImmutableList()
+
+        return Result.success(imageIds)
+    }
+
+    private fun saveUploadedImageId(uri: Uri, imageId: Long) {
+        _uiState.update { state ->
+            state.copy(
+                proofImages = state.proofImages
+                    .map {
+                        if (it.uri == uri) it.copy(imageId = imageId)
+                        else it
+                    }
+                    .toImmutableList()
+            )
+        }
+    }
+
+    private fun onRegisterFailed(e: Throwable) {
+        Timber.e(e, "register failed")
+
+        _uiState.update {
+            it.copy(
+                registerUiState = RegisterUiState.Failure(e.message ?: "상태 등록에 실패했습니다.")
+            )
         }
     }
 
