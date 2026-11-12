@@ -57,7 +57,7 @@ fun NavGraphBuilder.passCertificationGraph(
         PassCertificationDetailScreen(
             certification = PassCertificationDetailModel(),
             isResubmitMode = isResubmitMode,
-            newImageUrls = persistentListOf(),
+            newImages = persistentListOf(),
             onBackClick = dropUnlessResumed { navController.popBackStack() },
             onSubmitClick = { isResubmitMode = true },
             onAddImageClick = {},
