@@ -149,6 +149,23 @@ private fun PassCertificationDetailScreenResubmitPreview() {
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun PassCertificationDetailScreenResubmitWithImagePreview() {
+    HapHapTheme {
+        PassCertificationDetailScreen(
+            certification = previewCertification,
+            isResubmitMode = true,
+            newImageUrls = persistentListOf("", ""),
+            onBackClick = {},
+            onSubmitClick = {},
+            onAddImageClick = {},
+            onDeleteImageClick = {},
+            onResubmitClick = {},
+        )
+    }
+}
+
 private val previewCertification = PassCertificationDetailModel(
     companyName = "가온테크",
     title = "서비스 기획 인턴",
