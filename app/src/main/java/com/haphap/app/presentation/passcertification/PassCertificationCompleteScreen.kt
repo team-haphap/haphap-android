@@ -38,7 +38,7 @@ fun PassCertificationCompleteRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(lifecycleOwner) {
-        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     PassCertificationCompleteViewModel.SideEffect.NavigateToList -> navigateToList()

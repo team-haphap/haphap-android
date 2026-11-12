@@ -75,22 +75,27 @@ class PassCertificationDetailViewModel @Inject constructor(
     }
 
     fun onImagesPicked(uris: List<Uri>) {
-        viewModelScope.launch {
-            val currentState = _uiState.value
-            val acceptedUris = uris
-                .filterNot { uri -> currentState.newImages.any { it.uri == uri.toString() } }
-                .take(currentState.remainingImageCount)
+        if (_uiState.value.isSubmitting) return
 
-            val pickedImages = acceptedUris.map { it.toCertificationImage() }
+        viewModelScope.launch {
+            val pickedImages = uris.distinct().map { it.toCertificationImage() }
 
             _uiState.update { state ->
-                state.copy(newImages = (state.newImages + pickedImages).toImmutableList())
+                if (state.isSubmitting) return@update state
+
+                val acceptedImages = pickedImages
+                    .filterNot { picked -> state.newImages.any { it.uri == picked.uri } }
+                    .take(state.remainingImageCount)
+
+                state.copy(newImages = (state.newImages + acceptedImages).toImmutableList())
             }
         }
     }
 
     fun onDeleteImageClick(index: Int) {
         _uiState.update {
+            if (it.isSubmitting || index !in it.newImages.indices) return@update it
+
             it.copy(
                 newImages = it.newImages.toPersistentList().removeAt(index),
             )
@@ -99,12 +104,13 @@ class PassCertificationDetailViewModel @Inject constructor(
 
     fun onResubmitClick() {
         val state = _uiState.value
-        if (state.isSubmitting || state.newImages.none { !it.isError }) return
+        val validImages = state.newImages.filter { !it.isError }
+        if (state.isSubmitting || validImages.isEmpty()) return
 
         _uiState.update { it.copy(isSubmitting = true) }
 
         viewModelScope.launch {
-            uploadImages()
+            uploadImages(validImages)
                 .mapCatching { imageIds ->
                     passCertificationRepository.putVerificationImages(registrationId, imageIds).getOrThrow()
                 }
@@ -120,25 +126,20 @@ class PassCertificationDetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun uploadImages(): Result<List<Long>> {
-        val targets = _uiState.value.newImages.filter { !it.isError && it.imageId == null }
-
-        val failure = coroutineScope {
-            targets.map { image ->
+    private suspend fun uploadImages(images: List<PassCertificationImageModel>): Result<List<Long>> {
+        val results = coroutineScope {
+            images.map { image ->
                 async {
-                    passCertificationRepository.postVerificationImage(Uri.parse(image.uri))
-                        .onSuccess { imageId -> saveUploadedImageId(image.uri, imageId) }
-                        .exceptionOrNull()
+                    image.imageId?.let { Result.success(it) }
+                        ?: passCertificationRepository.postVerificationImage(Uri.parse(image.uri))
+                            .onSuccess { imageId -> saveUploadedImageId(image.uri, imageId) }
                 }
-            }.awaitAll().firstOrNull { it != null }
+            }.awaitAll()
         }
-        if (failure != null) return Result.failure(failure)
 
-        val imageIds = _uiState.value.newImages
-            .filter { !it.isError }
-            .mapNotNull { it.imageId }
+        results.firstNotNullOfOrNull { it.exceptionOrNull() }?.let { return Result.failure(it) }
 
-        return Result.success(imageIds)
+        return Result.success(results.map { it.getOrThrow() })
     }
 
     private fun saveUploadedImageId(uri: String, imageId: Long) {
