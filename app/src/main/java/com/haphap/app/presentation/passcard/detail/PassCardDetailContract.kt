@@ -13,6 +13,7 @@ sealed interface PassCardDetailContract {
         val companyName: String = "",
         val logoUrl: String = "",
         val backgroundImageUrl: String = "",
+        val stageName: String = "",
         val chipList: ImmutableList<PassCardDetailChipListModel> = persistentListOf(),
         val selectedChip: Int = 0,
         val isBackgroundLoaded: Boolean = false,
