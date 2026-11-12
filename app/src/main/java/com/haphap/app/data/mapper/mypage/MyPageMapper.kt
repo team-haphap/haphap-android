@@ -1,9 +1,12 @@
 package com.haphap.app.data.mapper.mypage
 
+import com.haphap.app.core.extensions.toTimeFormat
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageSummaryModel
+import com.haphap.app.data.model.mypage.MyRecentApplicationModel
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyRegistrationPreviewDto
 
 fun MyPageResponseDto.toModel(): MyPageModel =
     MyPageModel(
@@ -21,4 +24,14 @@ fun MyPageSummaryResponseDto.toModel(): MyPageSummaryModel =
         rejectedCertificationCount = passCertification.rejectedCount,
         approvedCertificationCount = passCertification.approvedCount,
         hasUpcomingAnnouncement = hasUpcomingAnnouncement,
+    )
+
+fun MyRegistrationPreviewDto.toModel(): MyRecentApplicationModel =
+    MyRecentApplicationModel(
+        id = postingId,
+        title = title,
+        stageName = currentState,
+        participantCount = applicantCount,
+        appliedDate = appliedAt.toTimeFormat("yyyy.MM.dd"),
+        logoImageUrl = logoImageUrl,
     )
