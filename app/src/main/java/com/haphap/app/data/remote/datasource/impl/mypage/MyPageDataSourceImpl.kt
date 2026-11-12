@@ -6,6 +6,7 @@ import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyRegistrationsPreviewResponseDto
 import com.haphap.app.data.remote.service.MyPageService
 import jakarta.inject.Inject
 import retrofit2.Response
@@ -19,6 +20,9 @@ class MyPageDataSourceImpl @Inject constructor(
 
     override suspend fun getMyPageSummary(): BaseResponse<MyPageSummaryResponseDto> =
         myPageService.getMyPageSummary()
+
+    override suspend fun getMyRegistrationsPreview(): BaseResponse<MyRegistrationsPreviewResponseDto> =
+        myPageService.getMyRegistrationsPreview()
 
     override suspend fun deleteMember(requestDto: LeaveRequestDto): Response<Unit> =
         myPageService.deleteMember(requestDto)
