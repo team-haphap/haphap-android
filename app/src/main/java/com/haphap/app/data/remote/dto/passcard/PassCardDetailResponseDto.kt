@@ -17,4 +17,18 @@ data class PassCardDetailResponseDto(
     val title: String,
     @SerialName("cardImageUrl")
     val cardImageUrl: String,
+    @SerialName("stageName")
+    val stageName: String,
+    @SerialName("availableStages")
+    val availableStages: List<PassCardStageResponseDto>,
+)
+
+@Serializable
+data class PassCardStageResponseDto(
+    @SerialName("registrationId")
+    val registrationId: Int,
+    @SerialName("stageName")
+    val stageName: String,
+    @SerialName("orderIndex")
+    val orderIndex: Int,
 )
