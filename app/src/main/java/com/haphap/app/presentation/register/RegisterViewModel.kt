@@ -170,6 +170,11 @@ class RegisterViewModel @Inject constructor(
                 } else {
                     it.registerInfo
                 },
+                proofImages = if (result == PassResultStatusType.PASS) {
+                    it.proofImages
+                } else {
+                    persistentListOf()
+                }
             )
         }
     }
