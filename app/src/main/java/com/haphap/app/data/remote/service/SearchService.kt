@@ -2,9 +2,12 @@ package com.haphap.app.data.remote.service
 
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.search.PopularKeywordListResponseDto
+import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface SearchService {
@@ -28,4 +31,9 @@ interface SearchService {
         @Query("size")
         size: Int? = null,
     ): BaseResponse<SearchResultListResponseDto>
+
+    @POST("/api/v1/search/executions")
+    suspend fun postSearchExecution(
+        @Body request: SearchExecutionRequestDto,
+    ): BaseResponse<Unit>
 }
