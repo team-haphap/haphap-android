@@ -124,14 +124,14 @@ fun RegisterConfirmSection(
 
         RegisterTnC(
             isNecessary = true,
-            context = "내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다.",
+            context = "등록이 완료되면 결과를 수정하거나 삭제할 수 없어요.\n변경이 필요한 경우 [문의하기]를 이용해주세요.",
             checked = isTermAgreed,
             onCheckedChange = onTermAgreeToggled,
         )
 
         RegisterTnC(
             isNecessary = false,
-            context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
+            context = "선택한 공고에 대한 알림을 받고 싶어요.",
             checked = isAlarmAgreed,
             onCheckedChange = onAlarmAgreeToggled,
         )
