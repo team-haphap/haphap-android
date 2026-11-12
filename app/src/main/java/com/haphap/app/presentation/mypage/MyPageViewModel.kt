@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,9 +27,10 @@ class MyPageViewModel @Inject constructor(
 
     init {
         getMyPageSummary()
+        getMyRegistrationsPreview()
     }
 
-    fun getMyPageSummary() {
+    private fun getMyPageSummary() {
         _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
 
         viewModelScope.launch {
@@ -55,6 +57,18 @@ class MyPageViewModel @Inject constructor(
                             )
                         )
                     }
+                }
+        }
+    }
+
+    private fun getMyRegistrationsPreview() {
+        viewModelScope.launch {
+            myPageRepository.getMyRegistrationsPreview()
+                .onSuccess { models ->
+                    _uiState.update { it.copy(applicationList = models.toPersistentList()) }
+                }
+                .onFailure{ error ->
+                    Timber.e(error)
                 }
         }
     }
