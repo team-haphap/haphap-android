@@ -1,5 +1,6 @@
 package com.haphap.app.data.mapper.passcard
 
+import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
 import com.haphap.app.data.model.passcard.PassCardDetailModel
 import com.haphap.app.data.model.passcard.PassCardStorageModel
 import com.haphap.app.data.remote.dto.passcard.PassCardDetailResponseDto
@@ -22,5 +23,9 @@ fun PassCardDetailResponseDto.toModel(): PassCardDetailModel =
         recruitName = title,
         logoUrl = companyCardLogoImageUrl,
         backgroundImageUrl = cardImageUrl,
+        stageName = stageName,
+        stages = availableStages
+            .sortedBy { it.orderIndex }
+            .map { PassCardDetailChipListModel(id = it.registrationId, stageName = it.stageName) },
     )
 
