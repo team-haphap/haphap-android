@@ -25,6 +25,7 @@ import com.haphap.app.presentation.passcertification.component.PassCertification
 import com.haphap.app.presentation.passcertification.component.PassCertificationNotice
 import com.haphap.app.presentation.passcertification.component.PassCertificationRejectReason
 import com.haphap.app.presentation.passcertification.component.PassCertificationTopBar
+import com.haphap.app.presentation.passcertification.model.PassCertificationImageModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -32,7 +33,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun PassCertificationDetailScreen(
     certification: PassCertificationDetailModel,
     isResubmitMode: Boolean,
-    newImageUrls: ImmutableList<String>,
+    newImages: ImmutableList<PassCertificationImageModel>,
     onBackClick: () -> Unit,
     onSubmitClick: () -> Unit,
     onAddImageClick: () -> Unit,
@@ -62,7 +63,7 @@ fun PassCertificationDetailScreen(
                     text = if (isResubmitMode) "다시 제출하기" else "인증자료 제출하기",
                     textStyle = HapHapTheme.typography.body.b18,
                     colorType = ButtonType.Primary(
-                        enabled = !isResubmitMode || newImageUrls.isNotEmpty(),
+                        enabled = !isResubmitMode || newImages.any { !it.isError },
                     ),
                     onClick = if (isResubmitMode) onResubmitClick else onSubmitClick,
                     modifier = Modifier
@@ -98,7 +99,7 @@ fun PassCertificationDetailScreen(
 
             if (isResubmitMode) {
                 PassCertificationAddImageSection(
-                    imageUrls = newImageUrls,
+                    images = newImages,
                     onAddImageClick = onAddImageClick,
                     onDeleteImageClick = onDeleteImageClick,
                 )
@@ -120,7 +121,7 @@ private fun PassCertificationDetailScreenPreview() {
         PassCertificationDetailScreen(
             certification = previewCertification,
             isResubmitMode = false,
-            newImageUrls = persistentListOf(),
+            newImages = persistentListOf(),
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},
@@ -137,7 +138,7 @@ private fun PassCertificationDetailScreenResubmitPreview() {
         PassCertificationDetailScreen(
             certification = previewCertification,
             isResubmitMode = true,
-            newImageUrls = persistentListOf(),
+            newImages = persistentListOf(),
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},
@@ -154,7 +155,10 @@ private fun PassCertificationDetailScreenResubmitWithImagePreview() {
         PassCertificationDetailScreen(
             certification = previewCertification,
             isResubmitMode = true,
-            newImageUrls = persistentListOf("", ""),
+            newImages = persistentListOf(
+                PassCertificationImageModel(uri = ""),
+                PassCertificationImageModel(uri = "", isError = true),
+            ),
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},

@@ -35,6 +35,7 @@ import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
+import com.haphap.app.presentation.passcertification.model.PassCertificationImageModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -42,11 +43,13 @@ private const val MaxImageCount = 3
 
 @Composable
 fun PassCertificationAddImageSection(
-    imageUrls: ImmutableList<String>,
+    images: ImmutableList<PassCertificationImageModel>,
     onAddImageClick: () -> Unit,
     onDeleteImageClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val validImageCount = images.count { !it.isError }
+
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -60,7 +63,7 @@ fun PassCertificationAddImageSection(
             )
 
             Text(
-                text = "${imageUrls.size}/$MaxImageCount",
+                text = "$validImageCount/$MaxImageCount",
                 style = HapHapTheme.typography.body.b14,
                 color = HapHapTheme.colors.gray600,
             )
@@ -69,14 +72,14 @@ fun PassCertificationAddImageSection(
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            imageUrls.forEachIndexed { index, imageUrl ->
+            images.forEachIndexed { index, image ->
                 PassCertificationAddedImage(
-                    imageUrl = imageUrl,
+                    image = image,
                     onDeleteClick = { onDeleteImageClick(index) },
                 )
             }
 
-            if (imageUrls.size < MaxImageCount) {
+            if (images.size < MaxImageCount) {
                 PassCertificationAddImageButton(onClick = onAddImageClick)
             }
         }
@@ -93,7 +96,7 @@ fun PassCertificationAddImageSection(
 
 @Composable
 private fun PassCertificationAddedImage(
-    imageUrl: String,
+    image: PassCertificationImageModel,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -104,21 +107,32 @@ private fun PassCertificationAddedImage(
             .background(color = HapHapTheme.colors.white),
     ) {
         UrlImage(
-            url = imageUrl,
+            url = image.uri,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
         )
 
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete_circle_17),
-            contentDescription = null,
-            tint = Color.Unspecified,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 3.dp, end = 2.dp)
-                .noRippleClickable(onClick = onDeleteClick),
-        )
+        if (image.isError) {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_alert_red_20),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(48.dp),
+            )
+        } else {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete_circle_17),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 3.dp, end = 2.dp)
+                    .noRippleClickable(onClick = onDeleteClick),
+            )
+        }
     }
 }
 
@@ -192,13 +206,24 @@ private fun PassCertificationAddImageSectionPreview() {
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             PassCertificationAddImageSection(
-                imageUrls = persistentListOf(),
+                images = persistentListOf(),
                 onAddImageClick = {},
                 onDeleteImageClick = {},
             )
 
             PassCertificationAddImageSection(
-                imageUrls = persistentListOf("", ""),
+                images = persistentListOf(
+                    PassCertificationImageModel(uri = ""),
+                    PassCertificationImageModel(uri = ""),
+                ),
+                onAddImageClick = {},
+                onDeleteImageClick = {},
+            )
+
+            PassCertificationAddImageSection(
+                images = persistentListOf(
+                    PassCertificationImageModel(uri = "", isError = true),
+                ),
                 onAddImageClick = {},
                 onDeleteImageClick = {},
             )
