@@ -111,14 +111,7 @@ fun SearchDefaultSection(
                 }
             }
 
-            SearchUiState.Empty -> {
-                EmptyComponent(
-                    text = "인기 공고가 없습니다",
-                )
-            }
-
-            is SearchUiState.Failure, SearchUiState.Idle, SearchUiState.Loading -> {}
-
+            else -> {}
         }
     }
 }
