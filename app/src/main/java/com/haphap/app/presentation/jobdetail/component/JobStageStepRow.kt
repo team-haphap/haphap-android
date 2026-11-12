@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -33,7 +33,7 @@ fun JobStageStepRow(
 ) {
     LazyRow(
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 12.dp),
+        contentPadding = PaddingValues(horizontal = 13.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items(
@@ -48,6 +48,7 @@ fun JobStageStepRow(
         }
     }
 }
+
 @Composable
 private fun JobStageStep(
     number: Int,
@@ -59,9 +60,10 @@ private fun JobStageStep(
 
     Column(
         modifier = modifier
-            .widthIn(min = 46.dp)
+            .width(60.dp)
             .padding(vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
             text = number.toString(),
@@ -73,21 +75,21 @@ private fun JobStageStep(
                 .wrapContentSize(Alignment.Center),
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = stageName,
-            style = style.stageNameStyle,
-            color = HapHapTheme.colors.gray800,
-        )
-
-        Spacer(modifier = Modifier.height(style.stateSpacerHeight))
-
         Text(
             text = style.stateText,
             style = style.stateTextStyle,
             color = style.stateTextColor,
         )
+
+        Text(
+            text = stageName,
+            style = style.stageNameStyle,
+            color = HapHapTheme.colors.gray800,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+        )
+
     }
 }
 
@@ -97,13 +99,13 @@ private fun JobStageStepRowPreview() {
     HapHapTheme {
         JobStageStepRow(
             steps = persistentListOf(
-                JobStepModel(1,1, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(2,2, "서류", JobStepStatus.COMPLETED),
-                JobStepModel(3,3, "1차면접", JobStepStatus.IN_PROGRESS),
-                JobStepModel(4,2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(5,2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(6,2, "서류", JobStepStatus.UPCOMING),
-                JobStepModel(7,2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(1, 1, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(2, 2, "서류", JobStepStatus.COMPLETED),
+                JobStepModel(3, 3, "1차면접", JobStepStatus.IN_PROGRESS),
+                JobStepModel(4, 2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
+                JobStepModel(5, 2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(6, 2, "서류", JobStepStatus.UPCOMING),
+                JobStepModel(7, 2, "레퍼런스체크 (최종)", JobStepStatus.UPCOMING),
             ),
         )
     }
