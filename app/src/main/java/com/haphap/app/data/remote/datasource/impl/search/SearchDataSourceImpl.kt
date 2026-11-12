@@ -3,6 +3,7 @@ package com.haphap.app.data.remote.datasource.impl.search
 import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.search.PopularKeywordListResponseDto
+import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 import com.haphap.app.data.remote.service.SearchService
@@ -33,4 +34,7 @@ class SearchDataSourceImpl @Inject constructor(
             size = size,
         )
     }
+
+    override suspend fun postSearchExecution(request: SearchExecutionRequestDto): BaseResponse<Unit> =
+        searchService.postSearchExecution(request)
 }

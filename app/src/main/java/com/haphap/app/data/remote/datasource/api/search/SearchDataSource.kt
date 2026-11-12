@@ -2,6 +2,7 @@ package com.haphap.app.data.remote.datasource.api.search
 
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.search.PopularKeywordListResponseDto
+import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 
@@ -14,4 +15,5 @@ interface SearchDataSource {
         page: Int?,
         size: Int?,
     ): BaseResponse<SearchResultListResponseDto>
+    suspend fun postSearchExecution(request: SearchExecutionRequestDto): BaseResponse<Unit>
 }
