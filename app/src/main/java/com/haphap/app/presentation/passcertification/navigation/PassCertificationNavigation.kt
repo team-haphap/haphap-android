@@ -12,8 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
+import com.haphap.app.presentation.passcertification.PassCertificationCompleteScreen
 import com.haphap.app.presentation.passcertification.PassCertificationDetailScreen
 import com.haphap.app.presentation.passcertification.PassCertificationScreen
 import kotlinx.collections.immutable.persistentListOf
@@ -27,6 +29,10 @@ fun NavController.navigateToPassCertificationDetail(
     certificationId: Long,
     navOptions: NavOptions? = null,
 ) = navigate(PassCertificationDetail(certificationId), navOptions)
+
+fun NavController.navigateToPassCertificationComplete(
+    navOptions: NavOptions? = null,
+) = navigate(PassCertificationComplete, navOptions)
 
 fun NavGraphBuilder.passCertificationGraph(
     innerPadding: PaddingValues,
@@ -56,7 +62,23 @@ fun NavGraphBuilder.passCertificationGraph(
             onSubmitClick = { isResubmitMode = true },
             onAddImageClick = {},
             onDeleteImageClick = {},
-            onResubmitClick = {},
+            onResubmitClick = {
+                navController.navigateToPassCertificationComplete(
+                    navOptions = navOptions {
+                        popUpTo<PassCertificationDetail> {
+                            inclusive = true
+                        }
+                    },
+                )
+            },
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
+
+    composable<PassCertificationComplete> {
+        // TODO: 남은 반려 건이 있으면 반려 목록, 없으면 마이페이지 메인으로 이동
+        PassCertificationCompleteScreen(
+            onCompleteClick = {},
             modifier = Modifier.padding(innerPadding),
         )
     }
@@ -67,3 +89,6 @@ data object PassCertification : Route
 
 @Serializable
 data class PassCertificationDetail(val certificationId: Long) : Route
+
+@Serializable
+data object PassCertificationComplete : Route
