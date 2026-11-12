@@ -10,4 +10,5 @@ data class RegisterProofImageModel(
     val fileName: String,
     val fileSize: String,
     val error: RegisterProofImageErrorType? = null,
+    val imageId: Long? = null,
 )
