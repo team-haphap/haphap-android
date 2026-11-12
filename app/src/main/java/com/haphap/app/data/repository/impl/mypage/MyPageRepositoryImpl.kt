@@ -44,9 +44,15 @@ class MyPageRepositoryImpl @Inject constructor(
             response.toProfileModel()
         }
 
-    override suspend fun validateNickname(nickname: String): Result<Unit> =
+    override suspend fun validateNickname(nickname: String): Result<Boolean> =
         suspendRunCatching {
-            myPageDataSource.validateNickname(nickname).checkData()
+            val response = myPageDataSource.validateNickname(nickname)
+
+            if (!response.isSuccessful && response.code() != 409) {
+                throw HttpException(response)
+            }
+
+            response.isSuccessful
         }
 
     override suspend fun updateProfile(nickname: String?, profileImageUri: Uri?): Result<Unit> =

@@ -21,8 +21,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -75,11 +73,13 @@ class ProfileViewModel @Inject constructor(
             snapshotFlow { nicknameState.text.toString() }
                 .distinctUntilChanged()
                 .drop(1)
-                .onEach { nickname -> updateNicknameState(nickname) }
-                .filter { nickname ->
-                    nickname != originalNickname && NICKNAME_COMPLETE_REGEX.matches(nickname)
-                }
                 .collectLatest { nickname ->
+                    updateNicknameState(nickname)
+
+                    if (nickname == originalNickname || !NICKNAME_COMPLETE_REGEX.matches(nickname)) {
+                        return@collectLatest
+                    }
+
                     delay(NICKNAME_DEBOUNCE_MILLIS)
                     validateNickname(nickname)
                 }
@@ -102,9 +102,13 @@ class ProfileViewModel @Inject constructor(
 
     private suspend fun validateNickname(nickname: String) {
         myPageRepository.validateNickname(nickname)
+            .onSuccess { isAvailable ->
+                if (!isAvailable) {
+                    _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
+                }
+            }
             .onFailure { error ->
                 Timber.e("$error 닉네임 검증에 실패했습니다.")
-                _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
             }
     }
 
@@ -133,7 +137,10 @@ class ProfileViewModel @Inject constructor(
         val nickname = nicknameState.text.toString()
 
         viewModelScope.launch {
-            saveProfile()
+            myPageRepository.updateProfile(
+                nickname = nickname.takeIf { it != originalNickname },
+                profileImageUri = _uiState.value.selectedImageUri,
+            )
                 .onSuccess {
                     originalNickname = nickname
                     _uiState.update {
@@ -150,10 +157,6 @@ class ProfileViewModel @Inject constructor(
                 }
         }
     }
-
-    // TODO: 추후 프로필 저장 API로 수정
-    private fun saveProfile(): Result<Unit> =
-        Result.success(Unit)
 
     companion object {
         private const val NICKNAME_MAX_LENGTH = 5

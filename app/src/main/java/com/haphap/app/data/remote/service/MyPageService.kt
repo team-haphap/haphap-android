@@ -24,7 +24,7 @@ interface MyPageService {
     @GET("api/v1/members/me/nickname/validation")
     suspend fun validateNickname(
         @Query("nickname") nickname: String,
-    ): BaseResponse<MyPageNicknameResponseDto>
+    ): Response<BaseResponse<MyPageNicknameResponseDto>>
 
     @Multipart
     @PATCH("api/v1/members/me")
