@@ -18,4 +18,5 @@ interface SearchRepository {
         page: Int?,
         size: Int?,
     ): Result<SearchResultPageModel>
+    suspend fun postSearchExecution(keyword: String): Result<Unit>
 }

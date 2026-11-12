@@ -9,6 +9,8 @@ import com.haphap.app.data.model.search.SearchResultPageModel
 import com.haphap.app.data.model.search.SearchingModel
 import com.haphap.app.data.remote.datasource.api.search.SearchDataSource
 import com.haphap.app.data.remote.dto.checkData
+import com.haphap.app.data.remote.dto.checkNullData
+import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.repository.api.search.SearchRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -58,4 +60,10 @@ class SearchRepositoryImpl @Inject constructor(
             ).checkData().toModel()
         }
 
+    override suspend fun postSearchExecution(keyword: String): Result<Unit> =
+        suspendRunCatching {
+            remoteSearchDataSource.postSearchExecution(
+                SearchExecutionRequestDto(keyword = keyword),
+            ).checkNullData()
+        }
 }
