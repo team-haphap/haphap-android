@@ -53,6 +53,8 @@ fun RegisterConfirmSection(
     Column(
         modifier = modifier.padding(horizontal = 20.dp),
     ) {
+        Spacer(modifier = Modifier.height(48.dp))
+
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -134,7 +136,7 @@ fun RegisterConfirmSection(
             onCheckedChange = onAlarmAgreeToggled,
         )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
