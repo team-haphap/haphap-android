@@ -25,8 +25,6 @@ fun PassCertificationInfoSection(
     companyName: String,
     title: String,
     stageName: String,
-    resultText: String,
-    statusText: String,
     submittedDate: String,
     modifier: Modifier = Modifier,
 ) {
@@ -52,11 +50,11 @@ fun PassCertificationInfoSection(
         }
 
         PassCertificationInfoRow(label = "등록한 결과") {
-            PassCertificationInfoValue(text = resultText)
+            PassCertificationInfoValue(text = "합격")
         }
 
         PassCertificationInfoRow(label = "인증 상태") {
-            PassCertificationRejectChip(text = statusText)
+            PassCertificationRejectChip(text = "반려")
         }
 
         PassCertificationInfoRow(
@@ -140,8 +138,6 @@ private fun PassCertificationInfoSectionPreview() {
             companyName = "가온테크",
             title = "서비스 기획 인턴",
             stageName = "서류",
-            resultText = "합격",
-            statusText = "반려",
             submittedDate = "2026.10.15."
         )
     }

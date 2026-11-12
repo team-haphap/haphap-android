@@ -7,8 +7,6 @@ data class PassCertificationDetailModel(
     val companyName: String = "",
     val title: String = "",
     val stageName: String = "",
-    val resultText: String = "",
-    val statusText: String = "",
     val submittedDate: String = "",
     val rejectReason: String = "",
     val imageUrls: ImmutableList<String> = persistentListOf(),

@@ -85,8 +85,6 @@ fun PassCertificationDetailScreen(
                 companyName = certification.companyName,
                 title = certification.title,
                 stageName = certification.stageName,
-                resultText = certification.resultText,
-                statusText = certification.statusText,
                 submittedDate = certification.submittedDate,
             )
 
@@ -170,8 +168,6 @@ private val previewCertification = PassCertificationDetailModel(
     companyName = "가온테크",
     title = "서비스 기획 인턴",
     stageName = "서류",
-    resultText = "합격",
-    statusText = "반려",
     submittedDate = "2026.10.15.",
     rejectReason = "첨부 이미지에서 공고명과 합격 여부를 확인하기 어려워요.",
     imageUrls = persistentListOf(""),
