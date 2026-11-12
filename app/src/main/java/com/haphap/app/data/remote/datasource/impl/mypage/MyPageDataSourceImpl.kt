@@ -19,7 +19,7 @@ class MyPageDataSourceImpl @Inject constructor(
         return myPageService.getMyPage()
     }
 
-    override suspend fun validateNickname(nickname: String): BaseResponse<MyPageNicknameResponseDto> =
+    override suspend fun validateNickname(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>> =
         myPageService.validateNickname(nickname)
 
     override suspend fun updateProfile(

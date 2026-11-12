@@ -11,7 +11,7 @@ import retrofit2.Response
 
 interface MyPageDataSource{
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
-    suspend fun validateNickname(nickname: String): BaseResponse<MyPageNicknameResponseDto>
+    suspend fun validateNickname(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>>
     suspend fun updateProfile(
         nickname: RequestBody?,
         profileImage: MultipartBody.Part?,
