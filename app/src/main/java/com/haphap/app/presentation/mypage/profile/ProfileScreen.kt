@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -29,6 +30,7 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.presentation.mypage.profile.component.ProfileImageSection
 import com.haphap.app.presentation.mypage.profile.component.ProfileTextFieldSection
@@ -88,8 +90,12 @@ private fun ProfileScreen(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusManager = LocalFocusManager.current
+
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .noRippleClickable(onClick = { focusManager.clearFocus() }),
         containerColor = HapHapTheme.colors.white,
         topBar = {
             ProfileTopBar(
