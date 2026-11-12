@@ -36,7 +36,6 @@ fun PassCertificationRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    // 재제출 후 돌아왔을 때 목록에서 빠지도록 화면에 다시 들어올 때마다 조회
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.getRejectedCertifications()
     }

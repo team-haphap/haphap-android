@@ -54,7 +54,6 @@ fun PassCertificationDetailRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
-    // 여러 장 선택 화면은 최대 개수가 2 이상이어야 해서, 1장 남았을 때는 한 장 선택 화면을 사용
     val singleImagePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia(),
     ) { uri ->

@@ -18,10 +18,6 @@ class PassCertificationCompleteViewModel @Inject constructor(
 
     private var isChecking = false
 
-    /**
-     * 남은 반려 건이 있으면 반려 목록, 없으면 마이페이지로 이동합니다.
-     * 조회에 실패하면 반려 목록으로 이동하고, 목록 화면에서 다시 조회합니다.
-     */
     fun onCompleteClick() {
         if (isChecking) return
         isChecking = true

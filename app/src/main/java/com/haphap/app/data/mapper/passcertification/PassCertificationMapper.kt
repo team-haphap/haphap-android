@@ -6,9 +6,6 @@ import com.haphap.app.data.model.passcertification.PassCertificationModel
 import com.haphap.app.data.remote.dto.passcertification.VerificationItemResponseDto
 import com.haphap.app.data.remote.dto.passcertification.VerificationSummaryResponseDto
 
-/**
- * 재제출 가능한 반려 건만 골라 반려일이 오래된 순으로 정렬합니다.
- */
 fun VerificationSummaryResponseDto.toRejectedModels(): List<PassCertificationModel> =
     items
         .filter { it.resubmittable }

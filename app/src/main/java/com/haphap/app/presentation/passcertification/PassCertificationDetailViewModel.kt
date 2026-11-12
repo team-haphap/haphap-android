@@ -120,9 +120,6 @@ class PassCertificationDetailViewModel @Inject constructor(
         }
     }
 
-    /**
-     * 정상 이미지 중 아직 업로드하지 않은 이미지만 올리고, 정상 이미지의 id 목록을 돌려줍니다.
-     */
     private suspend fun uploadImages(): Result<List<Long>> {
         val targets = _uiState.value.newImages.filter { !it.isError && it.imageId == null }
 
