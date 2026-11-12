@@ -1,6 +1,9 @@
 package com.haphap.app.presentation.mypage
 
 import androidx.compose.runtime.Immutable
+import com.haphap.app.data.model.mypage.MyRecentApplicationModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 sealed interface MyPageContract {
     @Immutable
@@ -9,12 +12,16 @@ sealed interface MyPageContract {
         val nameText: String = "",
         val nickNameText: String = "",
         val emailText: String = "",
+        val point: Int = 0,
+        val alarmCount: Int = 0,
+        val rejectedCertificationCount: Int = 0,
+        val approvedCertificationCount: Int = 0,
+        val applicationList: ImmutableList<MyRecentApplicationModel> = persistentListOf(),
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
 
     sealed class SideEffect {
-        data object NavigateBack : SideEffect()
-        data object NavigateToSetting : SideEffect()
+
     }
 }
 
