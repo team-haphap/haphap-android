@@ -6,6 +6,7 @@ import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
 import com.haphap.app.data.model.mypage.MyPageModel
+import com.haphap.app.data.model.mypage.MyPageSummaryModel
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
@@ -25,6 +26,11 @@ class MyPageRepositoryImpl @Inject constructor(
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
             response.toModel()
+        }
+
+    override suspend fun getMyPageSummary(): Result<MyPageSummaryModel> =
+        suspendRunCatching {
+            myPageDataSource.getMyPageSummary().checkData().toModel()
         }
 
     override suspend fun deleteMember(reason: String, etcReason: String?): Result<Unit> =
