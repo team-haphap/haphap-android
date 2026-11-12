@@ -92,7 +92,6 @@ class PassCardDetailViewModel @Inject constructor(
 
     fun onStageClick(stageId: Int) {
         if (stageId == _uiState.value.selectedChip) return
-        _uiState.update { it.copy(selectedChip = stageId) }
         fetchCardInfo(stageId)
     }
 
