@@ -2,12 +2,16 @@ package com.haphap.app.presentation.passcard.detail
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageSaver
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
+import com.haphap.app.data.repository.api.passcard.PassCardRepository
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.passcard.navigation.PassCardDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.channels.Channel
@@ -21,6 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PassCardDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val passCardRepository: PassCardRepository,
     private val imageSaver: ImageSaver,
 ) : ViewModel() {
 
@@ -30,28 +36,38 @@ class PassCardDetailViewModel @Inject constructor(
     private val _sideEffect = Channel<PassCardDetailContract.SideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
+    private val registrationId = savedStateHandle.toRoute<PassCardDetail>().id
+
     init {
         fetchCardInfo()
     }
 
     private fun fetchCardInfo() {
-        // TODO: API 연결 시 수정
-        val chipList = persistentListOf(
-            PassCardDetailChipListModel(id = 101, stageName = "서류"),
-            PassCardDetailChipListModel(id = 102, stageName = "인적성"),
-            PassCardDetailChipListModel(id = 103, stageName = "코딩테스트"),
-        )
+        viewModelScope.launch {
+            passCardRepository.getPassCardDetail(registrationId)
+                .onSuccess { model ->
+                    // TODO: 전형 칩 목록 서버에서 받게 되면 교체
+                    val chipList = persistentListOf(
+                        PassCardDetailChipListModel(id = 101, stageName = "서류"),
+                        PassCardDetailChipListModel(id = 102, stageName = "인적성"),
+                        PassCardDetailChipListModel(id = 103, stageName = "코딩테스트"),
+                    )
 
-        _uiState.update {
-            it.copy(
-                userName = "김합합",
-                recruitName = "2026 신입 카카오 AI 신규 서비스 기획 공개 채용",
-                companyName = "카카오",
-                logoUrl = "",
-                backgroundImageUrl = "",
-                chipList = chipList,
-                selectedChip = chipList.firstOrNull()?.id ?: 0,
-            )
+                    _uiState.update {
+                        it.copy(
+                            userName = model.userName,
+                            recruitName = model.recruitName,
+                            companyName = model.companyName,
+                            logoUrl = model.logoUrl,
+                            backgroundImageUrl = model.backgroundImageUrl,
+                            chipList = chipList,
+                            selectedChip = chipList.firstOrNull()?.id ?: 0,
+                        )
+                    }
+                }
+                .onFailure { error ->
+                    Timber.e("$error 합격카드 상세 조회에 실패했습니다")
+                }
         }
     }
 
@@ -72,8 +88,8 @@ class PassCardDetailViewModel @Inject constructor(
                 )
             }.onSuccess {
                 _sideEffect.send(OnShowToast(message = "합격 카드 저장 완료!"))
-            }.onFailure { throwable ->
-                Timber.e(throwable, "이미지 저장에 실패했어요")
+            }.onFailure { error ->
+                Timber.e(error, "이미지 저장에 실패했습니다.")
             }
         }
     }
