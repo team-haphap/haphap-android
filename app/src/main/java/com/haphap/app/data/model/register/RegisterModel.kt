@@ -12,4 +12,5 @@ data class RegisterModel(
     val contactedMethod: ImmutableList<NotificationChannelType> = persistentListOf(),
     val anonymous: Boolean = false,
     val alarmEnabled: Boolean = false,
+    val verificationImageIds: ImmutableList<Long> = persistentListOf(),
 )
