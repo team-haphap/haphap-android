@@ -156,6 +156,7 @@ class PassCertificationDetailViewModel @Inject constructor(
         val info = imageFileInfoReader.read(this)
         val isError = info == null ||
             info.mimeType !in SUPPORTED_IMAGE_MIME_TYPES ||
+            info.sizeBytes <= 0 ||
             info.sizeBytes > MAX_IMAGE_SIZE_BYTES
 
         return PassCertificationImageModel(
