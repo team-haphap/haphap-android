@@ -39,6 +39,7 @@ fun MyPageRoute(
     navigateBack: () -> Unit,
     navigateToSetting: () -> Unit,
     navigateToCalendar: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
@@ -55,7 +56,7 @@ fun MyPageRoute(
         onAnnouncementClick = navigateToCalendar,
         onSubmitCertificationClick = {},
         onPassCardClick = {},
-        onApplicationClick = {},
+        onApplicationClick = navigateToJobDetail,
         onApplicationMoreClick = {},
         onBookmarkedJobClick = {},
         onPassCardStorageClick = {},
