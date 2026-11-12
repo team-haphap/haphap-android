@@ -22,9 +22,6 @@ class MyPageViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MyPageContract.State())
     val uiState: StateFlow<MyPageContract.State> = _uiState.asStateFlow()
 
-    private val _sideEffect = Channel<MyPageContract.SideEffect>()
-    val sideEffect = _sideEffect.receiveAsFlow()
-
     init {
         getMyPageSummary()
         getMyRegistrationsPreview()

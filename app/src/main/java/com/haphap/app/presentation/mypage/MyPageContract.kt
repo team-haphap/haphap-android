@@ -18,10 +18,6 @@ sealed interface MyPageContract {
         val applicationList: ImmutableList<MyRecentApplicationModel> = persistentListOf(),
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
-
-    sealed class SideEffect {
-
-    }
 }
 
 sealed interface MyPageUiState {

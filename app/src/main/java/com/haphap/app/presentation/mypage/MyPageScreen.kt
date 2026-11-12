@@ -43,17 +43,6 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    LaunchedEffect(lifecycleOwner) {
-        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.sideEffect.collect { sideEffect ->
-                when (sideEffect) {
-                    else -> {}
-                }
-            }
-        }
-    }
 
     // TODO: 클릭 이벤트는 추후 연결
     MyPageScreen(
