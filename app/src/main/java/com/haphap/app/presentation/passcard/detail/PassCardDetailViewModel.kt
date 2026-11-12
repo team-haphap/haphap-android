@@ -58,6 +58,8 @@ class PassCardDetailViewModel @Inject constructor(
                             stageName = model.stageName,
                             chipList = model.stages.toImmutableList(),
                             selectedChip = model.id,
+                            isBackgroundLoaded = it.isBackgroundLoaded && it.backgroundImageUrl == model.backgroundImageUrl,
+                            isLogoLoaded = it.isLogoLoaded && it.logoUrl == model.logoUrl,
                         )
                     }
                 }
