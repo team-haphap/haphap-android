@@ -26,6 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
@@ -48,6 +49,7 @@ class RegisterViewModel @Inject constructor(
     private val registerRepository: RegisterRepository,
     private val imageFileInfoReader: ImageFileInfoReader,
 ) : ViewModel() {
+    private var checkRegistrationJob: Job? = null
 
     private val route = savedStateHandle.toRoute<Register>()
     private val _uiState = MutableStateFlow(RegisterContract.State())
@@ -162,6 +164,9 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onResultSelected(result: PassResultStatusType) {
+        if (_uiState.value.selectedResult != result) {
+            checkRegistrationJob?.cancel()
+        }
         _uiState.update {
             it.copy(
                 selectedResult = result,
@@ -180,16 +185,24 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun checkRegistration() {
+        if (checkRegistrationJob?.isActive == true) return
+
         val state = _uiState.value
-        val selectedResult = state.selectedResult ?: return
+        val requestedResult = state.selectedResult ?: return
         val postingId = state.registerInfo.postingId ?: return
         val stageId = state.registerInfo.stageId ?: return
 
-        viewModelScope.launch {
+        checkRegistrationJob = viewModelScope.launch {
             registerRepository.postCheckRegistration(
-                postingId, stageId, selectedResult.toResultType()
+                postingId, stageId, requestedResult.toResultType()
             )
                 .onSuccess { checkResult ->
+                    val current = _uiState.value
+                    if (
+                        current.step != RegisterStep.RESULT ||
+                        current.selectedResult != requestedResult
+                    ) return@onSuccess
+
                     when (checkResult) {
                         RegistrationCheckType.NEW ->
                             moveToNextStep(from = RegisterStep.RESULT)
