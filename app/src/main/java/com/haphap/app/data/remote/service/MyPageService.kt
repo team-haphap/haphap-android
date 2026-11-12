@@ -4,6 +4,7 @@ import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,6 +14,9 @@ import retrofit2.http.POST
 interface MyPageService {
     @GET("api/v1/members/me")
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
+
+    @GET("api/v1/my-page")
+    suspend fun getMyPageSummary(): BaseResponse<MyPageSummaryResponseDto>
 
     @HTTP(method = "DELETE", path = "api/v1/members/me", hasBody = true)
     suspend fun deleteMember(@Body request: LeaveRequestDto): Response<Unit>
