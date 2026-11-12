@@ -8,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageSaver
 import com.haphap.app.core.util.suspendRunCatching
-import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
 import com.haphap.app.data.repository.api.passcard.PassCardRepository
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.passcard.navigation.PassCardDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,22 +37,17 @@ class PassCardDetailViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     private val registrationId = savedStateHandle.toRoute<PassCardDetail>().id
+    private var fetchCardInfoJob: Job? = null
 
     init {
-        fetchCardInfo()
+        fetchCardInfo(registrationId)
     }
 
-    private fun fetchCardInfo() {
+    private fun fetchCardInfo(id: Int) {
+        fetchCardInfoJob?.cancel()
         viewModelScope.launch {
-            passCardRepository.getPassCardDetail(registrationId)
+            passCardRepository.getPassCardDetail(id)
                 .onSuccess { model ->
-                    // TODO: 전형 칩 목록 서버에서 받게 되면 교체
-                    val chipList = persistentListOf(
-                        PassCardDetailChipListModel(id = 101, stageName = "서류"),
-                        PassCardDetailChipListModel(id = 102, stageName = "인적성"),
-                        PassCardDetailChipListModel(id = 103, stageName = "코딩테스트"),
-                    )
-
                     _uiState.update {
                         it.copy(
                             userName = model.userName,
@@ -60,8 +55,9 @@ class PassCardDetailViewModel @Inject constructor(
                             companyName = model.companyName,
                             logoUrl = model.logoUrl,
                             backgroundImageUrl = model.backgroundImageUrl,
-                            chipList = chipList,
-                            selectedChip = chipList.firstOrNull()?.id ?: 0,
+                            stageName = model.stageName,
+                            chipList = model.stages.toImmutableList(),
+                            selectedChip = model.id,
                         )
                     }
                 }
@@ -95,9 +91,9 @@ class PassCardDetailViewModel @Inject constructor(
     }
 
     fun onStageClick(stageId: Int) {
-        _uiState.update {
-            it.copy(selectedChip = stageId)
-        }
+        if (stageId == _uiState.value.selectedChip) return
+        _uiState.update { it.copy(selectedChip = stageId) }
+        fetchCardInfo(stageId)
     }
 
     companion object {
