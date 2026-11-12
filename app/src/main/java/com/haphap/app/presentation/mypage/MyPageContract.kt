@@ -16,6 +16,7 @@ sealed interface MyPageContract {
         val alarmCount: Int = 0,
         val rejectedCertificationCount: Int = 0,
         val approvedCertificationCount: Int = 0,
+        val hasUpcomingAnnouncement: Boolean = false,
         val applicationList: ImmutableList<MyRecentApplicationModel> = persistentListOf(),
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )

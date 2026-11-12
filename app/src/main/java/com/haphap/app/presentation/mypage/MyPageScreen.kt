@@ -116,11 +116,13 @@ private fun MyPageScreen(
                 onProfileEditClick = onProfileEditClick,
             )
 
-            MyPageAnnouncementBanner(
-                onBannerClick = onAnnouncementClick,
-            )
+            if (uiState.hasUpcomingAnnouncement) {
+                MyPageAnnouncementBanner(
+                    onBannerClick = onAnnouncementClick,
+                )
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+            }
 
             Row(
                 modifier = Modifier
@@ -183,6 +185,7 @@ private fun MyPageScreenPreview() {
                 alarmCount = 3,
                 rejectedCertificationCount = 0,
                 approvedCertificationCount = 2,
+                hasUpcomingAnnouncement = true,
                 applicationList = persistentListOf(
                     MyRecentApplicationModel(
                         id = 1,

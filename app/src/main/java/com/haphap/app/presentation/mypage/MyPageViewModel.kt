@@ -25,20 +25,24 @@ class MyPageViewModel @Inject constructor(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     init {
-        getMyPage()
+        getMyPageSummary()
     }
 
-    fun getMyPage() {
+    fun getMyPageSummary() {
+        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
+
         viewModelScope.launch {
-            myPageRepository.getMyPage()
+            myPageRepository.getMyPageSummary()
                 .onSuccess { model ->
                     _uiState.update {
                         it.copy(
                             myPageUiState = MyPageUiState.Success,
                             profileUrl = model.profileImageUrl,
-                            nameText = model.name,
-                            nickNameText = model.anonymousName,
-                            emailText = model.email,
+                            nickNameText = model.nickname,
+                            point = model.point,
+                            rejectedCertificationCount = model.rejectedCertificationCount,
+                            approvedCertificationCount = model.approvedCertificationCount,
+                            hasUpcomingAnnouncement = model.hasUpcomingAnnouncement,
                         )
                     }
                 }
@@ -53,7 +57,5 @@ class MyPageViewModel @Inject constructor(
                     }
                 }
         }
-
-        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
     }
 }
