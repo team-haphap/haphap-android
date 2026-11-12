@@ -41,6 +41,7 @@ fun SearchDefaultSection(
     recentSearchList: ImmutableList<RecentSearchItemModel>,
     popularSearchList: ImmutableList<PopularSearchItemModel>,
     onRecentItemClick: (String) -> Unit,
+    onPopularItemClick: (String) -> Unit,
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -106,7 +107,8 @@ fun SearchDefaultSection(
                 popularSearchList.forEach { item ->
                     PopularKeywordItem(
                         rank = item.rank,
-                        keyword = item.keyword
+                        keyword = item.keyword,
+                        onPopularItemClick = { onPopularItemClick(item.keyword) },
                     )
                 }
             }
@@ -161,12 +163,15 @@ private fun RecentSearchItem(
 private fun PopularKeywordItem(
     rank: Int,
     keyword: String,
+    onPopularItemClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val isTopRank = rank <= 3
 
     Row(
         modifier = modifier
+            .fillMaxWidth()
+            .noRippleClickable(onClick = onPopularItemClick)
             .padding(horizontal = 20.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp),
@@ -220,6 +225,7 @@ private fun SearchDefaultSectionPreview() {
                 )
             }.toImmutableList(),
             onRecentItemClick = {},
+            onPopularItemClick = {},
             onDeleteClick = {},
         )
     }

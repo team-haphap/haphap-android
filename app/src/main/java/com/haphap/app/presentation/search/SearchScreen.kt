@@ -111,6 +111,10 @@ fun SearchRoute(
             viewModel.onSearchItemClick(it)
             focusManager.clearFocus()
         },
+        onPopularItemClick = {
+            viewModel.onSearchItemClick(it)
+            focusManager.clearFocus()
+        },
         onAutoCompleteItemClick = { viewModel.onCardItemClick(it) },
         onRelatedItemClick = {
             viewModel.onSearchItemClick(it)
@@ -134,6 +138,7 @@ private fun SearchScreen(
     onBackClick: () -> Unit,
     onSearchClick: () -> Unit,
     onRecentItemClick: (String) -> Unit,
+    onPopularItemClick: (String) -> Unit,
     onAutoCompleteItemClick: (Int) -> Unit,
     onRelatedItemClick: (String) -> Unit,
     onFilterClick: (String) -> Unit,
@@ -178,6 +183,7 @@ private fun SearchScreen(
                     recentSearchList = uiState.recentSearchList,
                     popularSearchList = uiState.popularSearchList,
                     onRecentItemClick = onRecentItemClick,
+                    onPopularItemClick = onPopularItemClick,
                     onDeleteClick = onDeleteClick,
                     modifier = Modifier.weight(1f),
                 )
@@ -218,6 +224,7 @@ private fun SearchScreenPreview() {
             gridState = rememberLazyGridState(),
             focusRequester = remember { FocusRequester() },
             onRecentItemClick = {},
+            onPopularItemClick = {},
             onBackClick = {},
             onSearchClick = {},
             onAutoCompleteItemClick = {},

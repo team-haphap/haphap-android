@@ -39,6 +39,8 @@ class SearchViewModel @Inject constructor(
 
     val searchInputState = TextFieldState()
 
+    private var executingSearchKeyword: String? = null
+
     init {
         observeSearchInput()
         getRecentSearchList()
@@ -85,7 +87,11 @@ class SearchViewModel @Inject constructor(
         if (searchInputState.text.isBlank()) {
             _sideEffect.send(OnShowToast("검색어를 입력해주세요"))
         } else {
-            searchRepository.saveRecentSearchItem(searchInputState.text.toString())
+            val keyword = searchInputState.text.toString()
+            if (keyword == executingSearchKeyword) return@launch
+            executingSearchKeyword = keyword
+
+            searchRepository.saveRecentSearchItem(keyword)
                 .onSuccess {
                     Timber.d("저장 성공했습니다.")
                 }
@@ -97,10 +103,10 @@ class SearchViewModel @Inject constructor(
                 it.copy(
                     searchAutoCompleteUiState = SearchUiState.Idle,
                     searchResultListUiState = SearchUiState.Loading,
-                    storedSearchText = searchInputState.text.toString(),
+                    storedSearchText = keyword,
                 )
             }
-            getSearchResultList()
+            getSearchResultList(isNewSearch = true)
         }
     }
 
@@ -124,6 +130,9 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearchItemClick(keyword: String) {
+        if (keyword == executingSearchKeyword) return
+        executingSearchKeyword = keyword
+
         searchInputState.setTextAndPlaceCursorAtEnd(keyword)
         _uiState.update {
             it.copy(
@@ -131,7 +140,7 @@ class SearchViewModel @Inject constructor(
                 storedSearchText = keyword,
             )
         }
-        getSearchResultList()
+        getSearchResultList(isNewSearch = true)
     }
 
 
@@ -201,21 +210,26 @@ class SearchViewModel @Inject constructor(
             }
     }
 
-    fun getSearchResultList(hasNextPage: Boolean = false) = viewModelScope.launch {
+    fun getSearchResultList(
+        hasNextPage: Boolean = false,
+        isNewSearch: Boolean = false,
+    ) = viewModelScope.launch {
         val currentState = uiState.value
         if (hasNextPage && !currentState.hasNextSearchResult) return@launch
 
         val requestPage = if (hasNextPage) currentState.searchResultPage + 1 else 0
+        val keyword = searchInputState.text.toString()
 
         _uiState.update { it.copy(searchResultListUiState = SearchUiState.Loading) }
         val category = currentState.categoryChipState.queryCategoryList
         searchRepository.getSearchResultList(
-            q = searchInputState.text.toString(),
+            q = keyword,
             category = category,
             page = requestPage,
             size = DEFAULT_PAGE_SIZE,
         )
             .onSuccess { result ->
+                if (isNewSearch) postSearchExecution(keyword)
                 _uiState.update {
                     val resultList = if (hasNextPage) {
                         it.searchResultList + result.results
@@ -241,6 +255,18 @@ class SearchViewModel @Inject constructor(
                         searchResultListUiState = SearchUiState.Failure("$error")
                     )
                 }
+            }
+
+        if (isNewSearch && executingSearchKeyword == keyword) executingSearchKeyword = null
+    }
+
+    private fun postSearchExecution(keyword: String) = viewModelScope.launch {
+        searchRepository.postSearchExecution(keyword)
+            .onSuccess {
+                Timber.d("검색 실행 집계 성공: $keyword")
+            }
+            .onFailure { error ->
+                Timber.e("검색 실행 집계에 실패했습니다. $error")
             }
     }
 
