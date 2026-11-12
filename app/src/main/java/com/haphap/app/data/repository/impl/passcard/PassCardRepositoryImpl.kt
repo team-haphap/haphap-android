@@ -16,7 +16,7 @@ class PassCardRepositoryImpl @Inject constructor(
         suspendRunCatching {
             passCardDataSource.getPassCardStorage()
                 .checkData()
-                .passCards
+                .cards
                 .map { it.toModel() }
         }
 

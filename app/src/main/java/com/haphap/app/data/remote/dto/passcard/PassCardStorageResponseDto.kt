@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PassCardStorageResponseDto(
-    @SerialName("passCards")
-    val passCards: List<PassCardStorageItemResponseDto>,
+    @SerialName("cards")
+    val cards: List<PassCardStorageItemResponseDto>,
 )
 
 @Serializable
