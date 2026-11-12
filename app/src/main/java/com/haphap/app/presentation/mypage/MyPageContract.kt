@@ -9,9 +9,7 @@ sealed interface MyPageContract {
     @Immutable
     data class State(
         val profileUrl: String = "",
-        val nameText: String = "",
         val nickNameText: String = "",
-        val emailText: String = "",
         val point: Int = 0,
         val alarmCount: Int = 0,
         val rejectedCertificationCount: Int = 0,

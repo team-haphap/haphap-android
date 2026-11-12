@@ -38,6 +38,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun MyPageRoute(
     navigateBack: () -> Unit,
     navigateToSetting: () -> Unit,
+    navigateToCalendar: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
@@ -61,8 +62,8 @@ fun MyPageRoute(
         onSettingClick = navigateToSetting,
         onAlarmClick = {},
         onProfileEditClick = {},
-        onAnnouncementClick = {},
         onPointClick = {},
+        onAnnouncementClick = navigateToCalendar,
         onSubmitCertificationClick = {},
         onPassCardClick = {},
         onApplicationClick = {},

@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
+import com.haphap.app.presentation.calendar.navigation.navigateToCalendar
 import com.haphap.app.presentation.mypage.MyPageRoute
 import com.haphap.app.presentation.setting.navigation.navigateToSetting
 import kotlinx.serialization.Serializable
@@ -24,6 +25,7 @@ fun NavGraphBuilder.myPageGraph(
         MyPageRoute(
             navigateBack = navController::popBackStack,
             navigateToSetting = navController::navigateToSetting,
+            navigateToCalendar = { navController.navigateToCalendar() },
             modifier = Modifier.padding(innerPadding),
         )
     }
