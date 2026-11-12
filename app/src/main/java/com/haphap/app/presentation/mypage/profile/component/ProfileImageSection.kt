@@ -2,7 +2,6 @@ package com.haphap.app.presentation.mypage.profile.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun ProfileImageSection(
@@ -30,7 +30,9 @@ fun ProfileImageSection(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.padding(vertical = 12.dp),
+        modifier = modifier
+            .padding(vertical = 12.dp)
+            .noRippleClickable(onClick = onImageClick),
     ) {
         Box(
             modifier = Modifier
@@ -64,8 +66,7 @@ fun ProfileImageSection(
                     width = 1.dp,
                     color = HapHapTheme.colors.gray200,
                     shape = CircleShape,
-                )
-                .clickable(onClick = onImageClick),
+                ),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
