@@ -2,10 +2,6 @@ package com.haphap.app.presentation.passcertification.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavController
@@ -14,11 +10,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
-import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
-import com.haphap.app.presentation.passcertification.PassCertificationCompleteScreen
-import com.haphap.app.presentation.passcertification.PassCertificationDetailScreen
-import com.haphap.app.presentation.passcertification.PassCertificationScreen
-import kotlinx.collections.immutable.persistentListOf
+import com.haphap.app.presentation.mypage.navigation.MyPage
+import com.haphap.app.presentation.passcertification.PassCertificationCompleteRoute
+import com.haphap.app.presentation.passcertification.PassCertificationDetailRoute
+import com.haphap.app.presentation.passcertification.PassCertificationRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToPassCertification(
@@ -39,11 +34,9 @@ fun NavGraphBuilder.passCertificationGraph(
     navController: NavController,
 ) {
     composable<PassCertification> {
-        // TODO: ViewModel 연결 시 반려 목록 데이터로 교체
-        PassCertificationScreen(
-            certificationList = persistentListOf(),
-            onBackClick = dropUnlessResumed { navController.popBackStack() },
-            onItemClick = { certificationId ->
+        PassCertificationRoute(
+            navigateBack = dropUnlessResumed { navController.popBackStack() },
+            navigateToDetail = { certificationId ->
                 navController.navigateToPassCertificationDetail(certificationId = certificationId)
             },
             modifier = Modifier.padding(innerPadding),
@@ -51,18 +44,9 @@ fun NavGraphBuilder.passCertificationGraph(
     }
 
     composable<PassCertificationDetail> {
-        // TODO: ViewModel 연결 시 상세 데이터, 재제출 모드, 이미지 추가/제출 처리로 교체
-        var isResubmitMode by rememberSaveable { mutableStateOf(false) }
-
-        PassCertificationDetailScreen(
-            certification = PassCertificationDetailModel(),
-            isResubmitMode = isResubmitMode,
-            newImages = persistentListOf(),
-            onBackClick = dropUnlessResumed { navController.popBackStack() },
-            onSubmitClick = { isResubmitMode = true },
-            onAddImageClick = {},
-            onDeleteImageClick = {},
-            onResubmitClick = {
+        PassCertificationDetailRoute(
+            navigateBack = dropUnlessResumed { navController.popBackStack() },
+            navigateToComplete = {
                 navController.navigateToPassCertificationComplete(
                     navOptions = navOptions {
                         popUpTo<PassCertificationDetail> {
@@ -76,9 +60,13 @@ fun NavGraphBuilder.passCertificationGraph(
     }
 
     composable<PassCertificationComplete> {
-        // TODO: 남은 반려 건이 있으면 반려 목록, 없으면 마이페이지 메인으로 이동
-        PassCertificationCompleteScreen(
-            onCompleteClick = {},
+        PassCertificationCompleteRoute(
+            navigateToList = dropUnlessResumed {
+                navController.popBackStack<PassCertification>(inclusive = false)
+            },
+            navigateToMyPage = dropUnlessResumed {
+                navController.popBackStack<MyPage>(inclusive = false)
+            },
             modifier = Modifier.padding(innerPadding),
         )
     }

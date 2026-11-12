@@ -11,7 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -21,6 +26,28 @@ import com.haphap.app.presentation.passcertification.component.PassCertification
 import com.haphap.app.presentation.passcertification.component.PassCertificationTopBar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+
+@Composable
+fun PassCertificationRoute(
+    navigateBack: () -> Unit,
+    navigateToDetail: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCertificationViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // 재제출 후 돌아왔을 때 목록에서 빠지도록 화면에 다시 들어올 때마다 조회
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.getRejectedCertifications()
+    }
+
+    PassCertificationScreen(
+        certificationList = uiState.certificationList,
+        onBackClick = navigateBack,
+        onItemClick = navigateToDetail,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun PassCertificationScreen(

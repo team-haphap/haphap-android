@@ -1,5 +1,8 @@
 package com.haphap.app.presentation.passcertification
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -11,7 +14,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
@@ -19,6 +30,9 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.NavigateToComplete
+import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.passcertification.component.PassCertificationAddImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationInfoSection
@@ -28,6 +42,67 @@ import com.haphap.app.presentation.passcertification.component.PassCertification
 import com.haphap.app.presentation.passcertification.model.PassCertificationImageModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+
+@Composable
+fun PassCertificationDetailRoute(
+    navigateBack: () -> Unit,
+    navigateToComplete: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCertificationDetailViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    // 여러 장 선택 화면은 최대 개수가 2 이상이어야 해서, 1장 남았을 때는 한 장 선택 화면을 사용
+    val singleImagePicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia(),
+    ) { uri ->
+        uri?.let { viewModel.onImagesPicked(listOf(it)) }
+    }
+
+    val remainingImageCount = uiState.remainingImageCount
+    val multipleImagePickerContract = remember(remainingImageCount) {
+        ActivityResultContracts.PickMultipleVisualMedia(
+            maxItems = remainingImageCount.coerceAtLeast(2),
+        )
+    }
+    val multipleImagePicker = rememberLauncherForActivityResult(
+        multipleImagePickerContract,
+    ) { uris ->
+        viewModel.onImagesPicked(uris)
+    }
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is NavigateToComplete -> navigateToComplete()
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
+                }
+            }
+        }
+    }
+
+    PassCertificationDetailScreen(
+        certification = uiState.certification,
+        isResubmitMode = uiState.isResubmitMode,
+        newImages = uiState.newImages,
+        onBackClick = navigateBack,
+        onSubmitClick = viewModel::onSubmitClick,
+        onAddImageClick = {
+            val request = PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            when {
+                remainingImageCount <= 0 -> Unit
+                remainingImageCount == 1 -> singleImagePicker.launch(request)
+                else -> multipleImagePicker.launch(request)
+            }
+        },
+        onDeleteImageClick = viewModel::onDeleteImageClick,
+        onResubmitClick = viewModel::onResubmitClick,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun PassCertificationDetailScreen(
@@ -52,7 +127,7 @@ fun PassCertificationDetailScreen(
             )
         },
         bottomBar = {
-            Column(modifier = Modifier.toastBottomInset()) {
+            Column {
                 if (!isResubmitMode) {
                     Spacer(modifier = Modifier.height(15.dp))
 
@@ -68,7 +143,8 @@ fun PassCertificationDetailScreen(
                     onClick = if (isResubmitMode) onResubmitClick else onSubmitClick,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                        .padding(horizontal = 20.dp, vertical = 10.dp)
+                        .toastBottomInset(),
                 )
             }
         },

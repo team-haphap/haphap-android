@@ -12,16 +12,47 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
+
+@Composable
+fun PassCertificationCompleteRoute(
+    navigateToList: () -> Unit,
+    navigateToMyPage: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCertificationCompleteViewModel = hiltViewModel(),
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    PassCertificationCompleteViewModel.SideEffect.NavigateToList -> navigateToList()
+                    PassCertificationCompleteViewModel.SideEffect.NavigateToMyPage -> navigateToMyPage()
+                }
+            }
+        }
+    }
+
+    PassCertificationCompleteScreen(
+        onCompleteClick = viewModel::onCompleteClick,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun PassCertificationCompleteScreen(
