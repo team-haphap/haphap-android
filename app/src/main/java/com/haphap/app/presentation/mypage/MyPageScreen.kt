@@ -62,6 +62,7 @@ fun MyPageRoute(
         onAlarmClick = {},
         onProfileEditClick = {},
         onAnnouncementClick = {},
+        onPointClick = {},
         onSubmitCertificationClick = {},
         onPassCardClick = {},
         onApplicationClick = {},
@@ -80,6 +81,7 @@ private fun MyPageScreen(
     onSettingClick: () -> Unit,
     onAlarmClick: () -> Unit,
     onProfileEditClick: () -> Unit,
+    onPointClick: () -> Unit,
     onAnnouncementClick: () -> Unit,
     onSubmitCertificationClick: () -> Unit,
     onPassCardClick: () -> Unit,
@@ -114,6 +116,7 @@ private fun MyPageScreen(
                 nickName = uiState.nickNameText,
                 point = uiState.point,
                 onProfileEditClick = onProfileEditClick,
+                onPointClick = onPointClick,
             )
 
             if (uiState.hasUpcomingAnnouncement) {
@@ -209,6 +212,7 @@ private fun MyPageScreenPreview() {
             onSettingClick = {},
             onAlarmClick = {},
             onProfileEditClick = {},
+            onPointClick = {},
             onAnnouncementClick = {},
             onSubmitCertificationClick = {},
             onPassCardClick = {},

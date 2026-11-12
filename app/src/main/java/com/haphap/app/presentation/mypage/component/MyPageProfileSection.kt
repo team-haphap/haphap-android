@@ -34,6 +34,7 @@ fun MyPageProfileSection(
     nickName: String,
     point: Int,
     onProfileEditClick: () -> Unit,
+    onPointClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -76,6 +77,7 @@ fun MyPageProfileSection(
 
         PointChip(
             point = point,
+            modifier = Modifier.noRippleClickable(onClick = onPointClick),
         )
     }
 }
@@ -118,6 +120,7 @@ private fun MyPageProfileSectionPreview() {
             nickName = "익명의 조르디",
             point = 300,
             onProfileEditClick = {},
+            onPointClick = {},
         )
     }
 }
