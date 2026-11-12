@@ -21,7 +21,6 @@ import com.haphap.app.presentation.register.type.RegisterAddImageType
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.collections.count
 
 @Composable
 fun RegisterPassProofSection(
@@ -30,8 +29,6 @@ fun RegisterPassProofSection(
     onRemoveImage: (Uri) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val validImageCount = images.count { it.error == null }
-
     Column(
         modifier = modifier.padding(horizontal = 20.dp),
     ) {
@@ -41,7 +38,7 @@ fun RegisterPassProofSection(
             text = if (images.isEmpty()) {
                 "합격 인증을 남겨주세요!"
             } else {
-                "첨부된 이미지 ($validImageCount/$MAX_PROOF_IMAGE_COUNT)"
+                "첨부된 이미지 (${images.size}/$MAX_PROOF_IMAGE_COUNT)"
             },
             style = HapHapTheme.typography.body.b18,
             color = HapHapTheme.colors.gray800,
