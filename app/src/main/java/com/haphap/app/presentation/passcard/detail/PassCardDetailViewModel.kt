@@ -45,7 +45,7 @@ class PassCardDetailViewModel @Inject constructor(
 
     private fun fetchCardInfo(id: Int) {
         fetchCardInfoJob?.cancel()
-        viewModelScope.launch {
+        fetchCardInfoJob = viewModelScope.launch {
             passCardRepository.getPassCardDetail(id)
                 .onSuccess { model ->
                     _uiState.update {
@@ -85,7 +85,7 @@ class PassCardDetailViewModel @Inject constructor(
             }.onSuccess {
                 _sideEffect.send(OnShowToast(message = "합격 카드 저장 완료!"))
             }.onFailure { error ->
-                Timber.e(error, "이미지 저장에 실패했습니다.")
+                Timber.e("$error 이미지 저장에 실패했습니다")
             }
         }
     }
