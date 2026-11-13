@@ -58,4 +58,14 @@ class JobDetailRepositoryImpl @Inject constructor(
             jobDetailDataSource.deleteAlarms(postingId).checkNullData()
             Unit
         }
+
+    override suspend fun setJobPostingScrap(postingId: Int): Result<Boolean> =
+        suspendRunCatching {
+            jobDetailDataSource.setScrap(postingId).checkData().isScrapped
+        }
+
+    override suspend fun deleteJobPostingScrap(postingId: Int): Result<Boolean> =
+        suspendRunCatching {
+            jobDetailDataSource.deleteScrap(postingId).checkData().isScrapped
+        }
 }

@@ -17,4 +17,8 @@ interface JobDetailRepository {
     suspend fun setJobPostingAlarm(postingId: Int): Result<Unit>
 
     suspend fun deleteJobPostingAlarm(postingId: Int): Result<Unit>
+
+    suspend fun setJobPostingScrap(postingId: Int): Result<Boolean>
+
+    suspend fun deleteJobPostingScrap(postingId: Int): Result<Boolean>
 }

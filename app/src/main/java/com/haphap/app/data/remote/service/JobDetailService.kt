@@ -5,6 +5,7 @@ import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
+import com.haphap.app.data.remote.dto.detail.JobScrapResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -41,4 +42,14 @@ interface JobDetailService {
     suspend fun deleteAlarms(
         @Path("postingId") postingId: Int,
     ): BaseResponse<Unit>
+
+    @POST("api/v1/scraps/{postingId}")
+    suspend fun setScrap(
+        @Path("postingId") postingId: Int,
+    ): BaseResponse<JobScrapResponseDto>
+
+    @DELETE("api/v1/scraps/{postingId}")
+    suspend fun deleteScrap(
+        @Path("postingId") postingId: Int,
+    ): BaseResponse<JobScrapResponseDto>
 }
