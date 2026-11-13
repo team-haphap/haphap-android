@@ -1,0 +1,33 @@
+package com.haphap.app.presentation.register.type
+
+enum class RegisterStep(
+    val btnText: String,
+    val isTopBarVisible: Boolean = true,
+    val isProgressBarVisible: Boolean = true,
+) {
+    SELECT_PROCESS(btnText = "다음"),
+    RESULT(btnText = "다음"),
+    CONTACT(btnText = "다음"),
+    PASS_PROOF(btnText = "다음", isProgressBarVisible = false),
+    CONFIRM(btnText = "등록하기", isProgressBarVisible = false),
+    COMPLETE(btnText = "완료", isTopBarVisible = false, isProgressBarVisible = false);
+
+    fun isSkip(result: PassResultStatusType?): Boolean = when (this) {
+        CONTACT -> result == PassResultStatusType.DONT_KNOW
+        PASS_PROOF -> result != PassResultStatusType.PASS
+        SELECT_PROCESS, RESULT, CONFIRM, COMPLETE -> false
+    }
+
+    fun next(result: PassResultStatusType?): RegisterStep? =
+        entries.drop(ordinal + 1).firstOrNull { !it.isSkip(result) }
+
+    fun previous(result: PassResultStatusType?): RegisterStep? =
+        entries.take(ordinal).lastOrNull { !it.isSkip(result) }
+
+    val progress: Int
+        get() = entries.take(ordinal + 1).count { it.isProgressBarVisible }
+
+    companion object {
+        val progressStepCount: Int = entries.count { it.isProgressBarVisible }
+    }
+}

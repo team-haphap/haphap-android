@@ -27,7 +27,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun RegisterFirstSection(
+fun RegisterSelectProcessSection(
     announceList: ImmutableList<RegisterDropDownItemModel>,
     selectedAnnounce: RegisterDropDownItemModel?,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
@@ -125,7 +125,7 @@ private const val COLUMN_COUNT = 3
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun RegisterFirstSectionPreview() {
+private fun RegisterSelectProcessSectionPreview() {
     val announceList = persistentListOf(
         RegisterDropDownItemModel(id = 1, text = "카카오 2026 신입 개발자 공개 채용"),
         RegisterDropDownItemModel(id = 2, text = "네이버 2026 신입 개발자 공개 채용"),
@@ -144,7 +144,7 @@ private fun RegisterFirstSectionPreview() {
     var selectedProcessId by remember { mutableStateOf<Int?>(1) }
 
     HapHapTheme {
-        RegisterFirstSection(
+        RegisterSelectProcessSection(
             announceList = announceList,
             selectedAnnounce = selectedAnnounce,
             onAnnounceSelected = { selectedAnnounce = it },
