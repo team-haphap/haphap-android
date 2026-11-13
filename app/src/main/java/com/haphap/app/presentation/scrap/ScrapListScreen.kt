@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.scrap.ScrapModel
-import com.haphap.app.presentation.scrap.component.ScrapDescription
 import com.haphap.app.presentation.scrap.component.ScrapEmptyComponent
 import com.haphap.app.presentation.scrap.component.ScrapItem
 import com.haphap.app.presentation.scrap.component.ScrapTopBar
@@ -69,7 +68,7 @@ fun ScrapListRoute(
 }
 
 @Composable
-fun ScrapListScreen(
+private fun ScrapListScreen(
     scrapList: ImmutableList<ScrapModel>,
     isEmpty: Boolean,
     onBackClick: () -> Unit,
@@ -87,9 +86,14 @@ fun ScrapListScreen(
             onBackClick = onBackClick,
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
-
-        ScrapDescription()
+        Text(
+            text = "내가 찜한 공고에요",
+            style = HapHapTheme.typography.body.sb13,
+            color = HapHapTheme.colors.gray400,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+        )
 
         if (isEmpty) {
             ScrapEmptyComponent()
@@ -98,7 +102,7 @@ fun ScrapListScreen(
 
         LazyColumn(
             contentPadding = PaddingValues(vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(
                 items = scrapList,
