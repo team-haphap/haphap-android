@@ -1,6 +1,8 @@
 package com.haphap.app.data.repository.api.mypage
 
 import android.net.Uri
+import com.haphap.app.data.model.myapplication.MyApplicationFilter
+import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
@@ -17,4 +19,5 @@ interface MyPageRepository {
     suspend fun patchProfile(nickname: String?, profileImageUri: Uri?): Result<Unit>
     suspend fun deleteMember(reason: String, etcReason: String?): Result<Unit>
     suspend fun postLogout(): Result<Unit>
+    suspend fun getMyApplicationList(filter: MyApplicationFilter): Result<MyApplicationListModel>
 }

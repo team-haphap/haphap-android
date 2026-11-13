@@ -88,6 +88,7 @@ fun JobDetailRoute(
     JobDetailScreen(
         uiState = uiState,
         onBackClick = navigateBack,
+        onScrapClick = viewModel::onScrapClick,
         onAlarmClick = viewModel::onAlarmClick,
         onMoreClick = {},
         onTabClick = viewModel::updateSelectedTab,
@@ -101,6 +102,7 @@ fun JobDetailRoute(
 private fun JobDetailScreen(
     uiState: JobDetailContract.State,
     onBackClick: () -> Unit,
+    onScrapClick: () -> Unit,
     onAlarmClick: () -> Unit,
     onMoreClick: () -> Unit,
     onTabClick: (Int) -> Unit,
@@ -113,8 +115,10 @@ private fun JobDetailScreen(
         topBar = {
             JobDetailTopBar(
                 onBackClick = onBackClick,
+                onScrapClick = onScrapClick,
                 onAlarmClick = onAlarmClick,
                 onMoreClick = onMoreClick,
+                isScrapActive = uiState.isScrapActive,
                 isAlarmActive = uiState.isAlarmActive,
             )
         },
@@ -328,6 +332,7 @@ private fun JobDetailScreenPreview() {
                 reports = persistentListOf(),
             ),
             onBackClick = {},
+            onScrapClick = {},
             onAlarmClick = {},
             onMoreClick = {},
             onTabClick = { selectedTab = it },

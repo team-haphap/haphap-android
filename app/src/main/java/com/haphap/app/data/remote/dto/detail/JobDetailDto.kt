@@ -15,6 +15,7 @@ data class JobDetailDto(
     @SerialName("summary") val summary: JobDetailSummaryDto,
     @SerialName("registrations") val registrations: List<JobDetailRegistrationDto>,
     @SerialName("alarmEnabled") val alarmEnabled: Boolean,
+    @SerialName("isScrapped") val isScrapped: Boolean = false,
 )
 
 @Serializable

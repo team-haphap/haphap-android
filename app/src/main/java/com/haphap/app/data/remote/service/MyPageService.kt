@@ -4,6 +4,7 @@ import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
+import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
@@ -50,4 +51,9 @@ interface MyPageService {
 
     @POST("api/v1/auth/logout")
     suspend fun logout(@Body request: LogoutRequestDto): Response<Unit>
+
+    @GET("api/v1/my-page/registrations")
+    suspend fun getMyApplicationList(
+        @Query("filter") filter: String,
+    ): BaseResponse<MyApplicationResponseDto>
 }
