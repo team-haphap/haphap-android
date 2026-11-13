@@ -98,6 +98,7 @@ class ProfileViewModel @Inject constructor(
                 nicknameStatus = status,
                 isNicknameChanged = nickname != originalNickname,
                 isNicknameValid = NICKNAME_COMPLETE_REGEX.matches(nickname),
+                isNicknameNotDuplicated = nickname == originalNickname,
             )
         }
     }
@@ -105,8 +106,11 @@ class ProfileViewModel @Inject constructor(
     private suspend fun validateNickname(nickname: String) {
         myPageRepository.validateNickname(nickname)
             .onSuccess { isAvailable ->
-                if (!isAvailable) {
-                    _uiState.update { it.copy(nicknameStatus = ProfileNicknameStatus.DUPLICATED) }
+                _uiState.update {
+                    it.copy(
+                        isNicknameNotDuplicated = isAvailable,
+                        nicknameStatus = if (isAvailable) it.nicknameStatus else ProfileNicknameStatus.DUPLICATED,
+                    )
                 }
             }
             .onFailure { error ->
