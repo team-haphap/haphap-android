@@ -106,7 +106,7 @@ class SearchViewModel @Inject constructor(
                     storedSearchText = keyword,
                 )
             }
-            getSearchResultList(isNewSearch = true)
+            getSearchResultList(keyword = keyword, isNewSearch = true)
         }
     }
 
@@ -211,6 +211,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getSearchResultList(
+        keyword: String = searchInputState.text.toString(),
         hasNextPage: Boolean = false,
         isNewSearch: Boolean = false,
     ) = viewModelScope.launch {
@@ -218,7 +219,6 @@ class SearchViewModel @Inject constructor(
         if (hasNextPage && !currentState.hasNextSearchResult) return@launch
 
         val requestPage = if (hasNextPage) currentState.searchResultPage + 1 else 0
-        val keyword = searchInputState.text.toString()
 
         _uiState.update { it.copy(searchResultListUiState = SearchUiState.Loading) }
         val category = currentState.categoryChipState.queryCategoryList
