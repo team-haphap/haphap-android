@@ -43,7 +43,8 @@ class ImageMultipartConverter @Inject constructor(
     private fun convertToJpeg(uri: Uri): ByteArray {
         val source = ImageDecoder.createSource(context.contentResolver, uri)
         val bitmap = ImageDecoder.decodeBitmap(source)
-        return try {
+
+        val bytes = try {
             ByteArrayOutputStream().use { output ->
                 bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, output)
                 output.toByteArray()
@@ -51,6 +52,12 @@ class ImageMultipartConverter @Inject constructor(
         } finally {
             bitmap.recycle()
         }
+
+        check(bytes.size <= MAX_UPLOAD_SIZE_BYTES) {
+            "Converted image exceeds upload limit: ${bytes.size} bytes"
+        }
+
+        return bytes
     }
 
     companion object {
@@ -58,6 +65,7 @@ class ImageMultipartConverter @Inject constructor(
         private const val DEFAULT_EXTENSION = "jpg"
         private const val FILE_NAME_PREFIX = "image_"
         private const val JPEG_QUALITY = 90
+        private const val MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024
         private val HEIF_MIME_TYPES = setOf("image/heic", "image/heif")
     }
 }
