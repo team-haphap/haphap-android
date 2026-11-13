@@ -93,7 +93,10 @@ class PassCardDetailViewModel @Inject constructor(
     }
 
     fun onStageClick(stageId: Int) {
-        if (stageId == _uiState.value.selectedChip) return
+        if (stageId == _uiState.value.selectedChip) {
+            fetchCardInfoJob?.cancel()
+            return
+        }
         fetchCardInfo(stageId)
     }
 
