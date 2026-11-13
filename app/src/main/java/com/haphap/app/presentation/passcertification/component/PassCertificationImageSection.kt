@@ -1,6 +1,5 @@
 package com.haphap.app.presentation.passcertification.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,8 +43,7 @@ fun PassCertificationImageSection(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(100.dp)
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .background(color = HapHapTheme.colors.white),
+                        .clip(shape = RoundedCornerShape(6.dp)),
                 )
             }
         }
