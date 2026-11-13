@@ -28,9 +28,17 @@ class MyApplicationViewModel @Inject constructor(
     }
 
     fun onFilterClick(filter: MyApplicationFilterType) {
-        if (_uiState.value.selectedFilter == filter) return
-        _uiState.update { it.copy(selectedFilter = filter) }
-        getMyApplicationList(filter)
+        val currentFilter = _uiState.value.selectedFilter
+        val newFilter = when {
+            filter == MyApplicationFilterType.ALL -> MyApplicationFilterType.ALL
+            filter == currentFilter -> MyApplicationFilterType.ALL
+            currentFilter != MyApplicationFilterType.ALL -> MyApplicationFilterType.ALL
+            else -> filter
+        }
+        if (newFilter == currentFilter) return
+
+        _uiState.update { it.copy(selectedFilter = newFilter) }
+        getMyApplicationList(newFilter)
     }
 
     private fun getMyApplicationList(filter: MyApplicationFilterType) {
