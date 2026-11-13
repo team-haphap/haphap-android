@@ -16,6 +16,7 @@ import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
 import com.haphap.app.presentation.leave.navigation.leaveGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
+import com.haphap.app.presentation.scrap.navigation.scrapListGraph
 import com.haphap.app.presentation.search.navigation.searchGraph
 import com.haphap.app.presentation.setting.navigation.settingGraph
 import com.haphap.app.presentation.splash.navigation.splashGraph
@@ -86,6 +87,11 @@ fun MainNavHost(
         )
 
         leaveGraph(
+            innerPadding = innerPadding,
+            navController = navController,
+        )
+
+        scrapListGraph(
             innerPadding = innerPadding,
             navController = navController,
         )

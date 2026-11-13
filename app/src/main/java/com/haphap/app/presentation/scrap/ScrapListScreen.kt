@@ -11,7 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
+import com.haphap.app.presentation.scrap.ScrapListContract.SideEffect.OnShowToast
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -22,6 +32,41 @@ import com.haphap.app.presentation.scrap.component.ScrapItem
 import com.haphap.app.presentation.scrap.component.ScrapTopBar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+
+@Composable
+fun ScrapListRoute(
+    navigateBack: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: ScrapListViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.getScraps()
+    }
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
+                }
+            }
+        }
+    }
+
+    ScrapListScreen(
+        scrapList = uiState.scrapList,
+        isEmpty = uiState.isEmpty,
+        onBackClick = navigateBack,
+        onItemClick = navigateToJobDetail,
+        onScrapClick = viewModel::onScrapClick,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun ScrapListScreen(

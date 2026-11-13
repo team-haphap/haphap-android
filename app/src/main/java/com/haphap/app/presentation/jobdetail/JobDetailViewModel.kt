@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.data.repository.api.detail.JobDetailRepository
+import com.haphap.app.data.repository.api.scrap.ScrapRepository
 import com.haphap.app.data.repository.api.viewcount.ViewCountRepository
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.NavigateToRegister
 import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShowToast
@@ -25,6 +26,7 @@ class JobDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val jobDetailRepository: JobDetailRepository,
     private val viewCountRepository: ViewCountRepository,
+    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
 
     private val postingId: Int = savedStateHandle.toRoute<JobDetail>().postingId
@@ -228,7 +230,7 @@ class JobDetailViewModel @Inject constructor(
             val isScrapActive = _uiState.value.isScrapActive
 
             if (isScrapActive) {
-                jobDetailRepository.deleteJobPostingScrap(postingId)
+                scrapRepository.deleteScrap(postingId)
                     .onSuccess { isScrapped ->
                         _uiState.update { currentState ->
                             currentState.copy(isScrapActive = isScrapped)
@@ -239,7 +241,7 @@ class JobDetailViewModel @Inject constructor(
                         Timber.e("$throwable 찜 취소 실패했습니다.")
                     }
             } else {
-                jobDetailRepository.setJobPostingScrap(postingId)
+                scrapRepository.setScrap(postingId)
                     .onSuccess { isScrapped ->
                         _uiState.update { currentState ->
                             currentState.copy(isScrapActive = isScrapped)
