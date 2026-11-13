@@ -12,6 +12,7 @@ import com.haphap.app.presentation.jobdetail.JobDetailContract.SideEffect.OnShow
 import com.haphap.app.presentation.jobdetail.navigation.JobDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,6 +37,9 @@ class JobDetailViewModel @Inject constructor(
 
     private val _sideEffect = Channel<JobDetailContract.SideEffect>(Channel.BUFFERED)
     val sideEffect = _sideEffect.receiveAsFlow()
+
+    private var isScrapStateLoaded = false
+    private var scrapJob: Job? = null
 
     init {
         fetchJobPostingDetail()
@@ -112,10 +116,15 @@ class JobDetailViewModel @Inject constructor(
                             participant = model.participant,
                             reports = model.reports,
                             isAlarmActive = model.alarmEnabled,
-                            isScrapActive = model.isScrapped,
+                            isScrapActive = if (scrapJob?.isActive == true) {
+                                currentState.isScrapActive
+                            } else {
+                                model.isScrapped
+                            },
                             uiState = JobDetailUiState.Success,
                         )
                     }
+                    isScrapStateLoaded = true
                 }
                 .onFailure { throwable ->
                     Timber.e("$throwable 공고 상세 조회 실패했습니다.")
@@ -227,7 +236,9 @@ class JobDetailViewModel @Inject constructor(
     }
 
     fun onScrapClick() {
-        viewModelScope.launch {
+        if (!isScrapStateLoaded || scrapJob?.isActive == true) return
+
+        scrapJob = viewModelScope.launch {
             val isScrapActive = _uiState.value.isScrapActive
 
             if (isScrapActive) {
