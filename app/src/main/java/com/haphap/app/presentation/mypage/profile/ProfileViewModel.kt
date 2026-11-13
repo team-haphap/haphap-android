@@ -90,7 +90,7 @@ class ProfileViewModel @Inject constructor(
     private fun updateNicknameState(nickname: String) {
         val status = when {
             !NICKNAME_REGEX.matches(nickname) -> ProfileNicknameStatus.INVALID_CHARACTER
-            nickname.isNotEmpty() && nickname.length < NICKNAME_MIN_LENGTH -> ProfileNicknameStatus.TOO_SHORT
+            nickname.length < NICKNAME_MIN_LENGTH -> ProfileNicknameStatus.TOO_SHORT
             else -> ProfileNicknameStatus.DEFAULT
         }
 
