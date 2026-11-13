@@ -16,9 +16,9 @@ class ScrapRepositoryImpl @Inject constructor(
             scrapDataSource.getScraps().checkData().toModels()
         }
 
-    override suspend fun setScrap(postingId: Int): Result<Boolean> =
+    override suspend fun postScrap(postingId: Int): Result<Boolean> =
         suspendRunCatching {
-            scrapDataSource.setScrap(postingId).checkData().isScrapped
+            scrapDataSource.postScrap(postingId).checkData().isScrapped
         }
 
     override suspend fun deleteScrap(postingId: Int): Result<Boolean> =

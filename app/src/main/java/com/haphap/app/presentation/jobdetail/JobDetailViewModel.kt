@@ -253,7 +253,7 @@ class JobDetailViewModel @Inject constructor(
                         Timber.e("$throwable 찜 취소 실패했습니다.")
                     }
             } else {
-                scrapRepository.setScrap(postingId)
+                scrapRepository.postScrap(postingId)
                     .onSuccess { isScrapped ->
                         _uiState.update { currentState ->
                             currentState.copy(isScrapActive = isScrapped)

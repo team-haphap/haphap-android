@@ -13,8 +13,8 @@ class ScrapDataSourceImpl @Inject constructor(
     override suspend fun getScraps(): BaseResponse<ScrapListResponseDto> =
         scrapService.getScraps()
 
-    override suspend fun setScrap(postingId: Int): BaseResponse<ScrapResponseDto> =
-        scrapService.setScrap(postingId)
+    override suspend fun postScrap(postingId: Int): BaseResponse<ScrapResponseDto> =
+        scrapService.postScrap(postingId)
 
     override suspend fun deleteScrap(postingId: Int): BaseResponse<ScrapResponseDto> =
         scrapService.deleteScrap(postingId)

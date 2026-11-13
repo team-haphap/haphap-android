@@ -7,7 +7,7 @@ import com.haphap.app.data.remote.dto.scrap.ScrapResponseDto
 interface ScrapDataSource {
     suspend fun getScraps(): BaseResponse<ScrapListResponseDto>
 
-    suspend fun setScrap(postingId: Int): BaseResponse<ScrapResponseDto>
+    suspend fun postScrap(postingId: Int): BaseResponse<ScrapResponseDto>
 
     suspend fun deleteScrap(postingId: Int): BaseResponse<ScrapResponseDto>
 }

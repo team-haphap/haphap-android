@@ -86,7 +86,7 @@ class ScrapListViewModel @Inject constructor(
                     Timber.e("$throwable 찜 취소 실패했습니다.")
                 }
         } else {
-            scrapRepository.setScrap(postingId)
+            scrapRepository.postScrap(postingId)
                 .onSuccess { isScrapped ->
                     updateScrapped(postingId, isScrapped)
                     _sideEffect.send(OnShowToast(message = "찜한 공고에 추가했어요."))

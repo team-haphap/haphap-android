@@ -13,7 +13,7 @@ interface ScrapService {
     suspend fun getScraps(): BaseResponse<ScrapListResponseDto>
 
     @POST("api/v1/scraps/{postingId}")
-    suspend fun setScrap(
+    suspend fun postScrap(
         @Path("postingId") postingId: Int,
     ): BaseResponse<ScrapResponseDto>
 
