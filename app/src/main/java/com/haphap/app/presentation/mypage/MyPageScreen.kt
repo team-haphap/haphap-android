@@ -82,8 +82,7 @@ private fun MyPageScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(HapHapTheme.colors.white)
-            .padding(bottom = 50.dp),
+            .background(HapHapTheme.colors.white),
     ) {
         MyPageTopBar(
             onBackClick = onBackClick,
@@ -96,7 +95,8 @@ private fun MyPageScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 50.dp),
         ) {
             MyPageProfileSection(
                 profileImageUrl = uiState.profileUrl,
