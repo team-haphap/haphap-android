@@ -5,7 +5,6 @@ import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
-import com.haphap.app.data.remote.dto.detail.JobScrapResponseDto
 
 interface JobDetailDataSource {
     suspend fun getJobPostingDetail(postingId: Int): BaseResponse<JobDetailDto>
@@ -19,8 +18,4 @@ interface JobDetailDataSource {
     suspend fun setAlarms(postingId: Int): BaseResponse<Unit>
 
     suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit>
-
-    suspend fun setScrap(postingId: Int): BaseResponse<JobScrapResponseDto>
-
-    suspend fun deleteScrap(postingId: Int): BaseResponse<JobScrapResponseDto>
 }

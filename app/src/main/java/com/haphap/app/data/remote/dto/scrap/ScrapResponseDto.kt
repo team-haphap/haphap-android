@@ -1,10 +1,10 @@
-package com.haphap.app.data.remote.dto.detail
+package com.haphap.app.data.remote.dto.scrap
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JobScrapResponseDto(
+data class ScrapResponseDto(
     @SerialName("postingId")
     val postingId: Int,
     @SerialName("isScrapped")

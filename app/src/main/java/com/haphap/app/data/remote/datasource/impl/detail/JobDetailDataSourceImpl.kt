@@ -6,7 +6,6 @@ import com.haphap.app.data.remote.dto.detail.JobDetailDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageListDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatisticDto
 import com.haphap.app.data.remote.dto.detail.JobDetailStageStatusListDto
-import com.haphap.app.data.remote.dto.detail.JobScrapResponseDto
 import com.haphap.app.data.remote.service.JobDetailService
 import jakarta.inject.Inject
 
@@ -31,10 +30,4 @@ class JobDetailDataSourceImpl @Inject constructor(
 
     override suspend fun deleteAlarms(postingId: Int): BaseResponse<Unit> =
         jobDetailService.deleteAlarms(postingId)
-
-    override suspend fun setScrap(postingId: Int): BaseResponse<JobScrapResponseDto> =
-        jobDetailService.setScrap(postingId)
-
-    override suspend fun deleteScrap(postingId: Int): BaseResponse<JobScrapResponseDto> =
-        jobDetailService.deleteScrap(postingId)
 }
