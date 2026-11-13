@@ -9,4 +9,5 @@ data class JobDetailModel(
     val participant: JobParticipantModel = JobParticipantModel(),
     val reports: ImmutableList<JobStepReportModel> = persistentListOf(),
     val alarmEnabled: Boolean,
+    val isScrapped: Boolean,
 )

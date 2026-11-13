@@ -18,6 +18,7 @@ import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.passcertification.navigation.passCertificationGraph
 import com.haphap.app.presentation.passcard.navigation.passCardGraph
 import com.haphap.app.presentation.register.navigation.registerGraph
+import com.haphap.app.presentation.scrap.navigation.scrapListGraph
 import com.haphap.app.presentation.search.navigation.searchGraph
 import com.haphap.app.presentation.setting.accountinfo.navigation.accountInfoGraph
 import com.haphap.app.presentation.setting.navigation.settingGraph
@@ -99,6 +100,11 @@ fun MainNavHost(
         )
 
         leaveGraph(
+            innerPadding = innerPadding,
+            navController = navController,
+        )
+
+        scrapListGraph(
             innerPadding = innerPadding,
             navController = navController,
         )

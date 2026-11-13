@@ -21,9 +21,11 @@ import com.haphap.app.core.extensions.noRippleClickable
 @Composable
 fun JobDetailTopBar(
     onBackClick: () -> Unit,
+    onScrapClick: () -> Unit,
     onAlarmClick: () -> Unit,
     onMoreClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isScrapActive: Boolean = false,
     isAlarmActive: Boolean = false,
 ) {
     Row(
@@ -33,6 +35,12 @@ fun JobDetailTopBar(
             .padding(start = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val scrapIconRes = if (isScrapActive) {
+            R.drawable.ic_top_bar_scrap_selected_44
+        } else {
+            R.drawable.ic_top_bar_scrap_default_44
+        }
+
         val alarmIconRes = if (isAlarmActive) {
             R.drawable.ic_top_bar_alarm_selected_44
         } else {
@@ -50,6 +58,15 @@ fun JobDetailTopBar(
         )
 
         Spacer(modifier = Modifier.weight(1f))
+
+        Icon(
+            imageVector = ImageVector.vectorResource(id = scrapIconRes),
+            contentDescription = null,
+            tint = if (isScrapActive) HapHapTheme.colors.subred else HapHapTheme.colors.gray700,
+            modifier = Modifier
+                .size(44.dp)
+                .noRippleClickable(onClick = onScrapClick),
+        )
 
         Icon(
             imageVector = ImageVector.vectorResource(id = alarmIconRes),
@@ -78,6 +95,7 @@ private fun JobDetailTopBarPreview() {
     HapHapTheme {
         JobDetailTopBar(
             onBackClick = {},
+            onScrapClick = {},
             onAlarmClick = {},
             onMoreClick = {},
         )
