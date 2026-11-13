@@ -5,6 +5,7 @@ import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
 import com.haphap.app.data.model.passcertification.PassCertificationModel
 import com.haphap.app.data.remote.dto.passcertification.VerificationItemResponseDto
 import com.haphap.app.data.remote.dto.passcertification.VerificationSummaryResponseDto
+import kotlinx.collections.immutable.toImmutableList
 
 fun VerificationSummaryResponseDto.toRejectedModels(): List<PassCertificationModel> =
     items
@@ -18,6 +19,7 @@ fun VerificationItemResponseDto.toDetailModel(): PassCertificationDetailModel =
         title = postingTitle,
         stageName = stageName,
         submittedDate = submittedAt?.toTimeFormat(pattern = "yyyy.MM.dd.").orEmpty(),
+        imageUrls = submittedImageUrls.toImmutableList(),
     )
 
 fun VerificationItemResponseDto.toModel(): PassCertificationModel =

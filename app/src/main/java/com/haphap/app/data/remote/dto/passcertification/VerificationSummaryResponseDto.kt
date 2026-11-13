@@ -35,4 +35,6 @@ data class VerificationItemResponseDto(
     val resolvedAt: String? = null,
     @SerialName("resubmittable")
     val resubmittable: Boolean,
+    @SerialName("submittedImageUrls")
+    val submittedImageUrls: List<String> = emptyList(),
 )
