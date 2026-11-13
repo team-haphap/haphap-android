@@ -36,9 +36,7 @@ fun NavGraphBuilder.passCertificationGraph(
     composable<PassCertification> {
         PassCertificationRoute(
             navigateBack = dropUnlessResumed { navController.popBackStack() },
-            navigateToDetail = { certificationId ->
-                navController.navigateToPassCertificationDetail(certificationId = certificationId)
-            },
+            navigateToDetail = navController::navigateToPassCertificationDetail,
             modifier = Modifier.padding(innerPadding),
         )
     }
