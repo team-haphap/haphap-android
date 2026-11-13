@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.register.type
+package com.haphap.app.data.model.register
 
 enum class NotificationChannelType(val text: String) {
     EMAIL("이메일"),

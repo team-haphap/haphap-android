@@ -21,11 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.extensions.noRippleClickable
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
 
 @Composable
 fun RegisterResultButton(
-    status: PassResultStatusButton,
+    status: PassResultStatusType,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -59,14 +59,14 @@ fun RegisterResultButton(
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun RegisterResultButtonPreview() {
-    var selectedStatus by remember { mutableStateOf(PassResultStatusButton.PASS) }
+    var selectedStatus by remember { mutableStateOf(PassResultStatusType.PASS) }
 
     HapHapTheme {
         Row(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            PassResultStatusButton.entries.forEach { status ->
+            PassResultStatusType.entries.forEach { status ->
                 RegisterResultButton(
                     status = status,
                     isSelected = status == selectedStatus,

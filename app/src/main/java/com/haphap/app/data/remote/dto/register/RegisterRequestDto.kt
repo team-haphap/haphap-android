@@ -21,4 +21,6 @@ data class RegisterRequestDto (
     val anonymous: Boolean,
     @SerialName("alarmEnabled")
     val alarmEnabled: Boolean,
+    @SerialName("verificationImageIds")
+    val verificationImageIds: List<Long>? = null,
 )
