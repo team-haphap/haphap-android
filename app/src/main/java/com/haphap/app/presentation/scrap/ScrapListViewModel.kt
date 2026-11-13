@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,55 +28,72 @@ class ScrapListViewModel @Inject constructor(
     private val _sideEffect = Channel<ScrapListContract.SideEffect>(Channel.BUFFERED)
     val sideEffect = _sideEffect.receiveAsFlow()
 
+    private val scrapMutex = Mutex()
+    private val pendingScrapIds = mutableSetOf<Int>()
+
     fun getScraps() {
         if (_uiState.value.scrapListUiState is ScrapListUiState.Loading) return
         _uiState.update { it.copy(scrapListUiState = ScrapListUiState.Loading) }
 
         viewModelScope.launch {
-            scrapRepository.getScraps()
-                .onSuccess { scraps ->
-                    _uiState.update {
-                        it.copy(
-                            scrapList = scraps.toImmutableList(),
-                            scrapListUiState = ScrapListUiState.Success,
-                        )
-                    }
-                }
-                .onFailure { throwable ->
-                    _uiState.update {
-                        it.copy(
-                            scrapListUiState = ScrapListUiState.Failure(
-                                msg = throwable.message.orEmpty(),
-                            ),
-                        )
-                    }
-                }
+            scrapMutex.withLock { fetchScraps() }
         }
     }
 
+    private suspend fun fetchScraps() {
+        scrapRepository.getScraps()
+            .onSuccess { scraps ->
+                _uiState.update {
+                    it.copy(
+                        scrapList = scraps.toImmutableList(),
+                        scrapListUiState = ScrapListUiState.Success,
+                    )
+                }
+            }
+            .onFailure { throwable ->
+                _uiState.update {
+                    it.copy(
+                        scrapListUiState = ScrapListUiState.Failure(
+                            msg = throwable.message.orEmpty(),
+                        ),
+                    )
+                }
+            }
+    }
+
     fun onScrapClick(postingId: Int) {
-        val target = _uiState.value.scrapList.find { it.postingId == postingId } ?: return
+        if (!pendingScrapIds.add(postingId)) return
 
         viewModelScope.launch {
-            if (target.isScrapped) {
-                scrapRepository.deleteScrap(postingId)
-                    .onSuccess { isScrapped ->
-                        updateScrapped(postingId, isScrapped)
-                        _sideEffect.send(OnShowToast(message = "찜한 공고에서 취소했어요."))
-                    }
-                    .onFailure { throwable ->
-                        Timber.e("$throwable 찜 취소 실패했습니다.")
-                    }
-            } else {
-                scrapRepository.setScrap(postingId)
-                    .onSuccess { isScrapped ->
-                        updateScrapped(postingId, isScrapped)
-                        _sideEffect.send(OnShowToast(message = "찜한 공고에 추가했어요."))
-                    }
-                    .onFailure { throwable ->
-                        Timber.e("$throwable 찜하기 실패했습니다.")
-                    }
+            try {
+                scrapMutex.withLock { toggleScrap(postingId) }
+            } finally {
+                pendingScrapIds.remove(postingId)
             }
+        }
+    }
+
+    private suspend fun toggleScrap(postingId: Int) {
+        val target = _uiState.value.scrapList.find { it.postingId == postingId } ?: return
+
+        if (target.isScrapped) {
+            scrapRepository.deleteScrap(postingId)
+                .onSuccess { isScrapped ->
+                    updateScrapped(postingId, isScrapped)
+                    _sideEffect.send(OnShowToast(message = "찜한 공고에서 취소했어요."))
+                }
+                .onFailure { throwable ->
+                    Timber.e("$throwable 찜 취소 실패했습니다.")
+                }
+        } else {
+            scrapRepository.setScrap(postingId)
+                .onSuccess { isScrapped ->
+                    updateScrapped(postingId, isScrapped)
+                    _sideEffect.send(OnShowToast(message = "찜한 공고에 추가했어요."))
+                }
+                .onFailure { throwable ->
+                    Timber.e("$throwable 찜하기 실패했습니다.")
+                }
         }
     }
 
