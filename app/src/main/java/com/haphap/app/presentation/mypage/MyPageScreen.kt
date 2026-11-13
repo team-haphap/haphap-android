@@ -144,7 +144,7 @@ private fun MyPageScreen(
                 onMoreClick = onApplicationMoreClick,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(22.dp))
 
             MyPageMenuItem(
                 text = "내가 찜한 공고",
