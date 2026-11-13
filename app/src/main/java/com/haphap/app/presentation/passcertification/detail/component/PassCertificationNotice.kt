@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcertification.component
+package com.haphap.app.presentation.passcertification.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
