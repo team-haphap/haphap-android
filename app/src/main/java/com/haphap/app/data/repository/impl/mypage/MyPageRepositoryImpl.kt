@@ -8,6 +8,7 @@ import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
 import com.haphap.app.data.mapper.mypage.toProfileModel
+import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
 import com.haphap.app.data.model.mypage.MyPageSummaryModel
@@ -48,6 +49,12 @@ class MyPageRepositoryImpl @Inject constructor(
     override suspend fun getMyRegistrationsPreview(): Result<List<MyRecentApplicationModel>> =
         suspendRunCatching {
             myPageDataSource.getMyRegistrationsPreview().checkData().registrations.map { it.toModel() }
+        }
+
+    override suspend fun getAccountInfo(): Result<AccountInfoModel> =
+        suspendRunCatching {
+            val response = myPageDataSource.getAccountInfo().checkData()
+            response.toModel()
         }
 
     override suspend fun getProfile(): Result<MyPageProfileModel> =

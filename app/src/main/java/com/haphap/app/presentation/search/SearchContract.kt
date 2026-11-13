@@ -1,10 +1,10 @@
 package com.haphap.app.presentation.search
 
 import androidx.compose.runtime.Immutable
+import com.haphap.app.data.model.search.PopularSearchItemModel
 import com.haphap.app.data.model.search.RecentSearchItemModel
 import com.haphap.app.data.model.search.RelatedKeywordItemModel
 import com.haphap.app.data.model.search.SearchAutoCompleteItemModel
-import com.haphap.app.data.model.search.SearchPopularItemModel
 import com.haphap.app.data.model.search.SearchResultItemModel
 import com.haphap.app.presentation.common.state.CategoryChipState
 import kotlinx.collections.immutable.ImmutableList
@@ -18,8 +18,8 @@ sealed interface SearchContract {
         val categoryChipState: CategoryChipState = CategoryChipState(),
         val searchResultList: ImmutableList<SearchResultItemModel> = persistentListOf(),
         val recentSearchList: ImmutableList<RecentSearchItemModel> = persistentListOf(),
-        val trendJobList: ImmutableList<SearchPopularItemModel> = persistentListOf(),
-        val trendJobListUiState: SearchUiState = SearchUiState.Idle,
+        val popularSearchList: ImmutableList<PopularSearchItemModel> = persistentListOf(),
+        val popularSearchListUiState: SearchUiState = SearchUiState.Idle,
         val recentSearchListUiState: SearchUiState = SearchUiState.Idle,
         val searchAutoCompleteUiState: SearchUiState = SearchUiState.Idle,
         val relatedKeywordListUiState: SearchUiState = SearchUiState.Idle,

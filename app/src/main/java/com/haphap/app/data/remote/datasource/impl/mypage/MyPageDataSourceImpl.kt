@@ -2,6 +2,7 @@ package com.haphap.app.data.remote.datasource.impl.mypage
 
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.BaseResponse
+import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
@@ -26,6 +27,10 @@ class MyPageDataSourceImpl @Inject constructor(
 
     override suspend fun getMyRegistrationsPreview(): BaseResponse<MyRegistrationsPreviewResponseDto> =
         myPageService.getMyRegistrationsPreview()
+
+    override suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto> {
+        return myPageService.getAccountInfo()
+    }
 
     override suspend fun getNicknameValidation(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>> =
         myPageService.getNicknameValidation(nickname)

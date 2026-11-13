@@ -1,10 +1,12 @@
 package com.haphap.app.data.mapper.mypage
 
 import com.haphap.app.core.extensions.toTimeFormat
+import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
 import com.haphap.app.data.model.mypage.MyPageSummaryModel
 import com.haphap.app.data.model.mypage.MyRecentApplicationModel
+import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyRegistrationPreviewDto
@@ -35,6 +37,16 @@ fun MyRegistrationPreviewDto.toModel(): MyRecentApplicationModel =
         participantCount = applicantCount,
         appliedDate = appliedAt.toTimeFormat("yyyy.MM.dd"),
         logoImageUrl = logoImageUrl,
+    )
+
+fun AccountInfoResponseDto.toModel(): AccountInfoModel =
+    AccountInfoModel(
+        name = name,
+        email = email,
+        loginProvider = when (provider) {
+            "KAKAO" -> "카카오"
+            else -> provider
+        },
     )
 
 fun MyPageResponseDto.toProfileModel(): MyPageProfileModel =
