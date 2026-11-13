@@ -1,14 +1,19 @@
 package com.haphap.app.data.mapper.mypage
 
+import com.haphap.app.core.extensions.toTimeFormat
 import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.myapplication.MyApplicationModel
 import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
+import com.haphap.app.data.model.mypage.MyPageSummaryModel
+import com.haphap.app.data.model.mypage.MyRecentApplicationModel
 import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyApplicationDto
 import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyRegistrationPreviewDto
 import kotlinx.collections.immutable.toImmutableList
 
 private const val CLOSED_STAGE_LABEL = "마감"
@@ -19,6 +24,26 @@ fun MyPageResponseDto.toModel(): MyPageModel =
         anonymousName = anonymousName,
         email = email,
         profileImageUrl = profileImageUrl,
+    )
+
+fun MyPageSummaryResponseDto.toModel(): MyPageSummaryModel =
+    MyPageSummaryModel(
+        nickname = member.nickname,
+        profileImageUrl = member.profileImageUrl,
+        point = member.point,
+        rejectedCertificationCount = passCertification.rejectedCount,
+        approvedCertificationCount = passCertification.approvedCount,
+        hasUpcomingAnnouncement = hasUpcomingAnnouncement,
+    )
+
+fun MyRegistrationPreviewDto.toModel(): MyRecentApplicationModel =
+    MyRecentApplicationModel(
+        id = postingId,
+        title = title,
+        stageName = currentState,
+        participantCount = applicantCount,
+        appliedDate = appliedAt.toTimeFormat("yyyy.MM.dd"),
+        logoImageUrl = logoImageUrl,
     )
 
 fun MyApplicationResponseDto.toModel(): MyApplicationListModel =

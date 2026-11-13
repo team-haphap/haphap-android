@@ -12,6 +12,8 @@ import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
+import com.haphap.app.data.model.mypage.MyPageSummaryModel
+import com.haphap.app.data.model.mypage.MyRecentApplicationModel
 import com.haphap.app.data.remote.datasource.api.mypage.MyPageDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
@@ -37,6 +39,16 @@ class MyPageRepositoryImpl @Inject constructor(
         suspendRunCatching {
             val response = myPageDataSource.getMyPage().checkData()
             response.toModel()
+        }
+
+    override suspend fun getMyPageSummary(): Result<MyPageSummaryModel> =
+        suspendRunCatching {
+            myPageDataSource.getMyPageSummary().checkData().toModel()
+        }
+
+    override suspend fun getMyRegistrationsPreview(): Result<List<MyRecentApplicationModel>> =
+        suspendRunCatching {
+            myPageDataSource.getMyRegistrationsPreview().checkData().registrations.map { it.toModel() }
         }
 
     override suspend fun getAccountInfo(): Result<AccountInfoModel> =

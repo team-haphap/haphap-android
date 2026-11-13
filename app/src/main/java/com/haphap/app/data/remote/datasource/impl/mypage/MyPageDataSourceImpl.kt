@@ -8,6 +8,8 @@ import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyRegistrationsPreviewResponseDto
 import com.haphap.app.data.remote.service.MyPageService
 import jakarta.inject.Inject
 import okhttp3.MultipartBody
@@ -20,6 +22,12 @@ class MyPageDataSourceImpl @Inject constructor(
     override suspend fun getMyPage(): BaseResponse<MyPageResponseDto> {
         return myPageService.getMyPage()
     }
+
+    override suspend fun getMyPageSummary(): BaseResponse<MyPageSummaryResponseDto> =
+        myPageService.getMyPageSummary()
+
+    override suspend fun getMyRegistrationsPreview(): BaseResponse<MyRegistrationsPreviewResponseDto> =
+        myPageService.getMyRegistrationsPreview()
 
     override suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto> {
         return myPageService.getAccountInfo()

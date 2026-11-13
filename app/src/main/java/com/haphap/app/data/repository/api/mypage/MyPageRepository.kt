@@ -6,9 +6,13 @@ import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
+import com.haphap.app.data.model.mypage.MyPageSummaryModel
+import com.haphap.app.data.model.mypage.MyRecentApplicationModel
 
 interface MyPageRepository {
     suspend fun getMyPage(): Result<MyPageModel>
+    suspend fun getMyPageSummary(): Result<MyPageSummaryModel>
+    suspend fun getMyRegistrationsPreview(): Result<List<MyRecentApplicationModel>>
     suspend fun getAccountInfo(): Result<AccountInfoModel>
     suspend fun getProfile(): Result<MyPageProfileModel>
     suspend fun getNicknameValidation(nickname: String): Result<Boolean>
