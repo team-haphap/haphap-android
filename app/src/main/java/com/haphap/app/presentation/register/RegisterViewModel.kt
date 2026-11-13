@@ -388,13 +388,7 @@ class RegisterViewModel @Inject constructor(
         _uiState.update { it.copy(registerUiState = RegisterUiState.Loading) }
 
         viewModelScope.launch {
-            val imageIds = if (selectedResult == PassResultStatusType.PASS) {
-                state.uploadedProofImageIds
-            } else {
-                persistentListOf()
-            }
-
-            val registerInfo = baseInfo.copy(verificationImageIds = imageIds)
+            val registerInfo = baseInfo.copy(verificationImageIds = state.uploadedProofImageIds)
 
             registerRepository.postRegister(registerInfo)
                 .onSuccess { registration ->
