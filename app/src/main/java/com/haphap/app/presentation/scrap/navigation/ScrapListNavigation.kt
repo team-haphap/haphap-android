@@ -24,9 +24,7 @@ fun NavGraphBuilder.scrapListGraph(
     composable<ScrapList> {
         ScrapListRoute(
             navigateBack = dropUnlessResumed { navController.popBackStack() },
-            navigateToJobDetail = { postingId ->
-                navController.navigateToJobDetail(postingId = postingId)
-            },
+            navigateToJobDetail = navController::navigateToJobDetail,
             modifier = Modifier.padding(innerPadding),
         )
     }
