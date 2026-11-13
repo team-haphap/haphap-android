@@ -50,8 +50,6 @@ private fun AccountInfoScreen(
             onBackClick = onBackClick,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         AccountInfoItem(
             label = "로그인 수단",
             content = uiState.loginProvider,

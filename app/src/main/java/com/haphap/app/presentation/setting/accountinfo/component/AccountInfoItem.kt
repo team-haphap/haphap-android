@@ -28,7 +28,9 @@ fun AccountInfoItem(
     @DrawableRes trailingImgRes: Int? = null,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top  = 16.dp),
     ) {
         Text(
             text = label,
