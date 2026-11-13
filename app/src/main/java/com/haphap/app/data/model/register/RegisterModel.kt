@@ -1,7 +1,5 @@
 package com.haphap.app.data.model.register
 
-import com.haphap.app.presentation.register.type.NotificationChannelType
-import com.haphap.app.presentation.register.type.RegisterResultType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -14,4 +12,5 @@ data class RegisterModel(
     val contactedMethod: ImmutableList<NotificationChannelType> = persistentListOf(),
     val anonymous: Boolean = false,
     val alarmEnabled: Boolean = false,
+    val verificationImageIds: ImmutableList<Long> = persistentListOf(),
 )

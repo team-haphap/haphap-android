@@ -18,8 +18,8 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 @Composable
 fun RegisterProgressBar(
     progress: Int,
+    totalSteps: Int,
     modifier: Modifier = Modifier,
-    totalSteps: Int = 3,
 ) {
     Row (
         modifier = modifier
