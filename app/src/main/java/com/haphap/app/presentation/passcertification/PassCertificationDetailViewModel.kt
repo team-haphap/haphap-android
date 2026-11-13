@@ -14,10 +14,7 @@ import com.haphap.app.presentation.passcertification.navigation.PassCertificatio
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -79,16 +76,32 @@ class PassCertificationDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             val pickedImages = uris.distinct().map { it.toCertificationImage() }
+            var acceptedImages = emptyList<PassCertificationImageModel>()
 
             _uiState.update { state ->
                 if (state.isSubmitting) return@update state
 
-                val acceptedImages = pickedImages
+                acceptedImages = pickedImages
                     .filterNot { picked -> state.newImages.any { it.uri == picked.uri } }
                     .take(state.remainingImageCount)
 
                 state.copy(newImages = (state.newImages + acceptedImages).toImmutableList())
             }
+
+            acceptedImages
+                .filterNot { it.isError }
+                .forEach { image -> uploadImage(image.uri) }
+        }
+    }
+
+    private fun uploadImage(uri: String) {
+        viewModelScope.launch {
+            passCertificationRepository.postVerificationImage(Uri.parse(uri))
+                .onSuccess { imageId -> updateImage(uri) { it.copy(imageId = imageId) } }
+                .onFailure { throwable ->
+                    Timber.e(throwable, "pass certification image upload failed")
+                    updateImage(uri) { it.copy(isError = true) }
+                }
         }
     }
 
@@ -104,16 +117,16 @@ class PassCertificationDetailViewModel @Inject constructor(
 
     fun onResubmitClick() {
         val state = _uiState.value
-        val validImages = state.newImages.filter { !it.isError }
-        if (state.isSubmitting || validImages.isEmpty()) return
+        if (state.isSubmitting || !state.isResubmitEnabled) return
+
+        val imageIds = state.newImages
+            .filter { !it.isError }
+            .mapNotNull { it.imageId }
 
         _uiState.update { it.copy(isSubmitting = true) }
 
         viewModelScope.launch {
-            uploadImages(validImages)
-                .mapCatching { imageIds ->
-                    passCertificationRepository.putVerificationImages(registrationId, imageIds).getOrThrow()
-                }
+            passCertificationRepository.putVerificationImages(registrationId, imageIds)
                 .onSuccess {
                     _uiState.update { it.copy(isSubmitting = false) }
                     _sideEffect.send(NavigateToComplete)
@@ -126,27 +139,14 @@ class PassCertificationDetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun uploadImages(images: List<PassCertificationImageModel>): Result<List<Long>> {
-        val results = coroutineScope {
-            images.map { image ->
-                async {
-                    image.imageId?.let { Result.success(it) }
-                        ?: passCertificationRepository.postVerificationImage(Uri.parse(image.uri))
-                            .onSuccess { imageId -> saveUploadedImageId(image.uri, imageId) }
-                }
-            }.awaitAll()
-        }
-
-        results.firstNotNullOfOrNull { it.exceptionOrNull() }?.let { return Result.failure(it) }
-
-        return Result.success(results.map { it.getOrThrow() })
-    }
-
-    private fun saveUploadedImageId(uri: String, imageId: Long) {
+    private fun updateImage(
+        uri: String,
+        transform: (PassCertificationImageModel) -> PassCertificationImageModel,
+    ) {
         _uiState.update { state ->
             state.copy(
                 newImages = state.newImages
-                    .map { if (it.uri == uri) it.copy(imageId = imageId) else it }
+                    .map { if (it.uri == uri) transform(it) else it }
                     .toImmutableList(),
             )
         }

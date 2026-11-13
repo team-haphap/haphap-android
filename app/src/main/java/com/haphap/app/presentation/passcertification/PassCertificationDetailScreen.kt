@@ -87,6 +87,7 @@ fun PassCertificationDetailRoute(
         certification = uiState.certification,
         isResubmitMode = uiState.isResubmitMode,
         newImages = uiState.newImages,
+        isResubmitEnabled = uiState.isResubmitEnabled,
         onBackClick = navigateBack,
         onSubmitClick = viewModel::onSubmitClick,
         onAddImageClick = {
@@ -108,6 +109,7 @@ fun PassCertificationDetailScreen(
     certification: PassCertificationDetailModel,
     isResubmitMode: Boolean,
     newImages: ImmutableList<PassCertificationImageModel>,
+    isResubmitEnabled: Boolean,
     onBackClick: () -> Unit,
     onSubmitClick: () -> Unit,
     onAddImageClick: () -> Unit,
@@ -137,7 +139,7 @@ fun PassCertificationDetailScreen(
                     text = if (isResubmitMode) "다시 제출하기" else "인증자료 제출하기",
                     textStyle = HapHapTheme.typography.body.b18,
                     colorType = ButtonType.Primary(
-                        enabled = !isResubmitMode || newImages.any { !it.isError },
+                        enabled = !isResubmitMode || isResubmitEnabled,
                     ),
                     onClick = if (isResubmitMode) onResubmitClick else onSubmitClick,
                     modifier = Modifier
@@ -197,6 +199,7 @@ private fun PassCertificationDetailScreenPreview() {
             certification = previewCertification,
             isResubmitMode = false,
             newImages = persistentListOf(),
+            isResubmitEnabled = false,
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},
@@ -214,6 +217,7 @@ private fun PassCertificationDetailScreenResubmitPreview() {
             certification = previewCertification,
             isResubmitMode = true,
             newImages = persistentListOf(),
+            isResubmitEnabled = false,
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},
@@ -231,9 +235,10 @@ private fun PassCertificationDetailScreenResubmitWithImagePreview() {
             certification = previewCertification,
             isResubmitMode = true,
             newImages = persistentListOf(
-                PassCertificationImageModel(uri = ""),
+                PassCertificationImageModel(uri = "", imageId = 1),
                 PassCertificationImageModel(uri = "", isError = true),
             ),
+            isResubmitEnabled = true,
             onBackClick = {},
             onSubmitClick = {},
             onAddImageClick = {},

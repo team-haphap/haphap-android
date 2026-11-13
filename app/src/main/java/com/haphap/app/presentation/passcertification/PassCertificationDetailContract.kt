@@ -18,6 +18,12 @@ sealed interface PassCertificationDetailContract {
     ) {
         val remainingImageCount: Int
             get() = MAX_CERTIFICATION_IMAGE_COUNT - newImages.size
+
+        val isResubmitEnabled: Boolean
+            get() {
+                val validImages = newImages.filter { !it.isError }
+                return validImages.isNotEmpty() && validImages.all { it.imageId != null }
+            }
     }
 
     sealed interface SideEffect {
