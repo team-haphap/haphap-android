@@ -38,10 +38,8 @@ fun PassCardDetailChipList(
         ) {
             HapHapFilterChip(
                 content = FilterChipContent.TextContent(it.stageName),
-                onFilterClick = {
-                    if (it.id != selectedChip) onStageClick(it.id)
-                },
-                isFilterSelected = it.id == selectedChip, //Todo: 추후 api 연결하면서 수정
+                onFilterClick = { onStageClick(it.id) },
+                isFilterSelected = it.id == selectedChip,
             )
         }
     }
