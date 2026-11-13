@@ -23,7 +23,7 @@ val Sub400 = Color(0xFF041B50)
 val Yellow = Color(0xFFFEE500)
 
 val SubRed = Color(0xFFFF7D7D)
-val SubRedLight = Color(0xFFFFF0F0)
+val SubRed2 = Color(0xFFFFF0F0)
 
 val Gray50 = Color(0xFFFAFBFB)
 val Gray100 = Color(0xFFF3F4F7)
@@ -50,7 +50,7 @@ data class HapHapColors(
     val sub400: Color,
     val yellow: Color,
     val subred: Color,
-    val subredLight: Color,
+    val subred2: Color,
     val gray50: Color,
     val gray100: Color,
     val gray200: Color,
@@ -75,7 +75,7 @@ val defaultHapHapColors = HapHapColors(
     sub400 = Sub400,
     yellow = Yellow,
     subred = SubRed,
-    subredLight = SubRedLight,
+    subred2 = SubRed2,
     gray50 = Gray50,
     gray100 = Gray100,
     gray200 = Gray200,
@@ -106,7 +106,7 @@ private fun ColorPreview() {
                 HapHapTheme.colors.sub400,
                 HapHapTheme.colors.yellow,
                 HapHapTheme.colors.subred,
-                HapHapTheme.colors.subredLight,
+                HapHapTheme.colors.subred2,
 
                 HapHapTheme.colors.gray50,
                 HapHapTheme.colors.gray100,

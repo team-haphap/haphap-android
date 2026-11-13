@@ -124,7 +124,7 @@ private fun PassCertificationRejectChip(
         color = HapHapTheme.colors.subred,
         modifier = modifier
             .clip(shape = CircleShape)
-            .background(color = HapHapTheme.colors.subredLight)
+            .background(color = HapHapTheme.colors.subred2)
             .padding(horizontal = 6.dp, vertical = 2.dp),
     )
 }

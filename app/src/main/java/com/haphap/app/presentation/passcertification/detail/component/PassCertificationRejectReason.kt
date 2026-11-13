@@ -32,7 +32,7 @@ fun PassCertificationRejectReason(
         modifier = modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(6.dp))
-            .background(color = HapHapTheme.colors.subredLight)
+            .background(color = HapHapTheme.colors.subred2)
             .padding(horizontal = 10.dp, vertical = 12.dp),
     ) {
         Row(
