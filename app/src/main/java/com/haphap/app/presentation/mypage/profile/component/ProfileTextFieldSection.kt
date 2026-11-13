@@ -1,10 +1,10 @@
 package com.haphap.app.presentation.mypage.profile.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -56,7 +56,8 @@ fun ProfileTextFieldSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 12.dp)
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(
             text = text,
@@ -64,15 +65,11 @@ fun ProfileTextFieldSection(
             color = HapHapTheme.colors.black,
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
         ProfileTextField(
             state = state,
             isError = isError,
             inputTransformation = inputTransformation,
         )
-
-        Spacer(modifier = Modifier.height(12.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
