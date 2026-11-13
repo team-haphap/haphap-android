@@ -24,6 +24,7 @@ fun JobDetailDto.toJobDetailModel(): JobDetailModel {
         participant = toJobParticipantModel(),
         reports = toJobStepReportModels(),
         alarmEnabled = alarmEnabled,
+        isScrapped = isScrapped,
     )
 }
 

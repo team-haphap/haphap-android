@@ -112,6 +112,7 @@ class JobDetailViewModel @Inject constructor(
                             participant = model.participant,
                             reports = model.reports,
                             isAlarmActive = model.alarmEnabled,
+                            isScrapActive = model.isScrapped,
                             uiState = JobDetailUiState.Success,
                         )
                     }
