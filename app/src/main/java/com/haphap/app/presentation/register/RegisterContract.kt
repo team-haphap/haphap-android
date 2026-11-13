@@ -48,7 +48,7 @@ sealed interface RegisterContract {
                 RegisterStep.CONTACT ->
                     isContactDateTimeValid && registerInfo.contactedMethod.isNotEmpty()
 
-                RegisterStep.PASS_PROOF -> proofImages.any { it.error == null }
+                RegisterStep.PASS_PROOF -> proofImages.any { it.isUploaded }
 
                 RegisterStep.CONFIRM ->
                     registerInfo.anonymous && registerUiState !is RegisterUiState.Loading
@@ -68,8 +68,14 @@ sealed interface RegisterContract {
 
         val validProofImageUris: ImmutableList<Uri>
             get() = proofImages
-                .filter { it.error == null }
+                .filter { it.isUploaded }
                 .map { it.uri }
+                .toImmutableList()
+
+        val uploadedProofImageIds: ImmutableList<Long>
+            get() = proofImages
+                .filter { it.isUploaded }
+                .mapNotNull { it.imageId }
                 .toImmutableList()
 
         fun toggleNotificationChannel(channel: NotificationChannelType): State =

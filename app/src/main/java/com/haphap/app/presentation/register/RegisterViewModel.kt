@@ -22,14 +22,10 @@ import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import com.haphap.app.presentation.register.type.RegisterStep
 import com.haphap.app.presentation.register.type.toResultType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -277,6 +273,36 @@ class RegisterViewModel @Inject constructor(
             _uiState.update { state ->
                 state.copy(proofImages = (state.proofImages + newImages).toImmutableList())
             }
+
+            newImages
+                .filter { it.error == null }
+                .forEach { uploadProofImage(it.uri) }
+        }
+    }
+
+    private fun uploadProofImage(uri: Uri) {
+        viewModelScope.launch {
+            registerRepository.postVerificationImage(uri)
+                .onSuccess { imageId ->
+                    updateProofImage(uri) { it.copy(imageId = imageId) }
+                }
+                .onFailure { e ->
+                    Timber.e(e, "proof image upload failed")
+                    updateProofImage(uri) { it.copy(error = RegisterProofImageErrorType.LOAD_FAILED) }
+                }
+        }
+    }
+
+    private fun updateProofImage(
+        uri: Uri,
+        transform: (RegisterProofImageModel) -> RegisterProofImageModel,
+    ) {
+        _uiState.update { state ->
+            state.copy(
+                proofImages = state.proofImages
+                    .map { if (it.uri == uri) transform(it) else it }
+                    .toImmutableList()
+            )
         }
     }
 
@@ -351,10 +377,7 @@ class RegisterViewModel @Inject constructor(
 
         viewModelScope.launch {
             val imageIds = if (selectedResult == PassResultStatusType.PASS) {
-                uploadProofImages().getOrElse { e ->
-                    onRegisterFailed(e)
-                    return@launch
-                }
+                state.uploadedProofImageIds
             } else {
                 persistentListOf()
             }
@@ -372,44 +395,6 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure(::onRegisterFailed)
-        }
-    }
-
-    private suspend fun uploadProofImages(): Result<ImmutableList<Long>> {
-        val targets = _uiState.value.proofImages
-            .filter { it.error == null && it.imageId == null }
-
-        val failure = coroutineScope {
-            targets.map { image ->
-                async {
-                    registerRepository.postVerificationImage(image.uri)
-                        .onSuccess { imageId ->
-                            saveUploadedImageId(image.uri, imageId)
-                        }
-                        .exceptionOrNull()
-                }
-            }.awaitAll().firstOrNull { it != null }
-        }
-        if (failure != null) return Result.failure(failure)
-
-        val imageIds = _uiState.value.proofImages
-            .filter { it.error == null }
-            .mapNotNull { it.imageId }
-            .toImmutableList()
-
-        return Result.success(imageIds)
-    }
-
-    private fun saveUploadedImageId(uri: Uri, imageId: Long) {
-        _uiState.update { state ->
-            state.copy(
-                proofImages = state.proofImages
-                    .map {
-                        if (it.uri == uri) it.copy(imageId = imageId)
-                        else it
-                    }
-                    .toImmutableList()
-            )
         }
     }
 

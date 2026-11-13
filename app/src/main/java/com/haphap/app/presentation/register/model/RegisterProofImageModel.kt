@@ -11,4 +11,7 @@ data class RegisterProofImageModel(
     val fileSize: String,
     val error: RegisterProofImageErrorType? = null,
     val imageId: Long? = null,
-)
+) {
+    val isUploaded: Boolean
+        get() = error == null && imageId != null
+}
