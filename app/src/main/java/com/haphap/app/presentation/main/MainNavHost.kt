@@ -14,6 +14,7 @@ import com.haphap.app.presentation.home.navigation.homeGraph
 import com.haphap.app.presentation.jobdetail.navigation.jobDetailGraph
 import com.haphap.app.presentation.joblist.navigation.jobListGraph
 import com.haphap.app.presentation.leave.navigation.leaveGraph
+import com.haphap.app.presentation.myapplication.navigation.myApplicationGraph
 import com.haphap.app.presentation.mypage.navigation.myPageGraph
 import com.haphap.app.presentation.passcertification.navigation.passCertificationGraph
 import com.haphap.app.presentation.passcard.navigation.passCardGraph
@@ -80,6 +81,11 @@ fun MainNavHost(
         )
 
         myPageGraph(
+            innerPadding = innerPadding,
+            navController = navController,
+        )
+
+        myApplicationGraph(
             innerPadding = innerPadding,
             navController = navController,
         )

@@ -4,10 +4,11 @@ import android.content.Context
 import android.net.Uri
 import com.haphap.app.core.fcm.FirebaseMessagingManager
 import com.haphap.app.core.util.suspendRunCatching
-import com.haphap.app.data.local.datasource.api.LocalFcmDataSource
 import com.haphap.app.data.local.datasource.api.LocalTokenDataSource
 import com.haphap.app.data.mapper.mypage.toModel
 import com.haphap.app.data.mapper.mypage.toProfileModel
+import com.haphap.app.data.model.myapplication.MyApplicationFilter
+import com.haphap.app.data.model.myapplication.MyApplicationListModel
 import com.haphap.app.data.model.mypage.AccountInfoModel
 import com.haphap.app.data.model.mypage.MyPageModel
 import com.haphap.app.data.model.mypage.MyPageProfileModel
@@ -30,7 +31,6 @@ class MyPageRepositoryImpl @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val myPageDataSource: MyPageDataSource,
     private val localTokenDataSource: LocalTokenDataSource,
-    private val localFcmDataSource: LocalFcmDataSource,
     private val firebaseMessagingManager: FirebaseMessagingManager,
 ) : MyPageRepository {
     override suspend fun getMyPage(): Result<MyPageModel> =
@@ -99,6 +99,11 @@ class MyPageRepositoryImpl @Inject constructor(
             }
 
             localTokenDataSource.clearTokens()
+        }
+
+    override suspend fun getMyApplicationList(filter: MyApplicationFilter): Result<MyApplicationListModel> =
+        suspendRunCatching {
+            myPageDataSource.getMyApplicationList(filter.filterValue).checkData().toModel()
         }
 
     private suspend fun Uri.toProfileImagePart(): MultipartBody.Part =
