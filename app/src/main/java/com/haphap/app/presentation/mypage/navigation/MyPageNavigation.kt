@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.mypage.MyPageRoute
 import com.haphap.app.presentation.mypage.profile.ProfileRoute
+import com.haphap.app.presentation.passcard.navigation.navigateToPassCardStorage
 import com.haphap.app.presentation.setting.navigation.navigateToSetting
 import kotlinx.serialization.Serializable
 
@@ -28,7 +29,7 @@ fun NavGraphBuilder.myPageGraph(
     composable<MyPage> {
         MyPageRoute(
             navigateBack = navController::popBackStack,
-            navigateToSetting = navController::navigateToSetting,
+            navigateToSetting = navController::navigateToPassCardStorage,
             modifier = Modifier.padding(innerPadding),
         )
     }

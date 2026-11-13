@@ -1,0 +1,122 @@
+package com.haphap.app.presentation.passcertification.complete
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import com.haphap.app.R
+import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
+import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.toastBottomInset
+
+@Composable
+fun PassCertificationCompleteRoute(
+    navigateToList: () -> Unit,
+    navigateToMyPage: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: PassCertificationCompleteViewModel = hiltViewModel(),
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    PassCertificationCompleteViewModel.SideEffect.NavigateToList -> navigateToList()
+                    PassCertificationCompleteViewModel.SideEffect.NavigateToMyPage -> navigateToMyPage()
+                }
+            }
+        }
+    }
+
+    PassCertificationCompleteScreen(
+        onCompleteClick = viewModel::onCompleteClick,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun PassCertificationCompleteScreen(
+    onCompleteClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Scaffold(
+        modifier = modifier,
+        containerColor = HapHapTheme.colors.white,
+        contentWindowInsets = WindowInsets(0),
+        bottomBar = {
+            HapHapBasicButton(
+                text = "완료",
+                textStyle = HapHapTheme.typography.body.b18,
+                colorType = ButtonType.Primary(enabled = true),
+                onClick = onCompleteClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .toastBottomInset(),
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(start = 20.dp, end = 20.dp, top = 36.dp, bottom = 10.dp),
+        ) {
+            Text(
+                text = "제출이 완료되었어요!",
+                style = HapHapTheme.typography.subtitle.b22,
+                color = HapHapTheme.colors.gray800,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "소중한 결과를 등록해주셔서 감사해요.\n결과는 알림으로 알려드릴게요.",
+                style = HapHapTheme.typography.body.m14,
+                color = HapHapTheme.colors.gray500,
+            )
+
+            Spacer(modifier = Modifier.weight(136f / 346f))
+
+            Image(
+                painter = painterResource(R.drawable.img_register_check),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(210.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
+
+            Spacer(modifier = Modifier.weight(210f / 346f))
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PassCertificationCompleteScreenPreview() {
+    HapHapTheme {
+        PassCertificationCompleteScreen(
+            onCompleteClick = {},
+        )
+    }
+}
