@@ -12,7 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface SearchService {
-    @GET("/api/v1/search/popular-keywords")
+    @GET("api/v1/search/popular-keywords")
     suspend fun getPopularKeywordList(): BaseResponse<PopularKeywordListResponseDto>
 
     @GET("api/v1/search/autocomplete")
@@ -21,7 +21,7 @@ interface SearchService {
         q: String? = null,
     ): BaseResponse<SearchingListResponseDto>
 
-    @GET("/api/v1/search/postings")
+    @GET("api/v1/search/postings")
     suspend fun getSearchResultList(
         @Query("q")
         q: String? = null,
@@ -33,7 +33,7 @@ interface SearchService {
         size: Int? = null,
     ): BaseResponse<SearchResultListResponseDto>
 
-    @POST("/api/v1/search/executions")
+    @POST("api/v1/search/executions")
     suspend fun postSearchExecution(
         @Body request: SearchExecutionRequestDto,
     ): Response<Unit>

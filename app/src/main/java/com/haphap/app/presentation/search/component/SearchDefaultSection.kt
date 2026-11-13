@@ -33,7 +33,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-
 @Composable
 fun SearchDefaultSection(
     recentSearchUiState: SearchUiState,
