@@ -8,6 +8,7 @@ data class MyApplicationModel(
     val companyName: String,
     val title: String,
     val logoImageUrl: String,
-    val currentStage: String?,
+    val currentStage: String,
+    val isClosed: Boolean,
     val result: String,
 )

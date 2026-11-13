@@ -25,17 +25,19 @@ import com.haphap.app.core.designsystem.component.chip.HapHapInfoChip
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.InfoChipType
+import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun MyApplicationCardItem(
     logoImageUrl: String,
     company: String,
     title: String,
-    currentStage: String?,
+    currentStage: String,
+    isClosed: Boolean,
     result: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -46,6 +48,7 @@ fun MyApplicationCardItem(
                 color = HapHapTheme.colors.gray100,
                 shape = RoundedCornerShape(8.dp)
             )
+            .noRippleClickable(onClick = onClick)
             .padding(vertical = 14.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
@@ -72,8 +75,8 @@ fun MyApplicationCardItem(
 
             MyApplicationInfoRow(
                 label = "현재 전형",
-                chipText = currentStage ?: "마감",
-                chipType = if (currentStage == null) {
+                chipText = currentStage,
+                chipType = if (isClosed) {
                     InfoChipType.CLOSED_DARKNESS
                 } else {
                     InfoChipType.EXPECTED
@@ -142,7 +145,9 @@ private fun MyApplicationCardItemPreview() {
             company = "카카오2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용",
             title = "2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용2026 신입 개발자 공개채용",
             currentStage = "1차 면접",
+            isClosed = false,
             result = "1차 면접 아직 몰라요",
+            onClick = {},
             modifier = Modifier.padding(all = 20.dp),
         )
     }

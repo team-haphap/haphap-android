@@ -8,6 +8,8 @@ import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
 import kotlinx.collections.immutable.toImmutableList
 
+private const val CLOSED_STAGE_LABEL = "마감"
+
 fun MyPageResponseDto.toModel(): MyPageModel =
     MyPageModel(
         name = name,
@@ -29,6 +31,7 @@ private fun MyApplicationDto.toModel(): MyApplicationModel =
         companyName = companyName,
         title = title,
         logoImageUrl = logoImageUrl,
-        currentStage = currentState,
+        currentStage = currentState ?: CLOSED_STAGE_LABEL,
+        isClosed = currentState == null || currentState == CLOSED_STAGE_LABEL,
         result = myResult,
     )
