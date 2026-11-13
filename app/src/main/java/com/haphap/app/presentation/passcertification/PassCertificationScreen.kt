@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.passcertification.PassCertificationModel
-import com.haphap.app.presentation.passcertification.component.PassCertificationDescription
 import com.haphap.app.presentation.passcertification.component.PassCertificationItem
 import com.haphap.app.presentation.passcertification.component.PassCertificationTopBar
 import kotlinx.collections.immutable.ImmutableList
@@ -67,7 +67,12 @@ fun PassCertificationScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        PassCertificationDescription()
+        Text(
+            text = "반려된 합격 인증 내역이에요.\n내용을 확인한 후 다시 제출해 주세요.",
+            style = HapHapTheme.typography.body.sb13,
+            color = HapHapTheme.colors.gray400,
+            modifier = Modifier.padding(vertical = 12.dp),
+        )
 
         LazyColumn(
             contentPadding = PaddingValues(vertical = 12.dp),
