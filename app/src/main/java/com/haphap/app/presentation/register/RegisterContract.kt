@@ -64,7 +64,7 @@ sealed interface RegisterContract {
             }
 
         val remainingProofImageCount: Int
-            get() = MAX_PROOF_IMAGE_COUNT - proofImages.size
+            get() = MAX_PROOF_IMAGE_COUNT - proofImages.count { it.error == null }
 
         val validProofImageUris: ImmutableList<Uri>
             get() = proofImages

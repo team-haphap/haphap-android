@@ -38,7 +38,7 @@ fun RegisterPassProofSection(
             text = if (images.isEmpty()) {
                 "합격 인증을 남겨주세요!"
             } else {
-                "첨부된 이미지 (${images.size}/$MAX_PROOF_IMAGE_COUNT)"
+                "첨부된 이미지 (${images.count { it.error == null }}/$MAX_PROOF_IMAGE_COUNT)"
             },
             style = HapHapTheme.typography.body.b18,
             color = HapHapTheme.colors.gray800,
