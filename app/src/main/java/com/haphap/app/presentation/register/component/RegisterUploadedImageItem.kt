@@ -33,7 +33,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 fun RegisterUploadedImageItem(
     fileName: String,
     fileSize: String,
-    thumbnail: Uri?,
+    thumbnail: Uri,
     errorMessage: String?,
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -94,7 +94,7 @@ fun RegisterUploadedImageItem(
 
 @Composable
 private fun UploadedImageThumbnail(
-    thumbnail: Uri?,
+    thumbnail: Uri,
     isError: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -112,7 +112,7 @@ private fun UploadedImageThumbnail(
                 tint = HapHapTheme.colors.subred,
                 modifier = Modifier.size(32.dp),
             )
-        } else if (thumbnail != null) {
+        } else {
             UrlImage(
                 url = thumbnail.toString(),
                 contentScale = ContentScale.Crop,
@@ -129,7 +129,7 @@ private fun RegisterUploadedImageItemPreview() {
         RegisterUploadedImageItem(
             fileName = "합격메일_01.png",
             fileSize = "285.6KB",
-            thumbnail = null,
+            thumbnail = Uri.EMPTY,
             errorMessage = null,
             onRemoveClick = {},
         )
@@ -143,7 +143,7 @@ private fun RegisterUploadedImageItemErrorPreview() {
         RegisterUploadedImageItem(
             fileName = "합격메일_01.png",
             fileSize = "285.6KB",
-            thumbnail = null,
+            thumbnail = Uri.EMPTY,
             errorMessage = "이미지를 불러오는데 실패했어요.",
             onRemoveClick = {},
         )
