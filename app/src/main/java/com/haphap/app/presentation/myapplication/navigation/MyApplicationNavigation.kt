@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
+import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.myapplication.MyApplicationRoute
 import kotlinx.serialization.Serializable
 
@@ -22,6 +23,7 @@ fun NavGraphBuilder.myApplicationGraph(
     composable<MyApplication> {
         MyApplicationRoute(
             navigateBack = navController::popBackStack,
+            navigateToJobDetail = navController::navigateToJobDetail,
             modifier = Modifier.padding(innerPadding),
         )
     }

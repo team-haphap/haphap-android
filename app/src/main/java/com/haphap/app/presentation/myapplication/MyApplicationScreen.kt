@@ -34,6 +34,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun MyApplicationRoute(
     navigateBack: () -> Unit,
+    navigateToJobDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyApplicationViewModel = hiltViewModel(),
 ) {
@@ -43,6 +44,7 @@ fun MyApplicationRoute(
         uiState = uiState,
         onBackClick = navigateBack,
         onFilterClick = viewModel::onFilterClick,
+        onApplicationClick = navigateToJobDetail,
         modifier = modifier,
     )
 }
@@ -52,6 +54,7 @@ private fun MyApplicationScreen(
     uiState: MyApplicationContract.State,
     onBackClick: () -> Unit,
     onFilterClick: (MyApplicationFilterType) -> Unit,
+    onApplicationClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -115,7 +118,9 @@ private fun MyApplicationScreen(
                         company = it.companyName,
                         title = it.title,
                         currentStage = it.currentStage,
+                        isClosed = it.isClosed,
                         result = it.result,
+                        onClick = { onApplicationClick(it.postingId) },
                     )
                 }
             }
@@ -135,7 +140,8 @@ private fun MyApplicationScreenPreview() {
                         companyName = "카카오",
                         title = "2026 신입 개발자 공개채용 2026 신입 개발자 공개채용 2026 신입 개발자 공개채용 2026 신입 개발자 공개채용",
                         logoImageUrl = "",
-                        currentStage = null,
+                        currentStage = "마감",
+                        isClosed = true,
                         result = "서류 합격",
                     ),
                     MyApplicationModel(
@@ -144,6 +150,7 @@ private fun MyApplicationScreenPreview() {
                         title = "2026 신입 개발자 공개채용",
                         logoImageUrl = "",
                         currentStage = "서류",
+                        isClosed = false,
                         result = "서류 불합격",
                     ),
                     MyApplicationModel(
@@ -152,12 +159,14 @@ private fun MyApplicationScreenPreview() {
                         title = "2026 신입 개발자 공개채용",
                         logoImageUrl = "",
                         currentStage = "1차 면접",
+                        isClosed = false,
                         result = "1차 면접 아직 몰라요",
                     ),
                 ),
             ),
             onBackClick = {},
             onFilterClick = {},
+            onApplicationClick = {},
         )
     }
 }
@@ -170,6 +179,7 @@ private fun MyApplicationScreenEmptyPreview() {
             uiState = MyApplicationContract.State(),
             onBackClick = {},
             onFilterClick = {},
+            onApplicationClick = {},
         )
     }
 }
