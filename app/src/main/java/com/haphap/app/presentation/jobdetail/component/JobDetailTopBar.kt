@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,7 +62,7 @@ fun JobDetailTopBar(
         Icon(
             imageVector = ImageVector.vectorResource(id = scrapIconRes),
             contentDescription = null,
-            tint = Color.Unspecified,
+            tint = if (isScrapActive) HapHapTheme.colors.subred else HapHapTheme.colors.gray700,
             modifier = Modifier
                 .size(44.dp)
                 .noRippleClickable(onClick = onScrapClick),
