@@ -105,7 +105,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun validateNickname(nickname: String) {
-        myPageRepository.validateNickname(nickname)
+        myPageRepository.getNicknameValidation(nickname)
             .onSuccess { isAvailable ->
                 _uiState.update {
                     it.copy(
@@ -145,7 +145,7 @@ class ProfileViewModel @Inject constructor(
         val imageUri = _uiState.value.selectedImageUri
 
         viewModelScope.launch {
-            myPageRepository.updateProfile(
+            myPageRepository.patchProfile(
                 nickname = nickname.takeIf { it != originalNickname },
                 profileImageUri = imageUri,
             )

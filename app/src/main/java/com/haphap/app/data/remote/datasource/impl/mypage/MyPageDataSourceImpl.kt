@@ -19,14 +19,14 @@ class MyPageDataSourceImpl @Inject constructor(
         return myPageService.getMyPage()
     }
 
-    override suspend fun validateNickname(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>> =
-        myPageService.validateNickname(nickname)
+    override suspend fun getNicknameValidation(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>> =
+        myPageService.getNicknameValidation(nickname)
 
-    override suspend fun updateProfile(
+    override suspend fun patchProfile(
         nickname: RequestBody?,
         profileImage: MultipartBody.Part?,
     ): BaseResponse<MyPageResponseDto> =
-        myPageService.updateProfile(nickname, profileImage)
+        myPageService.patchProfile(nickname, profileImage)
 
     override suspend fun deleteMember(requestDto: LeaveRequestDto): Response<Unit> =
         myPageService.deleteMember(requestDto)

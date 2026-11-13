@@ -44,9 +44,9 @@ class MyPageRepositoryImpl @Inject constructor(
             response.toProfileModel()
         }
 
-    override suspend fun validateNickname(nickname: String): Result<Boolean> =
+    override suspend fun getNicknameValidation(nickname: String): Result<Boolean> =
         suspendRunCatching {
-            val response = myPageDataSource.validateNickname(nickname)
+            val response = myPageDataSource.getNicknameValidation(nickname)
 
             if (!response.isSuccessful && response.code() != 409) {
                 throw HttpException(response)
@@ -55,9 +55,9 @@ class MyPageRepositoryImpl @Inject constructor(
             response.isSuccessful
         }
 
-    override suspend fun updateProfile(nickname: String?, profileImageUri: Uri?): Result<Unit> =
+    override suspend fun patchProfile(nickname: String?, profileImageUri: Uri?): Result<Unit> =
         suspendRunCatching {
-            myPageDataSource.updateProfile(
+            myPageDataSource.patchProfile(
                 nickname = nickname?.toRequestBody("text/plain".toMediaType()),
                 profileImage = profileImageUri?.toProfileImagePart(),
             ).checkData()

@@ -22,13 +22,13 @@ interface MyPageService {
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
 
     @GET("api/v1/members/me/nickname/validation")
-    suspend fun validateNickname(
+    suspend fun getNicknameValidation(
         @Query("nickname") nickname: String,
     ): Response<BaseResponse<MyPageNicknameResponseDto>>
 
     @Multipart
     @PATCH("api/v1/members/me")
-    suspend fun updateProfile(
+    suspend fun patchProfile(
         @Part("nickname") nickname: RequestBody?,
         @Part profileImage: MultipartBody.Part?,
     ): BaseResponse<MyPageResponseDto>
