@@ -38,9 +38,11 @@ fun RegisterUploadedImageItem(
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 5.dp)
                 .padding(end = 5.dp),
