@@ -17,5 +17,8 @@ fun AccountInfoResponseDto.toModel(): AccountInfoModel =
     AccountInfoModel(
         name = name,
         email = email,
-        loginProvider = "카카오",
+        loginProvider = when (provider) {
+            "KAKAO" -> "카카오"
+            else -> provider
+        },
     )
