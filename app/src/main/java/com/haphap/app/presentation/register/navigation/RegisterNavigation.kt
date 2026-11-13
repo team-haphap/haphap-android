@@ -69,11 +69,6 @@ fun NavGraphBuilder.registerGraph(
                     },
                 )
             },
-            navigateToPassCard = { passCard ->
-                navController.navigateToRegisterPassCard(
-                    passCard = passCard
-                )
-            },
             modifier = Modifier.padding(innerPadding),
         )
     }

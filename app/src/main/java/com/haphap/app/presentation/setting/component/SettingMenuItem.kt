@@ -14,9 +14,9 @@ import com.haphap.app.core.extensions.noRippleClickable
 @Composable
 fun SettingMenuItem(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     textColor: Color = HapHapTheme.colors.gray700,
-    onClick: () -> Unit = {},
 ) {
     Text(
         text = text,
@@ -33,6 +33,9 @@ fun SettingMenuItem(
 @Composable
 private fun SettingMenuItemPreview() {
     HapHapTheme {
-        SettingMenuItem(text = "계정 정보")
+        SettingMenuItem(
+            text = "계정 정보",
+            onClick = {},
+        )
     }
 }

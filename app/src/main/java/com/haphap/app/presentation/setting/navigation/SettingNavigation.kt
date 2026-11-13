@@ -12,6 +12,7 @@ import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.leave.navigation.navigateToLeave
 import com.haphap.app.presentation.setting.SettingRoute
+import com.haphap.app.presentation.setting.accountinfo.navigation.navigateToAccountInfo
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToSetting(
@@ -25,6 +26,7 @@ fun NavGraphBuilder.settingGraph(
     composable<Setting> {
         SettingRoute(
             navigateBack = navController::popBackStack,
+            navigateToAccountInfo = navController::navigateToAccountInfo,
             navigateToLeave = navController::navigateToLeave,
             navigateToLogin = {
                 navController.navigateToLogin(

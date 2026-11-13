@@ -9,12 +9,17 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.mypage.MyPageRoute
+import com.haphap.app.presentation.mypage.profile.ProfileRoute
 import com.haphap.app.presentation.setting.navigation.navigateToSetting
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToMyPage(
     navOptions: NavOptions? = null,
 ) = navigate(MyPage, navOptions)
+
+fun NavController.navigateToProfile(
+    navOptions: NavOptions? = null,
+) = navigate(Profile, navOptions)
 
 fun NavGraphBuilder.myPageGraph(
     innerPadding: PaddingValues,
@@ -27,7 +32,17 @@ fun NavGraphBuilder.myPageGraph(
             modifier = Modifier.padding(innerPadding),
         )
     }
+
+    composable<Profile> {
+        ProfileRoute(
+            navigateBack = navController::popBackStack,
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
 }
 
 @Serializable
 data object MyPage: Route
+
+@Serializable
+data object Profile : Route
