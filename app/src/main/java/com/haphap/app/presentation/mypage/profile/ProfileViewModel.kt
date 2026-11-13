@@ -59,7 +59,8 @@ class ProfileViewModel @Inject constructor(
                     originalNickname = model.nickname
                     nicknameState.setTextAndPlaceCursorAtEnd(model.nickname)
                     _uiState.update {
-                        it.copy(profileImageUrl = model.profileImageUrl)
+                        if (it.selectedImageUri != null) it
+                        else it.copy(profileImageUrl = model.profileImageUrl)
                     }
                 }
                 .onFailure { error ->
@@ -141,18 +142,19 @@ class ProfileViewModel @Inject constructor(
 
     fun onSaveClick() {
         val nickname = nicknameState.text.toString()
+        val imageUri = _uiState.value.selectedImageUri
 
         viewModelScope.launch {
             myPageRepository.updateProfile(
                 nickname = nickname.takeIf { it != originalNickname },
-                profileImageUri = _uiState.value.selectedImageUri,
+                profileImageUri = imageUri,
             )
                 .onSuccess {
                     originalNickname = nickname
                     _uiState.update {
                         it.copy(
-                            selectedImageUri = null,
-                            isNicknameChanged = false,
+                            selectedImageUri = it.selectedImageUri.takeIf { uri -> uri != imageUri },
+                            isNicknameChanged = nicknameState.text.toString() != nickname,
                         )
                     }
                     _sideEffect.send(ShowToast("변경사항이 저장됐어요."))
