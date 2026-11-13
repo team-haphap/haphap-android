@@ -17,6 +17,8 @@ import com.haphap.app.presentation.register.RegisterContract.SideEffect.Navigate
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenMultipleImagePicker
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenSingleImagePicker
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
 import com.haphap.app.presentation.register.type.RegisterStep
@@ -325,8 +327,16 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun onImageLimitExceeded() {
-        viewModelScope.launch { showImageLimitToast() }
+    fun onAddImageClick() {
+        val remainingCount = _uiState.value.remainingProofImageCount
+
+        viewModelScope.launch {
+            when {
+                remainingCount <= 0 -> showImageLimitToast()
+                remainingCount == 1 -> _sideEffect.send(OpenSingleImagePicker)
+                else -> _sideEffect.send(OpenMultipleImagePicker)
+            }
+        }
     }
 
     private suspend fun showImageLimitToast() {

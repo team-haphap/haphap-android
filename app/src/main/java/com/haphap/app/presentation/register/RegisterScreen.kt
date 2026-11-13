@@ -33,6 +33,8 @@ import com.haphap.app.presentation.register.RegisterContract.SideEffect.Navigate
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenMultipleImagePicker
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenSingleImagePicker
 import com.haphap.app.presentation.register.component.RegisterCompleteSection
 import com.haphap.app.presentation.register.component.RegisterConfirmSection
 import com.haphap.app.presentation.register.component.RegisterContactSection
@@ -75,6 +77,10 @@ fun RegisterRoute(
         viewModel.onImagesPicked(uris)
     }
 
+    val imageOnlyRequest = remember {
+        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+    }
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
@@ -86,6 +92,8 @@ fun RegisterRoute(
                     is NavigateBack -> navigateBack()
                     is NavigateToHome -> navigateToHome()
                     is NavigateToJobDetail -> navigateToJobDetail(sideEffect.jobId)
+                    is OpenSingleImagePicker -> singleImagePicker.launch(imageOnlyRequest)
+                    is OpenMultipleImagePicker -> multipleImagePicker.launch(imageOnlyRequest)
                 }
             }
         }
@@ -105,17 +113,7 @@ fun RegisterRoute(
         onDateSelected = viewModel::onDateSelected,
         onTimeSelected = viewModel::onTimeSelected,
         onChannelToggled = viewModel::onChannelToggled,
-        onAddImageClick = {
-            val request = PickVisualMediaRequest(
-                ActivityResultContracts.PickVisualMedia.ImageOnly
-            )
-
-            when {
-                remainingCount <= 0 -> viewModel.onImageLimitExceeded()
-                remainingCount == 1 -> singleImagePicker.launch(request)
-                else -> multipleImagePicker.launch(request)
-            }
-        },
+        onAddImageClick = viewModel::onAddImageClick,
         onRemoveImage = viewModel::onRemoveImage,
         onAlarmAgreeToggled = viewModel::onAlarmAgreeToggled,
         onTermAgreeToggled = viewModel::onTermAgreeToggled,

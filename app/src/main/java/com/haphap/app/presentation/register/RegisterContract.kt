@@ -103,6 +103,10 @@ sealed interface RegisterContract {
         data class NavigateToJobDetail(
             val jobId: Int,
         ) : SideEffect()
+
+        data object OpenSingleImagePicker : SideEffect()
+
+        data object OpenMultipleImagePicker : SideEffect()
     }
 }
 
