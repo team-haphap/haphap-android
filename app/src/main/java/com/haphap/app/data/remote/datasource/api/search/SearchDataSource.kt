@@ -5,6 +5,7 @@ import com.haphap.app.data.remote.dto.search.PopularKeywordListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
+import retrofit2.Response
 
 interface SearchDataSource {
     suspend fun getPopularKeywordList(): BaseResponse<PopularKeywordListResponseDto>
@@ -15,5 +16,5 @@ interface SearchDataSource {
         page: Int?,
         size: Int?,
     ): BaseResponse<SearchResultListResponseDto>
-    suspend fun postSearchExecution(request: SearchExecutionRequestDto): BaseResponse<Unit>
+    suspend fun postSearchExecution(request: SearchExecutionRequestDto): Response<Unit>
 }

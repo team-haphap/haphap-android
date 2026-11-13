@@ -7,6 +7,7 @@ import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
 import com.haphap.app.data.remote.service.SearchService
+import retrofit2.Response
 import javax.inject.Inject
 
 class SearchDataSourceImpl @Inject constructor(
@@ -35,6 +36,6 @@ class SearchDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun postSearchExecution(request: SearchExecutionRequestDto): BaseResponse<Unit> =
+    override suspend fun postSearchExecution(request: SearchExecutionRequestDto): Response<Unit> =
         searchService.postSearchExecution(request)
 }

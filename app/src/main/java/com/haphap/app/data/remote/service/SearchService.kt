@@ -5,6 +5,7 @@ import com.haphap.app.data.remote.dto.search.PopularKeywordListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchExecutionRequestDto
 import com.haphap.app.data.remote.dto.search.SearchResultListResponseDto
 import com.haphap.app.data.remote.dto.search.SearchingListResponseDto
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -35,5 +36,5 @@ interface SearchService {
     @POST("/api/v1/search/executions")
     suspend fun postSearchExecution(
         @Body request: SearchExecutionRequestDto,
-    ): BaseResponse<Unit>
+    ): Response<Unit>
 }
