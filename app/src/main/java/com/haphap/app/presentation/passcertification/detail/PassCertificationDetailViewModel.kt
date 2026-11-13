@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcertification
+package com.haphap.app.presentation.passcertification.detail
 
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.haphap.app.core.image.ImageFileInfoReader
 import com.haphap.app.data.repository.api.passcertification.PassCertificationRepository
-import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.NavigateToComplete
-import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.passcertification.detail.PassCertificationDetailContract.SideEffect.NavigateToComplete
+import com.haphap.app.presentation.passcertification.detail.PassCertificationDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.passcertification.model.PassCertificationImageModel
 import com.haphap.app.presentation.passcertification.navigation.PassCertificationDetail
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcertification
+package com.haphap.app.presentation.passcertification.detail
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.passcertification.PassCertificationDetailModel

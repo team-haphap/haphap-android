@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcertification
+package com.haphap.app.presentation.passcertification.detail
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -31,8 +31,8 @@ import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcertification.PassCertificationDetailModel
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
-import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.NavigateToComplete
-import com.haphap.app.presentation.passcertification.PassCertificationDetailContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.passcertification.detail.PassCertificationDetailContract.SideEffect.NavigateToComplete
+import com.haphap.app.presentation.passcertification.detail.PassCertificationDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.passcertification.component.PassCertificationAddImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationImageSection
 import com.haphap.app.presentation.passcertification.component.PassCertificationInfoSection

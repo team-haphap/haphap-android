@@ -1,4 +1,4 @@
-package com.haphap.app.presentation.passcertification
+package com.haphap.app.presentation.passcertification.complete
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

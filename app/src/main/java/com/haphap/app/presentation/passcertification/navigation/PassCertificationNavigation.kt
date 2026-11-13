@@ -11,9 +11,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.mypage.navigation.MyPage
-import com.haphap.app.presentation.passcertification.PassCertificationCompleteRoute
-import com.haphap.app.presentation.passcertification.PassCertificationDetailRoute
 import com.haphap.app.presentation.passcertification.PassCertificationRoute
+import com.haphap.app.presentation.passcertification.complete.PassCertificationCompleteRoute
+import com.haphap.app.presentation.passcertification.detail.PassCertificationDetailRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToPassCertification(
