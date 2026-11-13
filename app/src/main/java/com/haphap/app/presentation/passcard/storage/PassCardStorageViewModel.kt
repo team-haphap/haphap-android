@@ -37,7 +37,10 @@ class PassCardStorageViewModel @Inject constructor(
             passCardRepository.getPassCardStorage()
                 .onSuccess { list ->
                     _uiState.update {
-                        it.copy(passCardStorageList = list.toImmutableList())
+                        it.copy(
+                            passCardStorageList = list.toImmutableList(),
+                            isLoaded = true,
+                        )
                     }
                 }
                 .onFailure { error ->

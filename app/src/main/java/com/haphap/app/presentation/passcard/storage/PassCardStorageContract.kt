@@ -9,6 +9,7 @@ sealed interface PassCardStorageContract {
     @Immutable
     data class State(
         val passCardStorageList: ImmutableList<PassCardStorageModel> = persistentListOf(),
+        val isLoaded: Boolean = false,
     )
 
     sealed interface SideEffect {

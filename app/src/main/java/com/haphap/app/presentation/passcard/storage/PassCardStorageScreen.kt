@@ -96,7 +96,7 @@ fun PassCardStorageScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if (uiState.passCardStorageList.isEmpty()) {
+            if (uiState.isLoaded && uiState.passCardStorageList.isEmpty()) {
                 Spacer(modifier = Modifier.height(101.dp))
 
                 PassCardStorageEmptyComponent(onRegisterClick = onRegisterClick)
