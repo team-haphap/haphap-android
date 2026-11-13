@@ -1,6 +1,7 @@
 package com.haphap.app.data.remote.datasource.api.mypage
 
 import com.haphap.app.data.remote.dto.BaseResponse
+import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
@@ -11,6 +12,7 @@ import retrofit2.Response
 
 interface MyPageDataSource{
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
+    suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto>
     suspend fun getNicknameValidation(nickname: String): Response<BaseResponse<MyPageNicknameResponseDto>>
     suspend fun patchProfile(
         nickname: RequestBody?,

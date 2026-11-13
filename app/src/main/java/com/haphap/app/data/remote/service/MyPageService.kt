@@ -1,6 +1,7 @@
 package com.haphap.app.data.remote.service
 
 import com.haphap.app.data.remote.dto.BaseResponse
+import com.haphap.app.data.remote.dto.mypage.AccountInfoResponseDto
 import com.haphap.app.data.remote.dto.mypage.LeaveRequestDto
 import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
@@ -20,6 +21,9 @@ import retrofit2.http.Query
 interface MyPageService {
     @GET("api/v1/members/me")
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
+
+    @GET("api/v1/members/me/account")
+    suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto>
 
     @GET("api/v1/members/me/nickname/validation")
     suspend fun getNicknameValidation(
