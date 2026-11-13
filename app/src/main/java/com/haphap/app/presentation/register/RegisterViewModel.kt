@@ -197,7 +197,9 @@ class RegisterViewModel @Inject constructor(
                     val current = _uiState.value
                     if (
                         current.step != RegisterStep.RESULT ||
-                        current.selectedResult != requestedResult
+                        current.selectedResult != requestedResult ||
+                        current.registerInfo.postingId != postingId ||
+                        current.registerInfo.stageId != stageId
                     ) return@onSuccess
 
                     when (checkResult) {
