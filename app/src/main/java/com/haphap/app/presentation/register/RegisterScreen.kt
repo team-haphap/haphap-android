@@ -1,16 +1,20 @@
 package com.haphap.app.presentation.register
 
+import android.net.Uri
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -20,24 +24,27 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
-import com.haphap.app.core.extensions.toastBottomInset
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.toastBottomInset
+import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassCardModel
-import com.haphap.app.presentation.register.component.RegisterFifthSection
-import com.haphap.app.presentation.register.component.RegisterFirstSection
-import com.haphap.app.presentation.register.component.RegisterFourthSection
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenMultipleImagePicker
+import com.haphap.app.presentation.register.RegisterContract.SideEffect.OpenSingleImagePicker
+import com.haphap.app.presentation.register.component.RegisterCompleteSection
+import com.haphap.app.presentation.register.component.RegisterConfirmSection
+import com.haphap.app.presentation.register.component.RegisterContactSection
+import com.haphap.app.presentation.register.component.RegisterPassProofSection
 import com.haphap.app.presentation.register.component.RegisterProgressBar
-import com.haphap.app.presentation.register.component.RegisterSecondSection
-import com.haphap.app.presentation.register.component.RegisterThirdSection
+import com.haphap.app.presentation.register.component.RegisterResultSection
+import com.haphap.app.presentation.register.component.RegisterSelectProcessSection
 import com.haphap.app.presentation.register.component.RegisterTopBar
-import com.haphap.app.presentation.register.type.NotificationChannelType
-import com.haphap.app.presentation.register.type.PassResultStatusButton
+import com.haphap.app.presentation.register.type.PassResultStatusType
+import com.haphap.app.presentation.register.type.RegisterStep
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -46,11 +53,34 @@ fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Int) -> Unit,
-    navigateToPassCard: (passCard: RegisterPassCardModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val remainingCount = uiState.remainingProofImageCount
+
+    val singleImagePicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia(),
+    ) { uri ->
+        uri?.let { viewModel.onImagesPicked(listOf(it)) }
+    }
+
+    val multipleImagePickerContract = remember(remainingCount) {
+        ActivityResultContracts.PickMultipleVisualMedia(
+            maxItems = remainingCount.coerceAtLeast(2)
+        )
+    }
+    val multipleImagePicker = rememberLauncherForActivityResult(
+        multipleImagePickerContract
+    ) { uris ->
+        viewModel.onImagesPicked(uris)
+    }
+
+    val imageOnlyRequest = remember {
+        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+    }
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
@@ -59,12 +89,18 @@ fun RegisterRoute(
             viewModel.sideEffect.collect { sideEffect ->
                 when (sideEffect) {
                     is OnShowToast -> showToast.invoke(sideEffect.message, sideEffect.isAlarm)
+                    is NavigateBack -> navigateBack()
                     is NavigateToHome -> navigateToHome()
                     is NavigateToJobDetail -> navigateToJobDetail(sideEffect.jobId)
-                    is NavigateToPassCard -> navigateToPassCard(sideEffect.passCard)
+                    is OpenSingleImagePicker -> singleImagePicker.launch(imageOnlyRequest)
+                    is OpenMultipleImagePicker -> multipleImagePicker.launch(imageOnlyRequest)
                 }
             }
         }
+    }
+
+    BackHandler(enabled = uiState.step != RegisterStep.COMPLETE) {
+        viewModel.onBackClick()
     }
 
     RegisterScreen(
@@ -77,24 +113,12 @@ fun RegisterRoute(
         onDateSelected = viewModel::onDateSelected,
         onTimeSelected = viewModel::onTimeSelected,
         onChannelToggled = viewModel::onChannelToggled,
+        onAddImageClick = viewModel::onAddImageClick,
+        onRemoveImage = viewModel::onRemoveImage,
         onAlarmAgreeToggled = viewModel::onAlarmAgreeToggled,
         onTermAgreeToggled = viewModel::onTermAgreeToggled,
-        onNextClick = {
-            when (uiState.step) {
-                1 -> viewModel.onStep1NextClick()
-                2 -> viewModel.onStep2NextClick()
-                3 -> viewModel.onStep3NextClick()
-                4 -> viewModel.onRegisterClick()
-                5 -> viewModel.onFinishClick()
-            }
-        },
-        onBackClick = {
-            if (uiState.step == 1) {
-                navigateBack()
-            } else {
-                viewModel.onBackClick()
-            }
-        },
+        onNextClick = viewModel::onNextClick,
+        onBackClick = viewModel::onBackClick,
         modifier = modifier,
     )
 }
@@ -104,12 +128,14 @@ private fun RegisterScreen(
     uiState: RegisterContract.State,
     onAnnounceSelected: (RegisterDropDownItemModel) -> Unit,
     onProcessSelected: (Int) -> Unit,
-    onResultSelected: (PassResultStatusButton) -> Unit,
+    onResultSelected: (PassResultStatusType) -> Unit,
     onChangeModalConfirmClick: () -> Unit,
     onChangeModalCancelClick: () -> Unit,
     onDateSelected: (LocalDate) -> Unit,
     onTimeSelected: (LocalTime) -> Unit,
     onChannelToggled: (NotificationChannelType) -> Unit,
+    onAddImageClick: () -> Unit,
+    onRemoveImage: (Uri) -> Unit,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     onTermAgreeToggled: (Boolean) -> Unit,
     onNextClick: () -> Unit,
@@ -121,31 +147,25 @@ private fun RegisterScreen(
         containerColor = HapHapTheme.colors.white,
         contentWindowInsets = WindowInsets(0),
         topBar = {
-            if (uiState.step < 5) {
+            if (uiState.step.isTopBarVisible) {
                 Column {
                     RegisterTopBar(
                         onBackClick = onBackClick,
                         isText = true,
                     )
 
-                    if (uiState.step <= 3) {
+                    if (uiState.step.isProgressBarVisible) {
                         RegisterProgressBar(
-                            progress = uiState.step,
-                            totalSteps = 3,
+                            progress = uiState.step.progress,
+                            totalSteps = RegisterStep.progressStepCount,
                         )
-                    } else if (uiState.step == 4) {
-                        Spacer(modifier = Modifier.height(48.dp))
                     }
                 }
             }
         },
         bottomBar = {
             HapHapBasicButton(
-                text = when (uiState.step) {
-                    1, 2, 3 -> "다음"
-                    4 -> "등록하기"
-                    else -> "완료"
-                },
+                text = uiState.step.btnText,
                 textStyle = HapHapTheme.typography.body.b18,
                 colorType = ButtonType.Primary(enabled = uiState.isButtonEnabled),
                 onClick = onNextClick,
@@ -162,7 +182,7 @@ private fun RegisterScreen(
                 .fillMaxSize()
         ) {
             when (uiState.step) {
-                1 -> RegisterFirstSection(
+                RegisterStep.SELECT_PROCESS -> RegisterSelectProcessSection(
                     announceList = uiState.announceList,
                     selectedAnnounce = uiState.selectedAnnounce,
                     onAnnounceSelected = onAnnounceSelected,
@@ -173,7 +193,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                2 -> RegisterSecondSection(
+                RegisterStep.RESULT -> RegisterResultSection(
                     selectedResult = uiState.selectedResult,
                     onResultSelected = onResultSelected,
                     isChangeModalVisible = uiState.isChangeModalVisible,
@@ -182,7 +202,7 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                3 -> RegisterThirdSection(
+                RegisterStep.CONTACT -> RegisterContactSection(
                     contactDate = uiState.registerInfo.contactedDate,
                     onDateSelected = onDateSelected,
                     contactTime = uiState.registerInfo.contactedTime,
@@ -192,20 +212,30 @@ private fun RegisterScreen(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-                4 -> RegisterFourthSection(
+                RegisterStep.PASS_PROOF -> RegisterPassProofSection(
+                    images = uiState.proofImages,
+                    onAddImageClick = onAddImageClick,
+                    onRemoveImage = onRemoveImage,
+                    modifier = Modifier.fillMaxSize(),
+                )
+
+                RegisterStep.CONFIRM -> RegisterConfirmSection(
                     recruitName = uiState.selectedAnnounce?.text.orEmpty(),
-                    recruitProcess = uiState.processList.find { it.id == uiState.registerInfo.stageId }?.text.orEmpty(),
+                    recruitProcess = uiState.processList.find {
+                        it.id == uiState.registerInfo.stageId
+                    }?.text.orEmpty(),
                     contactDate = uiState.registerInfo.contactedDate,
                     contactTime = uiState.registerInfo.contactedTime,
-                    selectedResult = uiState.selectedResult ?: PassResultStatusButton.DONT_KNOW,
+                    selectedResult = uiState.selectedResult ?: PassResultStatusType.DONT_KNOW,
                     isAlarmAgreed = uiState.registerInfo.alarmEnabled,
                     onAlarmAgreeToggled = onAlarmAgreeToggled,
                     isTermAgreed = uiState.registerInfo.anonymous,
                     onTermAgreeToggled = onTermAgreeToggled,
-                    modifier = Modifier.fillMaxSize()
+                    proofImages = uiState.validProofImageUris,
+                    modifier = Modifier.fillMaxSize(),
                 )
 
-                5 -> RegisterFifthSection(
+                RegisterStep.COMPLETE -> RegisterCompleteSection(
                     modifier = Modifier.fillMaxSize(),
                 )
             }

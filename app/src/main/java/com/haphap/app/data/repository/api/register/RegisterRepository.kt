@@ -1,9 +1,10 @@
 package com.haphap.app.data.repository.api.register
 
+import android.net.Uri
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
-import com.haphap.app.presentation.register.type.RegisterResultType
+import com.haphap.app.data.model.register.RegisterResultType
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.model.register.RegistrationModel
 
@@ -12,4 +13,5 @@ interface RegisterRepository {
     suspend fun getRegisterPostStages(postingId: Int): Result<List<RegisterProcessModel>>
     suspend fun postRegister(registerInfo: RegisterModel): Result<RegistrationModel>
     suspend fun postCheckRegistration(postingId: Int, stageId: Int, result: RegisterResultType): Result<RegistrationCheckType>
+    suspend fun postVerificationImage(uri: Uri): Result<Long>
 }

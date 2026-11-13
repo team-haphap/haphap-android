@@ -7,8 +7,10 @@ import com.haphap.app.data.remote.dto.register.RegisterRequestDto
 import com.haphap.app.data.remote.dto.register.RegisterStageListResponseDto
 import com.haphap.app.data.remote.dto.register.RegistrationCheckRequestDto
 import com.haphap.app.data.remote.dto.register.RegistrationResponseDto
+import com.haphap.app.data.remote.dto.register.VerificationImageUploadResponseDto
 import com.haphap.app.data.remote.service.RegisterService
 import jakarta.inject.Inject
+import okhttp3.MultipartBody
 
 class RegisterDataSourceImpl @Inject constructor(
     private val registerService: RegisterService
@@ -31,5 +33,11 @@ class RegisterDataSourceImpl @Inject constructor(
         request: RegistrationCheckRequestDto,
     ): BaseResponse<Unit> {
         return registerService.postRegistrationCheck(postingId, stageId, request)
+    }
+
+    override suspend fun postVerificationImage(
+        file: MultipartBody.Part,
+    ): BaseResponse<VerificationImageUploadResponseDto> {
+        return registerService.postVerificationImage(file)
     }
 }

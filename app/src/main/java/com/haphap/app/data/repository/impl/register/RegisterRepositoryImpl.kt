@@ -1,11 +1,13 @@
 package com.haphap.app.data.repository.impl.register
 
+import android.net.Uri
+import com.haphap.app.core.image.ImageMultipartConverter
 import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.register.toModel
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
 import com.haphap.app.data.model.register.RegisterModel
 import com.haphap.app.data.model.register.RegisterProcessModel
-import com.haphap.app.presentation.register.type.RegisterResultType
+import com.haphap.app.data.model.register.RegisterResultType
 import com.haphap.app.data.model.register.RegistrationCheckType
 import com.haphap.app.data.model.register.RegistrationModel
 import com.haphap.app.data.remote.datasource.api.register.RegisterDataSource
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(
     private val postingDataSource: RegisterDataSource,
+    private val imageMultipartConverter: ImageMultipartConverter,
 ) : RegisterRepository {
 
     override suspend fun getRegisterPostNames(): Result<List<RegisterDropDownItemModel>> =
@@ -38,6 +41,7 @@ class RegisterRepositoryImpl @Inject constructor(
             val result = requireNotNull(registerInfo.result) { "result is required" }
 
             val isPending = result == RegisterResultType.PENDING
+            val isPass = result == RegisterResultType.PASS
 
             val request = RegisterRequestDto(
                 postingId = postingId,
@@ -48,9 +52,17 @@ class RegisterRepositoryImpl @Inject constructor(
                 result = result.name,
                 anonymous = registerInfo.anonymous,
                 alarmEnabled = registerInfo.alarmEnabled,
+                verificationImageIds = if (isPass) registerInfo.verificationImageIds else null,
             )
 
             postingDataSource.postRegister(request).checkData().toModel()
+        }
+
+    override suspend fun postVerificationImage(uri: Uri): Result<Long> =
+        suspendRunCatching {
+            val part = imageMultipartConverter.toPart(uri, VERIFICATION_IMAGE_PART_NAME)
+            postingDataSource.postVerificationImage(part).checkData().imageIds.firstOrNull()
+                ?: throw IllegalStateException("Uploaded image id is missing")
         }
 
     override suspend fun postCheckRegistration(
@@ -79,5 +91,6 @@ class RegisterRepositoryImpl @Inject constructor(
     companion object {
         private const val REGISTRATION_CONFIRM_REQUIRED_CODE = "REGISTRATION_CONFIRM_REQUIRED"
         private const val HTTP_CONFLICT = 409
+        private const val VERIFICATION_IMAGE_PART_NAME = "files"
     }
 }
