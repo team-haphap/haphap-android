@@ -18,22 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
 import com.haphap.app.core.designsystem.component.image.UrlImage
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.dashedBorder
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.presentation.passcertification.model.PassCertificationImageModel
 import kotlinx.collections.immutable.ImmutableList
@@ -149,6 +143,8 @@ private fun PassCertificationAddImageButton(
             .dashedBorder(
                 color = HapHapTheme.colors.gray200,
                 cornerRadius = 6.dp,
+                dashLength = 4.dp,
+                gapLength = 4.dp,
             )
             .noRippleClickable(onClick = onClick),
         verticalArrangement = Arrangement.spacedBy(
@@ -169,32 +165,6 @@ private fun PassCertificationAddImageButton(
             color = HapHapTheme.colors.gray600,
         )
     }
-}
-
-// TODO: #141 머지 후 core/extensions의 공통 dashedBorder로 교체
-private fun Modifier.dashedBorder(
-    color: Color,
-    cornerRadius: Dp,
-    strokeWidth: Dp = 1.dp,
-    dashLength: Dp = 4.dp,
-    gapLength: Dp = 4.dp,
-): Modifier = drawBehind {
-    val strokeWidthPx = strokeWidth.toPx()
-    val inset = strokeWidthPx / 2
-    val radius = cornerRadius.toPx() - inset
-
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(inset, inset),
-        size = Size(size.width - strokeWidthPx, size.height - strokeWidthPx),
-        cornerRadius = CornerRadius(radius),
-        style = Stroke(
-            width = strokeWidthPx,
-            pathEffect = PathEffect.dashPathEffect(
-                intervals = floatArrayOf(dashLength.toPx(), gapLength.toPx()),
-            ),
-        ),
-    )
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
