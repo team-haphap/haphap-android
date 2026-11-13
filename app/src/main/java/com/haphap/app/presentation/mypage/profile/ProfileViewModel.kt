@@ -87,13 +87,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun updateNicknameState(nickname: String) {
+        val status = when {
+            !NICKNAME_REGEX.matches(nickname) -> ProfileNicknameStatus.INVALID_CHARACTER
+            nickname.isNotEmpty() && nickname.length < NICKNAME_MIN_LENGTH -> ProfileNicknameStatus.TOO_SHORT
+            else -> ProfileNicknameStatus.DEFAULT
+        }
+
         _uiState.update {
             it.copy(
-                nicknameStatus = if (NICKNAME_REGEX.matches(nickname)) {
-                    ProfileNicknameStatus.DEFAULT
-                } else {
-                    ProfileNicknameStatus.INVALID_CHARACTER
-                },
+                nicknameStatus = status,
                 isNicknameChanged = nickname != originalNickname,
                 isNicknameValid = NICKNAME_COMPLETE_REGEX.matches(nickname),
             )
@@ -160,6 +162,7 @@ class ProfileViewModel @Inject constructor(
 
     companion object {
         private const val NICKNAME_MAX_LENGTH = 5
+        private const val NICKNAME_MIN_LENGTH = 2
         private const val NICKNAME_DEBOUNCE_MILLIS = 500L
         private val NICKNAME_REGEX = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\\u318D\\u119E\\u11A2\\u00B7\\u2025]*$")
         private val NICKNAME_COMPLETE_REGEX = Regex("^[가-힣a-zA-Z0-9]{2,5}$")

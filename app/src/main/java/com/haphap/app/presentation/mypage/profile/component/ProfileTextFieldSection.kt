@@ -50,6 +50,7 @@ fun ProfileTextFieldSection(
             ProfileNicknameStatus.INVALID_CHARACTER -> append("한글, 영문, 숫자만 사용할 수 있어요.")
             ProfileNicknameStatus.DUPLICATED -> append("다른 사용자가 사용중인 닉네임이에요.")
             ProfileNicknameStatus.TOO_LONG -> append("5자 이내로 입력해주세요.")
+            ProfileNicknameStatus.TOO_SHORT -> append("2자 이상 입력해주세요.")
         }
     }
 

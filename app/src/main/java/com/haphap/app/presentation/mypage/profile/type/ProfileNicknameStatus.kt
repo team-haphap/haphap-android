@@ -5,4 +5,5 @@ enum class ProfileNicknameStatus {
     INVALID_CHARACTER,
     DUPLICATED,
     TOO_LONG,
+    TOO_SHORT,
 }
