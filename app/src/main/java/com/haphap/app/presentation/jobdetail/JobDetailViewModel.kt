@@ -222,4 +222,34 @@ class JobDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun onScrapClick() {
+        viewModelScope.launch {
+            val isScrapActive = _uiState.value.isScrapActive
+
+            if (isScrapActive) {
+                jobDetailRepository.deleteJobPostingScrap(postingId)
+                    .onSuccess { isScrapped ->
+                        _uiState.update { currentState ->
+                            currentState.copy(isScrapActive = isScrapped)
+                        }
+                        _sideEffect.send(OnShowToast(message = "찜한 공고에서 취소했어요.", isAlarm = false))
+                    }
+                    .onFailure { throwable ->
+                        Timber.e("$throwable 찜 취소 실패했습니다.")
+                    }
+            } else {
+                jobDetailRepository.setJobPostingScrap(postingId)
+                    .onSuccess { isScrapped ->
+                        _uiState.update { currentState ->
+                            currentState.copy(isScrapActive = isScrapped)
+                        }
+                        _sideEffect.send(OnShowToast(message = "찜한 공고에 추가했어요.", isAlarm = false))
+                    }
+                    .onFailure { throwable ->
+                        Timber.e("$throwable 찜하기 실패했습니다.")
+                    }
+            }
+        }
+    }
 }

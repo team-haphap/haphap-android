@@ -16,6 +16,7 @@ sealed interface JobDetailContract {
         val titleInfo: JobTitleModel = JobTitleModel(),
         val bannerImageUrl: String = "",
         val isAlarmActive: Boolean = false,
+        val isScrapActive: Boolean = false,
         val stages: ImmutableList<JobStepModel> = persistentListOf(),
         val resultTabs: ImmutableList<JobResultTabModel> = persistentListOf(),
         val selectedTab: Int = 0,
