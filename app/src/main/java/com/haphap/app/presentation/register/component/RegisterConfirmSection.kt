@@ -26,12 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
+import com.haphap.app.core.extensions.toDotDateFormat
+import com.haphap.app.core.extensions.toKoreanTimeFormat
 import com.haphap.app.presentation.register.type.PassResultStatusType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun RegisterConfirmSection(
@@ -47,9 +46,6 @@ fun RegisterConfirmSection(
     modifier: Modifier = Modifier,
     proofImages: ImmutableList<Uri> = persistentListOf()
 ) {
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-    val timeFormatter = DateTimeFormatter.ofPattern("HH시 mm분")
-
     Column(
         modifier = modifier.padding(horizontal = 20.dp),
     ) {
@@ -87,14 +83,14 @@ fun RegisterConfirmSection(
             if (contactDate != null && contactTime != null) {
                 Row {
                     ConfirmInfoBox(
-                        text = LocalDate.parse(contactDate).format(dateFormatter),
+                        text = contactDate.toDotDateFormat(),
                         modifier = Modifier.weight(1f),
                     )
 
                     Spacer(modifier = Modifier.width(12.dp))
 
                     ConfirmInfoBox(
-                        text = LocalTime.parse(contactTime).format(timeFormatter),
+                        text = contactTime.toKoreanTimeFormat(),
                         modifier = Modifier.weight(1f),
                     )
                 }
