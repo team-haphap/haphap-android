@@ -16,7 +16,6 @@ import com.haphap.app.presentation.register.type.PassResultStatusType
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.register.model.RegisterProofImageModel
 import com.haphap.app.presentation.register.type.RegisterProofImageErrorType
@@ -425,15 +424,9 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun finish() {
-        val state = _uiState.value
-
         viewModelScope.launch {
             val jobId = route.jobId
-            if (state.selectedResult == PassResultStatusType.PASS) {
-                state.registrationResult?.card?.let { card ->
-                    _sideEffect.send(NavigateToPassCard(card))
-                }
-            } else if (jobId != null) {
+            if (jobId != null) {
                 _sideEffect.send(NavigateToJobDetail(jobId))
             } else {
                 _sideEffect.send(NavigateToHome)

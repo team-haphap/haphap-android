@@ -29,11 +29,9 @@ import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
-import com.haphap.app.data.model.register.RegisterPassCardModel
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateBack
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToJobDetail
-import com.haphap.app.presentation.register.RegisterContract.SideEffect.NavigateToPassCard
 import com.haphap.app.presentation.register.RegisterContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.register.component.RegisterCompleteSection
 import com.haphap.app.presentation.register.component.RegisterConfirmSection
@@ -53,7 +51,6 @@ fun RegisterRoute(
     navigateBack: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToJobDetail: (jobId: Int) -> Unit,
-    navigateToPassCard: (passCard: RegisterPassCardModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
@@ -89,7 +86,6 @@ fun RegisterRoute(
                     is NavigateBack -> navigateBack()
                     is NavigateToHome -> navigateToHome()
                     is NavigateToJobDetail -> navigateToJobDetail(sideEffect.jobId)
-                    is NavigateToPassCard -> navigateToPassCard(sideEffect.passCard)
                 }
             }
         }
