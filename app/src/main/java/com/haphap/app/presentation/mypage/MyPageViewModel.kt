@@ -4,15 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateBack
-import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.NavigateToSetting
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,24 +20,26 @@ class MyPageViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MyPageContract.State())
     val uiState: StateFlow<MyPageContract.State> = _uiState.asStateFlow()
 
-    private val _sideEffect = Channel<MyPageContract.SideEffect>()
-    val sideEffect = _sideEffect.receiveAsFlow()
-
     init {
-        getMyPage()
+        getMyPageSummary()
+        getMyRegistrationsPreview()
     }
 
-    fun getMyPage() {
+    private fun getMyPageSummary() {
+        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
+
         viewModelScope.launch {
-            myPageRepository.getMyPage()
+            myPageRepository.getMyPageSummary()
                 .onSuccess { model ->
                     _uiState.update {
                         it.copy(
                             myPageUiState = MyPageUiState.Success,
                             profileUrl = model.profileImageUrl,
-                            nameText = model.name,
-                            nickNameText = model.anonymousName,
-                            emailText = model.email,
+                            nickNameText = model.nickname,
+                            point = model.point,
+                            rejectedCertificationCount = model.rejectedCertificationCount,
+                            approvedCertificationCount = model.approvedCertificationCount,
+                            hasUpcomingAnnouncement = model.hasUpcomingAnnouncement,
                         )
                     }
                 }
@@ -55,19 +54,17 @@ class MyPageViewModel @Inject constructor(
                     }
                 }
         }
-
-        _uiState.update { it.copy(myPageUiState = MyPageUiState.Loading) }
     }
 
-    fun onBackClick() {
+    private fun getMyRegistrationsPreview() {
         viewModelScope.launch {
-            _sideEffect.send(NavigateBack)
-        }
-    }
-
-    fun onSettingClick() {
-        viewModelScope.launch {
-            _sideEffect.send(NavigateToSetting)
+            myPageRepository.getMyRegistrationsPreview()
+                .onSuccess { models ->
+                    _uiState.update { it.copy(applicationList = models.toPersistentList()) }
+                }
+                .onFailure{ error ->
+                    Timber.e(error)
+                }
         }
     }
 }

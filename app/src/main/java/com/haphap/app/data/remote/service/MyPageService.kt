@@ -7,6 +7,8 @@ import com.haphap.app.data.remote.dto.mypage.LogoutRequestDto
 import com.haphap.app.data.remote.dto.mypage.MyApplicationResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageNicknameResponseDto
 import com.haphap.app.data.remote.dto.mypage.MyPageResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyPageSummaryResponseDto
+import com.haphap.app.data.remote.dto.mypage.MyRegistrationsPreviewResponseDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -22,6 +24,12 @@ import retrofit2.http.Query
 interface MyPageService {
     @GET("api/v1/members/me")
     suspend fun getMyPage(): BaseResponse<MyPageResponseDto>
+
+    @GET("api/v1/my-page")
+    suspend fun getMyPageSummary(): BaseResponse<MyPageSummaryResponseDto>
+
+    @GET("api/v1/my-page/registrations/preview")
+    suspend fun getMyRegistrationsPreview(): BaseResponse<MyRegistrationsPreviewResponseDto>
 
     @GET("api/v1/members/me/account")
     suspend fun getAccountInfo(): BaseResponse<AccountInfoResponseDto>

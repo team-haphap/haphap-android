@@ -1,4 +1,4 @@
-package com.haphap.app.data.joblist
+package com.haphap.app.data.di.joblist
 
 import com.haphap.app.data.remote.datasource.api.joblist.JobListDataSource
 import com.haphap.app.data.remote.datasource.impl.joblist.JobListDataSourceImpl
