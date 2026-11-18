@@ -89,8 +89,9 @@ private fun JobListScreen(
             JobListUiState.Success -> {
                 LazyVerticalGrid(
                     columns = Fixed(2),
+                    modifier = Modifier.padding(horizontal = 20.dp),
                     state = gridState,
-                    contentPadding = PaddingValues(vertical = 2.dp, horizontal = 20.dp),
+                    contentPadding = PaddingValues(bottom = 74.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
