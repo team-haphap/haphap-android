@@ -25,7 +25,7 @@ enum class PassCertificationType(
         iconRes = R.drawable.ic_check_15,
         activeTitle = { count -> "합격 인증 ${count}건이\n승인됐어요" },
         emptyTitle = "합격 인증이\n아직 없어요.",
-        activeDescription = "다시 제출해주세요",
+        activeDescription = "합격카드를 보러가세요",
         emptyDescription = "합격카드가 아직 없어요",
         buttonText = "합격카드 보러가기",
         disabledToastMessage = "합격 인증 내역이 없어요.",
