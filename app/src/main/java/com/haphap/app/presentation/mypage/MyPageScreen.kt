@@ -143,13 +143,15 @@ private fun MyPageScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            MyPageApplicationSection(
-                applicationList = uiState.applicationList,
-                onApplicationClick = onApplicationClick,
-                onMoreClick = onApplicationMoreClick,
-            )
+            if (uiState.applicationList.isNotEmpty()) {
+                MyPageApplicationSection(
+                    applicationList = uiState.applicationList,
+                    onApplicationClick = onApplicationClick,
+                    onMoreClick = onApplicationMoreClick,
+                )
 
-            Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(22.dp))
+            }
 
             MyPageMenuItem(
                 text = "내가 찜한 공고",
