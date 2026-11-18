@@ -180,10 +180,14 @@ private fun MyPageScreen(
                 onClick = onBookmarkedJobClick,
             )
 
+            Spacer(modifier = Modifier.height(12.dp))
+
             MyPageMenuItem(
                 text = "합격카드 보관함",
                 onClick = onPassCardStorageClick,
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             MyPageMenuItem(
                 text = "내가 작성한 콘텐츠",
