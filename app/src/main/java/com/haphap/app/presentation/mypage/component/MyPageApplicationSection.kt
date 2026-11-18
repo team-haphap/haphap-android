@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,18 +74,31 @@ fun MyPageApplicationSection(
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(scrollState)
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            applicationList.forEach { application ->
-                MyPageApplicationCard(
-                    application = application,
-                    onCardClick = { onApplicationClick(application.id) },
-                )
+        if (applicationList.size == 1) {
+            val application = applicationList.first()
+
+            MyPageApplicationCard(
+                application = application,
+                onCardClick = { onApplicationClick(application.id) },
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(),
+            )
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(scrollState)
+                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                applicationList.forEach { application ->
+                    MyPageApplicationCard(
+                        application = application,
+                        onCardClick = { onApplicationClick(application.id) },
+                        modifier = Modifier.width(289.dp),
+                    )
+                }
             }
         }
 
@@ -110,7 +123,6 @@ private fun MyPageApplicationCard(
     Row(
         modifier = modifier
             .height(88.dp)
-            .aspectRatio(289f / 88f)
             .background(
                 color = HapHapTheme.colors.gray50,
                 shape = RoundedCornerShape(8.dp)
