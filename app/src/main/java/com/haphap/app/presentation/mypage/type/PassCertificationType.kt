@@ -10,6 +10,7 @@ enum class PassCertificationType(
     val activeDescription: String,
     val emptyDescription: String,
     val buttonText: String,
+    val disabledToastMessage: String,
 ) {
     REJECTED(
         iconRes = R.drawable.ic_alert_15,
@@ -18,6 +19,7 @@ enum class PassCertificationType(
         activeDescription = "다시 제출해주세요",
         emptyDescription = "반려 내역이 아직 없어요",
         buttonText = "제출하러 가기",
+        disabledToastMessage = "반려된 합격 인증 내역이 없어요.",
     ),
     APPROVED(
         iconRes = R.drawable.ic_check_15,
@@ -26,5 +28,6 @@ enum class PassCertificationType(
         activeDescription = "다시 제출해주세요",
         emptyDescription = "합격카드가 아직 없어요",
         buttonText = "합격카드 보러가기",
+        disabledToastMessage = "합격 인증 내역이 없어요.",
     ),
 }

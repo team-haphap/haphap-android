@@ -28,7 +28,8 @@ import com.haphap.app.presentation.mypage.type.PassCertificationType
 fun MyPagePassCertificationCard(
     type: PassCertificationType,
     count: Int,
-    onButtonClick: () -> Unit,
+    onEnabledButtonClick: () -> Unit,
+    onDisabledButtonClick: (PassCertificationType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val certificationStyle = passCertificationStyle(type)
@@ -77,7 +78,11 @@ fun MyPagePassCertificationCard(
                     color = if (isActive) certificationStyle.activeButtonColor else HapHapTheme.colors.gray400,
                     shape = RoundedCornerShape(6.dp),
                 )
-                .noRippleClickable(onClick = onButtonClick, isEnabled = isActive)
+                .noRippleClickable(
+                    onClick = {
+                        if (isActive) onEnabledButtonClick() else onDisabledButtonClick(type)
+                    }
+                )
                 .padding(7.dp),
         )
     }
@@ -98,14 +103,16 @@ private fun MyPagePassCertificationCardPreview() {
                     MyPagePassCertificationCard(
                         type = PassCertificationType.REJECTED,
                         count = count,
-                        onButtonClick = {},
+                        onEnabledButtonClick = {},
+                        onDisabledButtonClick = {},
                         modifier = Modifier.weight(1f)
                     )
 
                     MyPagePassCertificationCard(
                         type = PassCertificationType.APPROVED,
                         count = count,
-                        onButtonClick = {},
+                        onEnabledButtonClick = {},
+                        onDisabledButtonClick = {},
                         modifier = Modifier.weight(1f)
                     )
                 }

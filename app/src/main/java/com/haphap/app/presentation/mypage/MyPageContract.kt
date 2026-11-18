@@ -2,6 +2,7 @@ package com.haphap.app.presentation.mypage
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.mypage.MyRecentApplicationModel
+import com.haphap.app.presentation.register.RegisterContract.SideEffect
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -18,6 +19,13 @@ sealed interface MyPageContract {
         val applicationList: ImmutableList<MyRecentApplicationModel> = persistentListOf(),
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
+
+    sealed class SideEffect {
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = false,
+        ) : SideEffect()
+    }
 }
 
 sealed interface MyPageUiState {

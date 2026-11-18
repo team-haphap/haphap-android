@@ -13,14 +13,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
+import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.data.model.mypage.MyRecentApplicationModel
+import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.mypage.component.MyPageAnnouncementBanner
 import com.haphap.app.presentation.mypage.component.MyPageApplicationSection
 import com.haphap.app.presentation.mypage.component.MyPageMenuItem
@@ -45,6 +51,18 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val showToast = LocalToastTrigger.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { sideEffect ->
+                when (sideEffect) {
+                    is OnShowToast -> showToast(sideEffect.message, sideEffect.isAlarm)
+                }
+            }
+        }
+    }
 
     // TODO: 클릭 이벤트는 추후 연결
     MyPageScreen(
@@ -56,6 +74,7 @@ fun MyPageRoute(
         onPointClick = {},
         onAnnouncementClick = navigateToCalendar,
         onSubmitCertificationClick = navigateToPassCertification,
+        onDisabledCertificationClick = viewModel::onDisabledCertificationClick,
         onPassCardClick = navigateToPassCardStorage,
         onApplicationClick = navigateToJobDetail,
         onApplicationMoreClick = navigateToMyApplication,
@@ -76,6 +95,7 @@ private fun MyPageScreen(
     onPointClick: () -> Unit,
     onAnnouncementClick: () -> Unit,
     onSubmitCertificationClick: () -> Unit,
+    onDisabledCertificationClick: (PassCertificationType) -> Unit,
     onPassCardClick: () -> Unit,
     onApplicationClick: (Int) -> Unit,
     onApplicationMoreClick: () -> Unit,
@@ -129,14 +149,16 @@ private fun MyPageScreen(
                 MyPagePassCertificationCard(
                     type = PassCertificationType.REJECTED,
                     count = uiState.rejectedCertificationCount,
-                    onButtonClick = onSubmitCertificationClick,
+                    onEnabledButtonClick = onSubmitCertificationClick,
+                    onDisabledButtonClick = onDisabledCertificationClick,
                     modifier = Modifier.weight(1f),
                 )
 
                 MyPagePassCertificationCard(
                     type = PassCertificationType.APPROVED,
                     count = uiState.approvedCertificationCount,
-                    onButtonClick = onPassCardClick,
+                    onEnabledButtonClick = onPassCardClick,
+                    onDisabledButtonClick = onDisabledCertificationClick,
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -209,6 +231,7 @@ private fun MyPageScreenPreview() {
             onPointClick = {},
             onAnnouncementClick = {},
             onSubmitCertificationClick = {},
+            onDisabledCertificationClick = {},
             onPassCardClick = {},
             onApplicationClick = {},
             onApplicationMoreClick = {},
