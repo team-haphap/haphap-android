@@ -115,25 +115,25 @@ fun RegisterConfirmSection(
                 Spacer(modifier = Modifier.height(15.dp))
 
                 RegisterUploadedImageRow(images = proofImages)
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                RegisterTnC(
-                    isNecessary = true,
-                    context = "등록이 완료되면 결과를 수정하거나 삭제할 수 없어요.\n변경이 필요한 경우 [문의하기]를 이용해주세요.",
-                    checked = isTermAgreed,
-                    onCheckedChange = onTermAgreeToggled,
-                )
-
-                RegisterTnC(
-                    isNecessary = false,
-                    context = "선택한 공고에 대한 알림을 받고 싶어요.",
-                    checked = isAlarmAgreed,
-                    onCheckedChange = onAlarmAgreeToggled,
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            RegisterTnC(
+                isNecessary = true,
+                context = "등록이 완료되면 결과를 수정하거나 삭제할 수 없어요.\n변경이 필요한 경우 [문의하기]를 이용해주세요.",
+                checked = isTermAgreed,
+                onCheckedChange = onTermAgreeToggled,
+            )
+
+            RegisterTnC(
+                isNecessary = false,
+                context = "선택한 공고에 대한 알림을 받고 싶어요.",
+                checked = isAlarmAgreed,
+                onCheckedChange = onAlarmAgreeToggled,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
