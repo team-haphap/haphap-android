@@ -146,6 +146,8 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             registerRepository.getRegisterPostStages(item.id)
                 .onSuccess { list ->
+                    if (_uiState.value.selectedAnnounce?.id != item.id) return@onSuccess
+
                     _uiState.update {
                         it.copy(
                             processList = list.toImmutableList(),
@@ -154,6 +156,8 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    if (_uiState.value.selectedAnnounce?.id != item.id) return@onFailure
+
                     Timber.e(e, "onAnnounceSelected getPostingStages failed")
                     _uiState.update {
                         it.copy(
