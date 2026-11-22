@@ -125,12 +125,21 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onAnnounceSelected(item: RegisterDropDownItemModel) {
+        val state = _uiState.value
+
+        if (state.selectedAnnounce?.id == item.id &&
+            state.processListUiState is RegisterUiState.Success
+        ) return
+
+        checkRegistrationJob?.cancel()
         _uiState.update {
             it.copy(
                 selectedAnnounce = item,
-                registerInfo = it.registerInfo.copy(postingId = item.id, stageId = null),
+                registerInfo = RegisterModel(postingId = item.id),
                 processList = persistentListOf(),
                 processListUiState = RegisterUiState.Loading,
+                selectedResult = null,
+                proofImages = persistentListOf(),
             )
         }
 
