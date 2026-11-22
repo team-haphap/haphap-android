@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
@@ -27,7 +28,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 @Composable
 fun RegisterTnC(
     isNecessary: Boolean,
-    context: String,
+    context: AnnotatedString,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     checked: Boolean = false,
@@ -69,6 +70,21 @@ fun RegisterTnC(
         )
     }
 }
+
+@Composable
+fun RegisterTnC(
+    isNecessary: Boolean,
+    context: String,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    checked: Boolean = false,
+) = RegisterTnC(
+    isNecessary,
+    AnnotatedString(context),
+    onCheckedChange,
+    modifier,
+    checked
+)
 
 @Preview(showBackground = true)
 @Composable

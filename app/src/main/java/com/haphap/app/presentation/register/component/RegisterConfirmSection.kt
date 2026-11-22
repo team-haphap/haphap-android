@@ -22,7 +22,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.theme.HapHapTheme
@@ -43,9 +49,30 @@ fun RegisterConfirmSection(
     onAlarmAgreeToggled: (Boolean) -> Unit,
     isTermAgreed: Boolean,
     onTermAgreeToggled: (Boolean) -> Unit,
+    onInquiryClick: ()  -> Unit,
     modifier: Modifier = Modifier,
     proofImages: ImmutableList<Uri> = persistentListOf()
 ) {
+    val inquiryLinkColor = HapHapTheme.colors.primary100
+    val termText = remember(inquiryLinkColor, onInquiryClick) {
+        buildAnnotatedString {
+            append("등록이 완료되면 결과를 수정하거나 삭제할 수 없어요. 변경이 필요한 경우 ")
+            withLink(
+                LinkAnnotation.Clickable(
+                    tag = "inquiry",
+                    styles = TextLinkStyles(
+                        style = SpanStyle(
+                            color = inquiryLinkColor,
+                            textDecoration = TextDecoration.Underline,
+                        ),
+                    ),
+                    linkInteractionListener = { onInquiryClick() },
+                ),
+            ) { append("문의하기") }
+            append("를 이용해주세요.")
+        }
+    }
+
     Column(
         modifier = modifier.padding(horizontal = 20.dp),
     ) {
@@ -121,7 +148,7 @@ fun RegisterConfirmSection(
 
             RegisterTnC(
                 isNecessary = true,
-                context = "등록이 완료되면 결과를 수정하거나 삭제할 수 없어요.\n변경이 필요한 경우 [문의하기]를 이용해주세요.",
+                context = termText,
                 checked = isTermAgreed,
                 onCheckedChange = onTermAgreeToggled,
             )
@@ -178,6 +205,7 @@ private fun RegisterConfirmSectionPreview() {
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
             onTermAgreeToggled = { isTermAgreed = it },
+            onInquiryClick = {},
         )
     }
 }
@@ -196,6 +224,7 @@ private fun RegisterConfirmSectionPassProofPreview() {
             onAlarmAgreeToggled = {},
             isTermAgreed = true,
             onTermAgreeToggled = {},
+            onInquiryClick = {},
             modifier = Modifier.fillMaxSize(),
             proofImages = persistentListOf(Uri.parse("content://preview/1")),
         )
@@ -219,6 +248,7 @@ private fun RegisterConfirmSectionDontKnowPreview() {
             onAlarmAgreeToggled = { isAlarmAgreed = it },
             isTermAgreed = isTermAgreed,
             onTermAgreeToggled = { isTermAgreed = it },
+            onInquiryClick = {},
         )
     }
 }
