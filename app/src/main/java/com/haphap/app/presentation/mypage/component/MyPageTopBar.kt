@@ -84,7 +84,7 @@ private fun MyPageAlarmIcon(
             .noRippleClickable(onClick = onAlarmClick),
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_bell_filled_24),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_bell_32),
             contentDescription = null,
             tint = HapHapTheme.colors.gray700,
             modifier = Modifier
@@ -100,7 +100,7 @@ private fun MyPageAlarmIcon(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .defaultMinSize(minWidth = 16.dp, minHeight = 16.dp)
+                    .padding(1.dp)
                     .background(
                         color = HapHapTheme.colors.primary500,
                         shape = CircleShape,
@@ -118,7 +118,7 @@ private fun MyPageTopBarPreview() {
         MyPageTopBar(
             onBackClick = {},
             onSettingClick = {},
-            alarmCount = 3,
+            alarmCount = 135,
             onAlarmClick = {},
         )
     }
