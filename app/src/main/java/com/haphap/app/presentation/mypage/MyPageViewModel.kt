@@ -27,7 +27,7 @@ class MyPageViewModel @Inject constructor(
     private val _sideEffect = Channel<MyPageContract.SideEffect>()
     val sideEffect = _sideEffect.receiveAsFlow()
 
-    init {
+    fun loadMyPage() {
         getMyPageSummary()
         getMyRegistrationsPreview()
     }
