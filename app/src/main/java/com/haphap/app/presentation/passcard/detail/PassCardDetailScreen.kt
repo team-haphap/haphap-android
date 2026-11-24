@@ -50,7 +50,6 @@ import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
-import com.haphap.app.presentation.passcard.detail.component.PassCardDetailChipList
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
 import kotlinx.collections.immutable.persistentListOf
@@ -81,7 +80,6 @@ fun PassCardDetailRoute(
     PassCardDetailScreen(
         uiState = uiState,
         onBackClick = navigateBack,
-        onStageClick = viewModel::onStageClick,
         onHomeClick = navigateToHome,
         onBackgroundLoaded = viewModel::onBackgroundLoaded,
         onLogoLoaded = viewModel::onLogoLoaded,
@@ -94,7 +92,6 @@ fun PassCardDetailRoute(
 fun PassCardDetailScreen(
     uiState: PassCardDetailContract.State,
     onBackClick: () -> Unit,
-    onStageClick: (Int) -> Unit,
     onHomeClick: () -> Unit,
     onBackgroundLoaded: () -> Unit,
     onLogoLoaded: () -> Unit,
@@ -174,29 +171,21 @@ fun PassCardDetailScreen(
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            PassCardDetailChipList(
-                chipList = uiState.chipList,
-                selectedChip = uiState.selectedChip,
-                onStageClick = onStageClick,
-            )
-
-            Spacer(modifier = Modifier.height(22.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(bottom = 24.dp)
-                    .aspectRatio(320f / 440f)
+                    .padding(bottom = 20.dp)
+                    .aspectRatio(296f / 524f)
                     .drawWithContent {
                         graphicsLayer.record {
                             this@drawWithContent.drawContent()
                         }
                         drawLayer(graphicsLayer)
                     }
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(18.dp))
             ) {
                 UrlImage(
                     url = uiState.backgroundImageUrl,
@@ -210,7 +199,7 @@ fun PassCardDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 21.dp, end = 85.dp, top = 24.dp),
+                        .padding(start = 22.dp, end = 22.dp, top = 26.dp),
                     horizontalAlignment = Alignment.Start,
                 ) {
                     UrlImage(
@@ -219,14 +208,14 @@ fun PassCardDetailScreen(
                         contentScale = ContentScale.Fit,
                         crossfade = false,
                         onSuccess = onLogoLoaded,
-                        modifier = Modifier.height(36.dp),
+                        modifier = Modifier.height(44.dp),
                     )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
                         text = "${uiState.companyName} ${uiState.recruitName}",
-                        style = HapHapTheme.typography.body.b14,
+                        style = HapHapTheme.typography.body.b18,
                         color = HapHapTheme.colors.primary100,
                         textAlign = TextAlign.Start,
                         maxLines = 2,
@@ -260,7 +249,6 @@ private fun PassCardDetailScreenPreview() {
                 selectedChip = 101,
             ),
             onBackClick = {},
-            onStageClick = {},
             onHomeClick = {},
             onBackgroundLoaded = {},
             onLogoLoaded = {},
