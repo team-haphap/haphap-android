@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -26,6 +27,7 @@ import com.haphap.app.core.designsystem.component.button.HapHapBasicButton
 import com.haphap.app.core.designsystem.component.toast.LocalToastTrigger
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
+import com.haphap.app.core.extensions.sendEmail
 import com.haphap.app.core.extensions.toastBottomInset
 import com.haphap.app.data.model.register.NotificationChannelType
 import com.haphap.app.data.model.register.RegisterDropDownItemModel
@@ -81,6 +83,8 @@ fun RegisterRoute(
         PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
     }
 
+    val context = LocalContext.current
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val showToast = LocalToastTrigger.current
 
@@ -115,6 +119,7 @@ fun RegisterRoute(
         onChannelToggled = viewModel::onChannelToggled,
         onAddImageClick = viewModel::onAddImageClick,
         onRemoveImage = viewModel::onRemoveImage,
+        onInquiryClick = { context.sendEmail() },
         onAlarmAgreeToggled = viewModel::onAlarmAgreeToggled,
         onTermAgreeToggled = viewModel::onTermAgreeToggled,
         onNextClick = viewModel::onNextClick,
@@ -136,6 +141,7 @@ private fun RegisterScreen(
     onChannelToggled: (NotificationChannelType) -> Unit,
     onAddImageClick: () -> Unit,
     onRemoveImage: (Uri) -> Unit,
+    onInquiryClick: () -> Unit,
     onAlarmAgreeToggled: (Boolean) -> Unit,
     onTermAgreeToggled: (Boolean) -> Unit,
     onNextClick: () -> Unit,
@@ -231,6 +237,7 @@ private fun RegisterScreen(
                     onAlarmAgreeToggled = onAlarmAgreeToggled,
                     isTermAgreed = uiState.registerInfo.anonymous,
                     onTermAgreeToggled = onTermAgreeToggled,
+                    onInquiryClick = onInquiryClick,
                     proofImages = uiState.validProofImageUris,
                     modifier = Modifier.fillMaxSize(),
                 )

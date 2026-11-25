@@ -125,18 +125,29 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onAnnounceSelected(item: RegisterDropDownItemModel) {
+        val state = _uiState.value
+
+        if (state.selectedAnnounce?.id == item.id &&
+            state.processListUiState is RegisterUiState.Success
+        ) return
+
+        checkRegistrationJob?.cancel()
         _uiState.update {
             it.copy(
                 selectedAnnounce = item,
-                registerInfo = it.registerInfo.copy(postingId = item.id, stageId = null),
+                registerInfo = RegisterModel(postingId = item.id),
                 processList = persistentListOf(),
                 processListUiState = RegisterUiState.Loading,
+                selectedResult = null,
+                proofImages = persistentListOf(),
             )
         }
 
         viewModelScope.launch {
             registerRepository.getRegisterPostStages(item.id)
                 .onSuccess { list ->
+                    if (_uiState.value.selectedAnnounce?.id != item.id) return@onSuccess
+
                     _uiState.update {
                         it.copy(
                             processList = list.toImmutableList(),
@@ -145,6 +156,8 @@ class RegisterViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    if (_uiState.value.selectedAnnounce?.id != item.id) return@onFailure
+
                     Timber.e(e, "onAnnounceSelected getPostingStages failed")
                     _uiState.update {
                         it.copy(
@@ -157,7 +170,19 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onProcessSelected(id: Int) {
-        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(stageId = id)) }
+        if (_uiState.value.registerInfo.stageId == id) return
+
+        checkRegistrationJob?.cancel()
+        _uiState.update {
+            it.copy(
+                registerInfo = RegisterModel(
+                    postingId = it.registerInfo.postingId,
+                    stageId = id,
+                ),
+                selectedResult = null,
+                proofImages = persistentListOf(),
+            )
+        }
     }
 
     fun onResultSelected(result: PassResultStatusType) {
