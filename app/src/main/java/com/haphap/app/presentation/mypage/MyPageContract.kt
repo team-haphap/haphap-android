@@ -2,7 +2,6 @@ package com.haphap.app.presentation.mypage
 
 import androidx.compose.runtime.Immutable
 import com.haphap.app.data.model.mypage.MyRecentApplicationModel
-import com.haphap.app.presentation.register.RegisterContract.SideEffect
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
