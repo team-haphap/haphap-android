@@ -170,7 +170,19 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onProcessSelected(id: Int) {
-        _uiState.update { it.copy(registerInfo = it.registerInfo.copy(stageId = id)) }
+        if (_uiState.value.registerInfo.stageId == id) return
+
+        checkRegistrationJob?.cancel()
+        _uiState.update {
+            it.copy(
+                registerInfo = RegisterModel(
+                    postingId = it.registerInfo.postingId,
+                    stageId = id,
+                ),
+                selectedResult = null,
+                proofImages = persistentListOf(),
+            )
+        }
     }
 
     fun onResultSelected(result: PassResultStatusType) {
