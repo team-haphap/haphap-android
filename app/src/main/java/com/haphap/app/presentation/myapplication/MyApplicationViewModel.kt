@@ -22,6 +22,7 @@ class MyApplicationViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private var getMyApplicationsJob: Job? = null
+    private var loadedFilter: MyApplicationFilter? = null
 
     init {
         getMyApplicationList(_uiState.value.queryFilter)
@@ -33,7 +34,9 @@ class MyApplicationViewModel @Inject constructor(
         if (updatedState == currentState) return
 
         _uiState.value = updatedState
-        if (updatedState.queryFilter != currentState.queryFilter) {
+        if (updatedState.queryFilter == loadedFilter) {
+            getMyApplicationsJob?.cancel()
+        } else {
             getMyApplicationList(updatedState.queryFilter)
         }
     }
@@ -43,6 +46,7 @@ class MyApplicationViewModel @Inject constructor(
         getMyApplicationsJob = viewModelScope.launch {
             myPageRepository.getMyApplicationList(filter)
                 .onSuccess { response ->
+                    loadedFilter = filter
                     _uiState.update {
                         it.copy(
                             inProgressCount = response.inProgressCount,
