@@ -26,11 +26,11 @@ import com.haphap.app.core.extensions.noRippleClickable
 
 @Composable
 fun MyPageTopBar(
+    alarmCount: Int,
     onBackClick: () -> Unit,
     onSettingClick: () -> Unit,
     onAlarmClick: () -> Unit,
     modifier: Modifier = Modifier,
-    alarmCount: Int = 0,
 ) {
     Row(
         modifier = modifier
