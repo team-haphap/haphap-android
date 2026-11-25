@@ -7,4 +7,5 @@ data class PassCardUnconfirmedModel(
     val recruitName: String,
     val logoUrl: String,
     val backgroundImageUrl: String,
+    val approvedAt: String,
 )
