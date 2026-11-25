@@ -8,4 +8,5 @@ interface PassCardRepository {
     suspend fun getPassCardStorage(): Result<List<PassCardStorageModel>>
     suspend fun getPassCardDetail(registrationId: Int): Result<PassCardDetailModel>
     suspend fun getUnconfirmedPassCards(): Result<List<PassCardUnconfirmedModel>>
+    suspend fun patchPassCardConfirm(registrationId: Int): Result<Unit>
 }

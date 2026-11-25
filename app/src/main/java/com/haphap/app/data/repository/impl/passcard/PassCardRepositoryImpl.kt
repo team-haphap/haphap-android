@@ -35,4 +35,9 @@ class PassCardRepositoryImpl @Inject constructor(
                 .passCards
                 .map { it.toModel() }
         }
+
+    override suspend fun patchPassCardConfirm(registrationId: Int): Result<Unit> =
+        suspendRunCatching {
+            passCardDataSource.patchPassCardConfirm(registrationId)
+        }
 }
