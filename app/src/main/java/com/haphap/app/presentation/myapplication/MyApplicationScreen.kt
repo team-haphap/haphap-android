@@ -88,7 +88,7 @@ private fun MyApplicationScreen(
                 HapHapFilterChip(
                     content = FilterChipContent.TextContent(uiState.filterLabel(filter)),
                     onFilterClick = { onFilterClick(filter) },
-                    isFilterSelected = uiState.selectedFilter == filter,
+                    isFilterSelected = filter in uiState.selectedFilters,
                 )
             }
         }
