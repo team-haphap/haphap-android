@@ -11,4 +11,6 @@ interface PassCardDataSource {
     suspend fun getPassCardDetail(registrationId: Int): BaseResponse<PassCardDetailResponseDto>
 
     suspend fun getUnconfirmedPassCards(): BaseResponse<PassCardUnconfirmedResponseDto>
+
+    suspend fun patchPassCardConfirm(registrationId: Int)
 }

@@ -22,4 +22,8 @@ class PassCardDataSourceImpl @Inject constructor(
     override suspend fun getUnconfirmedPassCards(): BaseResponse<PassCardUnconfirmedResponseDto> {
         return passCardService.getUnconfirmedPassCards()
     }
+
+    override suspend fun patchPassCardConfirm(registrationId: Int) {
+        return passCardService.patchPassCardConfirm(registrationId)
+    }
 }
