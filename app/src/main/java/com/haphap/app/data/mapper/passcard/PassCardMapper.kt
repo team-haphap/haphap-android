@@ -39,5 +39,6 @@ fun PassCardUnconfirmedItemResponseDto.toModel(): PassCardUnconfirmedModel =
         recruitName = title,
         logoUrl = companyCardLogoImageUrl,
         backgroundImageUrl = cardImageUrl,
+        approvedAt = approvedAt,
     )
 
