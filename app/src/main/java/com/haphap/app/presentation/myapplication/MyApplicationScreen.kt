@@ -35,6 +35,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun MyApplicationRoute(
     navigateBack: () -> Unit,
     navigateToJobDetail: (Int) -> Unit,
+    navigateToRegister: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyApplicationViewModel = hiltViewModel(),
 ) {
@@ -45,6 +46,7 @@ fun MyApplicationRoute(
         onBackClick = navigateBack,
         onFilterClick = viewModel::onFilterClick,
         onApplicationClick = navigateToJobDetail,
+        onRegisterClick = navigateToRegister,
         modifier = modifier,
     )
 }
@@ -55,6 +57,7 @@ private fun MyApplicationScreen(
     onBackClick: () -> Unit,
     onFilterClick: (MyApplicationFilterType) -> Unit,
     onApplicationClick: (Int) -> Unit,
+    onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -101,6 +104,7 @@ private fun MyApplicationScreen(
             RegisterEmpty(
                 title = "지원한 내역이 없어요.",
                 description = "를 통해 지원 내역을 등록해보세요",
+                onRegisterClick = onRegisterClick,
             )
 
             Spacer(modifier = Modifier.weight(318f))
@@ -167,6 +171,7 @@ private fun MyApplicationScreenPreview() {
             onBackClick = {},
             onFilterClick = {},
             onApplicationClick = {},
+            onRegisterClick = {},
         )
     }
 }
@@ -180,6 +185,7 @@ private fun MyApplicationScreenEmptyPreview() {
             onBackClick = {},
             onFilterClick = {},
             onApplicationClick = {},
+            onRegisterClick = {},
         )
     }
 }

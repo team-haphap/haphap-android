@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.haphap.app.core.designsystem.component.chip.HapHapStatusChip
 import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.StatusChipType
+import com.haphap.app.core.extensions.noRippleClickable
 
 /**
  * 등록하기를 유도하는 빈 화면 공통 컴포넌트입니다.
@@ -23,12 +24,14 @@ import com.haphap.app.core.designsystem.type.StatusChipType
  *
  * @param title 빈 상태를 알리는 상단 문구
  * @param description "등록하기" 칩 뒤에 이어지는 하단 안내 문구
+ * @param onRegisterClick "등록하기" 칩 클릭 시 호출
  */
 
 @Composable
 fun RegisterEmpty(
     title: String,
     description: String,
+    onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -51,6 +54,7 @@ fun RegisterEmpty(
             HapHapStatusChip(
                 text = "등록하기",
                 type = StatusChipType.CATEGORY,
+                modifier = Modifier.noRippleClickable(onClick = onRegisterClick),
             )
 
             Text(
@@ -69,6 +73,7 @@ private fun RegisterEmptyPreview() {
         RegisterEmpty(
             title = "지원한 내역이 없어요.",
             description = "를 통해 지원 내역을 등록해보세요",
+            onRegisterClick = {},
         )
     }
 }
