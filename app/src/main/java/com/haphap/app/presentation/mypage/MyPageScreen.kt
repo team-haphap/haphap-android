@@ -202,7 +202,7 @@ private fun MyPageScreen(
     }
 }
 
-@Preview(showBackground = true, heightDp = 900)
+@Preview(showBackground = true)
 @Composable
 private fun MyPageScreenPreview() {
     HapHapTheme {

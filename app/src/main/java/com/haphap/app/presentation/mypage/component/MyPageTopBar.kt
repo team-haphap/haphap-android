@@ -70,8 +70,6 @@ fun MyPageTopBar(
     }
 }
 
-
-//Todo: 아이콘 교체 필요. 임시 구현
 @Composable
 private fun MyPageAlarmIcon(
     alarmCount: Int,
@@ -93,20 +91,25 @@ private fun MyPageAlarmIcon(
         )
 
         if (alarmCount > 0) {
-            Text(
-                text = if (alarmCount > 99) "99+" else alarmCount.toString(),
-                style = HapHapTheme.typography.caption.sb10,
-                color = HapHapTheme.colors.white,
-                textAlign = TextAlign.Center,
+            Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(1.dp)
+                    .defaultMinSize(minWidth = 15.dp, minHeight = 15.dp)
                     .background(
                         color = HapHapTheme.colors.primary500,
                         shape = CircleShape,
                     )
                     .padding(horizontal = 4.dp, vertical = 1.dp),
-            )
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = if (alarmCount > 99) "99+" else alarmCount.toString(),
+                    style = HapHapTheme.typography.caption.sb10,
+                    color = HapHapTheme.colors.white,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }
@@ -118,7 +121,7 @@ private fun MyPageTopBarPreview() {
         MyPageTopBar(
             onBackClick = {},
             onSettingClick = {},
-            alarmCount = 135,
+            alarmCount = 1,
             onAlarmClick = {},
         )
     }
