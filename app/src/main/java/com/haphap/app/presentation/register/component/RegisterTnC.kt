@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.haphap.app.R
@@ -27,7 +28,7 @@ import com.haphap.app.core.extensions.noRippleClickable
 @Composable
 fun RegisterTnC(
     isNecessary: Boolean,
-    context: String,
+    context: AnnotatedString,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     checked: Boolean = false,
@@ -84,13 +85,13 @@ private fun RegisterTnCPreview() {
         ) {
             RegisterTnC(
                 isNecessary = false,
-                context = "같은 공고의 발표가 감지되면 알림을 받습니다.",
+                context = AnnotatedString("같은 공고의 발표가 감지되면 알림을 받습니다."),
                 checked = checked1,
                 onCheckedChange = {checked1 = it}
             )
             RegisterTnC(
                 isNecessary = true,
-                context = "내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다.",
+                context = AnnotatedString("내 상태는 부여된 닉네임으로 익명 등록되며, 중복·허위 등록 방지를 위해 기기 단위의 최소 검증이 적용됩니다."),
                 checked = checked2,
                 onCheckedChange = {checked2 = it}
             )
