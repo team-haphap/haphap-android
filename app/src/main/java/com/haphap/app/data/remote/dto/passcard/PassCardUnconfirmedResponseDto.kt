@@ -23,6 +23,14 @@ data class PassCardUnconfirmedItemResponseDto(
     val title: String,
     @SerialName("cardImageUrl")
     val cardImageUrl: String,
+    @SerialName("confirmed")
+    val confirmed: Boolean,
+    @SerialName("stageId")
+    val stageId: Int,
+    @SerialName("stageName")
+    val stageName: String,
+    @SerialName("orderIndex")
+    val orderIndex: Int,
     @SerialName("approvedAt")
     val approvedAt: String,
 )
