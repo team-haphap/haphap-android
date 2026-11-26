@@ -8,5 +8,4 @@ data class PassCardDetailModel(
     val logoUrl: String,
     val backgroundImageUrl: String,
     val stageName: String,
-    val stages: List<PassCardDetailChipListModel>,
 )

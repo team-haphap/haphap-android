@@ -1,6 +1,5 @@
 package com.haphap.app.data.mapper.passcard
 
-import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
 import com.haphap.app.data.model.passcard.PassCardDetailModel
 import com.haphap.app.data.model.passcard.PassCardStorageModel
 import com.haphap.app.data.model.passcard.PassCardUnconfirmedModel
@@ -26,9 +25,6 @@ fun PassCardDetailResponseDto.toModel(): PassCardDetailModel =
         logoUrl = companyCardLogoImageUrl,
         backgroundImageUrl = cardImageUrl,
         stageName = stageName,
-        stages = availableStages
-            .sortedBy { it.orderIndex }
-            .map { PassCardDetailChipListModel(id = it.registrationId, stageName = it.stageName) },
     )
 
 fun PassCardUnconfirmedItemResponseDto.toModel(): PassCardUnconfirmedModel =
