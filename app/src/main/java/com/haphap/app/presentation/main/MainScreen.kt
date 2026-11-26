@@ -36,6 +36,7 @@ import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.jobdetail.navigation.navigateToJobDetail
 import com.haphap.app.presentation.main.component.MainBottomBar
 import com.haphap.app.presentation.main.component.MainTab
+import com.haphap.app.presentation.passcard.navigation.navigateToPassCardDetail
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -50,6 +51,8 @@ fun MainScreen(
     appState: MainAppState = rememberMainAppState(),
     extractedPostingId: Int? = null,
     resetExtractedPostingId: () -> Unit = {},
+    extractedRegistrationId: Int? = null,
+    resetExtractedRegistrationId: () -> Unit = {},
     sessionExpiredEvent: Flow<Unit> = emptyFlow(),
 ) {
     val currentTab by appState.currentTab.collectAsStateWithLifecycle()
@@ -60,6 +63,13 @@ fun MainScreen(
         if (extractedPostingId != null && currentTab != null) {
             appState.navController.navigateToJobDetail(extractedPostingId)
             resetExtractedPostingId()
+        }
+    }
+
+    LaunchedEffect(extractedRegistrationId, currentTab) {
+        if (extractedRegistrationId != null && currentTab != null) {
+            appState.navController.navigateToPassCardDetail(extractedRegistrationId)
+            resetExtractedRegistrationId()
         }
     }
 

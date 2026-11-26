@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 @HiltViewModel
@@ -53,11 +53,11 @@ class SplashViewModel @Inject constructor(
     private suspend fun fetchUnconfirmedPassCards() {
         passCardRepository.getUnconfirmedPassCards()
             .onSuccess { passCards ->
-                val sevenDaysAgo = Instant.now().minus(RECENT_DAYS, ChronoUnit.DAYS)
+                val sevenDaysAgo = LocalDateTime.now().minus(RECENT_DAYS, ChronoUnit.DAYS)
 
                 _unconfirmedPassCard.value = passCards
-                    .filter { Instant.parse(it.approvedAt).isAfter(sevenDaysAgo) }
-                    .maxByOrNull { Instant.parse(it.approvedAt) }
+                    .filter { LocalDateTime.parse(it.approvedAt).isAfter(sevenDaysAgo) }
+                    .maxByOrNull { LocalDateTime.parse(it.approvedAt) }
                 _hasUnconfirmedPassCard.value = passCards.isNotEmpty()
             }
             .onFailure { error ->
