@@ -150,6 +150,7 @@ fun PassCardDetailScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp),
         ) {
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -157,7 +158,6 @@ fun PassCardDetailScreen(
                 text = "${uiState.userName}님의 합격을 축하드려요!",
                 style = HapHapTheme.typography.subtitle.b22,
                 color = HapHapTheme.colors.gray800,
-                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
             Spacer(modifier = Modifier.height(2.dp))
@@ -166,7 +166,6 @@ fun PassCardDetailScreen(
                 text = "기다려온 순간, 진심으로 축하드려요",
                 style = HapHapTheme.typography.body.sb13,
                 color = HapHapTheme.colors.gray400,
-                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -174,7 +173,7 @@ fun PassCardDetailScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 12.dp)
                     .padding(bottom = 20.dp)
                     .aspectRatio(296f / 524f)
                     .drawWithContent {
@@ -236,7 +235,6 @@ private fun PassCardDetailScreenPreview() {
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
-                selectedChip = 101,
             ),
             onBackClick = {},
             onHomeClick = {},
