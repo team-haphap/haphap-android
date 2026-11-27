@@ -18,6 +18,13 @@ sealed interface MyPageContract {
         val applicationList: ImmutableList<MyRecentApplicationModel> = persistentListOf(),
         val myPageUiState: MyPageUiState = MyPageUiState.Idle,
     )
+
+    sealed class SideEffect {
+        data class OnShowToast(
+            val message: String,
+            val isAlarm: Boolean = false,
+        ) : SideEffect()
+    }
 }
 
 sealed interface MyPageUiState {

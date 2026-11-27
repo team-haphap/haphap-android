@@ -3,11 +3,15 @@ package com.haphap.app.presentation.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
+import com.haphap.app.presentation.mypage.MyPageContract.SideEffect.OnShowToast
+import com.haphap.app.presentation.mypage.type.PassCertificationType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +24,10 @@ class MyPageViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MyPageContract.State())
     val uiState: StateFlow<MyPageContract.State> = _uiState.asStateFlow()
 
-    init {
+    private val _sideEffect = Channel<MyPageContract.SideEffect>()
+    val sideEffect = _sideEffect.receiveAsFlow()
+
+    fun loadMyPage() {
         getMyPageSummary()
         getMyRegistrationsPreview()
     }
@@ -62,9 +69,13 @@ class MyPageViewModel @Inject constructor(
                 .onSuccess { models ->
                     _uiState.update { it.copy(applicationList = models.toPersistentList()) }
                 }
-                .onFailure{ error ->
+                .onFailure { error ->
                     Timber.e(error)
                 }
         }
+    }
+
+    fun onDisabledCertificationClick(type: PassCertificationType) = viewModelScope.launch {
+        _sideEffect.send(OnShowToast(message = type.disabledToastMessage))
     }
 }

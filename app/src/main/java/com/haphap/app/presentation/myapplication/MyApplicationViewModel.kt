@@ -2,9 +2,9 @@ package com.haphap.app.presentation.myapplication
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.haphap.app.data.model.myapplication.MyApplicationFilter
 import com.haphap.app.data.repository.api.mypage.MyPageRepository
 import com.haphap.app.presentation.myapplication.type.MyApplicationFilterType
-import com.haphap.app.presentation.myapplication.type.toFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,30 +22,31 @@ class MyApplicationViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private var getMyApplicationsJob: Job? = null
+    private var loadedFilter: MyApplicationFilter? = null
 
     init {
-        getMyApplicationList(MyApplicationFilterType.ALL)
+        getMyApplicationList(_uiState.value.queryFilter)
     }
 
     fun onFilterClick(filter: MyApplicationFilterType) {
-        val currentFilter = _uiState.value.selectedFilter
-        val newFilter = when {
-            filter == MyApplicationFilterType.ALL -> MyApplicationFilterType.ALL
-            filter == currentFilter -> MyApplicationFilterType.ALL
-            currentFilter != MyApplicationFilterType.ALL -> MyApplicationFilterType.ALL
-            else -> filter
-        }
-        if (newFilter == currentFilter) return
+        val currentState = _uiState.value
+        val updatedState = currentState.toggle(filter)
+        if (updatedState == currentState) return
 
-        _uiState.update { it.copy(selectedFilter = newFilter) }
-        getMyApplicationList(newFilter)
+        _uiState.value = updatedState
+        if (updatedState.queryFilter == loadedFilter) {
+            getMyApplicationsJob?.cancel()
+        } else {
+            getMyApplicationList(updatedState.queryFilter)
+        }
     }
 
-    private fun getMyApplicationList(filter: MyApplicationFilterType) {
+    private fun getMyApplicationList(filter: MyApplicationFilter) {
         getMyApplicationsJob?.cancel()
         getMyApplicationsJob = viewModelScope.launch {
-            myPageRepository.getMyApplicationList(filter.toFilter())
+            myPageRepository.getMyApplicationList(filter)
                 .onSuccess { response ->
+                    loadedFilter = filter
                     _uiState.update {
                         it.copy(
                             inProgressCount = response.inProgressCount,

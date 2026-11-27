@@ -83,14 +83,14 @@ fun SearchDefaultSection(
                 SearchUiState.Empty -> {
                     IconEmptyComponent(
                         text = "최근 검색어가 없습니다",
-                        modifier = Modifier.padding(top = 24.dp),
+                        modifier = Modifier.padding(top = 24.dp, bottom = 49.dp),
                     )
                 }
 
                 is SearchUiState.Failure, SearchUiState.Idle, SearchUiState.Loading -> {}
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = "인기 실시간 검색어",
