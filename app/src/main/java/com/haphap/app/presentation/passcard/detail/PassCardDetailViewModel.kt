@@ -12,7 +12,6 @@ import com.haphap.app.data.repository.api.passcard.PassCardRepository
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
 import com.haphap.app.presentation.passcard.navigation.PassCardDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +38,8 @@ class PassCardDetailViewModel @Inject constructor(
     private val registrationId = savedStateHandle.toRoute<PassCardDetail>().id
     private var fetchCardInfoJob: Job? = null
 
+    private var isConfirmRequested = false
+
     init {
         fetchCardInfo(registrationId)
     }
@@ -56,7 +57,6 @@ class PassCardDetailViewModel @Inject constructor(
                             logoUrl = model.logoUrl,
                             backgroundImageUrl = model.backgroundImageUrl,
                             stageName = model.stageName,
-                            chipList = model.stages.toImmutableList(),
                             selectedChip = model.id,
                             isBackgroundLoaded = it.isBackgroundLoaded && it.backgroundImageUrl == model.backgroundImageUrl,
                             isLogoLoaded = it.isLogoLoaded && it.logoUrl == model.logoUrl,
@@ -71,10 +71,25 @@ class PassCardDetailViewModel @Inject constructor(
 
     fun onBackgroundLoaded() {
         _uiState.update { it.copy(isBackgroundLoaded = true) }
+        confirmPassCard()
     }
 
     fun onLogoLoaded() {
         _uiState.update { it.copy(isLogoLoaded = true) }
+        confirmPassCard()
+    }
+
+    private fun confirmPassCard() {
+        val state = _uiState.value
+        if (isConfirmRequested || !state.isBackgroundLoaded || !state.isLogoLoaded) return
+
+        isConfirmRequested = true
+        viewModelScope.launch {
+            passCardRepository.patchPassCardConfirm(registrationId)
+                .onFailure { error ->
+                    Timber.e("$error 합격카드 확인 처리에 실패했습니다")
+                }
+        }
     }
 
     fun savePassCardImage(bitmap: ImageBitmap) {
@@ -90,14 +105,6 @@ class PassCardDetailViewModel @Inject constructor(
                 Timber.e("$error 이미지 저장에 실패했습니다")
             }
         }
-    }
-
-    fun onStageClick(stageId: Int) {
-        if (stageId == _uiState.value.selectedChip) {
-            fetchCardInfoJob?.cancel()
-            return
-        }
-        fetchCardInfo(stageId)
     }
 
     companion object {

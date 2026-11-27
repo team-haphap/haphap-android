@@ -26,6 +26,8 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 fun SplashRoute(
     navigateToHome: () -> Unit,
     navigateToLogin: () -> Unit,
+    navigateToPassCardDetail: (Int) -> Unit,
+    navigateToPassCardStorage: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
@@ -33,7 +35,15 @@ fun SplashRoute(
 
     LaunchedEffect(isLoggedIn) {
         when (isLoggedIn) {
-            true -> navigateToHome()
+            true -> {
+                val passCard = viewModel.unconfirmedPassCard.value
+                when {
+                    passCard != null -> navigateToPassCardDetail(passCard.id)
+                    viewModel.hasUnconfirmedPassCard.value -> navigateToPassCardStorage()
+                    else -> navigateToHome()
+                }
+            }
+
             false -> navigateToLogin()
             null -> Unit
         }

@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
@@ -49,12 +48,21 @@ class HapHapFirebaseMessagingService : FirebaseMessagingService() {
 
         val title = remoteMessage.data[MESSAGE_TITLE] ?: return
         val body = remoteMessage.data[MESSAGE_BODY]
-        val postingId = remoteMessage.data[MESSAGE_POSTING_ID]?.toIntOrNull()
-
-        showNotification(title, body, postingId)
+        val registrationId = remoteMessage.data[MESSAGE_REGISTRATION_ID]?.toIntOrNull()
+        val postingId = if (registrationId == null) {
+            remoteMessage.data[MESSAGE_POSTING_ID]?.toIntOrNull()
+        } else {
+            null
+        }
+        showNotification(title, body, postingId, registrationId)
     }
 
-    private fun showNotification(title: String, body: String?, postingId: Int?) {
+    private fun showNotification(
+        title: String,
+        body: String?,
+        postingId: Int?,
+        registrationId: Int?
+    ) {
         val channel = NotificationChannel(
             CHANNEL_ID,
             CHANNEL_NAME,
@@ -75,6 +83,7 @@ class HapHapFirebaseMessagingService : FirebaseMessagingService() {
         val contentIntent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             postingId?.let { putExtra(MESSAGE_POSTING_ID, it) }
+            registrationId?.let { putExtra(MESSAGE_REGISTRATION_ID, it) }
         } ?: return
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -96,6 +105,7 @@ class HapHapFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         const val MESSAGE_POSTING_ID = "postingId"
+        const val MESSAGE_REGISTRATION_ID = "registrationId"
         private const val MESSAGE_TITLE = "title"
         private const val MESSAGE_BODY = "body"
         private const val CHANNEL_ID = "haphap_default_channel"

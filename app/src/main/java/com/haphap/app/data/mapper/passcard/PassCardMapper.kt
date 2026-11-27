@@ -1,10 +1,11 @@
 package com.haphap.app.data.mapper.passcard
 
-import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
 import com.haphap.app.data.model.passcard.PassCardDetailModel
 import com.haphap.app.data.model.passcard.PassCardStorageModel
+import com.haphap.app.data.model.passcard.PassCardUnconfirmedModel
 import com.haphap.app.data.remote.dto.passcard.PassCardDetailResponseDto
 import com.haphap.app.data.remote.dto.passcard.PassCardStorageItemResponseDto
+import com.haphap.app.data.remote.dto.passcard.PassCardUnconfirmedItemResponseDto
 
 fun PassCardStorageItemResponseDto.toModel(): PassCardStorageModel =
     PassCardStorageModel(
@@ -24,8 +25,16 @@ fun PassCardDetailResponseDto.toModel(): PassCardDetailModel =
         logoUrl = companyCardLogoImageUrl,
         backgroundImageUrl = cardImageUrl,
         stageName = stageName,
-        stages = availableStages
-            .sortedBy { it.orderIndex }
-            .map { PassCardDetailChipListModel(id = it.registrationId, stageName = it.stageName) },
+    )
+
+fun PassCardUnconfirmedItemResponseDto.toModel(): PassCardUnconfirmedModel =
+    PassCardUnconfirmedModel(
+        id = registrationId,
+        userName = userName,
+        companyName = companyName,
+        recruitName = title,
+        logoUrl = companyCardLogoImageUrl,
+        backgroundImageUrl = cardImageUrl,
+        approvedAt = approvedAt,
     )
 

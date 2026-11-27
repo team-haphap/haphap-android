@@ -49,11 +49,8 @@ import com.haphap.app.core.designsystem.theme.HapHapTheme
 import com.haphap.app.core.designsystem.type.ButtonType
 import com.haphap.app.core.extensions.noRippleClickable
 import com.haphap.app.core.extensions.toastBottomInset
-import com.haphap.app.data.model.passcard.PassCardDetailChipListModel
-import com.haphap.app.presentation.passcard.detail.component.PassCardDetailChipList
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.NavigateToHome
 import com.haphap.app.presentation.passcard.detail.PassCardDetailContract.SideEffect.OnShowToast
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
 @Composable
@@ -81,7 +78,6 @@ fun PassCardDetailRoute(
     PassCardDetailScreen(
         uiState = uiState,
         onBackClick = navigateBack,
-        onStageClick = viewModel::onStageClick,
         onHomeClick = navigateToHome,
         onBackgroundLoaded = viewModel::onBackgroundLoaded,
         onLogoLoaded = viewModel::onLogoLoaded,
@@ -94,7 +90,6 @@ fun PassCardDetailRoute(
 fun PassCardDetailScreen(
     uiState: PassCardDetailContract.State,
     onBackClick: () -> Unit,
-    onStageClick: (Int) -> Unit,
     onHomeClick: () -> Unit,
     onBackgroundLoaded: () -> Unit,
     onLogoLoaded: () -> Unit,
@@ -155,6 +150,7 @@ fun PassCardDetailScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp),
         ) {
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -162,7 +158,6 @@ fun PassCardDetailScreen(
                 text = "${uiState.userName}님의 합격을 축하드려요!",
                 style = HapHapTheme.typography.subtitle.b22,
                 color = HapHapTheme.colors.gray800,
-                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
             Spacer(modifier = Modifier.height(2.dp))
@@ -171,32 +166,23 @@ fun PassCardDetailScreen(
                 text = "기다려온 순간, 진심으로 축하드려요",
                 style = HapHapTheme.typography.body.sb13,
                 color = HapHapTheme.colors.gray400,
-                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            PassCardDetailChipList(
-                chipList = uiState.chipList,
-                selectedChip = uiState.selectedChip,
-                onStageClick = onStageClick,
-            )
-
-            Spacer(modifier = Modifier.height(22.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 24.dp)
-                    .aspectRatio(320f / 440f)
+                    .padding(horizontal = 12.dp)
+                    .padding(bottom = 20.dp)
+                    .aspectRatio(296f / 524f)
                     .drawWithContent {
                         graphicsLayer.record {
                             this@drawWithContent.drawContent()
                         }
                         drawLayer(graphicsLayer)
                     }
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(18.dp))
             ) {
                 UrlImage(
                     url = uiState.backgroundImageUrl,
@@ -210,7 +196,7 @@ fun PassCardDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 21.dp, end = 85.dp, top = 24.dp),
+                        .padding(start = 22.dp, end = 22.dp, top = 26.dp),
                     horizontalAlignment = Alignment.Start,
                 ) {
                     UrlImage(
@@ -219,14 +205,14 @@ fun PassCardDetailScreen(
                         contentScale = ContentScale.Fit,
                         crossfade = false,
                         onSuccess = onLogoLoaded,
-                        modifier = Modifier.height(36.dp),
+                        modifier = Modifier.height(44.dp),
                     )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
                         text = "${uiState.companyName} ${uiState.recruitName}",
-                        style = HapHapTheme.typography.body.b14,
+                        style = HapHapTheme.typography.body.b18,
                         color = HapHapTheme.colors.primary100,
                         textAlign = TextAlign.Start,
                         maxLines = 2,
@@ -249,18 +235,8 @@ private fun PassCardDetailScreenPreview() {
                 companyName = "카카오",
                 logoUrl = "",
                 backgroundImageUrl = "",
-                chipList = persistentListOf(
-                    PassCardDetailChipListModel(id = 101, stageName = "서류"),
-                    PassCardDetailChipListModel(id = 102, stageName = "인적성"),
-                    PassCardDetailChipListModel(id = 103, stageName = "코딩테스트"),
-                    PassCardDetailChipListModel(id = 104, stageName = "1차 면접 테스트"),
-                    PassCardDetailChipListModel(id = 105, stageName = "2차 면접 테스트"),
-                    PassCardDetailChipListModel(id = 106, stageName = "최종"),
-                ),
-                selectedChip = 101,
             ),
             onBackClick = {},
-            onStageClick = {},
             onHomeClick = {},
             onBackgroundLoaded = {},
             onLogoLoaded = {},

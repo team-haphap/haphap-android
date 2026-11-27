@@ -3,7 +3,9 @@ package com.haphap.app.data.remote.service
 import com.haphap.app.data.remote.dto.BaseResponse
 import com.haphap.app.data.remote.dto.passcard.PassCardDetailResponseDto
 import com.haphap.app.data.remote.dto.passcard.PassCardStorageResponseDto
+import com.haphap.app.data.remote.dto.passcard.PassCardUnconfirmedResponseDto
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface PassCardService {
@@ -14,4 +16,12 @@ interface PassCardService {
     suspend fun getPassCardDetail(
         @Path("registrationId") registrationId: Int,
     ): BaseResponse<PassCardDetailResponseDto>
+
+    @GET("api/v1/pass-cards/unconfirmed")
+    suspend fun getUnconfirmedPassCards(): BaseResponse<PassCardUnconfirmedResponseDto>
+
+    @PATCH("api/v1/pass-cards/{registrationId}/confirm")
+    suspend fun patchPassCardConfirm(
+        @Path("registrationId") registrationId: Int,
+    )
 }

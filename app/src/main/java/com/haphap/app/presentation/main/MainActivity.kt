@@ -28,18 +28,22 @@ class MainActivity : ComponentActivity() {
     ) { }
 
     private var extractedPostingId by mutableStateOf<Int?>(null)
+    private var extractedRegistrationId by mutableStateOf<Int?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         askNotificationPermission()
         extractedPostingId = extractPostingId(intent)
+        extractedRegistrationId = extractRegistrationId(intent)
 
         setContent {
             HapHapTheme {
                 MainScreen(
                     extractedPostingId = extractedPostingId,
                     resetExtractedPostingId = { extractedPostingId = null },
+                    extractedRegistrationId = extractedRegistrationId,
+                    resetExtractedRegistrationId = { extractedRegistrationId = null },
                     sessionExpiredEvent = sessionExpiredNotifier.event,
                 )
             }
@@ -50,6 +54,7 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         extractedPostingId = extractPostingId(intent)
+        extractedRegistrationId = extractRegistrationId(intent)
     }
 
     private fun extractPostingId(intent: Intent): Int? {
@@ -58,6 +63,14 @@ class MainActivity : ComponentActivity() {
             intent.removeExtra(HapHapFirebaseMessagingService.MESSAGE_POSTING_ID)
         }
         return postingId.takeIf { it != -1 }
+    }
+
+    private fun extractRegistrationId(intent: Intent): Int? {
+        val registrationId = intent.getIntExtra(HapHapFirebaseMessagingService.MESSAGE_REGISTRATION_ID, -1)
+        if (registrationId != -1) {
+            intent.removeExtra(HapHapFirebaseMessagingService.MESSAGE_REGISTRATION_ID)
+        }
+        return registrationId.takeIf { it != -1 }
     }
 
     private fun askNotificationPermission() {

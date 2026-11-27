@@ -4,6 +4,7 @@ import com.haphap.app.core.util.suspendRunCatching
 import com.haphap.app.data.mapper.passcard.toModel
 import com.haphap.app.data.model.passcard.PassCardDetailModel
 import com.haphap.app.data.model.passcard.PassCardStorageModel
+import com.haphap.app.data.model.passcard.PassCardUnconfirmedModel
 import com.haphap.app.data.remote.datasource.api.passcard.PassCardDataSource
 import com.haphap.app.data.remote.dto.checkData
 import com.haphap.app.data.repository.api.passcard.PassCardRepository
@@ -25,5 +26,18 @@ class PassCardRepositoryImpl @Inject constructor(
             passCardDataSource.getPassCardDetail(registrationId)
                 .checkData()
                 .toModel()
+        }
+
+    override suspend fun getUnconfirmedPassCards(): Result<List<PassCardUnconfirmedModel>> =
+        suspendRunCatching {
+            passCardDataSource.getUnconfirmedPassCards()
+                .checkData()
+                .passCards
+                .map { it.toModel() }
+        }
+
+    override suspend fun patchPassCardConfirm(registrationId: Int): Result<Unit> =
+        suspendRunCatching {
+            passCardDataSource.patchPassCardConfirm(registrationId)
         }
 }

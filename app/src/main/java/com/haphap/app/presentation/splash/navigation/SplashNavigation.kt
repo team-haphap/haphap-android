@@ -11,6 +11,8 @@ import com.haphap.app.core.extensions.clearBackStackNavOptions
 import com.haphap.app.core.navigation.Route
 import com.haphap.app.presentation.auth.navigation.navigateToLogin
 import com.haphap.app.presentation.home.navigation.navigateToHome
+import com.haphap.app.presentation.passcard.navigation.navigateToPassCardDetail
+import com.haphap.app.presentation.passcard.navigation.navigateToPassCardStorage
 import com.haphap.app.presentation.splash.SplashRoute
 import kotlinx.serialization.Serializable
 
@@ -33,6 +35,18 @@ fun NavGraphBuilder.splashGraph(
                 navController.navigateToLogin(
                     navOptions = navController.clearBackStackNavOptions(),
                 )
+            },
+            navigateToPassCardDetail = { id ->
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
+                navController.navigateToPassCardDetail(id)
+            },
+            navigateToPassCardStorage = {
+                navController.navigateToHome(
+                    navOptions = navController.clearBackStackNavOptions(),
+                )
+                navController.navigateToPassCardStorage()
             },
             modifier = Modifier.padding(innerPadding),
         )
